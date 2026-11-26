@@ -149,3 +149,47 @@
 - **O2 实际已完成**（此前误判"死了"）：`tasks/outreach/candidates.md` 730 行在 thinkmech-review，来源核验闭环齐全（16 份本地文献全覆盖，姓名/机构不可证一律 [待核验]）。
 - **J3b 确认零落盘死亡**（thinkmech-review 上无泛化排名表产物）：需在 pfb-thinkmech worktree 重派。
 - **J3a 待派**（纯推理，层级因素树+三性质按层级检查）。
+
+## T6-L 机制活性状态机（mechanism-liveness，2026-11-26 D 指令）
+
+> D 原话："需要一个可靠的东西，可以保证 hook 挂载什么的百分百起作用，而不是我看不到你也有可能做错的黑盒。什么是类似 stage 的、可以查看注入情况的，并且逐状态可以迁移我们完整的机制，包括思考。"
+> 触发事件：T5 半应用（记录"✅ 已实施"但 main 生产线无调度器，跨 worktree 不可见）；Lead 首轮核验读错 worktree 下错结论。
+
+### 设计（四条腿，缺一即退回黑盒）
+1. **registry**（`tools/stage-gate/stage_gate/mechanisms/registry.json`）：每个机制一条——
+   `{id, kind: rule-injection|stop-hook-trigger|routing-dispatcher|patrol,
+     mounts: [{worktree, file, marker}],   # 静态挂载证据：文件存在且含标记（多 worktree 全列）
+     audit: {path, signature},             # 动态触发证据：审计日志路径+签名串
+     ttl_hours,                            # 多久无触发证据算 UNKNOWN
+     stages: [依赖它的阶段],                # 逐状态迁移：阶段声明依赖哪些机制
+     note}`
+2. **checker**（`stage_gate/mechanisms/check.py`）：逐机制三判——
+   mounted?（每个 mount 点 grep marker）→ fired_recently?（audit 日志扫 signature 取最近 ts）→
+   verdict ∈ ALIVE / DEAD / UNKNOWN + evidence（file:line / 日志行）。
+   快照写 `~/.hermes/.stage-gate/mechanisms-status.json`（时间戳+全表+verdict）。
+   **worktree 遍历是硬规则**：mounts 必须覆盖 `git worktree list` 全部相关 worktree，单 worktree grep=0 ≠ 不存在。
+3. **gate 接入**：stage-gate 阶段推进前读快照——当前阶段 `stages` 声明的机制有 DEAD/UNKNOWN
+   → block + 写明哪条机制缺什么证据。显式 waive 需写 APPROVALS.md（与红线一致）。
+4. **可见性**：`python -m stage_gate.mechanisms.check --status` 一行全表（D 随时可跑）；
+   project-tidy 每日巡检加 checker 步骤，有 DEAD 推微信。
+
+### 首批 registry（6 条，2026-11-26 磁盘核验过）
+| id | kind | 状态 |
+|---|---|---|
+| rule-injection | rule-injection | ALIVE（rules-injection.jsonl 19:18 在写，每轮留痕） |
+| t1-thin-thinking | stop-hook-trigger | ALIVE（progress.log 有 HIT 签名） |
+| t4-stubborn-spin | stop-hook-trigger | ALIVE（今日 15:36 HIT） |
+| t5-routing-dispatcher | routing-dispatcher | HALF（ROUTING.md 已落 main d6d1b09bc；调度器节待 APPROVALS 批准后落 CLAUDE.md） |
+| project-tidy-patrol | patrol | ALIVE（每日 cron + 今日 drift 检查行） |
+| methodology-sync-patrol | patrol | ALIVE（今日 f0707c89 加的检查） |
+
+### 任务表
+| 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 |
+|---|---|---|---|---|---|
+| T6-L-S1 registry.json 初版（6 条，schema 见任务卡） | - | ~40 | ~70 | 1(stage-gate) | sub-27b |
+| T6-L-S2 checker（三判+worktree 遍历+快照+--status，增量写盘 <50行/次） | S1 | ~60 | ~130(分3次) | 1(stage-gate) | sub-27b |
+| T6-L-S3 gate 接入 + project-tidy 巡检接线 + APPROVALS 留痕 | S2 | ~80 | ~60 | 2(stage-gate+根仓) | sub-27b |
+
+> **验收标准变化（本次事件导出的规则）**："✅ 已实施"类记录必须附磁盘证据（文件路径+commit 或 checker verdict）；
+> 自我申报的 ✅ 一律视为未验证。T6-L-S2 落地后，机制类状态以 checker verdict 为准。
+> 100% 保证做不到（hook 可能被卸载/日志可能被截断），可达上限 = 死了可见（checker verdict）+ 会挡路（gate block）+ D 可查（--status 一行全表）。
