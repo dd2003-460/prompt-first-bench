@@ -35,6 +35,10 @@
 
 通过阶段时，必须用 `ralph apply` 提交阶段 action。runtime 会校验字段、DAG、证据和当前 revision；缺失字段只返回修复列表，不会因为一次不完整而丢失已填内容。
 
+## 流程路由（T5 调度器）
+
+见到「先压后展」先按 `loop/ROUTING.md` 路由表路由（索引 + 检索 + 执行），再执行检索到的流程。流程本体在 `pfb/loop/*.md`，本表只路由不复制。
+
 ## 全局 Agent 团队
 
 项目内 `.claude/sop/` 应指向 `/Users/a1-6/Desktop/workspace/sop/`（symlink）。
