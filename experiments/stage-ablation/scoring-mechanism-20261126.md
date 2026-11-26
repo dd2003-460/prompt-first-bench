@@ -55,7 +55,7 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 ### 2.2 分解不完整（漏要点）怎么扣分
 
 - **评分层（judge）**：不漏要点不额外罚——漏掉的要点只是该 point 拿低分/0 分，拉低等权平均 overall。没有「漏一个要点扣 X 分」的独立罚项。漏得越多，overall 越低，是**覆盖度缺失的自然结果**，不是叠加惩罚。
-- **目标函数层**：完整性由 J_decomp 边际增益 + necessary-judge 驱动（`marginal_gain` 145-156、`judge_necessary_batch` 159-216），鼓励拆出有新信息的节点；拆不够 → 树浅 → 综合答案覆盖少 → judge 分低。同样是间接的，无显式「不完整罚项」。
+- **目标函数层**：完整性无显式罚项/奖励项，由两个**信息/冗余过滤器**间接约束（一手核验调用点）：①`judge_necessary_batch`（159-216，调用点 1453）逐节点 LLM 判定是否"引入新信息"（新物理量/新约束/新可检索断言），非新信息节点被丢弃；②`marginal_gain`（145-156）用于 Q4 可压缩复杂度判据（调用点 1412：gain<0.3→子节点集合相对父节点几乎无新信息→膨胀，丢弃所有子节点）+ 记录用（1464）。**两者都是"砍冗余/膨胀"的过滤器，不是"奖励覆盖所有 gold 要点"的完整性项**——所以拆不够 → 树浅 → 综合答案覆盖少 → judge 分低，是间接的，无显式「不完整罚项」。
 
 ### 2.3 「对不上就没分」是否准确 —— **不准确，judge 给部分分**
 
@@ -129,6 +129,7 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 - 聚合公式：`experiments/stage-ablation/judge_v2_depth.py:408-467`（score_run）、`:33-41`（`_w3/_w4` k·ln(k+1) 权重，K=3 实际 [0.098,0.312,0.590]）、`:388-404`（judge prompt 原文）
 - 六维总分：`experiments/stage-ablation/score.py:232-233,267,307`
 - 冗余罚项：`experiments/stage-ablation/s5_state_machine.py:121,349-395,1716-1721`；`--beta` commit `112b03f38`
+- 完整性过滤器：`marginal_gain` s5_state_machine.py:145-156（调用点 1412 Q4 判据 gain<0.3 丢弃 / 1464 记录）、`judge_necessary_batch` :159-216（调用点 1453）——均为砍冗余/膨胀，非完整性奖励
 - 二值 cov 口径：`experiments/stage-ablation/s8b_pilot.py:157-180`（judge，GOLD[gpu]=15 点 vs 深度 GPU_RUBRIC=38 点）；r03 coverage=0.133 出自 `ablation-runs/gpu_formula_r03.json`（非 _judge.json）
 - r03 数据：`ablation-runs/gpu_formula_r03_judge.json`（raw 100 键全 0.33 / point_scores 38 键全 0 / overall 0.0）；修复 commit `a8ae30551`（message 点名 r03）
 - 口径标注：`state-machine-status-20261126.md` §2/§5；canonical 基准 `modules/A-eval-infra/research/scoring-v3-gatefixed.md`
