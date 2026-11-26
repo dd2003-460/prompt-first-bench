@@ -147,4 +147,4 @@
 ### 任务状态修正
 - **O2 实际已完成**（此前误判"死了"）：`tasks/outreach/candidates.md` 730 行在 thinkmech-review，来源核验闭环齐全（16 份本地文献全覆盖，姓名/机构不可证一律 [待核验]）。
 - **J3b 已完成**（8ad7dea37，此前"零落盘死亡"行 stale）：泛化排名表 + tf_peak 敏感性 + 4 判据 + 排错归因全在 `j3b_generalization.py`。
-- **J3a DONE（2026-11-26 a966b5488）**：S1/S2 机械层=确定性脚本（extract_j3a_factors.py 37节点/守恒7组 + verify_j3a_properties.py §4完备无缺口），判断层 Lead 直判（§2 SHARED≠非正交 conf0.8 / §3 五层必要 conf0.85 / §5 四重限定作用域）。开放项 2 个：l2_hit per-path 弹性标定、prefill/decode share 负载分布标定（第三个"N-5.3 疑重复"已排除：cache_hit_rate≠l2_hit，grep 核验）。
+- **J3a DONE（2026-11-26 a966b5488）**：S1/S2 机械层=确定性脚本（extract_j3a_factors.py 37节点/守恒7组 + verify_j3a_properties.py §4完备无缺口），判断层 Lead 直判（§2 SHARED≠非正交 conf0.8 / §3 五层必要 conf0.85 / §5 四重限定作用域）。开放项 2 个：l2_hit per-path 弹性标定（**设计已落盘 exp-results/j3a-l2hit-calib-design.md**：F-A 框架 + 双工况探针，待 GPU 2h 执行）、prefill/decode share 负载分布标定（第三个"N-5.3 疑重复"已排除：cache_hit_rate≠l2_hit，grep 核验）。另勘误：L 系列（L0-L6）在 projects/decomp/bench/gold/，gold-tree.md 头部 L 链接为死链。
