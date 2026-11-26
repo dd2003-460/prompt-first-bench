@@ -134,9 +134,11 @@ def compute_coverage(payload, qid, model):
     return cov, det
 
 
-def compute_correctness(text, qid):
-    """correctness_layer_v0 口径: judge_text → 五轴(C/E/R/S/N) + P_A1/P_A3/C2BP + 三型 verdict (纯规则, 无模型)。"""
-    res = cl.judge_text(text)
+def compute_correctness(text, qid, winner=cl.WINNER_CARD):
+    """correctness_layer_v0 口径: judge_text → 五轴(C/E/R/S/N) + P_A1/P_A3/C2BP + 三型 verdict (纯规则, 无模型)。
+    winner: winner 卡型（7bab6dd77 参数化, 默认 WINNER_CARD=V100）; 3090 世界的存量 fixture
+    (S5/T8b) 必须显式传 "3090", 否则被默认 V100 误判（2026-11-26 selftest 4 FAIL 根因）。"""
+    res = cl.judge_text(text, winner=winner)
     ax = {"C": res["C"], "E": res["E"], "R": res["R_low"], "S": res["S"], "N": res["N"]}
     return ax, res["P_A1"], res["P_A3"], res["C2BP"], res["verdict"], res.get("detail", {}), res["corr"]
 
@@ -203,12 +205,12 @@ def compute_bonus(payload, qid, model):
     return len(bonus_nodes), bonus_nodes, meta
 
 
-def score_sample(sample_id, payload, qid, model):
-    """一个样本 → 联合结果 dict。"""
+def score_sample(sample_id, payload, qid, model, winner=cl.WINNER_CARD):
+    """一个样本 → 联合结果 dict。winner 透传给 correctness 层（默认 V100, 3090 世界显式传）。"""
     cov, det = compute_coverage(payload, qid, model)
     nodes = payload.get("nodes")
     text = ("\n".join(n.get("claim","") for n in nodes) if nodes else payload.get("text",""))
-    ax, p_a1, p_a3, c2bp, verdict, ev, corr = compute_correctness(text, qid)
+    ax, p_a1, p_a3, c2bp, verdict, ev, corr = compute_correctness(text, qid, winner)
     bonus_count, bonus_nodes, bonus_meta = compute_bonus(payload, qid, model)
     return {
         "sample": sample_id,
@@ -329,7 +331,7 @@ def render_md(results, title, evidence_lines):
 
 # ---------- 主入口 ----------
 
-def run(paths, qid_default, outdir, write_md=True, md_title=None):
+def run(paths, qid_default, outdir, write_md=True, md_title=None, winner=cl.WINNER_CARD):
     from sentence_transformers import SentenceTransformer
     t0 = time.time()
     print(f"[load] {MODEL_NAME} ...", flush=True)
@@ -345,7 +347,7 @@ def run(paths, qid_default, outdir, write_md=True, md_title=None):
         for sid, kind, payload, note in samples:
             payload["kind"]=kind
             qid = payload.get("qid", qid_default)
-            r = score_sample(sid, payload, qid, model)
+            r = score_sample(sid, payload, qid, model, winner)
             r["note"] = note
             results.append(r)
             print(f"  {r['sample']:28s} cov={_num(r['cov'])} CORR={_num(r['CORR'])} "
@@ -422,11 +424,13 @@ def selftest():
     t0 = time.time()
     model = SentenceTransformer(MODEL_NAME)
     paths = [STOCK_S5, STOCK_T8B]
+    # 存量 fixture 是 3090 世界（S5 gold winner=3090×4, T8b 候选集 3090/V100 旧锚点）;
+    # 7bab6dd77 把 judge_text 默认 winner 改成 V100 后, 不显式传 3090 会被误判（4 FAIL 根因）。
     results = []
     for path in paths:
         for sid, kind, payload, note in load_samples(path):
             payload["kind"] = kind
-            results.append(score_sample(sid, payload, "gpu", model))
+            results.append(score_sample(sid, payload, "gpu", model, winner="3090"))
     fails = []
     for sid, (field, exp, tol) in SELFTEST_EXP.items():
         r = next((x for x in results if x["sample"] == sid), None)
@@ -452,6 +456,8 @@ def main():
     ap.add_argument("files", nargs="*", help="run 文件路径(任意 schema)")
     ap.add_argument("--preset", choices=["stock"], help="内置存量集")
     ap.add_argument("--qid", default="gpu", help="gold 域(默认 gpu)")
+    ap.add_argument("--winner", default=cl.WINNER_CARD,
+                    help="winner 卡型(默认 %s=T8c 新锚点世界; 3090 世界存量 fixture 如 S5/T8b 传 3090)" % cl.WINNER_CARD)
     ap.add_argument("--outdir", default=_HERE, help="输出目录")
     ap.add_argument("--no-md", action="store_true", help="不写 md")
     ap.add_argument("--md-title", default=None)
@@ -466,7 +472,7 @@ def main():
         paths += preset_paths(a.preset)
     if not paths:
         ap.error("需要 files 或 --preset")
-    run(paths, a.qid, a.outdir, write_md=not a.no_md, md_title=a.md_title)
+    run(paths, a.qid, a.outdir, write_md=not a.no_md, md_title=a.md_title, winner=a.winner)
 
 
 if __name__ == "__main__":
