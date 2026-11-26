@@ -4,15 +4,30 @@
 > 本文件是唯一的"编号→含义"权威映射 + 完整探索叙事。旧文档里的裸编号（vN/SN/TN/rN）以本文件为准解读。
 > 配套：`numbering-audit-2026-11-11.md`（5 套编号系统的混乱现状 + 迁移清单）。
 > v2 修订（11-11 晚）：v3-v15 段从 git log 逐版本重建，runs-* 目录数据实测回填，runs-r293 等来历查清。
+> v3 修订（11-26）：§0 加五时代总览 + T 四命名空间映射表；§5 加编号纪律 v2（全前缀规则）。依据 pfb-complete-history-20261126.md。
 
-## 0. 四套编号体系速查
+## 0. 编号体系速查（S/v/T/r/A/E）
 
 | 前缀 | 含义 | 命名空间 | 例子 |
 |------|------|----------|------|
 | **S** | 实验臂（ablation arm）——一种 prompt/管线策略 | S0–S8M，跨全部 bench 题共用 | S5 = 层级分解+核验管线臂 |
 | **v** | S5 臂内部的 prompt/代码迭代版本 | v3–v17 → T53（连续线，不另起 v18） | v17 = 无限预算层级 INDEX 分解 |
-| **T** | 任务 ID（goal 执行单元） | 全局递增，tasks/ 下唯一 | T53 = decomp 状态机重构 |
+| **T** | 任务 ID：主序列全局递增不复用（T54 后 → T55+）；goal 内部子任务用 goal 前缀（如 think-trigger 子任务 = TT1-TT8，cc 夜间任务书 = CC1-CC6）；历史 T1-T8 四命名空间映射见下表 | 主序列（tasks/）+ goal 前缀子任务 | T53 = decomp 状态机重构 |
 | **r** | 运行副本 / 工程迭代轮 | 两个不同命名空间（见 §4） | runs-s5-gpu-v13-r5.json 的 r5 = 第 5 个 rep |
+| **A** | QC 消融矩阵臂（4 因子 D1-D5） | A0–A13，新臂 A14 起递增 | A3 = dimension-discipline 臂 |
+| **E** | 十月视频 episode（relay 时代残留） | E01–E28+，冻结不再新增 | E13-E28 = batch-8~11 集 |
+
+### 0.1 五时代总览
+
+| 时代 | 时间 | 主角编号 | 一句话 |
+|------|------|---------|--------|
+| E0 十月 relay+loop 时代 | 10-24~11-02 | r5-r154、E01-E28、T6/T7.1/T8(Oct) | 仓最初是视频 episode relay 仓 + prompt-first 1-loop 实践场（T8=prompt 消融研究 v1-v7 + rubric-v3 迭代） |
+| E1 bench 建立+四臂基线 | 11-03~11-07 | T17-T25、S0-S5、T0-T2、runs-r293 | decomp 并入 pfb（T23），5 题 bench + gold + rubric v2/v3，四臂 n=30，S8 质询循环 |
+| E2 S5 管线硬化 v3→v15 | 11-08~11-09 | v3-v15（"前面十几个版本"） | 往 prompt 堆规则期：每版本=一次 P1/P4 规则修改+单 rep smoke，判决=容量上限 |
+| E3 状态机转向 v16→v17 | 11-09~11-11 | v16.x、v17 | 目标函数驱动转向；v17 层级 INDEX 爆炸（1930 节点）→ Goodhart 诊断 |
+| E4 T53/v18 + v19 + 后续 | 11-11~今 | v18(T53)、v19(langgraph)、A0-A13、T1-T8(11月各命名空间) | 目标函数重写状态机；QC 消融矩阵；think-trigger/idea53 等新 goal 的 T 编号复用 |
+
+分期依据 git log 全史 1944 commits，详见 pfb-complete-history-20261126.md。
 
 **S5 定义**（最常被忘的一个）：pfb 消融实验里"带真实检索的多步研究管线"那一档。
 S0 = 裸 CoT baseline；S1 = 单轮结构化；…；S5 = decompose→search→verify loop→synthesize 四阶段管道
@@ -22,6 +37,24 @@ S0 = 裸 CoT baseline；S1 = 单轮结构化；…；S5 = decompose→search→v
 
 **一句话主线**：S5 臂从"往 prompt 里堆规则"（v3-v15，失败）转向"目标函数驱动的状态机"（v16→v17→T53），
 中间发现 v17 的爆炸本质是 Goodhart 刷分（目标函数只奖规模不罚冗余），T53 就是修这个的目标函数重写。
+
+### 0.2 T 编号四命名空间映射表
+
+pfb 仓里 T 编号至少 4 套命名空间并存（来源：pfb-complete-history-20261126.md §5，git log 全史实读 + numbering-audit）：
+
+| 命名空间 | T1-T8 指什么 | 时间 | 证据 |
+|----------|-------------|------|------|
+| **NS1 十月 prompt-first 任务系** | T6=换域效果验证（机械键盘域 loop 首测）；T7.1=会议室预约系统选型全流程首跑；T8=prompt 消融研究 v1-v7+C3 v3+rubric-v3 迭代 | 10-28~11-05 | git log `T6 任务书`/`T7.1 任务书`/`T8 v2..v7`/`T8 Part A 分卷 B/C` |
+| **NS2 stage-ablation runs/ 臂系** | T0/T1/T2=措辞梯度臂（phrasing-gradient，Q1/Q2 n=5）；**T3-T8 无此命名空间的臂数据**（runs/ 实测只有 T0/T1/T2 + D1/D1deep） | 11-07~11-09 | commit 2a4c16b6c（11-07 17:12）+ runs/T0-Q1-r1.json 等实测 |
+| **NS3 十一月 goal 任务系（think-trigger）** | T1=思考触发 hook 实现；T2="接着考虑"实验；T3=落点整合；T4=修脚本卡住→general 思考升级触发；T5=流程索引层（咒语=调度器 ROUTING.md）；T6=SOP 检查点效果验证；T7=always 层加牙（自评式→可执行式）；T8=pfb 六阶段 vs 直接求解 GPU 题（T8b smoke/T8c token-matched 对照） | 11-24~11-26 | tasks/think-trigger/decomposition.md 任务表（全 ✅/进行中） |
+| **NS4 cc/夜间任务书系** | T1 核验/T2 套磁/T3 related work/T4 臂标注/T5 sweep（消融矩阵+前人标记）；另一份夜间任务书 T1-T5=langgraph gpu 题+汇总+commit，T6=A0-A13 sweep | 11-18 | experiments/stage-ablation/cc-tasks/ablation-prior-marking.md + ralph-loop-night.md |
+
+**易混点澄清**：
+- NS3 的 T8（think-trigger，11-25）与 NS1 的 T8（十月 prompt 消融）同名不同物；
+  NS3 的 T8c smoke 即 t-repair1 fixB arm 所属实验线（11-26 已确认结束）。
+- NS2 的 T0-T2 是**臂编号**（与 S0-S8 同级，出现在 runs/ 数据文件名里），不是任务 ID。
+- numbering-audit 记录的"任务 ID 双轨制"：主 tasks/ 到 T53C，stage-ablation/tasks/ 到 T54，
+  另有 R*/G*/B*/C* 单字母前缀 + T7.1/R5.1 小数点——本表 NS1/NS3/NS4 就是双轨制的活样本。
 
 ## 1. 时间线主线（逐版本连续叙事）
 
@@ -181,3 +214,15 @@ smoke 轨迹：
 
 **基座（prompt 版本，不变版本号，作为子标签）：**
 - formula / text / minimal / method / method_challenge
+
+## 5.1 编号纪律 v2（2026-11-26，D 指令'完善编号和分类'）
+
+原则：历史零改名——不 rename 任何文件/数据/目录，只加映射 + 向前看规则。
+
+- T：主序列全局递增不复用（当前 T54，下一个 T55 起）。goal 内部子任务编号 = goal 前缀+序号（think-trigger → TT1-TT8；cc 夜间任务书 → CC1-CC6）。跨 goal 引用必须带前缀，裸 T 编号只允许指主序列。
+- r：三命名空间，引用时带上下文——① runs/ 数据文件内 rep 号（r1-r5，scorer 硬编码格式）② 工程迭代轮（sm-modification-log 的 r1-r6）③ 历史全局轮号（r293 类，legacy，不再新增）。①② 撞形，新工程迭代日志建议用 eng-N 前缀（待主序列验证后启用，现有 rN 不动）。实测（11-26）：sm-modification-log.md 内 r1-r6 共 35 处引用（r1×14/r2×11/r3×6/r4×1/r5×2/r6×1，另有 1 处为 v17 r10 的跨命名空间引述），均在该文件内；跨文件提及工程迭代 r1-r6 仅见于 VERSION.md 命名空间说明与 T53 任务/验收文档（均为带上下文引述），无跨文件裸引用。
+- v：S5 线 prompt/代码版本，v1-v19 连续不断档，代码大改继续 vN 不跳 T 编号（沿用 11-19 规则）。
+- S：实验臂，S0-S8M 已用，新臂 S9 起递增（沿用 11-19 规则）。
+- A：QC 消融矩阵臂 A0-A13，新臂 A14 起递增。
+- E：十月视频 episode 残留，冻结，不再新增。
+- 新前缀申请：引入新单字母前缀需在本文档 §0 速查表登记一行（含义+命名空间+起始值），未登记的裸编号视为违规。
