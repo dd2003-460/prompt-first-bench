@@ -36,6 +36,7 @@
 | S3 试点: T8c 重锚定走新架构 | S2 | 任务书 385 | 6 文件+回执 | 1 | executor-cron (job 786f0323d6b8, 10m, monitor 门禁) | done (2026-11-26 23:52, 判决=停止不扩样, 报告 t8c-smoke-rerun-report-20261126.md) |
 | S4 验收+复盘+SOP 写回 | S3 | 回执+commit 链 | ~50 | 1 | 监督者 | ✅ done 2026-11-27（复盘 s4-retro-t8c-pilot-20261126.md 落盘+故障模式 1-7 全记录; SOP 写回 6/6: PID 双写/短ID禁斜杠/DEAD 探活(9309abbaf)/setsid 脱离/Lead 监听降级兜底/括号剥离(c36d8c9c9, B-Rerun READY 实战验证)） |
 | S4-1 monitor PID 探活: queue_monitor.py 对 WORKING 行读回执 PID, kill -0 死 → 输出 DEAD:<id>（使 monitor 闸门开, 执行者下拍接力）; 协议路由加 DEAD 分支（同 STALE 处理）; 边界: 只改 queue_monitor.py + executor-protocol.md 路由节, 不动 receipt 格式; 验收: ①活 PID 时输出不变（diff 空）②kill 假 PID 后输出含 DEAD ③selftest 无回归 | S4 | queue_monitor.py ~70 + 协议 ~20 | ~40 | 1 | sub-27b | ✅ 完成 2026-11-27（commit 9309abbaf，Lead 验收: DEAD 分支在位/IDLE 不崩/两次输出一致/协议 L15 路由在位。注: sub 最终汇报行掉复读循环被掐=failed 误报，执行层全落盘，信磁盘不信汇报行） |
+| S4-2 单 Lead 判决规则（01:20 事故治理）: 同一 goal 同一时刻只允许一个 Lead 会话下判决/派发正式实验; 机制=stage-gate context.verdict_lock（判决前查锁, 锁定=只读不判决, 下判决写锁, 落盘 commit 后释放）; 事故=T8c B-Rerun 机械判停止被另一并行会话覆盖为扩样并直接派发 n=9（数据上侥幸无损: n=9 判决 H1 不成立, 两解读殊途同归）; 落点=agent-orchestration.json + research-agi-budget.json context 指针（stage-gate 注入所有会话=规则可见性） | S4 | stage-gate 2 文件 | ~10 | 1 | 监督者 | ✅ done 2026-11-27 02:12（规则+lock 字段写入, 无代码改动=最小机制; 局限=advisory 依赖会话自律, 无强制拦截——若再犯则升级为 hook 硬门禁） |
 
 ## 缺口清单
 - [待核验] Agent Teams AI 应用：能否启动？开机自启？（本轮实测 localhost:3456 无响应）
