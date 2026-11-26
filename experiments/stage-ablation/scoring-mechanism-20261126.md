@@ -86,7 +86,7 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 
 **定性**：r03 的 `overall=0.0` 是**聚合伪影，不是真实 0 分**。真实覆盖≈0.33（raw 均值），应从均值统计剔除（状态机报告已剔，6 有效）。注：该文件 mtime 为 2026-11-26 00:47（晚于 11-18 修复），但其内容是**修复前代码**产生的数据（git 里自 `b0fb66a29`(11-19) 起未变过），mtime 只是文件被 checkpoint/复制刷新，不代表用新代码重判过——**它至今仍是坏数据，未重判**。
 
-**全仓伪影扫描（2026-11-26 补验）**：对 `experiments/stage-ablation/` 全部含 `point_scores`+`overall` 结构的 judge 文件跑伪影检测器（raw 非零点>0 且 point_scores 全 0 / raw 键数≠ps 键数），7 个文件全部命中且**仅 r03 一个 ARTIFACT**（r01 .395/r02 .351/r04 .509/r05 .395/r07 .402/r08 .310 均 raw/ps 键数一致、非零点一一对应）；`ablation-runs/` 外无同结构文件。**「r03 唯一伪影、剔除后 6 有效」经全仓扫描确认，非仅 gpu_formula 系列内成立。**
+**全仓伪影扫描（2026-11-26 补验，全量重扫修正）**：对 `experiments/stage-ablation/` 全部含 `point_scores`+`overall` 结构的 judge 文件跑伪影检测器（raw 非零点>0 且 point_scores 全 0 / raw 键数≠ps 键数），共 **15 个文件 / 237 个 score_run 对象**，**仅 r03 一个 ARTIFACT**。分布：`ablation-runs/gpu_formula_r01-r08`（7 个 gpu 对象，r03 伪影，r01 .395/r02 .351/r04 .509/r05 .395/r07 .402/r08 .310 均 raw/ps 键数一致）+ `runs-prod/judge-v2-{S0,A3,A4}-{nat,soc}` 与 `runs-prod-s3/judge-v2-S3-{nat,soc}`（230 个 nat 6 点 / soc 7 点对象，raw/ps 键数全一致、零伪影）。**「r03 唯一伪影」经全仓 237 对象扫描确认，非仅 gpu_formula 系列内成立。**
 
 > 一句话：r03 伪影 = judge 退化成「100 个 ptN 键全 0.33」+ 修复前聚合代码按 `N-X` 要点名 `.get(...,0)` 取不到值全落 0 兜底 → 非零 raw 被聚合成 overall=0.0；`a8ae30551` 加 ptN→N-X 映射已修，但 r03 数据本身未重判。
 
@@ -103,6 +103,7 @@ D 问的「逐点 overall」= 路径 A。下面逐节。
 | 题集 | **Q1-Q5**（questions/Q1-gpu-h100 … Q5-methodology，gold/ 目录 5 份） | v18 状态机题：**nat / soc / gpu**（+ q6/q7/q8 新题），rubric 在 judge_v2_depth.py 内嵌（NAT_RUBRIC 6 点 / SOC_RUBRIC 7 点 / GPU_RUBRIC 38 点） |
 | **题集是否同一批** | **不是同一批**。canonical Q1-Q5 与 v18 nat/soc/gpu 是不同题面（nat/soc/gpu 来自 T53 新题域，Q1-Q5 来自 r1 + t17-generalization）。唯一重叠嫌疑：Q1-gpu-h100（GPU 规格）vs v18 gpu 题（GPU TCO/roofline）——同域不同题面，gold 要点集不同，不能当同题 | 同左 |
 | judge | 同源 27B @8787，temp=0（RESCORE-V3-NOTES：确定性已验证） | 同源 27B @8787（ablation_harness.py:19 `LLM_URL=127.0.0.1:8787`），temp=0 |
+| **数据足迹（2026-11-26 全仓扫描）** | scoring.md 91 runs（Q1-Q5） | **不止 v18 状态机**：`ablation-runs/gpu_formula_*`（v18 状态机，7 rep）+ `runs-prod/judge-v2-{S0,A3,A4}-{nat,soc}`、`runs-prod-s3/judge-v2-S3-{nat,soc}`（S0/A3/A4/S3 臂 × nat/soc × r1-r30，共 230 对象）——同一 `score_run` 口径横跨多个实验批次 |
 | 基准值 | S5≈0.579 / S0≈0.397（scoring-v3-gatefixed.md，n=90，S0-S5×Q1-Q5×r1-r3） | v18 gpu mean 0.393（7 rep 剔 r03 后 6 有效）；nat gate 0.5801 / soc 0.898（二值 cov 口径，非 A） |
 | 可比性 | 状态机报告 §2 已标注：**跨行比较只看方向，绝对值不可直接比**；要与 0.579 可比须在「同一 judge + 同一题集（canonical n=90 口径）」下重判（报告 §5 待办） | 同左 |
 
