@@ -192,5 +192,9 @@ exploration-history.md Phase 2 给了叙事，这里补 git log 逐版本锚点�
   （"继续 vN 编号 v18/v19，不跳 T 编号"+版本线 v1-v19 确认+基座 prompt 子标签）**直接矛盾**。
   以 pfb 正本为准；knowledgebase 副本是向量库镜像（INDEX.json src 指向 pfb 正本），同步滞后，引用时注意。
 - ③ numbering-audit-2026-11-11.md：5 套编号体系盘点（归档于 archive/legacy-docs/）。
-- 不确定项：v1/v2 的精确边界（无独立 runs 目录，只能从 s5_pipeline.py 提交史+judge 口径迭代推断，conf 0.7）；
-  NS4 两份 cc 任务书的 T1-T5/T6 与 NS3 的 T1-T8 是否存在派发时序关联（未深查，conf 0.5，不影响主线叙事）。
+- 不确定项：v1/v2 的精确边界（无独立 runs 目录，只能从 s5_pipeline.py 提交史+judge 口径迭代推断，conf 0.7）。
+- 已解决（① git 取证，11-26）：NS4 与 NS3 的 T 编号**无派发时序关联**——NS4 两任务书首提 11-18 23:48~23:54（main 分支，
+  A0-A13 消融矩阵+前人标记时代），NS3 T1-T8 全部 commit 落在 thinkmech-review 分支 11-25 03:48~10:55
+  （think-trigger goal 时代），两分支无交叉引用（grep cc-tasks/ablation-prior-marking/ralph-loop-night 于
+  think-trigger/decomposition.md 零命中）。结论：NS4 与 NS3 是相隔约一周、各自独立复用 T1-T8 的两个 goal，
+  非同一派发链（conf 0.5→0.9）。
