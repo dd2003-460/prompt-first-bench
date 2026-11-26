@@ -137,3 +137,14 @@
 | T8c smoke（n=3/臂）+三型判别+分流决策 | 后台进程 | ✅ 完成 2026-11-25（第 1 批 17:4x 因 gpu_price 歧义 6/6 误读作废归档 `invalid-runs/`；第 2 批 18:02 重跑 18:27 完成，judge v1.3.1）。**停止决策：Arm B 结构性截断失败（FINAL 截断 3/3=100%>50% 作废）→ 无法比较 → 按 pre-commit 规则停止**（预注册 §4 Stage 0 机械检查截断率≤50% 不过，B 臂有效样本 0）。Arm A 3/3 推荐 3090（正确 winner，c_pass 锚点）。**根因诊断**：B 臂截断=harness per-stage cap（4096）<模型 per-stage 需求（04/04.5 3/3 顶格，总需求 69227≫24576），token-matched 碎片化饿死 B 臂评估/收尾阶段 → 对照按当前设计结构性无法公平执行，归因从"B 臂失败"细化为"harness 预算分配缺陷"；**且 B 臂 0/3 无最终 winner 推荐**（04.5 综合阶段 3/3 句中截断，A 臂 3/3 有）⇒ "无法比较"=A 有最终答案 vs B 无最终答案；**且 run0 截断前已算出正确 winner（c_pass 0.6798≈gold 0.681），死在"说出来"这步**——流程开销挤爆 per-stage 预算，重冻预注册时需考虑"计算对但综合断"第四断点型（`exp-results/t8c-stop-rootcause-20261125.md`）。eval 落盘 `exp-results/t8c-smoke-eval.json`；状态源 `exp-results/t8c-smoke-state.json`（round 2）；跑数后预注册只读，post-hoc 修订另开文件 |
 | O2 套磁 draft：18 High 候选个性化草稿 | subagent | 已派 2026-11-25（SOP academic-outreach §2：5 段 ≤150 词，§3-4 手工个性化=具体机制/数字/claim；本地文献驱动；邮箱列留 [待核验]——核验走 arena/ego-browser，未核验不发） |
 | J3 因素分析：gold 树结构验证+性价比单参数估计器（D 11-25 修正方向） | subagent | 拆分 2026-11-25 17:05（首次派发死于输出上限零落盘，transcript salvage 两条事实：calc.py 实际路径=bench/rubric-v3/tasks/T0-local-27b/reference/calc.py；KB 本地已有全部目标卡 l40s/a100/h100/m5-ultra/m3-ultra.json，无需公开规格）。**J3b（数值+泛化，已派）**：c_pass 作用域边界可检验判据+候选集外泛化排名表（4090 引用已有 flip 结果，L40S/A100/H100/M2Ultra 用本地 KB 规格跑 oracle），排错样本归因作用域。**J3a（纯推理，待派）**：层级因素树+三性质按层级检查（正交/最小/完备开放论证），每节 <40 行增量 commit。**共同方向（objfunc-signal-log 含层级修正 240709ef）**：eval 效度=公式结构验证非异族同意；最小集是层级的（顶层 4 因素=3 性能+1 成本，各压缩下层）；c_pass=顶层估计器有作用域；不做质量提升 claim |
+
+## 状态更新（2026-11-26 13:10，Lead 核验）
+### 分支拓扑（重要，防再犯）
+- **think-trigger 的活全在 `thinkmech-review` 分支**（T8b/T8c/J1/J2/O1/O2 + oracle + calc.py + KB 卡），不在 main。
+- 两 worktree：`pfb` @ main（idea53+think-mechanism）、`pfb-thinkmech` @ thinkmech-review（think-trigger）。
+- **派发 think-trigger 任务必须指向 pfb-thinkmech worktree**（J3b 首派死于 main worktree 找不到 oracle/calc.py/KB 卡）。
+- thinkmech-review 已 push 远端备份（2026-11-26）；main 已与 origin/main 对齐（merge 3decbb1d2）。
+### 任务状态修正
+- **O2 实际已完成**（此前误判"死了"）：`tasks/outreach/candidates.md` 730 行在 thinkmech-review，来源核验闭环齐全（16 份本地文献全覆盖，姓名/机构不可证一律 [待核验]）。
+- **J3b 确认零落盘死亡**（thinkmech-review 上无泛化排名表产物）：需在 pfb-thinkmech worktree 重派。
+- **J3a 待派**（纯推理，层级因素树+三性质按层级检查）。
