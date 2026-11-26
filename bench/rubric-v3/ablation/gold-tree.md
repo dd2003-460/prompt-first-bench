@@ -2,7 +2,7 @@
 
 37 个节点（★F-D 新增 6 个微架构诊断叶子），主干深度 5，叶子 17 个。所有数字来自 [`../tasks/T0-local-27b/reference/calc.py`](../tasks/T0-local-27b/reference/calc.py)，赢家配置 3090×4 / W4 / n=2。
 
-长出这棵树的过程见 [`L0`](L0-root.md) → [`L1`](L1.md) → [`L2`](L2.md) → [`L3`](L3.md) → [`L4`](L4.md) → [`L5`](L5-blackbox.md)。
+长出这棵树的过程见 L 系列：`L0-root.md` → `L1.md` → `L2.md` → `L3.md` → `L4.md` → `L5-blackbox.md`（**实际位置 `projects/decomp/bench/gold/`**，本目录无此系列文件，2026-11-26 勘误）。**版本注意**：L 系列对应**旧版 35 节点树**（`projects/decomp/bench/gold/tree.md`：35 节点/深度 4/13 叶）的生长记录；本 37 节点版（F-D 新增 6 微架构诊断叶子，深度 5/17 叶）是在其上的扩展，F-D 增量部分无 L 系列对应章节。
 
 ---
 
