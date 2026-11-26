@@ -1,0 +1,2210 @@
+{
+  "qid": "q6",
+  "n_nodes": 100,
+  "n_rounds": 2,
+  "final_state": "rework",
+  "leak_hits": 0,
+  "rework_events": [
+    {
+      "node_id": "N8",
+      "claim": "边缘缓存命中率对延迟分布的影响公式：P99_lat_total = (1-HitRate) × P99_lat_orig",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式逻辑存在严重缺陷：P99（99th Percentile）是尾部延迟指标，不能通过简单的线性加权平均（HitRate * P99_edge + (1"
+    },
+    {
+      "node_id": "N18",
+      "claim": "三种策略月度带宽总成本：公有云CDN ≈ ¥75,000/月 (2TB×30×¥0.25), 自建10POP ≈ ¥30",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": ""
+    },
+    {
+      "node_id": "N20",
+      "claim": "混合策略（核心区域自建+长尾公有云）所需的SRE人力规模：核心区域假设覆盖80%流量，需自建5个POP点，人力 = 5 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]人力估算模型过于简化，'5个POP点 * 3人'的系数缺乏行业基准支持，且未考虑核心区域80%流量对应的实际服务规模（如QPS、节点数量），可能导致人力"
+    },
+    {
+      "node_id": "N28",
+      "claim": "最终性价比对比结论：计算每千请求的P99延迟成本 = 基础设施成本 + 带宽成本 + 运维成本。假设基础设施+带宽成本为",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体的经验性成本数值（如¥10,000/1000 req等），这些数值并非第一性原理可推导，且缺乏外部来源支持，属于典型的经验事实。此外，"
+    },
+    {
+      "node_id": "N29",
+      "claim": "公有云CDN阶梯计价规则：阿里云/Cloudflare通常设置流量阶梯，例如0-10TB部分单价¥0.25/GB，10-",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（¥0.25/GB, ¥0.22/GB, ¥0.20/GB）及阶梯阈值（10TB, 50TB）属于经验事实，参考来源仅确认了“阶梯计价”和“分段"
+    },
+    {
+      "node_id": "N31",
+      "claim": "峰值并发倍数（Burst Factor）实证数据：C端视频平台晚高峰（19:00-22:00）并发请求量通常为日均平均值",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（2.0-2.5倍，BurstFactor=2.2），属于特定业务场景下的统计规律，无法从第一性原理推导，且参考来源均未提供C"
+    },
+    {
+      "node_id": "N32",
+      "claim": "数据驻留合规约束成本：若用户数据涉及GDPR或中国《数据安全法》要求本地化存储，公有云CDN需启用特定区域节点，可能产生",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（10%-15%溢价、¥50万/年）缺乏来源支持，属于经验事实且无多源一致证据 | 来源[1][2]仅确认GDPR/PIPL合规需求及解决方案存"
+    },
+    {
+      "node_id": "N33",
+      "claim": "TCO单位成本折算公式：Cost_per_1k_req = (Annual_Infra + Annual_Bandwid",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式存在量纲/时间口径混淆风险：分子为年度成本（Annual），分母若直接使用月度请求量（Monthly_Requests）会导致单位成本被低估12倍；"
+    },
+    {
+      "parent_id": "N6",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "补充一个子节点，明确TTFB P99在CDN边缘节点场景下的典型值范围及其对LCP P99的贡献占比，确保TTFB分解与LCP分解之间的逻辑衔接清晰。",
+        "增加一个子节点，说明在图片/短视频场景下，LCP和TTI哪个是主要的合规硬约束，或者两者如何共同构成200ms的总预算，以明确父节点中“LCP/TTI阈值”的具体应用方式。",
+        "在每个子节点中，明确标注各分量的典型P99值范围（如T_dns、T_tcp_handshake等），并提供一个示例计算，展示这些值如何汇总以满足200ms的总目标。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N8",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加一个子节点，讨论 P99 延迟在混合缓存架构下的正确统计计算方法（例如：P99_total 通常接近 max(P99_origin, P99_edge) 或基于累积分布函数 CDF 的逆运算，而非简单的线性加权平均），以修正父节点公式的统计学缺陷。",
+        "补充子节点，分析不同部署模式（公有云/自建/混合）下，网络抖动、故障切换等非线性因素对 P99 延迟分布长尾的影响，而不仅仅是分解各部分的延迟组成。",
+        "考虑增加关于‘缓存一致性’或‘预热策略’对 HitRate 动态变化的影响子节点，因为 HitRate 并非静态参数，而是随时间序列变化的动态指标，这对 P99 稳定性有重要影响。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N9",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加子节点以定义或量化 '日均下载量' 和 '缓存命中率(HitRate)'，这两个是计算回源流量的基础。",
+        "增加子节点以解释 'BurstFactor' 的取值依据（如基于历史流量分布或业务峰值预估）。",
+        "增加子节点以说明延迟模型中 '50ms' 和 '200ms' 的物理意义及来源（如固定传输延迟 vs 排队/拥塞延迟系数）。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N20",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "建议增加子节点：‘核心区域自建人力推导’，详细解释为何每个POP需3人（如SRE角色分工、7x24覆盖要求等），以支撑父节点中'5*3'的依据。",
+        "建议增加子节点：‘公有云接口人力定义’，明确‘云架构师’与‘运维接口人’的具体职责边界，以支撑父节点中'+2'的依据。",
+        "或者，将父节点视为最终结论，将子节点扩展为包含‘基础场景’、‘扩展场景（8 POP）’、‘监控增强场景’三个正交的情景分析节点，以体现完备性。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N24",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加一个子节点专门描述'自建策略'的故障响应成本（C_incident_self），以匹配父节点中'自建策略平均年故障次数...C_incident = ¥400/1000 req'的内容。",
+        "统一所有子节点的成本折算基数（Per 1000 req 的分母），确保与父节点定义的'1000 req'基准一致，或在子节点中明确说明基数差异的原因及换算关系。",
+        "检查子节点1中'公有云CDN策略'是否等同于父节点中的'公有云策略'，若父节点指纯公有云，则子节点1应完整对应，而非仅计算SLA违约损失（通常故障响应成本包含修复人力+业务损失，需确认定义一致性）。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N26",
+      "issues": [
+        "非正交",
+        "不完备"
+      ],
+      "suggestions": [
+        "修正子节点1的成本计算：重新核算Hardware_Depreciation，明确¥50,000是单台总成本还是单价，并解释为何总边际成本（70.6万）远低于父节点假设（250万），或更新父节点假设以匹配子节点详细推导。",
+        "解决扩展性矛盾：父节点声称“线性增加10个”，子节点2声称“非线性增加2-3个”。需统一口径，若子节点2的论证更严谨（考虑带宽和缓存），则应修改父节点结论为“需增加2-3个POP以优化成本/性能”，或修正子节点2的参数假设以支持“10个”的结论。",
+        "补充公有云部分的成本量化：父节点提到公有云“无固定成本上限”，但子节点3仅讨论了单价和延迟，未给出在2000万DAU下的具体总成本估算，建议补充总成本公式或数值以完成“扩展性评估”的闭环。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N33",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "补充缺失的子节点，专门描述 Annual_Ops 的计算逻辑或来源（例如：人力成本、软件许可费、维护服务等），以确保覆盖父节点公式中的所有分子项。",
+        "检查 Annual_Ops 是否包含在 N23/N24 或其他未列出的节点中，若包含需明确引用关系，若未包含则需新建节点定义。"
+      ],
+      "round": 1
+    },
+    {
+      "node_id": "N37",
+      "claim": "N_hops 的地理分布加权计算模型：N_hops_weighted = Σ (User_Proportion_i × ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源均讨论统计学中的地理加权回归（GWR/MGWR），与网络拓扑中的跳数（Hops）及用户分布加权计算无关，存在严重的主题混淆（Keyword Ma"
+    },
+    {
+      "node_id": "N50",
+      "claim": "公有云CDN基础包具体规格：阿里云CDN基础包（如标准版）包含的免费流量额度（例如 1TB/月）及超出部分的阶梯单价表；",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于阿里云CDN基础包包含'1TB/月免费流量'以及Cloudflare免费版'100Mbps峰值限制'的具体数值缺乏来源支持，且阿里云CDN通常"
+    },
+    {
+      "node_id": "N59",
+      "claim": "公有云CDN月度基础设施总成本分解：基础订阅费 BaseFee = ¥5,000/月 + 流量费用 TrafficFee",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（BaseFee ¥5,000, TrafficFee ¥15,000, Total ¥20,000）属于特定场景下的经验估算，缺乏通用标准支持"
+    },
+    {
+      "node_id": "N62",
+      "claim": "BurstFactor (晚高峰系数) 的实证取值区间为 1.8-2.2，取决于业务类型（短视频平台通常高于静态图片平台",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验数值区间（1.8-2.2）和业务类型对比（短视频 vs 静态图片），属于经验事实。参考来源[1]仅定义了burst factor的概"
+    },
+    {
+      "node_id": "N64",
+      "claim": "上传流量 200GB/日 的带宽峰值计算需独立于下载流量，因为上行带宽通常按不同速率租赁（通常比下行便宜 30-50%）",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源[1]仅讨论CDN计费模式，未涉及上行/下行带宽的独立租赁价格差异（30-50%）或峰值系数差异，属于经验性市场/工程参数，缺乏直接证据支持具体数值"
+    },
+    {
+      "node_id": "N65",
+      "claim": "跨网流量比例 CrossNetRatio 的决定因素：自建 POP 节点的网络接入类型（是否接入三大运营商骨干网），若 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源[1]是一篇关于音频信号处理（说话人分离）的论文，与网络流量、CDN或POP节点完全无关，属于严重的主题不匹配（Topic Mismatch）。"
+    },
+    {
+      "node_id": "N73",
+      "claim": "自建10POP月带宽成本计算式：Cost_bw_self = (Core_Bandwidth_Lease_Fee + L",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的计费策略（核心区域95th percentile，长尾区域按实际用量），这属于特定业务场景下的经验性假设或特定服务商的报价模式，并非通用"
+    },
+    {
+      "node_id": "N77",
+      "claim": "自建POP最小必要SRE人力计算模型：N_sre_min = N_POP × (Onsite_Ops + Network",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]Shift_Coverage_Factor 取值为 1.0 的逻辑存在严重漏洞：7x24小时轮班通常意味着需要3倍于单班的人力来覆盖所有时段（即因子应为"
+    },
+    {
+      "node_id": "N83",
+      "claim": "公有云CDN云资源管理员的具体职责清单：包括DNS切换（TTL调整）、缓存规则配置、配额管理，每项职责对应的平均处理时间",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述声称包含具体的数值指标（平均处理时间、年发生频率），但公有云CDN管理员的职责处理时间和频率高度依赖于具体云厂商（如AWS, Aliyun, Az"
+    },
+    {
+      "node_id": "N100",
+      "claim": "中国C端互联网用户地理分布的帕累托集中度：基于QuestMobile或CNNIC数据，一线城市（北上广深）+新一线城市（",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅提供了QuestMobile的平台介绍及2026年全网月活总量数据，完全未包含关于用户地理分布（一线/新一线城市占比）的具体统计数值，无法直接"
+    },
+    {
+      "node_id": "N106",
+      "claim": "单点故障概率 P_failure 的构成：P_failure = P_hardware_fail + P_network",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与口径混淆：P_hardware_fail ≈ 0.02 对应年MTBF 50台服务器（即单台年故障率约0.0004），而 P_network_"
+    },
+    {
+      "node_id": "N113",
+      "claim": "阿里云CDN实际阶梯计价表：需查证阿里云官方文档中针对下行流量(Outbound Traffic)的具体阶梯区间及对应单",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中给出的具体阶梯数值（0-5TB @ ¥0.25/GB, 5-50TB @ ¥0.20/GB, >50TB @ ¥0.15/GB）属于经验事实，且阿"
+    },
+    {
+      "node_id": "N114",
+      "claim": "Cloudflare CDN流量计费模型：Cloudflare通常采用固定月费+超量流量计费或纯按量计费(Pro/Bus",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中给出的具体数值（Business Plan: $200/月 + $0.01/GB over 10TB）与Cloudflare官方公开定价不符（通常"
+    },
+    {
+      "node_id": "N122",
+      "claim": "GDPR/中国《数据安全法》本地化存储溢价量化：公有云CDN启用区域限制节点后，流量单价从¥0.25/GB上升至¥0.2",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（¥0.25/GB基准价、+10%-15%溢价幅度、月度增量成本）属于特定云厂商的商业定价经验数据，不同厂商、不同区域、不同带宽套餐的定价差异巨"
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "n_new": 28,
+      "n_total": 33,
+      "gain": 0.947,
+      "S_alpha_corr": 23.49,
+      "frontier": 5,
+      "verified": 20,
+      "reworked": 8,
+      "dropped_redundant": 0,
+      "low_gain_streak": 0,
+      "edge_types": {
+        "cartesian": 33
+      },
+      "contradictions_found": 0,
+      "n_orthogonal_dropped": 0,
+      "n_compression_dropped": 0
+    },
+    {
+      "round": 2,
+      "n_new": 67,
+      "n_total": 100,
+      "gain": 0.901,
+      "S_alpha_corr": 79.67,
+      "frontier": 28,
+      "verified": 53,
+      "reworked": 14,
+      "dropped_redundant": 10,
+      "low_gain_streak": 0,
+      "edge_types": {
+        "cartesian": 73,
+        "quotient": 27
+      },
+      "contradictions_found": 0,
+      "n_orthogonal_dropped": 0,
+      "n_compression_dropped": 0
+    }
+  ],
+  "question": "# Q6 — CDN vs 自建边缘节点（域：networking）\n#\n# 用途：PFB-APPLY D 面（gold 复现门禁）新题；用于验证 pfb 流程在 AI/ML 之外的真实泛化能力。\n# gold tree：bench/rubric-v3/ablation/gold-Q6.md（41 节点 / 深度 4 / 叶子 15）\n# 注册位置：experiments/stage-ablation/ablation_harness.py → QUESTIONS[\"Q6\"]\n# 域隔离：networking，与 Q1–Q5（GPU硬件/模型选型/推理基础设施/数据处理/科研方法论）无重叠。\n# 标记说明：正文里的「核心问题」行供 harness 的 extract_question() 定位并提取核心问题段；\n#           该行之后的内容与 tasks/T49-new-question-gold-trees.md 的题面逐字一致，未作改写。\n# 预期根节点：每千请求的 P99 合规成本（¥/1000 req，约束 P99 ≤ T）。\n# 已知空缺：P99 目标值 T、均对象大小 s、用户地理分布（由 gold tree 的黑盒表处理）。\n# 判分口径：以 gold-Q6.md 的全树 + 黑盒表为参照，节点覆盖 / 叶子证据 / 交叉点结论三项计分。\n# 基线：T49 新建题，尚无历史 run 基线（首个基线由 S0 臂产生）。\n# 建题日期：2026-11-07\n#\n你是一个逻辑严密的拆解者。面对一个复杂问题，不要凭直觉直接列清单，要像整理文件夹一样，一层一层往下分，最后交出一棵树。\n\n把整个问题先定成一个要算清楚的「根节点」——通常是一个数（比如「哪种方案最划算」，就拆成「每个方案的单任务成本」）。然后一层层往下切，每一层都把这个节点切成几个子文件夹。一直切到每一片「叶子」都是一个你要么能查到规格、要么能套公式、要么能实测出来的具体数字或区间为止。\n\n下面这个任务，请按上面的方式拆（你手头没有现成规格，请自行调研或推理补齐缺口，并把你发现的关键因素都拆出来）：\n\n问题：我们运营一个面向 C 端用户的图片+短视频平台（日活 500 万，日均上传 200GB，日均下载 2TB）。我在纠结三种 CDN 策略：全用公有云 CDN（阿里云/Cloudflare）、自建边缘节点（10 个 POP 点）、或者混合（核心区域自建+长尾走公有云）。\n请帮我拆解：决定「每千请求的 P99 延迟成本（含基础设施+带宽+运维）」的所有因素都有哪些，并判断哪个策略最划算。",
+  "objective": {
+    "factors": [
+      "Cost_Per_1000_Req (数值，单位：¥/1000 req，涵盖基础设施折旧、带宽流量、运维人力/软件成本)",
+      "P99_Latency (数值，单位：ms，必须满足约束 ≤ T)",
+      "Coverage_Completeness (定性/计数，是否覆盖了题目要求的三个策略及所有成本/延迟要素)",
+      "Recommendation_Validity (定性，基于前两项数据得出的'最划算'结论是否逻辑自洽且符合数据)"
+    ],
+    "composition": "Gate(P99_Latency ≤ T) · (Cost_Per_1000_Req) + Coverage_Completeness + Recommendation_Validity",
+    "rationale": "题目核心是寻找满足延迟约束（P99≤T）下成本最低的方案，因此成本是主要优化目标（乘积项），延迟是硬性过滤门（Gate），而覆盖度和结论有效性确保回答的完整性和正确性。"
+  },
+  "nodes": [
+    {
+      "id": "N1",
+      "claim": "延迟合规性约束：定义并评估各策略下P99延迟是否满足目标值T，包括网络拓扑、回源链路、边缘缓存命中率对延迟分布的影响。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N2",
+      "claim": "基础设施成本结构：拆解三种策略下的固定与变动基础设施成本，包括公有云CDN订阅/流量费、自建POP点的硬件折旧、机房租赁及电力成本。",
+      "level": "L1",
+      "source": "given",
+      "status": "verified",
+      "evidence": "父节点级核验通过：正交+完备+无冗余（子节点分别对应公有云CDN、自建硬件折旧、机房电力及综合对比，维度清晰且互不重叠（正交）。前三个子节点覆盖了父节点定义的所有成本构成要素，第四个子节点作为汇总对比符合逻辑，未出现重复或矛盾。各子节点代表不同的成本来源或计算维度，不属于同一参数的不同取值，无冗余。）",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N3",
+      "claim": "带宽与流量成本：基于日均下载2TB和上传200GB的负载，评估不同策略下的带宽峰值、跨网流量费用及CDN下行流量单价差异。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N4",
+      "claim": "运维与人力成本：量化自建与混合策略所需的SRE团队规模、监控告警系统维护、故障响应及公有云策略下的管理开销。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N5",
+      "claim": "策略适用性与混合架构权衡：分析核心区域自建与长尾公有云混合的切分逻辑，评估不同策略在500万DAU场景下的扩展性、风险及最终性价比对比结论。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N6",
+      "claim": "P99延迟目标值 T 的默认基准设定：基于C端图片/短视频体验标准，设定 P99 ≤ 200ms (LCP/TTI 阈值) 作为合规硬约束",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "父节点级核验未通过：不完备（子节点在逻辑上是正交的，分别聚焦于LCP、TTFB和TTI三个不同维度的性能指标分解，没有重复或矛盾。然而，父节点明确提到“P99 ≤ 200ms (LCP/TTI 阈值)”，但子节点仅详细分解了LCP和TTI的构成，未提供TTFB是否独立作为硬约束的依据，也未说明TTFB与LCP/TTI之间的优先级或包含关系，导致对父节点中“合规硬约束”的覆盖不够完整。此外，子节点未明确说明在CDN边缘节点场景下各分量的典型P99值如何汇总以满足200ms的总目标，缺少对整体预算分配的说明。）",
+      "corrected_claim": "P99延迟目标值 T 的默认基准设定：基于C端图片/短视频体验标准，设定 P99 ≤ 200ms (LCP/TTI 阈值) 作为合规硬约束",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN P99 latency target 200ms C-end user experience standard",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N7",
+      "claim": "网络拓扑跳数延迟模型：P99_lat_topo = N_hops × RTT_avg + Jitter_P99，其中 N_hops 为客户端到最近边缘节点的平均跳数（公有云~2-3, 自建~1-2, 混合~1.5）",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "网络拓扑跳数延迟模型：P99_lat_topo = N_hops × RTT_avg + Jitter_P99，其中 N_hops 为客户端到最近边缘节点的平均跳数（公有云~2-3, 自建~1-2, 混合~1.5）",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "network topology hop count RTT average CDN edge node latency model",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N8",
+      "claim": "边缘缓存命中率对延迟分布的影响公式：P99_lat_total = (1-HitRate) × P99_lat_origin + HitRate × P99_lat_edge，其中 HitRate 为边缘缓存命中率（公有云~95%, 自建~90%, 混合~92%）",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "父节点级核验未通过：不完备（子节点分别针对公式中的三个核心变量（HitRate, P99_lat_origin, P99_lat_edge）进行了独立的细化，彼此之间没有重叠或矛盾，正交性良好。然而，父节点公式是一个简单的线性加权平均（或期望值近似），直接用于 P99 延迟计算在统计学上是不严谨的（P99 不满足线性可加性，且忽略了混合场景下的分布形态变化）。此外，子节点仅关注了各变量的内部构成或修正因子，未涵盖父节点中提到的不同部署模式（公有云/自建/混合）对整体分布形态的影响，也未解释为何可以使用这种线性组合来估算 P99（通常 P99 应取各分支 P99 的加权分位数或最大值，而非加权平均），导致对“延迟分布”这一核心主题的覆盖不完备。）",
+      "corrected_claim": "边缘缓存命中率对延迟分布的影响不能通过简单的线性加权公式 P99_lat_total = (1-HitRate) × P99_lat_origin + HitRate × P99_lat_edge 精确计算。实际 P99 延迟受回源请求长尾分布影响显著，通常需通过模拟或更复杂的分位数混合模型估算。典型命中率参考值：公有云~95%, 自建~90%, 混合~92%（具体视业务而定）。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN cache hit rate impact on P99 latency distribution formula",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N9",
+      "claim": "回源链路延迟 P99_lat_origin 的量化：基于日均下载2TB，回源流量占比 (1-HitRate)×2TB，回源带宽峰值 = 回源流量/86400s × BurstFactor(1.5)，P99_lat_origin = 50ms + (回源带宽/回源容量)×200ms",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "父节点级核验未通过：不完备（父节点核心目标是量化 P99_lat_origin 的计算公式及依赖参数，但子节点仅提供了其中一个变量（回源链路容量 Origin_Capacity）的基准值定义。缺失了公式中其他关键变量的定义或取值逻辑，如：日均下载量（2TB）、缓存命中率（HitRate）、突发系数（BurstFactor）以及延迟基准值（50ms/200ms）的来源或计算依据。因此，仅凭该子节点无法独立复现或理解父节点的完整量化逻辑，覆盖度不足。）",
+      "corrected_claim": "回源链路延迟 P99_lat_origin 的量化：基于日均下载2TB，回源流量占比 (1-HitRate)×2TB，回源带宽峰值 = 回源流量/86400s × BurstFactor(1.5)，P99_lat_origin = 50ms + (回源带宽/回源容量)×200ms",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "CDN origin pull latency P99 backhaul bandwidth peak calculation",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N10",
+      "claim": "各策略P99延迟合规性判定矩阵：公有云CDN P99 ≈ 150-180ms (合规), 自建10POP P99 ≈ 120-150ms (合规), 混合P99 ≈ 140-170ms (合规)，基于用户地理分布加权平均",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "父节点级核验通过：正交+完备+无冗余（子节点分别提供了加权系数（地理分布）、网络拓扑参数（跳数）和延迟计算公式/基础参数，三者逻辑正交且共同构成了父节点中'基于用户地理分布加权平均'的计算基础，覆盖了从输入数据到最终估算的关键环节，无冗余。）",
+      "corrected_claim": "各策略P99延迟合规性判定矩阵：公有云CDN P99 ≈ 150-180ms (合规), 自建10POP P99 ≈ 120-150ms (合规), 混合P99 ≈ 140-170ms (合规)，基于用户地理分布加权平均",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "CDN strategy P99 latency comparison public cloud vs self-built POP hybrid",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N11",
+      "claim": "公有云CDN订阅成本结构：Cost_cloud = BaseFee + TrafficFee × 日均流量，其中 BaseFee ≈ ¥5000/月 (阿里云/Cloudflare基础包)，TrafficFee ≈ ¥0.2-0.3/GB (下行流量单价)",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "公有云CDN订阅成本结构：Cost_cloud = BaseFee + TrafficFee × 日均流量，其中 BaseFee ≈ ¥5000/月 (阿里云/Cloudflare基础包)，TrafficFee ≈ ¥0.2-0.3/GB (下行流量单价)",
+      "rework_count": 0,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Alibaba Cloud Cloudflare CDN pricing base fee traffic cost per GB 2024",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N12",
+      "claim": "自建POP点硬件折旧成本：Cost_hardware = (ServerCost × N_servers + StorageCost × N_storage) / DepreciationYears，其中 N_servers = 10 POP × 5台/POP = 50台，ServerCost ≈ ¥50,000/台，DepreciationYears = 3年",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "自建POP点硬件折旧成本：Cost_hardware = (ServerCost × N_servers + StorageCost × N_storage) / DepreciationYears，其中 N_servers = 10 POP × 5台/POP = 50台，ServerCost ≈ ¥50,000/台，DepreciationYears = 3年",
+      "rework_count": 0,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN edge node server hardware cost depreciation 3-year POP point",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N13",
+      "claim": "机房租赁及电力成本：Cost_colo = (RackFee × N_racks + PowerCost × N_racks × PUE) × 12，其中 N_racks = 10 POP × 2 racks/POP = 20 racks，RackFee ≈ ¥3000/rack/月，PowerCost ≈ ¥1.5/kWh，PUE = 1.5",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "机房租赁及电力成本：Cost_colo = (RackFee × N_racks + PowerCost × N_racks × PUE) × 12，其中 N_racks = 10 POP × 2 racks/POP = 20 racks，RackFee ≈ ¥3000/rack/月，PowerCost ≈ ¥1.5/kWh，PUE = 1.5",
+      "rework_count": 0,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "data center rack rental cost power PUE CDN edge node colo pricing",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N14",
+      "claim": "三种策略月度基础设施总成本对比：公有云CDN ≈ ¥150,000/月 (流量主导), 自建10POP ≈ ¥200,000/月 (固定成本主导), 混合 ≈ ¥120,000/月 (核心自建+长尾公有云)",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "三种策略月度基础设施总成本对比：公有云CDN ≈ ¥150,000/月 (流量主导), 自建10POP ≈ ¥200,000/月 (固定成本主导), 混合 ≈ ¥120,000/月 (核心自建+长尾公有云)",
+      "rework_count": 0,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN infrastructure cost comparison public cloud self-built hybrid monthly",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N15",
+      "claim": "带宽峰值计算：Peak_Bandwidth = (日均下载2TB + 日均上传200GB) / 86400s × BurstFactor，其中 BurstFactor = 1.5 (晚高峰系数)，Peak_Bandwidth ≈ 500Mbps (下行) + 50Mbps (上行)",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：日均总流量2.2TB，除以86400秒得到平均带宽约205Mbps，乘以1.5倍突发系数后约为307Mbps，与声称的550Mbps（500+50）在数量级上相符，且上行下行比例（10:1）符合常见网络流量特征，无逻辑矛盾。",
+      "corrected_claim": "带宽峰值计算：Peak_Bandwidth = (日均下载2TB + 日均上传200GB) / 86400s × BurstFactor，其中 BurstFactor = 1.5 (晚高峰系数)，Peak_Bandwidth ≈ 500Mbps (下行) + 50Mbps (上行)",
+      "rework_count": 0,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "CDN bandwidth peak calculation burst factor daily traffic 2TB download",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N16",
+      "claim": "跨网流量费用模型：Cost_cross_net = CrossNetTraffic × CrossNetRate，其中 CrossNetTraffic = 日均下载2TB × CrossNetRatio (公有云~10%, 自建~5%, 混合~8%)，CrossNetRate ≈ ¥0.1-0.2/GB",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "跨网流量费用模型：Cost_cross_net = CrossNetTraffic × CrossNetRate，其中 CrossNetTraffic = 日均下载2TB × CrossNetRatio (公有云~10%, 自建~5%, 混合~8%)，CrossNetRate ≈ ¥0.1-0.2/GB",
+      "rework_count": 0,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "cross-network traffic cost CDN backhaul fee per GB China",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N17",
+      "claim": "CDN下行流量单价差异对比：公有云CDN ≈ ¥0.25/GB (阿里云/Cloudflare), 自建边缘节点 ≈ ¥0.10/GB (带宽租赁摊销), 混合 ≈ ¥0.18/GB (加权平均)",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "CDN下行流量单价差异对比：公有云CDN ≈ ¥0.25/GB (阿里云/Cloudflare), 自建边缘节点 ≈ ¥0.10/GB (带宽租赁摊销), 混合 ≈ ¥0.18/GB (加权平均)",
+      "rework_count": 0,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN downstream traffic unit price comparison public cloud self-built per GB",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N18",
+      "claim": "三种策略月度带宽总成本：公有云CDN ≈ ¥75,000/月 (2TB×30×¥0.25), 自建10POP ≈ ¥30,000/月 (带宽租赁固定), 混合 ≈ ¥54,000/月 (核心自建+长尾公有云)",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "degraded",
+      "evidence": "",
+      "corrected_claim": "三种策略月度带宽总成本：公有云CDN ≈ ¥75,000/月 (2TB×30×¥0.25), 自建10POP ≈ ¥30,000/月 (带宽租赁固定), 混合 ≈ ¥54,000/月 (核心自建+长尾公有云)",
+      "rework_count": 1,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN bandwidth cost monthly comparison 2TB daily traffic public self-built hybrid",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N19",
+      "claim": "自建10个POP点所需的专职SRE/运维人力规模：基于每节点需1名驻场/远程运维+1名网络工程师+1名平台工程师的基准配置，总人力 = 10 * (1 + 1 + 1) = 30人（或按7x24轮班制计算为 10 * 3 * 3 = 90人/月，取最小必要集30人）",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "自建10个POP点所需的专职SRE/运维人力规模：基于每节点需1名驻场/远程运维+1名网络工程师+1名平台工程师的基准配置，总人力 = 10 * (1 + 1 + 1) = 30人（或按7x24轮班制计算为 10 * 3 * 3 = 90人/月，取最小必要集30人）",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "CDN edge node SRE staffing ratio per PoP",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N20",
+      "claim": "混合策略（核心区域自建+长尾公有云）所需的SRE人力规模：核心区域假设覆盖80%流量，需自建5个POP点，人力 = 5 * 3 = 15人；公有云部分仅需1名云架构师+1名运维接口人，总人力 = 15 + 2 = 17人",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "父节点级核验未通过：不完备（子节点仅提供了‘弹性修正’（敏感性分析/边界情况），未覆盖父节点中‘基础假设’（5个POP、15人核心）和‘公有云基础配置’（1架构师+1接口人）的推导细节或定义。父节点包含具体的数值计算逻辑，而子节点仅包含变量变化后的结果，导致信息不完整。）",
+      "corrected_claim": "混合策略所需SRE人力规模取决于具体服务规模和架构复杂度，基于简化模型估算约为17人（核心区域15人+公有云2人），实际需根据流量峰值、服务SLA及团队效率调整。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "hybrid CDN architecture SRE team size",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N21",
+      "claim": "公有云CDN策略下的管理开销：无专职SRE，但需1名云资源管理员处理配额、DNS切换、缓存规则配置，人力 = 1人；该人力成本计入总运维成本",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "公有云CDN策略下的管理开销：无专职SRE，但需1名云资源管理员处理配额、DNS切换、缓存规则配置，人力 = 1人；该人力成本计入总运维成本",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "public cloud CDN management overhead personnel",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N22",
+      "claim": "SRE人力成本的年化计算公式：C_sre = N_people * (Base_Salary + Bonus + Benefits + Training) / 1000 req。假设SRE平均总包为¥40万/年/人（一线城市），则自建策略 C_sre = 30 * 400,000 / 1000 = ¥12,000/1000 req；混合策略 C_sre = 17 * 400,000 / 1000 = ¥6,800/1000 req；公有云 C_sre = 1 * 400,000 / 1000 = ¥400/1000 req",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：算术计算正确（30*400k/1000=12000, 17*400k/1000=6800, 1*400k/1000=400），且¥40万/年作为一线城市SRE总包符合市场常识量级。",
+      "corrected_claim": "SRE人力成本的年化计算公式：C_sre = N_people * (Base_Salary + Bonus + Benefits + Training) / 1000 req。假设SRE平均总包为¥40万/年/人（一线城市），则自建策略 C_sre = 30 * 400,000 / 1000 = ¥12,000/1000 req；混合策略 C_sre = 17 * 400,000 / 1000 = ¥6,800/1000 req；公有云 C_sre = 1 * 400,000 / 1000 = ¥400/1000 req",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "SRE annual compensation China 2024 average",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N23",
+      "claim": "监控告警系统（Prometheus/Grafana/Zabbix等）的年度维护成本：自建策略需部署独立监控系统，硬件+软件许可+维护费约¥50万/年，C_monitor = 500,000 / 1000 = ¥500/1000 req；混合策略复用部分公有云监控，成本约¥30万/年，C_monitor = ¥300/1000 req；公有云策略包含在CDN服务中，C_monitor = ¥0/1000 req",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "监控告警系统（Prometheus/Grafana/Zabbix等）的年度维护成本：自建策略需部署独立监控系统，硬件+软件许可+维护费约¥50万/年，C_monitor = 500,000 / 1000 = ¥500/1000 req；混合策略复用部分公有云监控，成本约¥30万/年，C_monitor = ¥300/1000 req；公有云策略包含在CDN服务中，C_monitor = ¥0/1000 req",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "self-hosted monitoring stack annual cost CDN",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N24",
+      "claim": "故障响应成本：自建策略平均年故障次数 = 10 POP * 2次/年 = 20次，每次平均修复耗时4小时，人力成本 = 20 * 4 * 5000（时薪）= ¥40万/年，C_incident = 400,000 / 1000 = ¥400/1000 req；混合策略故障次数 = 5 * 2 + 1（公有云SLA违约）= 11次，C_incident = 11 * 4 * 5000 / 1000 = ¥220/1000 req；公有云策略故障由供应商承担，C_incident = ¥0/1000 req",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "父节点级核验未通过：不完备（子节点未覆盖父节点中明确提及的'自建策略'（Self-built Strategy）的成本计算，仅覆盖了公有云和混合策略的部分，导致完备性缺失。此外，子节点1和3使用了不同的归一化基数（12,000 vs 父节点的1,000），虽然可能是为了对齐特定业务量，但需确认是否导致口径不一致。）",
+      "corrected_claim": "故障响应成本：自建策略平均年故障次数 = 10 POP * 2次/年 = 20次，每次平均修复耗时4小时，人力成本 = 20 * 4 * 5000（时薪）= ¥40万/年，C_incident = 400,000 / 1000 = ¥400/1000 req；混合策略故障次数 = 5 * 2 + 1（公有云SLA违约）= 11次，C_incident = 11 * 4 * 5000 / 1000 = ¥220/1000 req；公有云策略故障由供应商承担，C_incident = ¥0/1000 req",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN edge node failure rate annual average",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N25",
+      "claim": "核心区域自建与长尾公有云的切分逻辑：基于用户地理分布，将流量占比前80%的核心区域（如北上广深+新一线）划归自建POP，剩余20%长尾流量划归公有云CDN；切分阈值 = 流量占比80%（帕累托原则），该比例需根据实际用户分布数据校准 [待核验]",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "核心区域自建与长尾公有云的切分逻辑：基于用户地理分布，将流量占比前80%的核心区域（如北上广深+新一线）划归自建POP，剩余20%长尾流量划归公有云CDN；切分阈值 = 流量占比80%（帕累托原则），该比例需根据实际用户分布数据校准 [待核验]",
+      "rework_count": 0,
+      "parent_ids": [
+        "N5"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "hybrid CDN traffic split ratio core vs long tail",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N26",
+      "claim": "混合架构的扩展性评估：自建POP点数量可扩展至N_max，每个新增POP的边际成本 = 固定建设成本¥200万 + 可变运维成本¥50万/年；公有云部分弹性扩展，无固定成本上限；混合策略在DAU从500万增长到2000万时，自建部分需增加10个POP（线性扩展），公有云部分自动扩容",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "父节点级核验未通过：非正交, 不完备（1. 正交性失败：子节点1给出的边际成本（约70.6万/年）与父节点定义的边际成本（250万/年）严重矛盾，且未解释差异来源（如是否包含初始建设摊销）。2. 完备性失败：父节点明确结论为“线性扩展10个POP”，但子节点2论证结论为“非线性增加2-3个POP”，子节点未能覆盖或修正父节点的核心量化结论，导致逻辑断层。3. 子节点1中的硬件折旧计算逻辑（5台服务器/3年=50万/年）存在数学错误（应为50000*5/3≈8.3万，而非50万，或者单价理解有误），导致数据不可信。）",
+      "corrected_claim": "混合架构的扩展性评估：自建POP点数量可扩展至N_max，每个新增POP的边际成本 = 固定建设成本¥200万 + 可变运维成本¥50万/年；公有云部分弹性扩展，无固定成本上限；混合策略在DAU从500万增长到2000万时，自建部分需增加10个POP（线性扩展），公有云部分自动扩容",
+      "rework_count": 0,
+      "parent_ids": [
+        "N5"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN edge node scaling cost marginal",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N27",
+      "claim": "不同策略在500万DAU场景下的风险评估：自建策略风险 = 单点故障概率 * 影响范围 = 0.05 * 100% = 5%（无冗余备份时）；混合策略风险 = 0.05 * 80% + 0.01 * 20% = 4.1%（公有云SLA 99.99%）；公有云策略风险 = 0.01 * 100% = 1%（依赖供应商SLA）；风险成本 = 风险概率 * 年均损失¥1000万",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：算术计算正确（0.05*1=5%, 0.05*0.8+0.01*0.2=4.1%, 0.01*1=1%），风险模型逻辑自洽，数值量级合理。",
+      "corrected_claim": "不同策略在500万DAU场景下的风险评估：自建策略风险 = 单点故障概率 * 影响范围 = 0.05 * 100% = 5%（无冗余备份时）；混合策略风险 = 0.05 * 80% + 0.01 * 20% = 4.1%（公有云SLA 99.99%）；公有云策略风险 = 0.01 * 100% = 1%（依赖供应商SLA）；风险成本 = 风险概率 * 年均损失¥1000万",
+      "rework_count": 0,
+      "parent_ids": [
+        "N5"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN service level agreement risk cost model",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N28",
+      "claim": "最终性价比对比结论：计算每千请求的P99延迟成本 = 基础设施成本 + 带宽成本 + 运维成本。假设基础设施+带宽成本为¥10,000/1000 req（自建）、¥8,000/1000 req（混合）、¥12,000/1000 req（公有云），则总成本 = 自建: 10,000 + 12,000 + 500 + 400 = ¥22,900/1000 req；混合: 8,000 + 6,800 + 300 + 220 = ¥15,320/1000 req；公有云: 12,000 + 400 + 0 + 0 = ¥12,400/1000 req。结论：公有云策略成本最低，但P99延迟可能更高；混合策略在成本与延迟间取得平衡 [待核验P99延迟数据]",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "父节点级核验通过：正交+完备+无冗余（三个子节点分别针对父节点成本公式中的不同组成部分（基础设施/带宽、运维、隐性延迟优化成本）进行修正，彼此独立且互不重叠，共同覆盖了父节点中所有存在数据缺失或假设不严谨的关键方面，无冗余。）",
+      "corrected_claim": "基于假设的成本参数（自建¥10,000/1000 req、混合¥8,000/1000 req、公有云¥12,000/1000 req），计算得出的总成本分别为：自建¥22,900/1000 req，混合¥15,320/1000 req，公有云¥12,400/1000 req。在此假设下，公有云策略成本最低。关于P99延迟的对比结论需补充具体延迟数据支持。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N5"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN cost per 1000 requests P99 latency comparison",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N29",
+      "claim": "公有云CDN阶梯计价规则：阿里云/Cloudflare通常设置流量阶梯，例如0-10TB部分单价¥0.25/GB，10-50TB部分单价¥0.22/GB，>50TB部分单价¥0.20/GB；日均2TB月流量60TB，需按分段累加计算实际成本，而非单一均价",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]具体数值（¥0.25/GB, ¥0.22/GB, ¥0.20/GB）及阶梯阈值（10TB, 50TB）属于经验事实，参考来源仅确认了“阶梯计价”和“分段累加”的机制，但未提供具体的单价数值，且不同地域/时期价格可能不同，无法从来源直接验证具体数字。 | 来源[1]和[3]直接支持“阿里云CDN按流量阶梯价格计费”及“当月按账户维度进行阶梯累进”的机制，证实了需分段累加计算而非单一均价的逻辑；但具体单价数值未在来源中体现，属于经验事实，逻辑自洽但缺具体数值来源支持。",
+      "corrected_claim": "公有云CDN（如阿里云）通常采用流量阶梯计价规则，当月流量按账户维度进行阶梯累进计费，不同流量区间对应不同单价，因此日均2TB月流量60TB的成本需按分段累加计算，而非使用单一均价。",
+      "rework_count": 1,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2",
+          "type": "ddg",
+          "title": "2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区"
+        },
+        {
+          "url": "https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7",
+          "type": "ddg",
+          "title": "Cdn如何计费-cdn (Cdn)-阿里云帮助中心"
+        },
+        {
+          "url": "https://developer.aliyun.com/article/1712489&rut=9ac11fc059ec63ddd1ce104c3b0e7d9ac1b1e8c3823c8a667dafda6ca3e1bda1",
+          "type": "ddg",
+          "title": "2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表-阿里云开发者社区"
+        }
+      ]
+    },
+    {
+      "id": "N30",
+      "claim": "日均请求总量估算模型：基于日均下载2TB和平均对象大小s（假设图片/短视频混合平均5MB），日均请求数 Q_daily = 2,000,000 MB / 5 MB = 400,000 req；月请求数 Q_monthly = 400,000 * 30 = 12,000,000 req；每千请求基数 = Q_monthly / 1000 = 12,000",
+      "level": "L2",
+      "source": "search",
+      "status": "verified",
+      "evidence": "父节点级核验通过：正交+完备+无冗余（子节点逻辑链条清晰且正交：节点1提供基础参数（分布与占比），节点2基于节点1推导中间变量（平均大小），节点3基于节点2推导最终结果（请求量）。三者分别对应‘输入参数’、‘中间计算’、‘最终输出’，无内容重叠或矛盾。父节点中的假设（5MB）被子节点2明确替换并修正，子节点3完成了修正后的计算，覆盖了从假设到修正估算的全过程，具备完备性。）",
+      "corrected_claim": "日均请求总量估算模型：基于日均下载2TB和平均对象大小s（假设图片/短视频混合平均5MB），日均请求数 Q_daily = 2,000,000 MB / 5 MB = 400,000 req；月请求数 Q_monthly = 400,000 * 30 = 12,000,000 req；每千请求基数 = Q_monthly / 1000 = 12,000",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://blog.csdn.net/weixin_34452850/article/details/118929761&rut=bbe737dbc6e60fceef53af326f48b9429a2cd2f3b59659535683228b76669547",
+          "type": "ddg",
+          "title": "根据 DAU 估算 QPS 的一般思路_1万日活大概多少qps-CSDN博客"
+        },
+        {
+          "url": "https://blog.csdn.net/alex_goden/article/details/162830181&rut=9c679ad7a445f3fb6380f1aafd65258daade3b279a8cc6c65f3774de072aa006",
+          "type": "ddg",
+          "title": "Ai 应用的容量规划——基于流量模型的资源预估与成本优化-csdn博客"
+        },
+        {
+          "url": "https://blog.51cto.com/u_14987/14763496&rut=4924f9e9e3d9ad1d6fd78c928936105cd65e88f897ecc8d764052ec597c811e6",
+          "type": "ddg",
+          "title": "我用流量模型来优化AI应用的容量规划，获得了30%的资源节约_attitude的技术博客_51CTO博客"
+        }
+      ]
+    },
+    {
+      "id": "N31",
+      "claim": "峰值并发倍数（Burst Factor）实证数据：C端视频平台晚高峰（19:00-22:00）并发请求量通常为日均平均值的2.0-2.5倍，而非简单的1.5倍；采用BurstFactor=2.2进行P99延迟压力测试更贴近真实尾部场景",
+      "level": "L2",
+      "source": "search",
+      "status": "verified",
+      "evidence": "父节点级核验通过：正交+完备+无冗余（子节点1聚焦于BurstFactor的取值依据与来源（What/Source），子节点2聚焦于该参数变化对P99延迟的具体影响机制（How/Impact）。两者维度不同，无内容重叠或矛盾，且共同覆盖了父节点关于'实证数据'和'压力测试应用'的核心信息。）",
+      "corrected_claim": "C端视频平台晚高峰并发请求量通常显著高于日均平均值（具体倍数需依据实际业务监控数据确定，常见经验值在2.0-2.5倍区间），建议基于历史监控数据确定BurstFactor进行压力测试。",
+      "rework_count": 1,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://linkcube.rest/guides/linkcube-data-quality/&rut=9745c52e6981d4b9a65877e01b90e48da52666b4abb1a84008db1eec514d7050",
+          "type": "ddg",
+          "title": "机场测速数据怎么看：单线程速率、晚高峰抖动与真实延迟的科学评估方法 - LinkCube 官方指南"
+        },
+        {
+          "url": "https://www.csdn.net/article/2026-08-28/164127718&rut=f728c44c97c454ed3d01faf8d0244cd21197d8159da6c9aa1990cea152f886cf",
+          "type": "ddg",
+          "title": "2026年长视频任务处理，聚合平台可靠性实测对比-csdn.net"
+        }
+      ]
+    },
+    {
+      "id": "N32",
+      "claim": "数据驻留合规约束成本：若用户数据涉及GDPR或中国《数据安全法》要求本地化存储，公有云CDN需启用特定区域节点，可能产生10%-15%的溢价费用；自建节点需额外投入¥50万/年用于合规审计与数据加密模块维护",
+      "level": "L2",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]具体数值（10%-15%溢价、¥50万/年）缺乏来源支持，属于经验事实且无多源一致证据 | 来源[1][2]仅确认GDPR/PIPL合规需求及解决方案存在，未提供具体成本数据；逻辑上合规确实增加成本，但具体数值无法从现有来源推导或验证",
+      "corrected_claim": "数据驻留合规约束成本：若用户数据涉及GDPR或中国《数据安全法》要求本地化存储，公有云CDN需启用特定区域节点，可能产生额外溢价费用；自建节点需额外投入用于合规审计与数据加密模块维护",
+      "rework_count": 1,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://cloud.tencent.com/developer/article/2708208&rut=1cd6327fbbbca401370b8da47ef9ff844fe9d9a643cdbffcc3c5bc53db5c6f48",
+          "type": "ddg",
+          "title": "腾讯云国际版数据合规：如何实现 Pipl 与 Gdpr 下的数据本地化与脱敏？-腾讯云开发者社区-腾讯云"
+        },
+        {
+          "url": "https://www.recordinglaw.com/zh/world-laws/world-data-privacy-laws/gdpr-vs-pipl/&rut=67fa10cf64c9ed41c6c3c90cc73157e013a9dcd1069ab05e0110c9266f7d4efa",
+          "type": "ddg",
+          "title": "GDPR与PIPL对比：欧盟与中国数据隐私法比较（2026年）"
+        }
+      ]
+    },
+    {
+      "id": "N33",
+      "claim": "TCO单位成本折算公式：Cost_per_1k_req = (Annual_Infra + Annual_Bandwidth + Annual_Ops) / (Monthly_Requests / 1000)；其中Monthly_Requests = DAU * Avg_Req_per_User * 30；该公式将固定资本支出（CAPEX）折旧与可变运营支出（OPEX）统一折算为每千请求的动态成本指标",
+      "level": "L2",
+      "source": "search",
+      "status": "pending",
+      "evidence": "父节点级核验未通过：不完备（子节点仅覆盖了分子项中的 Annual_Infra 和 Annual_Bandwidth，完全遗漏了父节点公式中明确列出的第三项 Annual_Ops（运营支出），导致分解不完备。子节点之间内容不重叠，正交性良好。）",
+      "corrected_claim": "TCO单位成本折算公式应确保分子分母时间口径一致，例如：Cost_per_1k_req = (Annual_Infra + Annual_Bandwidth + Annual_Ops) / 12 / (Monthly_Requests / 1000) 或 Cost_per_1k_req = (Annual_Infra + Annual_Bandwidth + Annual_Ops) / (Annual_Requests / 1000)。",
+      "rework_count": 1,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://zhuanlan.zhihu.com/p/2065093524589122948&rut=49b256f015eeb184fcf98ee49a0c3405e1ee887f501255377686cb333a3364c4",
+          "type": "ddg",
+          "title": "系统的\"五年账\"怎么算？Tco 测算的一次完整演示 - 知乎"
+        }
+      ]
+    },
+    {
+      "id": "N34",
+      "claim": "LCP (Largest Contentful Paint) P99 阈值在图片/短视频场景下的具体量化分解：LCP_P99 = T_TTFB + T_FCP_to_LCP，其中 T_TTFB 为 Time to First Byte 的 P99 值，T_FCP_to_LCP 为 FCP 到 LCP 的渲染延迟 P99 值",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：LCP 定义为最大内容元素渲染完成的时间，其时间构成在逻辑上可分解为网络首字节时间（TTFB）与后续渲染/加载延迟（FCP到LCP或TTFB到LCP），该分解符合 Web 性能指标的基本定义与时间轴逻辑。",
+      "corrected_claim": "LCP (Largest Contentful Paint) P99 阈值在图片/短视频场景下的具体量化分解：LCP_P99 = T_TTFB + T_FCP_to_LCP，其中 T_TTFB 为 Time to First Byte 的 P99 值，T_FCP_to_LCP 为 FCP 到 LCP 的渲染延迟 P99 值",
+      "rework_count": 0,
+      "parent_ids": [
+        "N6"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "LCP P99 decomposition TTFB FCP rendering latency image video platform",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N35",
+      "claim": "TTFB (Time to First Byte) P99 的构成公式：TTFB_P99 = RTT_network_P99 + T_dns + T_tcp_handshake + T_tls_handshake + T_server_response，其中各分量在 CDN 边缘节点场景下的典型 P99 值需分别量化",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "TTFB (Time to First Byte) P99 的构成公式：TTFB_P99 = RTT_network_P99 + T_dns + T_tcp_handshake + T_tls_handshake + T_server_response，其中各分量在 CDN 边缘节点场景下的典型 P99 值需分别量化",
+      "rework_count": 0,
+      "parent_ids": [
+        "N6"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "TTFB P99 components RTT DNS TCP TLS server response time CDN edge",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N36",
+      "claim": "TTI (Time to Interactive) P99 与 LCP P99 的差异量化：对于图片/短视频平台，TTI 主要受 JS 执行阻塞影响，若平台采用轻量 JS 架构，TTI_P99 ≈ LCP_P99 + T_js_execution_P99，其中 T_js_execution_P99 在移动端通常为 50-150ms",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "TTI (Time to Interactive) P99 与 LCP P99 的差异量化：对于图片/短视频平台，TTI 主要受 JS 执行阻塞影响，若平台采用轻量 JS 架构，TTI_P99 ≈ LCP_P99 + T_js_execution_P99，其中 T_js_execution_P99 在移动端通常为 50-150ms",
+      "rework_count": 0,
+      "parent_ids": [
+        "N6"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "TTI vs LCP difference JS execution delay mobile image video platform P99",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N37",
+      "claim": "N_hops 的地理分布加权计算模型：N_hops_weighted = Σ (User_Proportion_i × N_hops_i)，其中 User_Proportion_i 为第 i 个地理区域用户占比，N_hops_i 为该区域到最近 POP 的平均跳数，需基于中国/全球用户分布数据具体化",
+      "level": "L3",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]参考来源均讨论统计学中的地理加权回归（GWR/MGWR），与网络拓扑中的跳数（Hops）及用户分布加权计算无关，存在严重的主题混淆（Keyword Matching Error），无法提供外部支持。 | 逻辑上该加权平均公式自洽且符合直觉，但参考来源[1][2][3]均为空间统计方法（GWR），与网络跳数计算无关，属于经验事实且缺乏相关来源支持。",
+      "corrected_claim": "N_hops 的地理分布加权计算模型通常定义为 N_hops_weighted = Σ (User_Proportion_i × N_hops_i)，其中 User_Proportion_i 为第 i 个地理区域用户占比，N_hops_i 为该区域到最近 POP 的平均跳数。此公式为通用加权平均逻辑，具体数值需基于实际网络拓扑和用户分布数据确定。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N7"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "user geographic distribution weighted average network hops CDN POP China global",
+      "retrieval_sources": [
+        {
+          "url": "https://www.heywhale.com/home/competition/65d6ffe827f874132fdab31c&rut=6bce742a972afea1670f4fc140db687ab07c7929083f7aecaec5e92f77397915",
+          "type": "ddg",
+          "title": "AI+GWR｜基于梯度提升的地理加权集成学习方法 | GWRBoost | 空间分析新方法 | GeoAI Workshop 14"
+        },
+        {
+          "url": "https://blog.csdn.net/gitblog_00984/article/details/154683203&rut=e01d2bf61c620ab7303067fe05c4fa4a7003bf053d7328300a88db517b763fb9",
+          "type": "ddg",
+          "title": "MGWR多尺度地理加权回归终极指南：Python空间分析的完整教程-CSDN博客"
+        },
+        {
+          "url": "https://blog.csdn.net/allenlu2008/article/details/69935417&rut=5d0e15dd3a58e3333bdc37c017bd80c40df0472439383c5b15aea36240225321",
+          "type": "ddg",
+          "title": "白话空间统计二十四：地理加权回归（六）ArcGIS的GWR工具参数说明一_gwr 虾神-CSDN博客"
+        }
+      ]
+    },
+    {
+      "id": "N38",
+      "claim": "RTT_avg 的 BGP 路由收敛延迟修正项：RTT_avg_corrected = RTT_baseline + T_bgp_convergence × P_bgp_change，其中 T_bgp_convergence 为 BGP 路由更新平均延迟（通常 10-100ms），P_bgp_change 为请求周期内发生 BGP 变化的概率",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "RTT_avg 的 BGP 路由收敛延迟修正项：RTT_avg_corrected = RTT_baseline + T_bgp_convergence × P_bgp_change，其中 T_bgp_convergence 为 BGP 路由更新平均延迟（通常 10-100ms），P_bgp_change 为请求周期内发生 BGP 变化的概率",
+      "rework_count": 0,
+      "parent_ids": [
+        "N7"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "BGP route convergence delay impact on RTT average CDN latency",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N39",
+      "claim": "Jitter_P99 的量化模型：Jitter_P99 = σ_rtt × Z_P99，其中 σ_rtt 为 RTT 的标准差，Z_P99 为 99 百分位对应的 Z 分数（≈2.33），σ_rtt 在骨干网/接入网不同段落的典型值需区分",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "Jitter_P99 的量化模型：Jitter_P99 = σ_rtt × Z_P99，其中 σ_rtt 为 RTT 的标准差，Z_P99 为 99 百分位对应的 Z 分数（≈2.33），σ_rtt 在骨干网/接入网不同段落的典型值需区分",
+      "rework_count": 0,
+      "parent_ids": [
+        "N7"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "RTT jitter standard deviation P99 Z-score network backbone access",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N40",
+      "claim": "HitRate 的 TTL 过期影响量化：HitRate_effective = HitRate_base × (1 - P_ttl_expiry)，其中 P_ttl_expiry 为请求到达时对象已过期的概率，取决于 TTL 设置与对象更新频率的比值",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "HitRate 的 TTL 过期影响量化：HitRate_effective = HitRate_base × (1 - P_ttl_expiry)，其中 P_ttl_expiry 为请求到达时对象已过期的概率，取决于 TTL 设置与对象更新频率的比值",
+      "rework_count": 0,
+      "parent_ids": [
+        "N8"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN cache hit rate TTL expiry probability object update frequency",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N41",
+      "claim": "P99_lat_origin 的长尾分布修正：实际 P99_lat_origin 不能仅用均值加带宽负载计算，需考虑回源请求的排队延迟，P99_lat_origin_corrected = P99_lat_origin_base + T_queue_P99，其中 T_queue_P99 为回源队列等待时间的 P99 值",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：P99延迟确实包含排队延迟，公式结构符合排队论基本逻辑，量纲一致。",
+      "corrected_claim": "P99_lat_origin 的长尾分布修正：实际 P99_lat_origin 不能仅用均值加带宽负载计算，需考虑回源请求的排队延迟，P99_lat_origin_corrected = P99_lat_origin_base + T_queue_P99，其中 T_queue_P99 为回源队列等待时间的 P99 值",
+      "rework_count": 0,
+      "parent_ids": [
+        "N8"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN origin request queue delay P99 long tail distribution",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N42",
+      "claim": "P99_lat_edge 的本地磁盘 I/O 延迟量化：P99_lat_edge = T_network_edge + T_disk_read_P99，其中 T_disk_read_P99 为边缘节点 SSD 读取 5MB 对象的 P99 延迟，典型 SSD 随机读延迟为 0.1-0.5ms，但顺序读大文件受带宽限制",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：SSD随机读延迟量级（0.1-0.5ms）符合工程常识，大文件顺序读受带宽限制符合物理直觉，公式结构自洽。",
+      "corrected_claim": "P99_lat_edge 的本地磁盘 I/O 延迟量化：P99_lat_edge = T_network_edge + T_disk_read_P99，其中 T_disk_read_P99 为边缘节点 SSD 读取 5MB 对象的 P99 延迟，典型 SSD 随机读延迟为 0.1-0.5ms，但顺序读大文件受带宽限制",
+      "rework_count": 0,
+      "parent_ids": [
+        "N8"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "edge node SSD read latency P99 5MB file sequential random",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N45",
+      "claim": "回源链路容量基准值：Origin_Capacity 为回源链路（如阿里云OSS/源站出口）的标称带宽或并发连接数限制，公有云CDN回源通常受限于源站带宽（假设源站出口带宽为 1Gbps），自建/混合策略回源容量取决于源站服务器网卡聚合带宽（假设 50台服务器 × 1Gbps = 50Gbps，但受限于骨干网接入带宽，取 2Gbps）",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "回源链路容量基准值：Origin_Capacity 为回源链路（如阿里云OSS/源站出口）的标称带宽或并发连接数限制，公有云CDN回源通常受限于源站带宽（假设源站出口带宽为 1Gbps），自建/混合策略回源容量取决于源站服务器网卡聚合带宽（假设 50台服务器 × 1Gbps = 50Gbps，但受限于骨干网接入带宽，取 2Gbps）",
+      "rework_count": 0,
+      "parent_ids": [
+        "N9"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "Alibaba Cloud CDN origin fetch bandwidth limit default",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N47",
+      "claim": "用户地理分布权重数据：基于中国移动互联网用户分布，核心区域（北上广深+新一线）流量占比约 60-70%，长尾区域占比 30-40%；具体权重向量 W_geo = [w1, w2, ..., wN] 用于加权平均计算整体 P99 延迟",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "用户地理分布权重数据：基于中国移动互联网用户分布，核心区域（北上广深+新一线）流量占比约 60-70%，长尾区域占比 30-40%；具体权重向量 W_geo = [w1, w2, ..., wN] 用于加权平均计算整体 P99 延迟",
+      "rework_count": 0,
+      "parent_ids": [
+        "N10"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "China mobile internet user geographic distribution 2024 statistics",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N48",
+      "claim": "各区域边缘节点到用户的平均跳数 N_hops 分布：公有云CDN在核心区域平均跳数 1.5-2，长尾区域 2.5-3；自建10POP在核心区域 1-1.5，长尾区域 2-3（因POP覆盖有限）；混合策略核心区域 1-1.5，长尾区域 2-2.5",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：CDN核心区域高覆盖导致低跳数（1-2），长尾区域覆盖稀疏导致高跳数（2-3+），自建POP因节点少长尾覆盖更差，混合策略介于两者之间，符合网络拓扑与CDN部署常识。",
+      "corrected_claim": "各区域边缘节点到用户的平均跳数 N_hops 分布：公有云CDN在核心区域平均跳数 1.5-2，长尾区域 2.5-3；自建10POP在核心区域 1-1.5，长尾区域 2-3（因POP覆盖有限）；混合策略核心区域 1-1.5，长尾区域 2-2.5",
+      "rework_count": 0,
+      "parent_ids": [
+        "N10"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "CDN hop count latency core vs long tail regions China",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N49",
+      "claim": "各区域 P99 延迟分位数估算：P99_lat_region_i = N_hops_i × RTT_avg + Jitter_P99 + Origin_Latency_If_Miss，其中 RTT_avg ≈ 10-20ms（国内骨干网），Jitter_P99 ≈ 10-20ms，需按区域 i 分别计算后加权",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "各区域 P99 延迟分位数估算：P99_lat_region_i = N_hops_i × RTT_avg + Jitter_P99 + Origin_Latency_If_Miss，其中 RTT_avg ≈ 10-20ms（国内骨干网），Jitter_P99 ≈ 10-20ms，需按区域 i 分别计算后加权",
+      "rework_count": 0,
+      "parent_ids": [
+        "N10"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N50",
+      "claim": "公有云CDN基础包具体规格：阿里云CDN基础包（如标准版）包含的免费流量额度（例如 1TB/月）及超出部分的阶梯单价表；Cloudflare 免费版（Free Plan）的流量无限制但带宽限制（如 100Mbps 峰值或特定 QPS 限制）及 Pro 版（$20/月）的流量包含量",
+      "level": "L3",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]陈述中关于阿里云CDN基础包包含'1TB/月免费流量'以及Cloudflare免费版'100Mbps峰值限制'的具体数值缺乏来源支持，且阿里云CDN通常无'基础包'概念（多为按量付费或资源包），Cloudflare Free Plan通常无硬性带宽上限（仅受公平使用政策限制），具体数值可能为幻觉或过时信息。 | 来源[1][2][3]仅涉及阿里云CDN的计费模式（按流量/带宽/95峰值）及阶梯价格说明，未提及'基础包'、'免费流量额度'或Cloudflare的具体规格；Cloudflare部分完全无来源覆盖。经验事实（具体价格/规格）缺直接来源支持，降级为定性表述。",
+      "corrected_claim": "阿里云CDN主要采用按流量或按带宽计费，存在阶梯价格，但通常不直接提供包含固定免费流量的'基础包'（需购买资源包或按量付费）；Cloudflare Free Plan提供无限制流量但受公平使用政策约束，Pro版定价及具体包含量需参考官方最新定价页。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N11"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Alibaba Cloud CDN pricing tier traffic fee 2024 Cloudflare Free Pro plan bandwidth limit",
+      "retrieval_sources": [
+        {
+          "url": "https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7",
+          "type": "ddg",
+          "title": "Cdn如何计费-cdn (Cdn)-阿里云帮助中心"
+        },
+        {
+          "url": "https://www.aliyun.com/price/detail/cdn&rut=7deffc4f1d34859bcb7594b9f5ea62952b3f14c06ecc370a5099c3c282977b06",
+          "type": "ddg",
+          "title": "阿里云定价_CDN价格详情"
+        },
+        {
+          "url": "https://developer.aliyun.com/article/1712489&rut=9ac11fc059ec63ddd1ce104c3b0e7d9ac1b1e8c3823c8a667dafda6ca3e1bda1",
+          "type": "ddg",
+          "title": "2026阿里云cdn 计费全攻略：按流量 / 带宽 / 95 峰值 + 基础服务费 + 增值服务价格表"
+        }
+      ]
+    },
+    {
+      "id": "N51",
+      "claim": "日均2TB月流量60TB的阶梯计价分段：根据 N29 的阶梯累进规则，将 60TB 流量拆分到不同价格区间（如 0-10TB @ ¥0.25/GB, 10-50TB @ ¥0.22/GB, >50TB @ ¥0.20/GB），计算加权平均单价及总流量费用",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：60TB流量按阶梯拆分（10TB+40TB+10TB）计算加权平均单价及总费用，数学逻辑自洽且量级合理。",
+      "corrected_claim": "日均2TB月流量60TB的阶梯计价分段：根据 N29 的阶梯累进规则，将 60TB 流量拆分到不同价格区间（如 0-10TB @ ¥0.25/GB, 10-50TB @ ¥0.22/GB, >50TB @ ¥0.20/GB），计算加权平均单价及总流量费用",
+      "rework_count": 0,
+      "parent_ids": [
+        "N11"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Alibaba Cloud CDN traffic tier pricing 60TB monthly cost calculation",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N52",
+      "claim": "服务器硬件配置规格：每台服务器配置为 2路CPU + 256GB RAM + 2TB NVMe SSD + 25GbE 网卡，单台硬件采购成本 ServerCost = ¥50,000",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "服务器硬件配置规格：每台服务器配置为 2路CPU + 256GB RAM + 2TB NVMe SSD + 25GbE 网卡，单台硬件采购成本 ServerCost = ¥50,000",
+      "rework_count": 0,
+      "parent_ids": [
+        "N12",
+        "N13",
+        "N14"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "edge server hardware cost 256GB RAM 2TB NVMe 2024 price",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N53",
+      "claim": "存储硬件独立成本估算：存储节点配置为 48TB HDD + 4TB SSD，单节点成本 StorageCost = ¥15,000，总存储节点数 N_storage = 10 POP × 3台/POP = 30台",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：48TB HDD + 4TB SSD 配置下，单节点硬件成本 ¥15,000 符合当前企业级存储硬件市场量级（HDD 约 ¥200-300/TB，SSD 约 ¥1000-2000/TB，加上服务器基础成本），总节点数 30 台由 10 POP × 3 台/POP 计算得出，逻辑自洽。",
+      "corrected_claim": "存储硬件独立成本估算：存储节点配置为 48TB HDD + 4TB SSD，单节点成本 StorageCost = ¥15,000，总存储节点数 N_storage = 10 POP × 3台/POP = 30台",
+      "rework_count": 0,
+      "parent_ids": [
+        "N12",
+        "N13",
+        "N14"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "storage server cost 48TB HDD 4TB SSD 2024 price",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N54",
+      "claim": "服务器硬件折旧率模型：采用直线折旧法，残值率 SalvageRate = 5%，年折旧额 = (ServerCost × N_servers × (1 - SalvageRate)) / DepreciationYears",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：直线折旧法公式定义正确，残值率5%及折旧年限为典型工程假设，量纲与数值量级合理。",
+      "corrected_claim": "服务器硬件折旧率模型：采用直线折旧法，残值率 SalvageRate = 5%，年折旧额 = (ServerCost × N_servers × (1 - SalvageRate)) / DepreciationYears",
+      "rework_count": 0,
+      "parent_ids": [
+        "N12",
+        "N13",
+        "N14"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "straight-line depreciation formula IT hardware salvage rate",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N55",
+      "claim": "存储硬件折旧率模型：采用加速折旧法，折旧年限 DepreciationYears_Storage = 3年，残值率 SalvageRate_Storage = 5%，年折旧额 = (StorageCost × N_storage × (1 - SalvageRate_Storage)) / DepreciationYears_Storage",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：加速折旧法下，直线折旧公式（原值-残值）/年限在数学上自洽，3年折旧年限与5%残值率符合存储硬件高更新频率的工程常识。",
+      "corrected_claim": "存储硬件折旧率模型：采用加速折旧法，折旧年限 DepreciationYears_Storage = 3年，残值率 SalvageRate_Storage = 5%，年折旧额 = (StorageCost × N_storage × (1 - SalvageRate_Storage)) / DepreciationYears_Storage",
+      "rework_count": 0,
+      "parent_ids": [
+        "N12",
+        "N13",
+        "N14"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "accelerated depreciation IT storage hardware 3 years",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N57",
+      "claim": "机柜电力消耗估算：每台服务器平均功耗 PowerPerServer = 500W，每机柜服务器数量 ServersPerRack = 10，每机柜总功耗 = 500W × 10 = 5,000W",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "机柜电力消耗估算：每台服务器平均功耗 PowerPerServer = 500W，每机柜服务器数量 ServersPerRack = 10，每机柜总功耗 = 500W × 10 = 5,000W",
+      "rework_count": 0,
+      "parent_ids": [
+        "N12",
+        "N13",
+        "N14"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "average power consumption edge server 500W data center",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N58",
+      "claim": "机房PUE值影响：实际电力成本 = 机柜总功耗 × PUE × 电价，PUE = 1.5，电价 PowerCost = ¥1.5/kWh，年电力成本 = (5,000W × 1.5 × 1.5 × 24 × 365) / 1000 × 1.5",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：公式结构正确（功耗×PUE×时间×电价），数值代入无误（5000W=5kW, 5*1.5*1.5*8760*1.5 = 145,800元），量纲与量级合理。",
+      "corrected_claim": "机房PUE值影响：实际电力成本 = 机柜总功耗 × PUE × 电价，PUE = 1.5，电价 PowerCost = ¥1.5/kWh，年电力成本 = (5,000W × 1.5 × 1.5 × 24 × 365) / 1000 × 1.5",
+      "rework_count": 0,
+      "parent_ids": [
+        "N12",
+        "N13",
+        "N14"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "data center PUE 1.5 electricity cost calculation",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N59",
+      "claim": "公有云CDN月度基础设施总成本分解：基础订阅费 BaseFee = ¥5,000/月 + 流量费用 TrafficFee = 60TB × ¥0.25/GB = ¥15,000/月，总成本 = ¥20,000/月（注：与N14中¥150,000/月存在差异，需校准流量单价或基础费）",
+      "level": "L3",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]具体数值（BaseFee ¥5,000, TrafficFee ¥15,000, Total ¥20,000）属于特定场景下的经验估算，缺乏通用标准支持；且来源中未提供具体的单价（如¥0.25/GB）或基础费标准，无法验证具体金额的正确性，仅能验证成本构成逻辑。 | 来源[1]和[2]确认了CDN成本通常由基础服务费和流量/带宽费用组成，逻辑结构自洽；但具体数值（¥5,000基础费、¥0.25/GB单价）未在来源中直接体现，属于经验事实且缺来源直接支持，故降级。",
+      "corrected_claim": "公有云CDN月度基础设施总成本通常由基础订阅费和流量费用组成。示例计算：若基础费为¥5,000/月，流量60TB按¥0.25/GB计费，则总成本约为¥20,000/月（具体数值需根据实际云厂商定价及合同校准）。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N12",
+        "N13",
+        "N14"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Alibaba Cloud CDN pricing 60TB monthly cost 2024",
+      "retrieval_sources": [
+        {
+          "url": "https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2",
+          "type": "ddg",
+          "title": "2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区"
+        },
+        {
+          "url": "https://juejin.cn/post/7698959678575804454&rut=6856da55c238c27ec44a6edc7ff9757457dbfccd81c6e48624ee491d7bcfeb92",
+          "type": "ddg",
+          "title": "基础设施成本优化（一）：Cdn 成本怎么砍？先搞懂计费，再谈优化基础设施成本优化（一）：Cdn 成本怎么砍？先搞懂计费， - 掘金"
+        },
+        {
+          "url": "https://support.huaweicloud.com/intl/zh-cn/usermanual-cost/costcenter_000002_26.html&rut=bd0cd7cfa0321c57272c9e82beff5e2405fe0867b2e3a23eb7ef427e5c95abf7",
+          "type": "ddg",
+          "title": "查看cdn按域名分拆的月度摊销成本_成本中心-华为云"
+        }
+      ]
+    },
+    {
+      "id": "N62",
+      "claim": "BurstFactor (晚高峰系数) 的实证取值区间为 1.8-2.2，取决于业务类型（短视频平台通常高于静态图片平台），需通过历史监控数据（P95/P99并发比）校准，而非固定假设1.5",
+      "level": "L3",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]该陈述包含具体的经验数值区间（1.8-2.2）和业务类型对比（短视频 vs 静态图片），属于经验事实。参考来源[1]仅定义了burst factor的概念，未提供具体数值区间；来源[2]和[3]与主题无关。缺乏直接来源支持具体数值，且不同业务场景下的具体系数需依赖特定历史数据，无法从第一性原理推导。 | 逻辑自洽（晚高峰系数通常大于1，且需校准），但属于经验事实，参考来源[1]仅定义概念未提供数值，来源[2][3]无关，缺乏直接来源支持具体数值区间，故降级。",
+      "corrected_claim": "BurstFactor (晚高峰系数) 通常大于1，具体取值取决于业务类型和流量特征，需通过历史监控数据（如P95/P99并发比）进行校准，而非固定假设。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N15",
+        "N16",
+        "N17"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "CDN burst factor peak to average ratio video streaming platform",
+      "retrieval_sources": [
+        {
+          "url": "https://www.sciencedirect.com/science/article/pii/S0020019013001762&rut=3f8044945a42f8e79eb91ad56ce678b6d40ffb5ec25e00891f57f89ad41d69ee",
+          "type": "ddg",
+          "title": "The burst factor and its impact on buffer performance"
+        },
+        {
+          "url": "https://v2rayblog.blog/protocols/advanced/next-gen-observability-4021/&rut=6462ce4fec77c941997171b19dffccbfe1aacde0f16703d7214b557f851f5f59",
+          "type": "ddg",
+          "title": "前沿网络协议演进与可观测性深度实录：从 XTLS-Vision 到 MASQUE 的内核路径与晚高峰实测（2026 第 4021 期）"
+        },
+        {
+          "url": "https://www.researching.cn/ArticlePdf/m00018/2020/49/11/20200043.pdf&rut=81994d8bbee53bd7040f2d194d25af65b496274a55b7324ce771104531c071a7",
+          "type": "ddg",
+          "title": "PDF 高重频 KrF 准分子激光器能量特性控制 - Researching"
+        }
+      ]
+    },
+    {
+      "id": "N63",
+      "claim": "日均下载流量 2TB 中包含 CDN 缓存命中流量与回源流量，带宽峰值计算应基于总出口流量（用户侧），但成本计算中需区分：公有云按总流量计费，自建按总带宽租赁计费，混合策略中仅长尾部分计入公有云流量",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：公有云按流量计费、自建按带宽计费及混合架构成本分摊逻辑符合云计算基本经济模型与工程实践。",
+      "corrected_claim": "日均下载流量 2TB 中包含 CDN 缓存命中流量与回源流量，带宽峰值计算应基于总出口流量（用户侧），但成本计算中需区分：公有云按总流量计费，自建按总带宽租赁计费，混合策略中仅长尾部分计入公有云流量",
+      "rework_count": 0,
+      "parent_ids": [
+        "N15",
+        "N16",
+        "N17"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N64",
+      "claim": "上传流量 200GB/日 的带宽峰值计算需独立于下载流量，因为上行带宽通常按不同速率租赁（通常比下行便宜 30-50%），且上传峰值系数可能低于下载峰值系数（用户上传行为更平滑）",
+      "level": "L3",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]来源[1]仅讨论CDN计费模式，未涉及上行/下行带宽的独立租赁价格差异（30-50%）或峰值系数差异，属于经验性市场/工程参数，缺乏直接证据支持具体数值。 | 逻辑上上行与下行独立计费及峰值行为差异符合网络工程常识，但参考来源[1]主题不匹配且未提供具体数值支持，属于经验事实缺来源支持。",
+      "corrected_claim": "上传流量 200GB/日 的带宽峰值计算需独立于下载流量，因为上行带宽通常按不同速率租赁，且上传峰值系数可能低于下载峰值系数（用户上传行为更平滑）。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N15",
+        "N16",
+        "N17"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "CDN upload bandwidth cost vs download bandwidth pricing ratio",
+      "retrieval_sources": [
+        {
+          "url": "https://cloud.baidu.com/article/5132976&rut=d9e5e853a1e122512bc30bdd265371ea8cc1bb7de56bf0812593f6fe7099902f",
+          "type": "ddg",
+          "title": "设置按峰值带宽计费：CDN计费模式优选指南"
+        }
+      ]
+    },
+    {
+      "id": "N65",
+      "claim": "跨网流量比例 CrossNetRatio 的决定因素：自建 POP 节点的网络接入类型（是否接入三大运营商骨干网），若 POP 位于运营商 IDC 内则 CrossNetRatio 可降至 2-3%，若位于中立 IDC 则可能高达 15-20%",
+      "level": "L3",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]参考来源[1]是一篇关于音频信号处理（说话人分离）的论文，与网络流量、CDN或POP节点完全无关，属于严重的主题不匹配（Topic Mismatch）。此外，该陈述中的具体数值（2-3% vs 15-20%）属于经验性工程数据，缺乏通用性，不同运营商、地域和业务类型下差异巨大，直接断言具体区间存在以偏概全的风险。 | 参考来源[1]与事实主题（网络流量/CDN）完全无关，无法提供外部支持；该陈述属于经验事实，逻辑上符合网络接入成本与流量路由的基本直觉（接入骨干网减少跨网），但缺乏来源直接支持具体数值，故降级。",
+      "corrected_claim": "跨网流量比例 CrossNetRatio 受 POP 节点网络接入类型影响：接入运营商骨干网通常能显著降低跨网比例，而位于中立 IDC 则可能导致较高的跨网比例，具体数值视运营商策略和地域而定。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N15",
+        "N16",
+        "N17"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "cross-network traffic ratio edge node ISP peering cost China",
+      "retrieval_sources": [
+        {
+          "url": "https://arxiv.org/abs/2403.03411&rut=b30ade7f2742ed50ba1c7660bc2cf9bebe5e4eb069d58acb73dd27d944c43dc9",
+          "type": "ddg",
+          "title": "[2403.03411] CrossNet: Leveraging Global, Cross-Band, Narrow-Band, and ..."
+        }
+      ]
+    },
+    {
+      "id": "N72",
+      "claim": "公有云CDN阶梯计费修正系数：由于60TB月流量跨越多个价格区间，实际平均单价约为单一基准价¥0.25/GB的0.85-0.95倍，修正后成本 ≈ ¥63,750-71,250/月",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：60TB=61440GB，基准成本61440*0.25=15360元，但题目中给出的修正后成本63750-71250元与基准成本15360元数量级不符，存在严重逻辑矛盾。重新计算：若基准价为0.25元/GB，60TB月流量成本应为15360元。题目声称修正后成本为63750-71250元，这比基准成本高4-5倍，而阶梯计费通常随用量增加单价降低或持平，不可能出现成本大幅上升的情况。此外，0.85-0.95倍修正系数应用于15360元应得到13056-14592元，而非63750-71250元。因此该陈述存在硬逻辑错误（数值量级错误）。",
+      "corrected_claim": "公有云CDN阶梯计费修正系数：由于60TB月流量跨越多个价格区间，实际平均单价约为单一基准价¥0.25/GB的0.85-0.95倍，修正后成本 ≈ ¥13,056-14,592/月",
+      "rework_count": 0,
+      "parent_ids": [
+        "N18"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N73",
+      "claim": "自建10POP月带宽成本计算式：Cost_bw_self = (Core_Bandwidth_Lease_Fee + Long_Tail_Bandwidth_Lease_Fee)，其中核心区域带宽按95th percentile计费，长尾区域按实际用量计费",
+      "level": "L3",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]该陈述包含具体的计费策略（核心区域95th percentile，长尾区域按实际用量），这属于特定业务场景下的经验性假设或特定服务商的报价模式，并非通用的物理定律或数学公理。参考来源仅泛泛讨论带宽成本构成，未提供该具体混合计费模型的直接证据，存在将特定案例泛化为通用公式的风险。 | 逻辑上自洽（成本=核心+长尾），但参考来源[2][3]仅讨论带宽成本的一般构成，未直接支持‘核心95th+长尾实际用量’这一具体混合计费模型，属于经验事实且缺乏直接来源支持。",
+      "corrected_claim": "自建10POP月带宽成本通常由核心区域和长尾区域带宽租赁费组成，具体计费方式（如95th percentile或按量）取决于与运营商或IDC的具体合同条款，并非固定公式。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N18"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "edge node bandwidth lease pricing 95th percentile model China 2024",
+      "retrieval_sources": [
+        {
+          "url": "https://tanqingbo.cn/build-your-own-airport/&rut=057e7b8f6e791e907a534ce35f70ae67d67cc0c1acecc28aa0d71176a68fd7b0",
+          "type": "ddg",
+          "title": "自建机场教程（2026）：Vps 搭建机场全流程与自建还是买机场"
+        },
+        {
+          "url": "https://www.htstack.com/news/28515.shtml&rut=4951096698a68abe4037070e5ebafa99b7d4b6d4d96697031d11cd442df840c6",
+          "type": "ddg",
+          "title": "自己做的服务器带宽大概多少钱？全面解析成本与选择策略-行业资讯-衡天云"
+        },
+        {
+          "url": "https://www.htstack.com/news/58542.shtml&rut=2e8babf2bb63c3652e8fa0785743b4e806161c7e038e6154221a2fe6375a27dd",
+          "type": "ddg",
+          "title": "自己搭建VPS多少钱？全面解析自建服务器成本与方案选择"
+        }
+      ]
+    },
+    {
+      "id": "N74",
+      "claim": "自建POP带宽租赁单价基准：核心一线城市带宽租赁均价为¥800-1200/Mbps/月（95th percentile），基于Peak_Bandwidth 500Mbps，月成本 ≈ 500 * (800+1200)/2 / 1000 = ¥500/月/POP，10 POP总带宽租赁成本 ≈ ¥5,000/月（不含国际出口）",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：单价区间¥800-1200/Mbps/月符合国内核心城市带宽租赁市场常见量级，算术推导500 * 1000 / 1000 = 500及10 POP总计5000计算正确，逻辑自洽。",
+      "corrected_claim": "自建POP带宽租赁单价基准：核心一线城市带宽租赁均价为¥800-1200/Mbps/月（95th percentile），基于Peak_Bandwidth 500Mbps，月成本 ≈ 500 * (800+1200)/2 / 1000 = ¥500/月/POP，10 POP总带宽租赁成本 ≈ ¥5,000/月（不含国际出口）",
+      "rework_count": 0,
+      "parent_ids": [
+        "N18"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N75",
+      "claim": "混合策略月带宽成本计算式：Cost_bw_hybrid = (Self_Core_Traffic × Self_Rate) + (Cloud_Long_Tail_Traffic × Cloud_Rate)，其中Self_Core_Traffic = 80% × 60TB = 48TB，Cloud_Long_Tail_Traffic = 20% × 60TB = 12TB",
+      "level": "L3",
+      "source": "given",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：公式结构符合混合成本模型定义，数值计算（80%*60=48, 20%*60=12）准确无误。",
+      "corrected_claim": "混合策略月带宽成本计算式：Cost_bw_hybrid = (Self_Core_Traffic × Self_Rate) + (Cloud_Long_Tail_Traffic × Cloud_Rate)，其中Self_Core_Traffic = 80% × 60TB = 48TB，Cloud_Long_Tail_Traffic = 20% × 60TB = 12TB",
+      "rework_count": 0,
+      "parent_ids": [
+        "N18"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N76",
+      "claim": "混合策略带宽成本修正：自建部分48TB按¥0.10/GB计为¥4,800/月，公有云部分12TB按¥0.25/GB计为¥3,000/月，总带宽成本 ≈ ¥7,800/月（原估算¥54,000/月存在数量级错误，需重新校准）",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：48TB=48000GB, 48000*0.10=4800; 12TB=12000GB, 12000*0.25=3000; 4800+3000=7800。计算无误，量级合理。",
+      "corrected_claim": "混合策略带宽成本修正：自建部分48TB按¥0.10/GB计为¥4,800/月，公有云部分12TB按¥0.25/GB计为¥3,000/月，总带宽成本 ≈ ¥7,800/月（原估算¥54,000/月存在数量级错误，需重新校准）",
+      "rework_count": 0,
+      "parent_ids": [
+        "N18"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N77",
+      "claim": "自建POP最小必要SRE人力计算模型：N_sre_min = N_POP × (Onsite_Ops + Network_Eng + Platform_Eng) × Shift_Coverage_Factor，其中Shift_Coverage_Factor = 1.0（7x24轮班需3班，但远程监控可覆盖夜间，故取1.0）",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "degraded",
+      "evidence": "[质询]Shift_Coverage_Factor 取值为 1.0 的逻辑存在严重漏洞：7x24小时轮班通常意味着需要3倍于单班的人力来覆盖所有时段（即因子应为3.0左右），或者如果因子定义为‘每个岗位需要的班次倍数’，则1.0意味着每个岗位只需1个人，这与7x24覆盖需求矛盾。若因子定义为‘总人力相对于单班基数的倍数’，则1.0意味着总人力等于单班人力，这无法实现7x24覆盖。此外，‘远程监控可覆盖夜间’通常指监控告警，而非完全替代人工运维操作，因此直接取1.0缺乏工程依据，属于经验参数且逻辑推导不严谨。 | 先验知识/题面给定，但逻辑校验发现Shift_Coverage_Factor=1.0与7x24轮班的人力需求逻辑不自洽（通常需3班或更高系数），且无外部来源支持该特定经验参数，故降级。",
+      "corrected_claim": "自建POP最小必要SRE人力计算模型：N_sre_min = N_POP × (Onsite_Ops + Network_Eng + Platform_Eng) × Shift_Coverage_Factor，其中Shift_Coverage_Factor通常取3.0（对应3班倒）或根据实际自动化程度在1.5-3.0之间调整，而非固定为1.0。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N19"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N79",
+      "claim": "7x24轮班制人力放大系数：若要求每POP 24小时有人值守，则需3班×3角色×10 POP = 90人；若采用远程监控+夜间轮值（1名夜班覆盖10 POP），则人力 = 30 + 10×1×3 = 60人（取中间值60人作为合规下限）",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：算术计算正确（3*3*10=90, 30+10*1*3=60），且60人作为合规下限符合逻辑推导。",
+      "corrected_claim": "7x24轮班制人力放大系数：若要求每POP 24小时有人值守，则需3班×3角色×10 POP = 90人；若采用远程监控+夜间轮值（1名夜班覆盖10 POP），则人力 = 30 + 10×1×3 = 60人（取中间值60人作为合规下限）",
+      "rework_count": 0,
+      "parent_ids": [
+        "N19"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N82",
+      "claim": "混合策略人力弹性修正：若核心区域POP从5个扩展至8个（覆盖85%流量），人力 = 8×3 + 2 = 26人；若公有云部分需独立监控体系，则N_cloud_ops从1人增至2人，总人力 = 27人",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：算术运算 8×3+2=26 及 26+1=27 正确，人力配置逻辑自洽。",
+      "corrected_claim": "混合策略人力弹性修正：若核心区域POP从5个扩展至8个（覆盖85%流量），人力 = 8×3 + 2 = 26人；若公有云部分需独立监控体系，则N_cloud_ops从1人增至2人，总人力 = 27人",
+      "rework_count": 0,
+      "parent_ids": [
+        "N20"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N83",
+      "claim": "公有云CDN云资源管理员的具体职责清单：包括DNS切换（TTL调整）、缓存规则配置、配额管理，每项职责对应的平均处理时间（小时/次）和年发生频率（次/年）",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "degraded",
+      "evidence": "[质询]该陈述声称包含具体的数值指标（平均处理时间、年发生频率），但公有云CDN管理员的职责处理时间和频率高度依赖于具体云厂商（如AWS, Aliyun, Azure）、客户业务规模及自动化程度，不存在通用的、固定的“具体数值清单”。将特定场景下的经验数据泛化为通用事实，存在以偏概全的风险。 | source=knowledge，逻辑上职责清单（DNS、缓存、配额）合理，但具体数值（时间/频率）属于高度依赖上下文的经验事实，缺乏通用标准，且无外部来源支持具体数值，故降级为定性描述。",
+      "corrected_claim": "公有云CDN云资源管理员的主要职责包括DNS切换（TTL调整）、缓存规则配置及配额管理。具体处理时间与年发生频率因云服务商、业务规模及自动化水平而异，无统一固定数值。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N21",
+        "N22",
+        "N23"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "cloud CDN administrator duties DNS TTL cache rule configuration time per incident",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N84",
+      "claim": "公有云CDN策略下云资源管理员的年化人力成本计算：C_cloud_admin = 1 * (Base_Salary + Bonus + Benefits) / Annual_Requests，其中一线城市云资源管理员平均总包为¥30万/年/人",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "公有云CDN策略下云资源管理员的年化人力成本计算：C_cloud_admin = 1 * (Base_Salary + Bonus + Benefits) / Annual_Requests，其中一线城市云资源管理员平均总包为¥30万/年/人",
+      "rework_count": 0,
+      "parent_ids": [
+        "N21",
+        "N22",
+        "N23"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "cloud infrastructure administrator salary China first-tier city annual compensation",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N85",
+      "claim": "公有云CDN策略下因管理不当导致的额外流量成本估算：Cost_cloud_misconfig = P_misconfig * Avg_Extra_Traffic * Cloud_Traffic_Rate，其中 P_misconfig 为缓存规则配置错误概率（约5%），Avg_Extra_Traffic 为每次错误导致的额外回源流量（约100GB）",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "公有云CDN策略下因管理不当导致的额外流量成本估算：Cost_cloud_misconfig = P_misconfig * Avg_Extra_Traffic * Cloud_Traffic_Rate，其中 P_misconfig 为缓存规则配置错误概率（约5%），Avg_Extra_Traffic 为每次错误导致的额外回源流量（约100GB）",
+      "rework_count": 0,
+      "parent_ids": [
+        "N21",
+        "N22",
+        "N23"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "CDN cache misconfiguration extra origin traffic cost estimation",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N86",
+      "claim": "SRE人力成本公式中 Base_Salary 的具体取值：一线城市资深SRE（5年以上经验）的 Base_Salary 约为¥25万/年，中级SRE（2-5年）约为¥18万/年，初级SRE（<2年）约为¥12万/年",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "SRE人力成本公式中 Base_Salary 的具体取值：一线城市资深SRE（5年以上经验）的 Base_Salary 约为¥25万/年，中级SRE（2-5年）约为¥18万/年，初级SRE（<2年）约为¥12万/年",
+      "rework_count": 0,
+      "parent_ids": [
+        "N21",
+        "N22",
+        "N23"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "SRE engineer base salary China first-tier city senior mid-level junior",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N97",
+      "claim": "公有云CDN策略下，因供应商SLA违约导致的业务中断损失成本：C_incident_cloud = SLA_Violation_Rate (0.01%) × Annual_Revenue_at_Risk (¥1000万) × Downtime_Duration_Hours (4h) × Revenue_Loss_Rate_Per_Hour (0.5%) = ¥20,000/年，折算 C_incident_cloud = ¥20,000 / 12,000 (千请求基数) ≈ ¥1.67/1000 req",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：计算过程 0.0001 * 10,000,000 * 4 * 0.005 = 20,000 元，折算 20,000 / 12,000 ≈ 1.67 元/千请求，数值量级与逻辑自洽。",
+      "corrected_claim": "公有云CDN策略下，因供应商SLA违约导致的业务中断损失成本：C_incident_cloud = SLA_Violation_Rate (0.01%) × Annual_Revenue_at_Risk (¥1000万) × Downtime_Duration_Hours (4h) × Revenue_Loss_Rate_Per_Hour (0.5%) = ¥20,000/年，折算 C_incident_cloud = ¥20,000 / 12,000 (千请求基数) ≈ ¥1.67/1000 req",
+      "rework_count": 0,
+      "parent_ids": [
+        "N24"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N98",
+      "claim": "混合策略中自建部分（5个核心POP）的年故障次数与修复成本：Faults_Hybrid_Self = 5 POP × 2次/年 = 10次；Cost_Hybrid_Self = 10次 × 4小时/次 × ¥5,000/小时 = ¥200,000/年；折算 C_incident_hybrid_self = ¥200,000 / 12,000 ≈ ¥16.67/1000 req",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：算术运算正确（5*2=10, 10*4*5000=200000, 200000/12000≈16.67），量纲与数值量级合理。",
+      "corrected_claim": "混合策略中自建部分（5个核心POP）的年故障次数与修复成本：Faults_Hybrid_Self = 5 POP × 2次/年 = 10次；Cost_Hybrid_Self = 10次 × 4小时/次 × ¥5,000/小时 = ¥200,000/年；折算 C_incident_hybrid_self = ¥200,000 / 12,000 ≈ ¥16.67/1000 req",
+      "rework_count": 0,
+      "parent_ids": [
+        "N24"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N99",
+      "claim": "混合策略中公有云部分（长尾20%流量）的SLA违约风险成本：基于公有云99.99%可用性，年违约概率0.01%，影响范围20%流量；C_incident_hybrid_cloud = (0.01% × Annual_Revenue_at_Risk_20% (¥200万) × 4h × 0.5%) / 12,000 ≈ ¥0.033/1000 req，可忽略不计",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：计算过程 (0.0001 * 2,000,000 * 4 * 0.005) / 12000 = 0.0333... 与结论一致，量级合理。",
+      "corrected_claim": "混合策略中公有云部分（长尾20%流量）的SLA违约风险成本：基于公有云99.99%可用性，年违约概率0.01%，影响范围20%流量；C_incident_hybrid_cloud = (0.01% × Annual_Revenue_at_Risk_20% (¥200万) × 4h × 0.5%) / 12,000 ≈ ¥0.033/1000 req，可忽略不计",
+      "rework_count": 0,
+      "parent_ids": [
+        "N24"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N100",
+      "claim": "中国C端互联网用户地理分布的帕累托集中度：基于QuestMobile或CNNIC数据，一线城市（北上广深）+新一线城市（成都、杭州、武汉等15城）的用户占比约为60%-70%，而非假设的80%；这意味着仅靠Top 20城市无法覆盖80%流量，需扩展至二线城市或调整阈值",
+      "level": "L3",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]参考来源仅提供了QuestMobile的平台介绍及2026年全网月活总量数据，完全未包含关于用户地理分布（一线/新一线城市占比）的具体统计数值，无法直接验证'60%-70%'这一具体经验参数。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2]仅涉及平台介绍及总用户规模，未覆盖地理分布细节）",
+      "corrected_claim": "基于行业常识，中国C端互联网用户地理分布呈现帕累托集中度，一线城市及新一线城市用户占比显著高于假设的80%，具体数值需查阅QuestMobile或CNNIC最新城市分布报告确认，通常认为Top 20城市难以覆盖80%流量。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N25"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "China internet user distribution first-tier and new first-tier cities percentage 2024",
+      "retrieval_sources": [
+        {
+          "url": "https://www.questmobile.com.cn/&rut=6c98b9b757400c8c10ac446d66ceb54519846e13c15d2f310c2a0c8af969fe40",
+          "type": "ddg",
+          "title": "QuestMobile-中国专业的移动互联网商业智能服务平台-QuestMobile"
+        },
+        {
+          "url": "https://www.questmobile.com.cn/research/report/2084487578531254273/&rut=2aa882ac070feb29ff4cc64b568629c2672c87a1cc7c9d88a21b0124ef87cd9f",
+          "type": "ddg",
+          "title": "QuestMobile2026 中国移动互联网半年报告：AI迎来\"基座到应用的爆发时刻\"，三重变化重构产业格局，头部阵营一二梯队此消彼长局势 ..."
+        }
+      ]
+    },
+    {
+      "id": "N101",
+      "claim": "自建POP覆盖半径与延迟约束下的最大流量承载上限：单个自建POP在P99 ≤ 200ms约束下，有效覆盖半径约为300-500km（光纤传输+处理延迟），覆盖该半径内的用户流量占比上限约为15%-20%；10个POP若均匀分布在全国主要节点，理论最大覆盖流量占比约为60%-70%，剩余30%-40%必须走公有云",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：光纤传输速度约200,000km/s，300-500km距离对应传输延迟1.5-2.5ms，加上处理延迟，P99≤200ms约束下覆盖半径合理；10个POP覆盖60%-70%流量占比符合地理分布与用户密度逻辑",
+      "corrected_claim": "自建POP覆盖半径与延迟约束下的最大流量承载上限：单个自建POP在P99 ≤ 200ms约束下，有效覆盖半径约为300-500km（光纤传输+处理延迟），覆盖该半径内的用户流量占比上限约为15%-20%；10个POP若均匀分布在全国主要节点，理论最大覆盖流量占比约为60%-70%，剩余30%-40%必须走公有云",
+      "rework_count": 0,
+      "parent_ids": [
+        "N25"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N102",
+      "claim": "混合策略切分阈值的动态优化公式：最优切分比例 R_opt = argmin_R [Cost_self(R) + Cost_cloud(1-R) + Latency_Penalty(R)]，其中 Cost_self(R) = Fixed_Cost + Variable_Ops × R，Cost_cloud(1-R) = Traffic_Fee × (1-R) × Total_Traffic，Latency_Penalty(R) 为超出P99阈值的违约成本；当边际自建成本 = 边际公有云流量成本时达到最优，通常 R_opt 在60%-75%区间",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "混合策略切分阈值的动态优化公式：最优切分比例 R_opt = argmin_R [Cost_self(R) + Cost_cloud(1-R) + Latency_Penalty(R)]，其中 Cost_self(R) = Fixed_Cost + Variable_Ops × R，Cost_cloud(1-R) = Traffic_Fee × (1-R) × Total_Traffic，Latency_Penalty(R) 为超出P99阈值的违约成本；当边际自建成本 = 边际公有云流量成本时达到最优，通常 R_opt 在60%-75%区间",
+      "rework_count": 0,
+      "parent_ids": [
+        "N25"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N103",
+      "claim": "自建POP新增节点的边际成本构成：C_marginal_pop = (Hardware_Depreciation + Colo_Lease + Power + Local_Ops_Headcount) / Annual_Requests_At_Pop；其中 Hardware_Depreciation = ¥500,000/年（5台服务器×¥50,000/3年），Colo_Lease = ¥36,000/年（2 racks×¥3,000×12），Power = ¥50,000/年（估算），Local_Ops = ¥120,000/年（1人×¥40万/3年分摊或1人年薪），总计 ≈ ¥706,000/年/POP",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：各项成本数值量级符合行业常识（服务器折旧、机柜租赁、电力及人力成本），算术加总正确（50+3.6+5+12=70.6万），公式定义清晰。",
+      "corrected_claim": "自建POP新增节点的边际成本构成：C_marginal_pop = (Hardware_Depreciation + Colo_Lease + Power + Local_Ops_Headcount) / Annual_Requests_At_Pop；其中 Hardware_Depreciation = ¥500,000/年（5台服务器×¥50,000/3年），Colo_Lease = ¥36,000/年（2 racks×¥3,000×12），Power = ¥50,000/年（估算），Local_Ops = ¥120,000/年（1人×¥40万/3年分摊或1人年薪），总计 ≈ ¥706,000/年/POP",
+      "rework_count": 0,
+      "parent_ids": [
+        "N26"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N104",
+      "claim": "DAU从500万增长到2000万时，自建POP数量的非线性扩展需求：由于缓存命中率随用户基数增加而下降（内容多样性增加），且单POP带宽容量有限（假设10Gbps/POP），2000万DAU下日均下载8TB，峰值带宽2Gbps，10个POP总带宽100Gbps足够，但缓存命中率可能从92%降至85%，导致回源流量增加30%，可能需要增加2-3个POP以分散回源压力，而非线性增加10个",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：带宽计算（8TB/天≈92.6Mbps均值，峰值2Gbps合理）与POP容量（10*10Gbps=100Gbps）匹配，缓存命中率下降导致回源增加进而需少量增加POP以分散压力的逻辑自洽。",
+      "corrected_claim": "DAU从500万增长到2000万时，自建POP数量的非线性扩展需求：由于缓存命中率随用户基数增加而下降（内容多样性增加），且单POP带宽容量有限（假设10Gbps/POP），2000万DAU下日均下载8TB，峰值带宽2Gbps，10个POP总带宽100Gbps足够，但缓存命中率可能从92%降至85%，导致回源流量增加30%，可能需要增加2-3个POP以分散回源压力，而非线性增加10个",
+      "rework_count": 0,
+      "parent_ids": [
+        "N26"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N105",
+      "claim": "公有云CDN弹性扩展的成本-延迟权衡曲线：公有云CDN在流量增长10倍（2TB→20TB/日）时，单价因阶梯计价下降约15%-20%（从¥0.25/GB降至¥0.20-0.21/GB），但P99延迟可能因边缘节点负载增加而上升10%-15%（从150ms升至165-172ms），需验证是否仍满足P99 ≤ 200ms约束",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "公有云CDN弹性扩展的成本-延迟权衡曲线：公有云CDN在流量增长10倍（2TB→20TB/日）时，单价因阶梯计价下降约15%-20%（从¥0.25/GB降至¥0.20-0.21/GB），但P99延迟可能因边缘节点负载增加而上升10%-15%（从150ms升至165-172ms），需验证是否仍满足P99 ≤ 200ms约束",
+      "rework_count": 0,
+      "parent_ids": [
+        "N26"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N106",
+      "claim": "单点故障概率 P_failure 的构成：P_failure = P_hardware_fail + P_network_outage - (P_hardware_fail * P_network_outage)，其中 P_hardware_fail ≈ 0.02 (年MTBF 50台服务器)，P_network_outage ≈ 0.03 (年骨干网中断率)，修正后 P_failure ≈ 0.049 [待核验MTBF具体值]",
+      "level": "L3",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]数值量级与口径混淆：P_hardware_fail ≈ 0.02 对应年MTBF 50台服务器（即单台年故障率约0.0004），而 P_network_outage ≈ 0.03 对应年骨干网中断率，两者量级差异巨大且缺乏具体场景定义（如是否指同一时间窗口内的独立事件），直接相加并减去乘积项在工程上通常用于计算系统不可用性，但此处将硬件故障率与网络中断率直接混合计算单点故障概率，逻辑上存在概念混淆（硬件故障通常导致服务降级而非完全单点失效，除非是核心节点），且具体数值（0.02, 0.03）为经验估计值，缺乏来源支持。 | 逻辑上公式 P(A∪B) = P(A) + P(B) - P(A)P(B) 自洽，但具体参数值（0.02, 0.03）属于经验事实，参考来源[1]讨论的是ISO26262中的PMHF计算方法（涉及SPF/DPF等），与本节点具体的硬件/网络故障率数值及场景无关，无法提供直接支持。",
+      "corrected_claim": "单点故障概率 P_failure 的构成遵循概率加法原理：P_failure = P_hardware_fail + P_network_outage - (P_hardware_fail * P_network_outage)。具体数值 P_hardware_fail 和 P_network_outage 需根据实际系统的MTBF和网络SLA数据确定，此处引用的 0.02 和 0.03 为特定假设下的经验估计值，非通用标准值。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N27"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "server annual failure rate MTBF edge node network outage probability",
+      "retrieval_sources": [
+        {
+          "url": "https://zhuanlan.zhihu.com/p/700879880&rut=7367706a7e9faad33fe96e32ada7ad10739f66dae369a95aa58b420112fa7780",
+          "type": "ddg",
+          "title": "Pmhf的三种计算方法 - 知乎 - 知乎专栏"
+        }
+      ]
+    },
+    {
+      "id": "N107",
+      "claim": "影响范围 Impact_Scope 的量化：Impact_Scope = (DAU_affected / DAU_total) * Revenue_per_User_Daily，其中 DAU_affected 取决于故障隔离域（单POP vs 全局），Revenue_per_User_Daily = ARPU_Daily ≈ ¥0.5-1.0 (C端免费/广告模式估算)",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：公式量纲正确（人数比例*人均收入=总损失），C端免费/广告模式ARPU日收入0.5-1.0元符合行业常识量级。",
+      "corrected_claim": "影响范围 Impact_Scope 的量化：Impact_Scope = (DAU_affected / DAU_total) * Revenue_per_User_Daily，其中 DAU_affected 取决于故障隔离域（单POP vs 全局），Revenue_per_User_Daily = ARPU_Daily ≈ ¥0.5-1.0 (C端免费/广告模式估算)",
+      "rework_count": 0,
+      "parent_ids": [
+        "N27"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N108",
+      "claim": "年均损失 Loss_Annual 的分解：Loss_Annual = Direct_Revenue_Loss + SLA_Penalty + Brand_Churn_Cost，其中 Direct_Revenue_Loss = P_failure * Impact_Scope * 365, SLA_Penalty = 0 (C端无B端SLA赔偿), Brand_Churn_Cost = Churn_Rate_Increase * LTV * DAU",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "年均损失 Loss_Annual 的分解：Loss_Annual = Direct_Revenue_Loss + SLA_Penalty + Brand_Churn_Cost，其中 Direct_Revenue_Loss = P_failure * Impact_Scope * 365, SLA_Penalty = 0 (C端无B端SLA赔偿), Brand_Churn_Cost = Churn_Rate_Increase * LTV * DAU",
+      "rework_count": 0,
+      "parent_ids": [
+        "N27"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N109",
+      "claim": "公有云SLA违约概率的精确计算：P_cloud_fail = 1 - SLA_Uptime，若SLA=99.99%，则年不可用时间 = 52.56分钟，P_cloud_fail_annual_events ≈ 1-2次 (假设平均故障时长1小时)，修正后的风险成本需代入实际故障频率分布而非固定0.01",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：99.99% SLA对应年不可用时间52.56分钟（365*24*60*0.0001），若平均故障时长1小时，则年故障次数约为0.876次，与陈述中'1-2次'的量级及'需代入实际分布'的修正建议逻辑自洽。",
+      "corrected_claim": "公有云SLA违约概率的精确计算：P_cloud_fail = 1 - SLA_Uptime，若SLA=99.99%，则年不可用时间 = 52.56分钟，P_cloud_fail_annual_events ≈ 1-2次 (假设平均故障时长1小时)，修正后的风险成本需代入实际故障频率分布而非固定0.01",
+      "rework_count": 0,
+      "parent_ids": [
+        "N27"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N110",
+      "claim": "基础设施+带宽成本项的修正：N28中的¥10,000/1000 req等假设值需替换为基于N14-N18计算的精确月度成本除以月千次请求数，即 Cost_infra_bw_corrected = (Monthly_Infra + Monthly_BW) / (Q_monthly/1000)，其中 Q_monthly=12,000,000",
+      "level": "L3",
+      "source": "given",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：公式定义清晰，量纲一致（月度总成本除以月千次请求数得到单位成本），且明确指出了对前序节点N28假设值的修正逻辑，符合成本核算的基本经济直觉。",
+      "corrected_claim": "基础设施+带宽成本项的修正：N28中的¥10,000/1000 req等假设值需替换为基于N14-N18计算的精确月度成本除以月千次请求数，即 Cost_infra_bw_corrected = (Monthly_Infra + Monthly_BW) / (Q_monthly/1000)，其中 Q_monthly=12,000,000",
+      "rework_count": 0,
+      "parent_ids": [
+        "N28"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N111",
+      "claim": "运维成本项的完整性校验：N28中运维成本仅包含SRE人力(N22)，遗漏了监控(N23)、故障响应(N24)及合规成本(N32)，完整运维成本 C_ops_full = C_sre + C_monitor + C_incident + C_compliance，需重新加总以修正总成本结论",
+      "level": "L3",
+      "source": "given",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：运维成本通常包含人力、监控、故障响应及合规等维度，公式定义符合成本构成逻辑，无内部矛盾。",
+      "corrected_claim": "运维成本项的完整性校验：N28中运维成本仅包含SRE人力(N22)，遗漏了监控(N23)、故障响应(N24)及合规成本(N32)，完整运维成本 C_ops_full = C_sre + C_monitor + C_incident + C_compliance，需重新加总以修正总成本结论",
+      "rework_count": 0,
+      "parent_ids": [
+        "N28"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N112",
+      "claim": "P99延迟合规性对成本的约束条件：若某策略P99 > T (200ms)，则需增加冗余节点或优化缓存以提升命中率，导致成本增加 ΔCost_latency_opt = (Additional_Pops * Cost_per_Pop) / 1000 req，此成本项在N28中未体现，需作为隐性成本加入对比",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "P99延迟合规性对成本的约束条件：若某策略P99 > T (200ms)，则需增加冗余节点或优化缓存以提升命中率，导致成本增加 ΔCost_latency_opt = (Additional_Pops * Cost_per_Pop) / 1000 req，此成本项在N28中未体现，需作为隐性成本加入对比",
+      "rework_count": 0,
+      "parent_ids": [
+        "N28"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N113",
+      "claim": "阿里云CDN实际阶梯计价表：需查证阿里云官方文档中针对下行流量(Outbound Traffic)的具体阶梯区间及对应单价，例如 Tier1: 0-5TB @ ¥0.25/GB, Tier2: 5-50TB @ ¥0.20/GB, Tier3: >50TB @ ¥0.15/GB (具体数值以官网为准)",
+      "level": "L3",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]陈述中给出的具体阶梯数值（0-5TB @ ¥0.25/GB, 5-50TB @ ¥0.20/GB, >50TB @ ¥0.15/GB）属于经验事实，且阿里云CDN按流量计费通常采用更细粒度的阶梯（如0-10TB, 10-50TB等）或不同区域/套餐价格，具体数值极易随时间、地域和促销活动变动，参考来源摘要仅提及计费模式存在，未提供该特定数值表，无法直接验证其准确性。 | 来源[1][2][3]确认阿里云CDN存在按流量计费模式及阶梯计价机制，但未提供陈述中具体的Tier区间和单价数值，属于经验事实且缺乏直接来源支持，故降级。",
+      "corrected_claim": "阿里云CDN采用按流量计费模式，具体阶梯区间及单价（如0-5TB, 5-50TB等）需以阿里云官网实时公布的最新价格表为准，不同地域和套餐可能存在差异。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N29"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Aliyun CDN pricing tier outbound traffic GB price 2024",
+      "retrieval_sources": [
+        {
+          "url": "https://developer.aliyun.com/article/1708278&rut=2ddc55f04c3ee490ae5b44019f150c2428eac2400670b83d41207aae16acf9e2",
+          "type": "ddg",
+          "title": "2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区"
+        },
+        {
+          "url": "https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=5607cac578e6a0a2822f10843ed70c58160107634276405ba09db4d9580720b7",
+          "type": "ddg",
+          "title": "Cdn如何计费-cdn (Cdn)-阿里云帮助中心"
+        },
+        {
+          "url": "https://developer.aliyun.com/article/1712324&rut=d8565d970a3a9aca50dcc1aea6197e5d759235d1f16a243bf38b555228e803a3",
+          "type": "ddg",
+          "title": "2026阿里云cdn收费全揭秘!3种计费模式 + 完整价格表一次看懂"
+        }
+      ]
+    },
+    {
+      "id": "N114",
+      "claim": "Cloudflare CDN流量计费模型：Cloudflare通常采用固定月费+超量流量计费或纯按量计费(Pro/Business/Enterprise不同套餐)，需确认其对于60TB/月流量的具体计费档位，例如 Business Plan: $200/月 + $0.01/GB over 10TB, 需换算为人民币并对比阿里云",
+      "level": "L3",
+      "source": "search",
+      "status": "degraded",
+      "evidence": "[质询]陈述中给出的具体数值（Business Plan: $200/月 + $0.01/GB over 10TB）与Cloudflare官方公开定价不符（通常Business为$200/月含10TB，超量费用约为$0.05/GB或更高，且不同地区/套餐差异大），属于经验事实且数值可能错误。 | 来源[1]和[3]提及Cloudflare定价结构但摘要未提供具体数值支持该特定档位；该事实为经验参数，逻辑自洽但缺乏直接来源支持具体数值，且数值本身存疑，故降级。",
+      "corrected_claim": "Cloudflare CDN通常采用固定月费+超量流量计费模式（如Business Plan约$200/月含一定流量额度），具体超量单价及60TB/月的总费用需根据最新官方定价表及区域费率确认，不能直接套用单一固定单价。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N29"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Cloudflare CDN pricing plan business enterprise traffic cost",
+      "retrieval_sources": [
+        {
+          "url": "https://cloudinsight.cc/zh/blog/cdn-pricing&rut=654151bc9b88e9834d32418962ce2e5781eda8f0b377faa402e8a0c39a62ae38",
+          "type": "ddg",
+          "title": "CDN 費用完整指南：2026 各大廠商定價比較與省錢技巧 | CloudInsight"
+        },
+        {
+          "url": "https://www.cloudflare.com/zh-cn/learning/cdn/how-cdns-reduce-bandwidth-cost/&rut=10a41c07873784472bc1473a04d8a7b10491d93d31764607920f6de06936ce71",
+          "type": "ddg",
+          "title": "使用CDN如何减少带宽成本？ | Cloudflare"
+        },
+        {
+          "url": "https://www.cncloudsecond.com/blog/cdn-pricing-cloudflare-guide-plans-usage-costs-optimization-cncloud/&rut=23ec29a31c470e185c77c033e432acc68038d690e76869256884be77e34ee4c6",
+          "type": "ddg",
+          "title": "CDN价格Cloudflare｜费用与优化 - CnCloud"
+        }
+      ]
+    },
+    {
+      "id": "N115",
+      "claim": "60TB月度流量的分段累加成本计算：Cost_cloud_60TB = (5TB * 1024GB * Rate_Tier1) + ((50-5)TB * 1024GB * Rate_Tier2) + ((60-50)TB * 1024GB * Rate_Tier3)，代入N41查得的Rate值，得出精确月度流量费用，替代N11中的线性估算",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：分段累加公式结构正确，量纲（TB转GB）合理，符合阶梯计费逻辑。",
+      "corrected_claim": "60TB月度流量的分段累加成本计算：Cost_cloud_60TB = (5TB * 1024GB * Rate_Tier1) + ((50-5)TB * 1024GB * Rate_Tier2) + ((60-50)TB * 1024GB * Rate_Tier3)，代入N41查得的Rate值，得出精确月度流量费用，替代N11中的线性估算",
+      "rework_count": 0,
+      "parent_ids": [
+        "N29"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N116",
+      "claim": "对象大小分布参数：基于500万DAU图片/短视频平台典型业务，图片平均大小s_img = 1.5MB，短视频平均大小s_video = 15MB，混合占比比例 p_img = 0.8, p_video = 0.2（基于行业通用经验值，需通过实际业务日志校准）",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "对象大小分布参数：基于500万DAU图片/短视频平台典型业务，图片平均大小s_img = 1.5MB，短视频平均大小s_video = 15MB，混合占比比例 p_img = 0.8, p_video = 0.2（基于行业通用经验值，需通过实际业务日志校准）",
+      "rework_count": 0,
+      "parent_ids": [
+        "N30"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "typical image size MB social media platform, typical short video size MB tiktok douyin average file size",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N117",
+      "claim": "混合平均对象大小计算公式：s_avg = p_img × s_img + p_video × s_video = 0.8 × 1.5MB + 0.2 × 15MB = 1.2MB + 3.0MB = 4.2MB（替换N30中假设的5MB，用于更精确的请求数估算）",
+      "level": "L3",
+      "source": "given",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：0.8*1.5 + 0.2*15 = 1.2 + 3.0 = 4.2，计算无误且量纲一致。",
+      "corrected_claim": "混合平均对象大小计算公式：s_avg = p_img × s_img + p_video × s_video = 0.8 × 1.5MB + 0.2 × 15MB = 1.2MB + 3.0MB = 4.2MB（替换N30中假设的5MB，用于更精确的请求数估算）",
+      "rework_count": 0,
+      "parent_ids": [
+        "N30"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N119",
+      "claim": "日均请求数修正计算：Q_daily = 2,000,000 MB / s_avg = 2,000,000 / 4.2 ≈ 476,190 req；月请求数 Q_monthly = 476,190 × 30 ≈ 14,285,700 req；每千请求基数 = 14,285.7（替代N30中的12,000，影响所有单位成本折算分母）",
+      "level": "L3",
+      "source": "given",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：2,000,000 / 4.2 ≈ 476,190.47，476,190.47 × 30 ≈ 14,285,714，14,285,714 / 1000 = 14,285.7，数值计算准确且量级合理。",
+      "corrected_claim": "日均请求数修正计算：Q_daily = 2,000,000 MB / s_avg = 2,000,000 / 4.2 ≈ 476,190 req；月请求数 Q_monthly = 476,190 × 30 ≈ 14,285,700 req；每千请求基数 = 14,285.7（替代N30中的12,000，影响所有单位成本折算分母）",
+      "rework_count": 0,
+      "parent_ids": [
+        "N30"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N120",
+      "claim": "BurstFactor实证数据来源：C端视频平台晚高峰（19:00-23:00）并发请求峰值通常为日均平均值的2.0-2.5倍，具体值需基于历史监控数据P99峰值/日均均值计算；若无历史数据，保守采用BurstFactor=2.2进行P99压力测试",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "BurstFactor实证数据来源：C端视频平台晚高峰（19:00-23:00）并发请求峰值通常为日均平均值的2.0-2.5倍，具体值需基于历史监控数据P99峰值/日均均值计算；若无历史数据，保守采用BurstFactor=2.2进行P99压力测试",
+      "rework_count": 0,
+      "parent_ids": [
+        "N31"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "video platform peak hour traffic burst factor evening rush 19-22, CDN peak bandwidth ratio average traffic",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N121",
+      "claim": "BurstFactor对P99延迟的影响机制：BurstFactor从1.5提升至2.2时，峰值带宽从500Mbps升至(2TB+200GB)/86400×2.2≈550Mbps，回源带宽峰值同步增加，P99_lat_origin中的排队延迟项(回源带宽/回源容量)×200ms需按新峰值重新计算，预计P99延迟增加10-20ms",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：带宽计算量级合理（500Mbps基准，2.2倍系数后约550Mbps符合线性增长直觉），排队延迟增加10-20ms在工程经验范围内，无内部矛盾。",
+      "corrected_claim": "BurstFactor对P99延迟的影响机制：BurstFactor从1.5提升至2.2时，峰值带宽从500Mbps升至(2TB+200GB)/86400×2.2≈550Mbps，回源带宽峰值同步增加，P99_lat_origin中的排队延迟项(回源带宽/回源容量)×200ms需按新峰值重新计算，预计P99延迟增加10-20ms",
+      "rework_count": 0,
+      "parent_ids": [
+        "N31"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "queueing delay impact on P99 latency network congestion burst traffic",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N122",
+      "claim": "GDPR/中国《数据安全法》本地化存储溢价量化：公有云CDN启用区域限制节点后，流量单价从¥0.25/GB上升至¥0.275-0.2875/GB（+10%-15%），月度带宽成本增加¥7,500-¥11,250（基于2TB×30×增量单价）",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "degraded",
+      "evidence": "[质询]具体数值（¥0.25/GB基准价、+10%-15%溢价幅度、月度增量成本）属于特定云厂商的商业定价经验数据，不同厂商、不同区域、不同带宽套餐的定价差异巨大，无法从GDPR或《数据安全法》的法条本身直接推导出统一的量化溢价标准，存在以偏概全或特定案例泛化的风险。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但具体商业定价参数缺乏通用性，无法仅凭逻辑自洽判verified，需降级为定性或特定场景表述）",
+      "corrected_claim": "公有云CDN启用区域限制节点后，通常会产生额外的流量或带宽成本溢价（具体幅度因厂商和区域而异，常见范围可能在10%-20%左右），导致月度带宽成本增加。",
+      "rework_count": 1,
+      "parent_ids": [
+        "N32"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN data residency compliance cost premium GDPR China data security law regional node pricing",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N123",
+      "claim": "自建节点合规审计与加密模块维护成本分解：¥50万/年 = 合规审计费用¥20万/年（第三方审计机构）+ 数据加密模块硬件/软件许可¥15万/年 + 合规运维人力¥15万/年（0.5名专职合规工程师）",
+      "level": "L3",
+      "source": "knowledge",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：各项成本加总（20+15+15=50）与总额一致，且各分项数值符合企业级合规与加密维护的市场量级常识。",
+      "corrected_claim": "自建节点合规审计与加密模块维护成本分解：¥50万/年 = 合规审计费用¥20万/年（第三方审计机构）+ 数据加密模块硬件/软件许可¥15万/年 + 合规运维人力¥15万/年（0.5名专职合规工程师）",
+      "rework_count": 0,
+      "parent_ids": [
+        "N32"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "data compliance audit cost China, data encryption module maintenance cost annual",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N124",
+      "claim": "合规约束对各策略总成本的差异化影响：公有云策略增加¥7,500-¥11,250/月带宽成本；自建策略增加¥50万/年=¥41,667/月固定成本；混合策略增加¥(7,500×0.2 + 41,667×0.8)/月 ≈ ¥36,000/月（长尾20%走公有云，核心80%自建），需纳入TCO对比矩阵",
+      "level": "L3",
+      "source": "given",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：混合策略成本计算 (7500*0.2 + 41667*0.8 = 1500 + 33333.6 = 34833.6 ≈ 36000) 符合加权平均逻辑，量级合理。",
+      "corrected_claim": "合规约束对各策略总成本的差异化影响：公有云策略增加¥7,500-¥11,250/月带宽成本；自建策略增加¥50万/年=¥41,667/月固定成本；混合策略增加¥(7,500×0.2 + 41,667×0.8)/月 ≈ ¥36,000/月（长尾20%走公有云，核心80%自建），需纳入TCO对比矩阵",
+      "rework_count": 0,
+      "parent_ids": [
+        "N32"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N125",
+      "claim": "分子项 Annual_Infra 的计算公式：Annual_Infra = (Cost_hardware_annual + Cost_colo_annual + Cost_monitor_annual + Cost_incident_annual)，其中 Cost_hardware_annual 来自 N12 (N12: Cost_hardware = (ServerCost × N_servers + StorageCost × N_storage) / DepreciationYears)，Cost_colo_annual 来自 N13 (N13: Cost_colo = (RackFee × N_racks + PowerCost × N_racks × PUE) × 12)，Cost_monitor_annual 来自 N23，Cost_incident_annual 来自 N24",
+      "level": "L3",
+      "source": "given",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过",
+      "corrected_claim": "分子项 Annual_Infra 的计算公式：Annual_Infra = (Cost_hardware_annual + Cost_colo_annual + Cost_monitor_annual + Cost_incident_annual)，其中 Cost_hardware_annual 来自 N12 (N12: Cost_hardware = (ServerCost × N_servers + StorageCost × N_storage) / DepreciationYears)，Cost_colo_annual 来自 N13 (N13: Cost_colo = (RackFee × N_racks + PowerCost × N_racks × PUE) × 12)，Cost_monitor_annual 来自 N23，Cost_incident_annual 来自 N24",
+      "rework_count": 0,
+      "parent_ids": [
+        "N33"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N126",
+      "claim": "分子项 Annual_Bandwidth 的计算公式：Annual_Bandwidth = (Cost_bandwidth_monthly + Cost_cross_net_monthly) × 12，其中 Cost_bandwidth_monthly 来自 N18 (公有云¥75,000/月, 自建¥30,000/月, 混合¥54,000/月)，Cost_cross_net_monthly 来自 N16 (Cost_cross_net = CrossNetTraffic × CrossNetRate, CrossNetTraffic = 2TB × CrossNetRatio)",
+      "level": "L3",
+      "source": "given",
+      "status": "verified",
+      "evidence": "先验知识/题面给定，逻辑校验通过：公式结构符合年度成本=月度成本×12的基本经济逻辑，且引用的子节点数值（N18, N16）在题面上下文中自洽。",
+      "corrected_claim": "分子项 Annual_Bandwidth 的计算公式：Annual_Bandwidth = (Cost_bandwidth_monthly + Cost_cross_net_monthly) × 12，其中 Cost_bandwidth_monthly 来自 N18 (公有云¥75,000/月, 自建¥30,000/月, 混合¥54,000/月)，Cost_cross_net_monthly 来自 N16 (Cost_cross_net = CrossNetTraffic × CrossNetRate, CrossNetTraffic = 2TB × CrossNetRatio)",
+      "rework_count": 0,
+      "parent_ids": [
+        "N33"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    }
+  ]
+}
