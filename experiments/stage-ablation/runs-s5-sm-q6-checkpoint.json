@@ -1,0 +1,550 @@
+{
+  "qid": "q6",
+  "round": 0,
+  "nodes": [
+    {
+      "id": "N1",
+      "claim": "延迟性能约束：定义P99延迟的目标阈值T，并涵盖影响端到端延迟的物理链路因素（RTT、TCP握手、TLS协商、回源路径、调度算法效率），作为方案可行性的过滤门。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N2",
+      "claim": "成本结构模型：拆解三种策略下的固定成本（CAPEX：服务器/机房/带宽专线）与变动成本（OPEX：公有云流量费/自建电费/人力运维），建立每千请求的成本计算公式。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N3",
+      "claim": "流量分布特征：分析用户地理分布、请求热度（Zipf分布）、对象大小（s）及时效性（缓存命中率），决定自建节点的选址逻辑及公有云的长尾调用比例。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N4",
+      "claim": "架构与运维复杂度：评估不同策略下的系统复杂度（多活同步、一致性协议、监控体系）及其带来的隐性运维成本、故障恢复时间（RTO/RPO）和团队技能要求。",
+      "level": "L1",
+      "source": "given",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N5",
+      "claim": "基础RTT估算：基于中国主要城市（北上广深+二线城市）到邻近POP点的平均物理距离，利用光速在光纤中的传播速度（~200,000 km/s）计算单向传播延迟，典型值为5ms-15ms。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N6",
+      "claim": "TCP握手开销：三次握手（SYN, SYN-ACK, ACK）引入1个RTT延迟，对于非持久连接场景，每次新连接需额外增加RTT时间；若使用HTTP/2或QUIC可优化至0.5 RTT或0 RTT。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N7",
+      "claim": "TLS协商开销：TLS 1.2需2个RTT进行密钥交换，TLS 1.3优化为1个RTT；若启用Session Resumption或0-RTT模式，可减少至0-1个RTT。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N8",
+      "claim": "回源延迟（Miss Penalty）：当边缘节点缓存未命中时，需从中心源站获取数据。回源延迟 = 边缘到源站的RTT + 源站处理时间 + 数据传输时间。对于短视频平台，源站通常位于核心机房，回源RTT约为20-50ms。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N1"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N11",
+      "claim": "公有云CDN变动成本（OPEX）：阿里云/Cloudflare按流量计费，国内CDN价格约为0.2-0.5元/GB，海外约为0.5-1.0元/GB。日均下载2TB，月成本约为1440-7200元（国内）或3600-14400元（海外）。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "Alibaba Cloud CDN pricing per GB 2024",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N12",
+      "claim": "自建节点固定成本（CAPEX）：10个POP点，每点配置4台服务器（2U机架式，CPU 32核，内存128GB，存储10TB NVMe SSD），单台服务器成本约为2-3万元，总硬件成本约为80-120万元。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "Server hardware cost 32-core 128GB RAM 10TB NVMe SSD 2024",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N13",
+      "claim": "自建节点带宽成本（OPEX）：每个POP点需接入1Gbps-10Gbps带宽，国内IDC带宽租赁价格约为1000-5000元/Mbps/月。10个点总带宽成本约为10万-50万元/月，取决于实际峰值带宽利用率。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "China IDC bandwidth leasing price per Mbps 2024",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N14",
+      "claim": "自建节点运维人力成本（OPEX）：需要3-5名网络工程师/运维人员，年薪约为30-50万元/人，年人力成本约为90-250万元。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N2"
+      ],
+      "objective": null,
+      "edge_type": "quotient",
+      "search_query": "Network engineer salary China 2024",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N17",
+      "claim": "用户地理分布：假设用户主要集中在一二线城市（覆盖80%用户），这些城市到邻近POP点的RTT较低（<10ms）；三四线城市（20%用户）到最近POP点的RTT较高（15-30ms）。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N18",
+      "claim": "请求热度分布（Zipf）：图片/短视频内容符合Zipf分布，Top 10%的内容贡献80%的请求量。高热度内容应优先缓存在边缘节点，以提高命中率。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N19",
+      "claim": "对象大小（s）：图片平均大小为500KB-2MB，短视频平均大小为5-20MB。大对象传输时间 = Size / Bandwidth，对P99延迟影响显著。例如，10MB视频在10Mbps带宽下传输时间为8秒。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N20",
+      "claim": "缓存命中率（Hit Rate）：自建节点若覆盖核心区域且缓存策略优化，命中率可达90%-95%；公有云CDN因共享缓存池，命中率约为85%-90%。未命中比例 = 1 - Hit Rate。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N21",
+      "claim": "选址逻辑量化：自建POP点应部署在用户密度最高且网络基础设施完善的区域（如北上广深杭），以最小化平均RTT。长尾区域（用户占比<5%）不值得自建，应交给公有云CDN处理。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N3"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N22",
+      "claim": "数据一致性开销比例 = (一致性协议往返延迟 RTT_consistency + 冲突解决计算开销) / 总请求处理时间，其中 RTT_consistency 取决于所选协议（如 Raft 多数派选举需 ≥2×RTT，CRDT 无中心协调但合并开销 O(n²)）。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "Raft consensus overhead latency CRDT merge cost comparison",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N23",
+      "claim": "多活同步带宽成本 = Σ(POP_i 产生的变更日志大小 × 同步因子 k)，其中同步因子 k 取决于拓扑（星型 k=N-1，环状 k=2，全连接 k=N(N-1)/2），N=10 个 POP 点时星型同步因子为 9。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "multi-active data center replication bandwidth overhead star topology",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N24",
+      "claim": "监控体系复杂度指数 = log₂(监控维度数)，其中监控维度包括：网络延迟、缓存命中率、节点健康度、流量突增检测、安全事件，公有云 CDN 通常内置 5-7 维监控，自建需额外部署 Prometheus+Grafana 栈，增加约 30% 的基础设施开销。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN monitoring stack complexity self-hosted vs cloud built-in metrics",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N25",
+      "claim": "故障恢复时间 RTO = 检测时间 T_detect + 切换时间 T_failover + 预热时间 T_warmup，其中 T_detect 取决于心跳间隔（典型 5-15s），T_failover 取决于 DNS TTL 或 Anycast 路由收敛（BGP 收敛典型 30-120s），T_warmup 取决于缓存冷启动所需填充数据量/带宽。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "CDN failover time BGP convergence DNS TTL cache warmup",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N26",
+      "claim": "RPO（恢复点目标）损失 = 异步复制延迟 × 单位时间写入速率，其中异步复制延迟典型值为 1-10s（取决于距离和带宽），对于图片/视频平台，由于内容不可变，RPO 实际影响有限，但元数据（如点赞数）可能丢失 Δt 内的更新。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "asynchronous replication lag RPO impact immutable content metadata",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N27",
+      "claim": "团队技能要求成本 = (所需专家人数 × 平均年薪 × 培训周期) / 年，其中自建边缘节点需至少 2 名网络工程师 + 1 名 SRE，公有云 CDN 仅需 1 名 DevOps 配置人员，技能稀缺性溢价系数通常为 1.2-1.5 倍市场均价。",
+      "level": "L2",
+      "source": "knowledge",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [
+        "N4"
+      ],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "SRE network engineer salary premium CDN operations team size",
+      "retrieval_sources": []
+    },
+    {
+      "id": "N28",
+      "claim": "公有云CDN阶梯计费折扣阈值：当月流量超过10TB时，阿里云/腾讯云等主流厂商通常提供15%-30%的单价折扣；日均2TB（月60TB）处于第二或第三阶梯，实际单价可能降至0.15-0.3元/GB，显著低于基础标价。",
+      "level": "L2",
+      "source": "search",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://www.aliyun.com/price/detail/cdn&rut=0391fdd059156c330666b2f14d16e77e308d8842a12a2882c23b47be5f00d49f",
+          "type": "ddg",
+          "title": "阿里云定价_CDN价格详情"
+        },
+        {
+          "url": "https://developer.aliyun.com/article/1708278&rut=d1c8152db90c71b051e92d8a495c356815e369f4521898d695f6c323930018c4",
+          "type": "ddg",
+          "title": "2026最新阿里云cdn收费标准：不同计费模式价格表（基础服务费和增值服务费用整理）-阿里云开发者社区"
+        },
+        {
+          "url": "https://help.aliyun.com/zh/cdn/product-overview/billing-overview&rut=b4a97926320bb5bba40485ee1ef87c0043e11e17df2ac7620f389237987a0114",
+          "type": "ddg",
+          "title": "Cdn如何计费-cdn (Cdn)-阿里云帮助中心"
+        }
+      ]
+    },
+    {
+      "id": "N29",
+      "claim": "自建节点资源利用率盈亏平衡点：假设硬件折旧年限3年，每月固定硬件成本约为2.7-4万元（总CAPEX/36）。若月均下行流量低于50TB，自建单位流量成本高于公有云按量付费；临界点通常在月流量50-80TB之间，需结合带宽闲置率计算。",
+      "level": "L2",
+      "source": "search",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://blog.csdn.net/gitblog_01064/article/details/170345978&rut=106e87e7181caaea6fd5e8dfebebfb6fab130bc61eadb4514dbb05c740c3f4b7",
+          "type": "ddg",
+          "title": "自建算力是护城河还是成本陷阱：热闹背后被略过的三笔账-csdn博客"
+        },
+        {
+          "url": "https://www.169e.com/ai-compute/cloud-vs-onprem.html&rut=8567c6841729cd03ff2c8aa3de9c28c4c18685b26d8b93ecf21b532523002968",
+          "type": "ddg",
+          "title": "云 Gpu 与自建的盈亏平衡利用率 | 决策模型"
+        },
+        {
+          "url": "https://juejin.cn/post/7708716545457504283&rut=a4a21adeb934b65ca72b8f9c1d2f10ca5a3803a64c5bdc73fd27ee6aaa31dab2",
+          "type": "ddg",
+          "title": "自建大模型还是调用 API，先算清 GPU 盈亏平衡利用率这篇文章讲了什么 OpenRouter 在 2026 年 11 - 掘金"
+        }
+      ]
+    },
+    {
+      "id": "N30",
+      "claim": "混合架构的长尾流量边际成本优势：长尾区域（用户占比20%）流量波动大，自建节点需预留30%-50%冗余带宽应对峰值，导致平均带宽利用率低于60%；而公有云按量计费无需预留冗余，长尾部分单位成本比自建低40%-60%。",
+      "level": "L2",
+      "source": "search",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://www.sohu.com/a/1057179655_121691804&rut=3915ac442bc179719c66cd55a695358a5ab2daac58cc4d26aa8797727d96675b",
+          "type": "ddg",
+          "title": "自建+租赁混合算力架构：AI创业公司成本最优的弹性部署指南"
+        }
+      ]
+    },
+    {
+      "id": "N31",
+      "claim": "SLA违约赔偿计算公式：公有云CDN SLA通常承诺99.9%可用性，赔偿金额 = 月度服务费 × (1 - 实际可用性/99.9%) × 赔付比例（通常为25%-100%，视严重等级而定）。对于日均2TB业务，若月度服务费为5000元，单次重大故障（可用性<99%）最高赔偿约为5000 × (1-0.99/0.999) × 100% ≈ 450元，远低于自建故障导致的业务中断损失。",
+      "level": "L2",
+      "source": "search",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://help.aliyun.com/zh/cdn/support/alibaba-cloud-cdn-sla&rut=03b4c8588efe861ce6b2cc9d5daa41d4b6d5936c0d93ab0ba87db4bfb8e14fac",
+          "type": "ddg",
+          "title": "Cdn服务等级协议sla的服务可用性指标与赔偿方案-cdn-阿里云"
+        },
+        {
+          "url": "https://www.sre.wang/posts/sre-sla-design/&rut=949d84df4e0c09b2917004fb9c5e248fad2536557591b3d5bb2f3f0b64f01eb3",
+          "type": "ddg",
+          "title": "承诺 99.9% 赔了 0.7 元：Sla 条款拆解与内部设计的 6 个工程决策 | Sre工程实践"
+        },
+        {
+          "url": "https://www.dotcom-monitor.com/zh-hans/sla-credit-calculator/&rut=4a370bc6b1b2f8eed52887ed0bf8a34c9fffd6c72a8a1ca8d2a49b008d6d9ad4",
+          "type": "ddg",
+          "title": "SLA信用计算器 - SRE和运维补偿工具 - dotcom-monitor.com"
+        }
+      ]
+    },
+    {
+      "id": "N32",
+      "claim": "数据主权与合规隐性成本：若平台涉及用户个人信息（PII）跨境传输，自建节点需满足《数据安全法》及GDPR（若有海外用户）要求，数据本地化存储合规改造成本约为10-20万元/年（审计+加密+访问控制）；公有云CDN虽简化技术合规，但需承担供应商数据泄露连带责任，潜在法律诉讼预备金建议预留年营收的1%-2%。",
+      "level": "L2",
+      "source": "search",
+      "status": "pending",
+      "evidence": "",
+      "corrected_claim": "",
+      "rework_count": 0,
+      "parent_ids": [],
+      "objective": null,
+      "edge_type": "cartesian",
+      "search_query": "",
+      "retrieval_sources": [
+        {
+          "url": "https://www.cac.gov.cn/2025-10/31/c_1763633376984070.htm&rut=0c00c0d46f39509642057305c822f11147ea5da190af5cdf5291599c8bcfb681",
+          "type": "ddg",
+          "title": "数据出境安全管理政策问答（2025年10月）_中央网络安全和信息化委员会办公室"
+        },
+        {
+          "url": "https://www.cac.gov.cn/2025-04/09/c_1745906286623776.htm&rut=81523c49aeade6c2866d5bd6bf84d74e4e9daa1cb60d908da9352887b902b37d",
+          "type": "ddg",
+          "title": "数据出境安全管理政策问答（2025年4月）_中央网络安全和信息化委员会办公室"
+        },
+        {
+          "url": "https://it-consultis.com/cn/insights/china-cross-border-data-transfer-2024/&rut=99a84072ac4e9f1703f6a77fa8eb63c87ff275f680c65fa6df01c30c96a9ea2b",
+          "type": "ddg",
+          "title": "2026年中国跨境数据传输合规指南 - IT Consultis (ITC) CN"
+        }
+      ]
+    }
+  ],
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "C_cost (成本合规性): 每千请求的总拥有成本 (TCO/1000 req)，包含基础设施摊销、带宽流量费、运维人力及隐性成本。",
+      "L_p99 (延迟合规性): 第99百分位端到端延迟 (ms)。这是硬性约束门槛，若 L_p99 > T (目标阈值)，则该方案不可行。",
+      "G_coverage (覆盖率/可用性): 核心业务区域的边缘节点覆盖密度及长尾流量的兜底能力，直接影响 L_p99 的稳定性。"
+    ],
+    "composition": "min(C_cost) subject to L_p99 <= T and G_coverage >= G_min",
+    "rationale": "本题核心是在满足P99延迟硬性约束（过滤门）的前提下，寻找每千请求综合成本最低（排序键）的策略，覆盖率是决定延迟能否达标的关键中间变量。"
+  },
+  "rework_events": [],
+  "objective_mode": "formula",
+  "contradiction_events": [],
+  "challenge_log": []
+}
