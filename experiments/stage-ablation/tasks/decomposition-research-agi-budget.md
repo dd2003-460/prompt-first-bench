@@ -266,6 +266,7 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 | ⑤ AGI 题面+gold 骨架 | 🔶 部分 | D1 题面待 D 确认（硬件边界）；**D2 gold 骨架 Q9-v1 已交付+Lead 核验通过 (11-24 20:22)**：agent @ 8fe85a2f4（37 节点/深度 5/21 叶/权重和 1.00/题面隔离），agent 主动纠错 +0.182 归属（实为 S0→S5 prompt 级，非 SM 因果；SM 真实 δ=+0.025 p~0.32），Lead 本地实锤 + web-LLM 2/2 独立源（Perplexity+ChatGPT）确认纠错正确且重大；方法学 v1 弱点（等权 0.20/五维不正交）归 v2 修。回执 web-llm/d2-q9v1-lead-verify-20261124.json；E1-E4 由 K7 代理覆盖 |
 | ⑤-D2-v2 gold 骨架方法学修正 | ✅ 完成 (11-24 20:25-20:31) | `gold/Q9-v2.md`：① N-0 改 lexicographic（硬门 capability/reliability 先判，门内 min w_t·T+w_c·C；0.20 权重降级为描述性 dashboard）② N-5 重标决策变量层（输入非结果，消 double-count）③ 证据质量登记表 21 行（provenance/uncertainty/n/reproducibility，未跑实验一律 NA）。验收复算：v2 与 v1 树结构一致（37 节点/深度 5/21 叶 J1-J21/权重和 1.00），v1 保留供审计。改动纯方法学层，叶公式/权重数值未动 |
 | ⑥ 思考触发分支 T1-T4 | ✅ 全部完成 (11-25) | T1 hook 已实现+commit（stage-gate 仓 1b30bc6，APPROVALS 08697954；隔离沙箱 5 场景过）；T2 接着考虑实验完成（臂B 3/3 爬机制层+预言，臂A 0/3；但域偏移 100% 漂到混沌域——flip=0，形式接住内容未接住；v2 补抓 reasoning 修正低估）；T4 真检测落地（7229159，同一报错签名 10 轮≥2 次或同文件 6 轮改≥5 次且有报错；12 生产 session 0 误报）；T3 整合完成（T2 爬层判据拆成 formalism 的 flip/shift 两分量接进 judge，非 ad-hoc 第四维；阈值维持 223 会话基线待生产 HIT 数据校准）。证据：tasks/think-trigger/decomposition.md |
+| ⑦ E-SYNTH 跨域 Pareto 综合+推荐操作点 | 🔄 in_progress | 数据已全收口但散在 5+ 文件且各域结论不一（GPU cov ~300 饱和 vs Q6 719 未饱和），无文档回答 goal 核心「Pareto 边界+推荐操作点」。TASK-E-SYNTH-pareto.md 派发（11-26，离线零 LLM，sub 执行中）。产出 e-synth-pareto-20261126.md |
 
 **基础设施修复（本轮）**：ROADMAP 3 处断链路径修复（tasks/ → experiments/stage-ablation/tasks/，6/6 路径核验通过）。
 **协调冲突（本轮）**：nodepth 批被另一会话越序并发启动（违反 vLLM 不并发前提），已 kill + relay log 留痕（K7 报告有记录）。
