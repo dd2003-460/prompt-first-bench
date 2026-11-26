@@ -46,5 +46,6 @@
 - 长任务（预计 >10 分钟）：`setsid nohup <cmd> > log 2>&1 &` 后台起，PID 记入回执，**同时把 PID 写入对应 goal 的 `~/.hermes/.stage-gate/<goal_id>.json` context.restart_pid 字段**（stop_hook 等待分支只读 goal state，receipt 里的 PID 它看不见——2026-11-26 23:27 smoke 实证：PID 只在 receipt → stop_hook 落便签分支 → 30-60s/次便签轰炸，观察记录 tasks/think-trigger/stophook-experiment-observation.md F1），本 tick 结束；下 tick 先探活（kill -0）再接力
   - **Hermes 跟踪后台 ≠ setsid 脱离（2026-11-26 23:33 证伪，同死法第 2 次观测）**：T8c-smoke-rerun 执行者以"Hermes 跟踪后台（等价脱离）"为由未用 setsid，pid 97852 在 A 臂完成后无声死亡（无 traceback，收据停留 claimed）。setsid 是硬性要求不是可选项：Hermes 跟踪进程的存活绑定 Hermes 会话生命周期，会话压缩/切换时可能被回收。违反 = 长任务中途死亡 + supervisor 接力成本（本次 B 臂接力耗时 ~20 分钟）
 - 任务卡未明确要求时不派 subagent（任务卡粒度已过阈值）
+- **起长任务前查 receipts/ 当锁（2026-11-27 00:37 协调事故）**：Lead 与 cron 执行者是两个独立会话，monitor 的 WORKING 状态只挡执行者互抢，不挡 Lead 直接起进程。事故：CapFix-Verify 已由微信执行者 00:29 完成（回执 DONE），Lead 00:37 未查 receipts/ 直接起重复进程 25725，跑完 stage 01 后覆盖了执行者的 sidecar B1_01/B1_02（固定文件名），靠 git 恢复。**硬规则：任何会话（Lead/执行者）起长任务前，先 `ls receipts/<任务短ID>.json`——存在且 status∈{claimed,working,done} → 不重复起，改探活/验收/接力**。判别信号：发现 sidecar/产物 mtime 早于自己启动时刻 = 别人先跑过，立即停手核回执
 - 任务短 ID（任务表第一列冒号前）不得含 `/`（receipt 文件名直接拼接短 ID，含 `/` 则文件名不可创建——2026-11-26 smoke 实证：「n=3/臂」炸 ENOENT，被迫子目录镜像 workaround；发现违规短 ID 不自行改名，回执报 T-失配 由监督者修表）
 - 同一任务同一死法 2 次 = 换路，禁止第 3 次原样重试
