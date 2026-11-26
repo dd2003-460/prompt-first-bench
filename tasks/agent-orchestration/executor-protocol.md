@@ -8,9 +8,12 @@
 
 ## 每 tick 流程（严格顺序）
 1. **队列检查**：`python3 tasks/agent-orchestration/queue_monitor.py`
-   - 输出 `IDLE` → 本 tick 结束，最终回复 = `IDLE`
-   - 输出 `MONITOR_ERROR` → 最终回复 = `MONITOR_ERROR <详情>`，不执行任何东西
-   - 输出任务短 ID（如 `T8c-ReAnchor-A`）→ 进 2
+   - `IDLE` → 本 tick 结束，最终回复 = `IDLE`
+   - `MONITOR_ERROR:*` → 最终回复 = `MONITOR_ERROR <详情>`，不执行任何东西
+   - `READY:<短ID>` → 进 2 认领执行
+   - `WORKING:<短ID>` → 其他执行者正在干，本 tick 结束，最终回复 = `BUSY <短ID>`
+   - `STALE:<短ID>` → 崩溃恢复：先核磁盘（git status/日志/部分产物），确认死因后按任务卡边界从断点续做或重做；回执里记 `recovery_note`。同一任务同死法 2 次 = 回执 status=failed 报因，不再试
+   - `REVIEW:<短ID>` → 已有 done/failed 回执待监督者核，执行者不碰，最终回复 = `REVIEW_PENDING <短ID>`
 2. **认领**：写回执 `tasks/agent-orchestration/receipts/<任务短ID>.json`：
    `{"task_id": "<短ID>", "status": "claimed", "started_at": "<ISO8601+08:00>", "evidence": {}, "thinking_log": []}`
 3. **读任务卡**（路径见下方任务卡映射）。任务卡是唯一指令来源，不读其他背景文件（任务卡明确要求的除外）。
