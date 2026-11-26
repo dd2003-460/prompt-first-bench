@@ -15,6 +15,14 @@
 |---|------|------|------|
 | P1 | s5_state_machine.py P4 prompt 加口径分离约束 + 静态验证 + commit | sub | commit hash + 约束文本 grep 命中 + python 语法检查过 + 零实验运行 |
 
+## P1 验收回执（2026-11-26 14:5x）
+
+- commit `26122880d`：`s5_state_machine.py` + 本文件两文件，未 push，零实验，未碰 runs/ json。
+- 约束加在 `synthesize_answer()` 两处 P4 prompt：逐层 `p`（L1607）+ merge `merge_p`（L1627），均在矛盾条款后、【问题】前；grep '口径分离' 命中 2 处。
+- py_compile PASS；AST 探针确认拼串后约束位置正确、(a)/(b) 两量纲 + "禁止混用/不得覆盖" 文本完整。
+- **调用链验证（关键）**：nat 重跑走 `synth_multi_soc.py`（L7 import + L44 调 `synthesize_answer`）与 `ablation_run_one.py`/`ablation_driver.sh`（`--synth`），**全程经 s5_state_machine.py 的 `synthesize_answer`**，不碰 s5_pipeline.py 平行 P4 路径（L1248 `P4_SYNTHESIZE` / L1260 分段）。→ 修复落在 nat 重跑实际路径上，有效。
+- **遗留（正交，下次迭代）**：s5_pipeline.py 自身 P4 路径（`P4_SYNTHESIZE` + 分段 p/merge_p）无口径约束，若将来有 run 直接调 s5_pipeline.py P4 会复发同类混淆；与分解树第 2 条（decompose/verify 概念冲突消解）一并处理。
+
 ## 边界
 
 - 只改 prompt 字符串，不改状态机逻辑/判定阈值
