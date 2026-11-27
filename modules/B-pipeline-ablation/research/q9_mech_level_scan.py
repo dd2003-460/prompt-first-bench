@@ -7,9 +7,10 @@ LLM 每批 8 节点, 按三要素判据 (参数变化/影响机制/影响量) �
 import json, glob, os, re, sys, time, urllib.request
 
 BASE = os.path.dirname(os.path.abspath(__file__))          # .../research
-DATA = os.path.join(BASE, "..", "data", "q9-budget-scan")
+# 2026-11-27 参数化: argv[1]=数据目录 argv[2]=输出 JSON (默认=原 baseline 路径, 向后兼容)
+DATA = sys.argv[1] if len(sys.argv) > 1 else os.path.join(BASE, "..", "data", "q9-budget-scan")
 FILES = sorted(glob.glob(os.path.join(DATA, "q9-*-r*.json")))
-OUT = os.path.join(DATA, "mech-level-scan-20261127.json")
+OUT = sys.argv[2] if len(sys.argv) > 2 else os.path.join(DATA, "mech-level-scan-20261127.json")
 ENDPOINT = "http://127.0.0.1:8787/v1/chat/completions"
 MODEL = "qwen3.8-27b"
 BATCH = 8
