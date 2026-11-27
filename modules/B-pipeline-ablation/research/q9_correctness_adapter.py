@@ -6,6 +6,14 @@ D 2026-11-27: "之前不是说过用公式判断对错了吗, judge 没有接入
   喂进已有的公式/数值机械判 (correctness_layer_v0.judge_text),
   与 llm-judge gate_hit 并排, 看公式判和 LLM-judge 是否给出不同结论。
 
+⚠️ 跨题警告 (2026-11-27 21:15 更正): correctness_layer_v0 锚值来自**选卡题**
+  gold (14GB/0.679¢/task/774-1034-1574/winner=V100×4), 而 q9-budget-scan 的
+  run 是 **research-AGI 题** (gold=Q9-v2.md, 过程/定义型, 数值锚点仅 2 个)。
+  本适配器的 CORR 列对 research-AGI run 只作**诊断** (看公式判在无锚题上的
+  行为), **不得**作为"公式判 vs LLM-judge"的有效性对比 — 两把尺子不同题。
+  有效对比需在每题各自的 gold 锚值上跑 (选卡题: T8b/S5; research-AGI: 待造
+  数值锚点 gold)。
+
 用法: python3 q9_correctness_adapter.py
 输出: 每 run 一行 (judge_gate / CORR / S / N / verdict) + 相关性 + JSON 落盘
 """
