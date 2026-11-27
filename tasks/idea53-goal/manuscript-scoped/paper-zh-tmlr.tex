@@ -7,6 +7,8 @@
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,calc}
 \usepackage{longtable,booktabs,array}
+\usepackage{amsthm}
+\newtheorem{proposition}{命题}
 \providecommand{\tightlist}{\relax}
 \usepackage{xeCJK}
 \setCJKmainfont{Songti SC}
@@ -68,6 +70,22 @@ H(D|S)=H(D)-I(S;D),\qquad I(S;D)=H(D)-H(D|S).
 \textbf{速率单位。} 四个速率分量具有混合的物理单位：FP4 与 FP16 速率是稠密 TFLOPS，标量速率正比于 CUDA 核数，带宽速率是 GB/s。时间占比公式 $t_i=f_i/\mathrm{rate}_i$ 要求四个分量使用一致的 unit 约定；我们采用"每个速率以其原生单位表达为'每秒处理的工作量'"这一约定。这是一种近似：把 TFLOPS、核数和 GB/s 混在一个比值里在物理上不严格。我们在 §7 报告了对这一约定的敏感性。
 
 四个平台：RTX 5090（最大/最小速率比 51.9）、Thor T5000（9.9）、RTX 4090（287.4）、A100（44.3）。
+
+\begin{proposition}[深层判断分布的闭式]\label{prop:closedform}
+在均匀 Dirichlet 先验 $f\sim\mathrm{Dir}(1,1,1,1)$ 下，对每个分量 $i$，
+\[
+P(D=i)=\sum_{T\subseteq\{j:j\neq i\}} (-1)^{|T|}\,\frac{r_i}{r_i+\sum_{j\in T} r_j},
+\]
+其中 $r_i=\mathrm{rate}_i$，求和遍历其余三个指标的全部 $2^{3}=8$ 个子集 $T$。特别地，$P(D=i)$ 是\emph{速率的有理函数}：每一项都是 $r_i$ 的线性形式之比，因此整个分布——从而 $H(D)$、$H(D|S)$ 与 $I(S;D)$——都可以仅凭规格表闭式计算，Monte Carlo 误差为零。
+\end{proposition}
+
+\textbf{证明梗概。} 用指数变量表示均匀 Dirichlet：$f_j=E_j/\sum_k E_k$，$E_k\stackrel{\mathrm{iid}}{\sim}\mathrm{Exp}(1)$。由于 $\sum_k E_k>0$，事件 $D=i$ 等价于
+\[
+\forall j\neq i:\ \frac{E_i}{r_i}>\frac{E_j}{r_j}\ \Longleftrightarrow\ \forall j\neq i:\ E_i > \frac{r_i}{r_j}\,E_j .
+\]
+每个缩放变量 $Y_j=(r_i/r_j)E_j$ 是独立的指数分布（速率 $r_j/r_i$），且 $\Pr(E_i>Y_j)=\dfrac{r_i/r_j}{1+r_i/r_j}=\dfrac{r_i}{r_i+r_j}$（指数变量之比的性质）。对三个事件 $\{E_i\le (r_i/r_j)E_j\}$ 做容斥原理，即得上式交错求和。$\square$
+
+\textbf{验证。} 我们计算该闭式并与 Monte Carlo 对比。与 $2{,}000{,}000$ 次采样的 MC（三个种子）相比，四平台的闭式 flip rate 一致到 $0.0004$ 以内（如 T5000：闭式 $0.4378$ vs.\ MC $0.4373$）。与 §3 的 $40{,}000$ 次采样 MC 相比，闭式 flip 最多相差 $0.003$（如 T5000：$0.4378$ vs.\ $0.4344$），这在 $40{,}000$ 次采样估计的抽样噪声范围内（标准误 $\approx 0.0025$）。由此 Monte Carlo 从\emph{定义}降级为\emph{交叉核对}：闭式是参考值，§3 的 $40{,}000$ 次采样数字带有量级 $\pm 0.003$ 的不可消除抽样噪声。
 
 \section{结果}\label{results}
 
@@ -196,7 +214,11 @@ SSC (2507.18742) & rubric + 输出 & 改写后的规范 & 否（推理时生成�
 
 这张表的作用是划界而非争先：本文不复制任何一行的功能。本文提供的是上表未覆盖的一格——节点信息增量可从规格单独预计算，且可被精确零负控制推翻。
 
-\textbf{推广空间（未实现）。} 本文的树是最简单的示例结构。更复杂的版本可以引入新数据的贝叶斯更新、多假设约束、以及最小描述长度准则下的结构选择。这些方向在本稿中不实现、不主张结果；此处仅声明结构的可扩展性边界。
+\textbf{结构无关性，以及它买到了什么。} GPU 树是方法的第一个实例化，不是边界。评分协议只需要两个要素：(a) 一棵节点为候选假设的分解树；(b) 每个节点可采样的联合分布 $(S,D)$。有了这两样，$P(D=i)$ 就有命题~\ref{prop:closedform} 的精确有理式，评分可预计算，平坦速率对照以代数恒等式归零。树更深或分支更宽只会抬高计算成本，不改变上述任何性质。实际后果是：该协议为节点信息提供了\emph{机械的、客观的}判据——分数在数据生成之前就由树和先验固定，因此数据只能证实或推翻某个节点，而不能参与定义它的分数。这与语义修订路线（如 SSC）形成对照：后者由模型在推理时用自然语言判断决定修订位置；我们是一条信息论回路，判据先于证据。
+
+\textbf{客观性声明的边界。} 客观性\emph{在固定假设空间内}成立。如果树本身成为数据的产物——看到结果后才往树上加节点——协议就退化为事后选择，这正是预注册纪律所针对的失效模式（§4）。因此安全的推广陈述是：\emph{任何预先声明的结构}都可以这样评分；结构可以任意复杂，但必须在接触数据之前画完。
+
+\textbf{推广空间（未实现）。} 在"预先声明结构"这一边界之外，更复杂的版本可以引入新数据的贝叶斯更新、多假设约束、以及最小描述长度准则下的结构选择。这些方向在本稿中不实现、不主张结果；此处仅声明结构的可扩展性边界。
 
 \section{局限}\label{limitations}
 

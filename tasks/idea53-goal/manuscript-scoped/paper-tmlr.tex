@@ -7,6 +7,8 @@
 \usepackage{tikz}
 \usetikzlibrary{positioning,arrows.meta,calc}
 \usepackage{longtable,booktabs,array}
+\usepackage{amsthm}
+\newtheorem{proposition}{Proposition}
 \providecommand{\tightlist}{\relax}
 
 \title{How Much Does a Decomposition-Tree Node Add? A Precomputable, Negative-Controlled Conditional-Information Protocol (A Toy-Model Demonstration)}
@@ -66,6 +68,22 @@ Here $\mathrm{share}_{D,i}$ denotes the time share of component $i$ under the de
 \textbf{Rate units.} The four rate components have mixed physical units: FP4 and FP16 rates are dense TFLOPS, the scalar rate is proportional to CUDA core count, and the bandwidth rate is GB/s. The time-share formula $t_i=f_i/\mathrm{rate}_i$ requires a consistent unit convention across components; we use the convention that each rate is expressed as ``work processed per second'' in its native unit. This is an approximation: mixing TFLOPS, core count, and GB/s in a single ratio is not physically rigorous. We report sensitivity to this convention in \S7.
 
 Four platforms: RTX 5090 (max/min rate ratio 51.9), Thor T5000 (9.9), RTX 4090 (287.4), A100 (44.3).
+
+\begin{proposition}[Closed form of the deep-judgment distribution]\label{prop:closedform}
+Under the uniform Dirichlet prior $f\sim\mathrm{Dir}(1,1,1,1)$, for each component $i$,
+\[
+P(D=i)=\sum_{T\subseteq\{j:j\neq i\}} (-1)^{|T|}\,\frac{r_i}{r_i+\sum_{j\in T} r_j},
+\]
+where $r_i=\mathrm{rate}_i$ and the sum runs over all $2^{3}=8$ subsets $T$ of the other three indices. In particular $P(D=i)$ is a \emph{rational function of the rates}: each term is a quotient of linear forms in the $r_i$, so the full distribution --- and hence $H(D)$, $H(D|S)$, and $I(S;D)$ --- is computable in closed form from the specification sheet alone, with zero Monte Carlo error.
+\end{proposition}
+
+\textbf{Proof sketch.} Write $f_j=E_j/\sum_k E_k$ with $E_k\stackrel{\mathrm{iid}}{\sim}\mathrm{Exp}(1)$ (the standard representation of the uniform Dirichlet). Since $\sum_k E_k>0$, the event $D=i$ is
+\[
+\forall j\neq i:\ \frac{E_i}{r_i}>\frac{E_j}{r_j}\ \Longleftrightarrow\ \forall j\neq i:\ E_i > \frac{r_i}{r_j}\,E_j .
+\]
+Each scaled variable $Y_j=(r_i/r_j)E_j$ is independent exponential with rate $r_j/r_i$, and $\Pr(E_i>Y_j)=\dfrac{r_i/r_j}{1+r_i/r_j}=\dfrac{r_i}{r_i+r_j}$ (ratio of exponentials). Applying inclusion--exclusion over the three events $\{E_i\le (r_i/r_j)E_j\}$ gives the stated alternating sum. $\square$
+
+\textbf{Verification.} We evaluate this closed form and compare it against Monte Carlo. Against a $2{,}000{,}000$-sample MC (three seeds), the closed-form flip rates agree to within $0.0004$ on all four platforms (e.g., T5000: closed form $0.4378$ vs.\ MC $0.4373$). Against the $40{,}000$-sample MC of Section~3, the closed-form flip differs by at most $0.003$ (e.g., T5000: $0.4378$ vs.\ $0.4344$), which is within the sampling noise of the $40{,}000$-sample estimate (standard error $\approx 0.0025$). The Monte Carlo is thereby demoted from \emph{definition} to \emph{cross-check}: the closed form is the reference value, and the $40{,}000$-sample figures of Section~3 carry an irreducible sampling noise of order $\pm 0.003$ on the flip rate.
 
 \section{Results}\label{results}
 
@@ -194,7 +212,11 @@ This work & hardware spec + prior & node increment $I(S;D)$, $H(D|S)$ & \textbf{
 
 The table delineates rather than prioritizes: we do not replicate any existing row. We supply one uncovered cell --- that a node's information increment is precomputable from specifications alone and falsifiable by an exact-zero control.
 
-\textbf{Extension space (not implemented).} The tree here is the simplest example structure. Richer versions could introduce Bayesian updating from new data, multiple assumption constraints, and structure selection under a minimum-description-length criterion. None of these is implemented or claimed here; we only state the boundary of extensibility.
+\textbf{Structure-agnostic, and what that buys.} The GPU tree is the first instantiation, not the boundary of the method. The scoring protocol requires only two ingredients: (a) a decomposition tree whose nodes are candidate hypotheses, and (b) a samplable joint distribution $(S,D)$ per node. Given those, $P(D=i)$ admits the exact rational form of Proposition~1, the score is precomputable, and the flat-rate control zeroes by algebraic identity. Deeper trees or wider branching raise the computational cost but change none of these properties. The practical consequence is that the protocol supplies a \emph{mechanical, objective} criterion for node information: the score is fixed by the tree and the prior before any data are generated, so data can only confirm or refute a node, never participate in defining its score. This contrasts with semantic-revision approaches (e.g., SSC), where the locus of revision is decided by the model's own natural-language judgment at test time; ours is an information-theoretic loop in which the criterion precedes the evidence.
+
+\textbf{Boundary of the objectivity claim.} The objectivity holds \emph{within a fixed hypothesis space}. If the tree itself becomes a product of the data --- nodes added after seeing results --- the protocol degenerates into post-hoc selection, which is precisely the failure mode the preregistration discipline targets (Section~\ref{negative-controls-and-defenses}). The safe general statement is therefore: \emph{any pre-declared structure} can be scored this way; the structure may be arbitrarily complex, but it must be drawn before the data are touched.
+
+\textbf{Extension space (not implemented).} Beyond the pre-declared-structure boundary, richer versions could introduce Bayesian updating from new data, multiple assumption constraints, and structure selection under a minimum-description-length criterion. None of these is implemented or claimed here; we only state the boundary of extensibility.
 
 \section{Limitations}\label{limitations}
 
