@@ -50,24 +50,25 @@ def score_runs(runs, model, units):
     return per_run
 
 
-def build_result(per_run, gate_ids):
-    """矩阵 + 主/次端点 + 阈值诊断. gate 命中率 = 该 budget 下 reps 中命中该 gate 的比例."""
-    n_gates = len(gate_ids)
-    gate_matrix = {g: {} for g in gate_ids}
+def build_result(per_run, gate_uids):
+    """矩阵 + 主/次端点 + 阈值诊断. gate 命中率 = 该 budget 下 reps 中命中该 gate 的比例.
+    gate_uids: unit_id (N-*) 列表, 与 confirmed 集合同命名空间 (2026-11-27 修)."""
+    n_gates = len(gate_uids)
+    gate_matrix = {g: {} for g in gate_uids}
     gate_hit_rate = {}
     n_per_budget = {}
     for b in BUDGETS:
         reps = [(b, r) for (bb, r) in per_run if bb == b]
         n_per_budget[b] = len(reps)
         if not reps:
-            for g in gate_ids:
+            for g in gate_uids:
                 gate_matrix[g][b] = None
             gate_hit_rate[b] = None
             continue
-        for g in gate_ids:
+        for g in gate_uids:
             hit = sum(1 for kr in reps if g in per_run[kr]["confirmed"])
             gate_matrix[g][b] = round(hit / len(reps), 4)
-        frac = sum(1 for g in gate_ids if gate_matrix[g][b] == 1.0) / n_gates
+        frac = sum(1 for g in gate_uids if gate_matrix[g][b] == 1.0) / n_gates
         gate_hit_rate[b] = round(frac, 4)
     # 主端点: gate 命中率(11 gate 全命中)首次 = 1.0 的最小 budget
     first = next((b for b in BUDGETS if gate_hit_rate.get(b) == 1.0), None)
@@ -78,7 +79,7 @@ def build_result(per_run, gate_ids):
     secondary = {}
     for b in BUDGETS:
         reps = [(b, r) for (bb, r) in per_run if bb == b]
-        full = [kr for kr in reps if all(g in per_run[kr]["confirmed"] for g in gate_ids)]
+        full = [kr for kr in reps if all(g in per_run[kr]["confirmed"] for g in gate_uids)]
         ct = {u: (round(sum(1 for kr in full if u in per_run[kr]["confirmed"]) / len(full), 4)
                   if full else None) for u in ("N-2", "N-4")}
         secondary[b] = {"n_gate_full_runs": len(full),
@@ -110,6 +111,12 @@ def main():
     gold = json.load(open(GOLD))
     units, gate_ids = gold["units"], gold["gate_units"]
     assert len(gate_ids) == 11, f"expect 11 gates, got {len(gate_ids)}"
+    # 2026-11-27 修: gate_ids 是 J-id (J1..J14), confirmed 集合存 unit_id (N-*),
+    # 直接 `g in confirmed` 永远 False → gate 矩阵结构性全 0。
+    # 用 unit.j_id 字段做 J-id → unit_id 映射。
+    jmap = {u["j_id"]: u["unit_id"] for u in units if u.get("j_id")}
+    gate_uids = [jmap[j] for j in gate_ids if j in jmap]
+    assert len(gate_uids) == 11, f"j_id 映射不全: {gate_uids}"
     runs = parse_runs()
     if not runs:
         print("[analyze_q9e_scan] FATAL: 无 q9-*.json run", file=sys.stderr)
@@ -117,7 +124,7 @@ def main():
     print(f"[analyze_q9e_scan] {len(runs)} runs, 加载 bge-m3 ...")
     model = load_model()
     per_run = score_runs(runs, model, units)
-    result = build_result(per_run, gate_ids)
+    result = build_result(per_run, gate_uids)
     json.dump(result, open(OUT, "w"), ensure_ascii=False, indent=1)
     print(f"[analyze_q9e_scan] → {OUT}")
     rates = result["gate_hit_rate_by_budget"]
