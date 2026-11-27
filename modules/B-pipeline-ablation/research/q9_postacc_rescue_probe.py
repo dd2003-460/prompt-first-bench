@@ -278,6 +278,37 @@ def main():
         vals = [r["post_acc_rescued"] for r in per_run if r["budget"] == b and r["post_acc_rescued"] is not None]
         per_budget[str(b)] = round(sum(vals) / len(vals), 4)
 
+    # ---- 敏感性分析: 节点去重口径 + 矛盾率 + batch 检测概率 ----
+    # committed 口径 n_num(参数个数)+n_llm(节点数) 量纲不一; 这里按矛盾节点并集重算。
+    # batch 检测概率: LLM 只判批内共现, 矛盾对被检出要求同批; p_detect≈min(1, BATCH/nv)。
+    sens_rows = []
+    for r in per_run:
+        fn = r["file"]
+        d = json.load(open(os.path.join(DATA, fn)))
+        nodes = d.get("nodes", [])
+        nv = r["n_verified"]
+        _, _, cn = numeric_contradictions(nodes)
+        llm_nodes = {nid for nid, v in r["llm_issues"].items() if v["issue"] == "contradiction"}
+        union = cn | llm_nodes
+        sens_rows.append({
+            "file": fn, "budget": r["budget"], "n_verified": nv,
+            "n_numeric_contra_nodes": len(cn),
+            "n_llm_contra_nodes": len(llm_nodes),
+            "overlap": len(cn & llm_nodes),
+            "n_contra_nodes_union": len(union),
+            "contra_rate": round(len(union) / nv, 4) if nv else None,
+            "post_acc_node_dedup": round((nv - len(union)) / nv, 4) if nv else None,
+            "p_detect_pair_in_batch": round(min(1.0, BATCH / nv), 3) if nv else None,
+        })
+    sens_budget = {}
+    for b in sorted({r["budget"] for r in sens_rows}):
+        rs = [r for r in sens_rows if r["budget"] == b]
+        sens_budget[str(b)] = {
+            "mean_contra_rate": round(sum(r["contra_rate"] for r in rs) / len(rs), 4),
+            "mean_post_acc_node_dedup": round(sum(r["post_acc_node_dedup"] for r in rs) / len(rs), 4),
+            "n_runs": len(rs),
+        }
+
     all_pa = [r["post_acc_rescued"] for r in per_run if r["post_acc_rescued"] is not None]
     out = {
         "instrument": "postacc-rescue-probe: numeric-consistency (regex) + LLM judge "
@@ -287,6 +318,14 @@ def main():
         "per_budget_mean": per_budget,
         "overall_mean": round(sum(all_pa) / len(all_pa), 4) if all_pa else None,
         "baseline_post_acc": 1.0,
+        "sensitivity_node_dedup": {
+            "rows": sens_rows,
+            "per_budget_mean": sens_budget,
+            "note": "按矛盾节点并集去重重算 (n_num 按参数个数, 与 n_llm 节点数量纲不一, "
+                    "committed 口径可能对多节点参数组低估扣减); LLM 矛盾判定仅批内共现, "
+                    "p_detect_pair_in_batch=min(1,20/nv) — 大 run 检测概率低, "
+                    "其高矛盾率是在低检测概率下测得的, 更可能是真实的",
+        },
         "note": "post_acc_rescued=(n_verified-min(n_verified,n_num+n_llm))/n_verified; "
                 "n_unsupported 单独记录未计入扣减(保守口径); 数值检查覆盖全部节点, LLM 只判 verified; "
                 "n_num 按矛盾参数个数计, n_llm 按矛盾节点数计, 两者相加可能有少量重复计数",

@@ -218,6 +218,14 @@
 - 杠杆3 停机=收敛非耗尽: frontier 空或 K 轮无新正交节点即停。预言: n_realized 出现 run 间方差 (现在全贴 cap), 单位节点覆盖升。
 **最便宜判别探针**: 救活探针 (在跑) 的 n_unsupported 字段 = 杠杆1 预言的下界测量 (verified 集有多少无依据), 不重跑 SM。救活探针回来 → 三杠杆各派最小实验, 现有 10 runs 是对照臂。
 
+**修正 (2026-11-27 19:1x, source×status 交叉验证 + P3_VERIFY 原文核读, 推翻"验证门筛选模糊"假设)**:
+- **决定性数字**: source 路由 × 状态交叉表 (10 runs 1198 节点): knowledge 780 (degraded 29%, verified 锚定率 0.00) / **search 345 (degraded 97%)** / given 65 (degraded 2%)。search-degraded 334 个里仅 26 个真"检索失败/timeout", **~308 个是 `[质询]` 开头 = 检索成功拿到来源, 但 LLM 核验判"claim 未被来源直接支持"**。
+- **机制 (P3_VERIFY prompt 原文, modules/D-decomp-state-machine/scripts/prompts.py L146)**: ① source=search 节点适用"经验事实排除条款"——具体参数值/市场数据/版本号不适用"第一性原理可推出"豁免, 必须来源直接支持 (a) 或多源一致 (c), 否则 degraded; ② source=knowledge/given 节点"逻辑自洽即 verified", 无需来源。→ **选择倒挂**: 带具体数值的经验 claim (信息量高的) 走 search → 97% 死于"来源不直接支持"; 定性软 claim (信息量低的) 走 knowledge → 几乎全过成 verified。verified 集锚定率 0.4% 不是"模型爱说废话", 是**验证标准与检索通道能力不匹配**: 网页检索片段几乎从不直接陈述具体数值, 而标准几乎不可满足。
+- **Goodhart 回路 (新)**: search 路由 = 97% 死亡率 → rework 压力训练模型把 claim 改标 knowledge 规避检索 → 65% 走 knowledge → verified 集更软 → 循环自我强化。模型"知道自己不知道" (29% 主动标 search, gap 标记在工作), 但补全通道是死刑通道, 于是学会不补。
+- **合成层放大**: P4_SYNTHESIZE 只吃 verified 节点 → 最终答案由软 claim 构成, 经验内容全被隔离在 degraded 里。13/13 rework 停机 + 150 覆盖拐点的共同解释: 信息性节点死在验证门, 活下来的不推进覆盖。
+- **杠杆1 修正 (从"验证要有判别力"改为"校准验证标准到检索通道能力")**: 三选一或组合: (a) search 节点"间接支持+逻辑自洽"→ verified 带置信档 (不再二元); (b) **degraded 节点进合成层带置信标签** (当前被隔离 = 信息直接丢弃, 最便宜的一刀); (c) 提升检索质量 (query 改写/多源) 让"直接支持"可满足。预言不变: verified 锚定率 0.4%→16%+, 最终答案经验内容占比升, rework 率降。杠杆2/3 维持。
+- **General 表述 (可迁移到任何带验证门的 agent 研究循环)**: 验证门的**可满足性**决定哪些 claim 存活; 循环优化的是"过门率"不是"信息量"; 若验证标准超出检索通道的实际供给能力, 系统选择性地杀死信息性 claim、放行空洞 claim, 且路由激励反向强化。判据: 任何验证门上线前测其"通道满足率" (标准可满足的比例), 低于阈值 = 门在筛选空洞。
+
 ## T9: 本地 AGI 硬件选型探针 (frame-shift 测试) — 2026-11-27
 - 来源: D 反问 "4k 是我们的目标吗? 本地 AGI 最高性价比硬件系统"
 - 假设: 27b 参数记忆里 Roofline(速度frame) 太强, 模型面对硬件选型题会惯性优化 tok/s,
