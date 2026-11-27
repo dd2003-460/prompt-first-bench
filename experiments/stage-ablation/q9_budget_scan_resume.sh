@@ -5,6 +5,9 @@
 # 与原队列完全同构 (qid/SM_CKPT_DIR/stdout 命名/log 路径), 只换循环范围
 # 用法: setsid nohup bash q9_budget_scan_resume.sh > /tmp/q9-resume-nohup.log 2>&1 &
 set -u
+# 2026-11-27 22:20 修: 干净 shell 无继承 PYTHONPATH → 裸 import prompts/s5_pipeline/s8b_pilot 全挂 (5 run 秒败).
+# 照抄生产 wrapper run_q9_gated.py L12-16 三目录 (D/scripts + A/scripts + stage-ablation).
+export PYTHONPATH="/Users/a1-6/Desktop/workspace/pfb-thinkmech/modules/D-decomp-state-machine/scripts:/Users/a1-6/Desktop/workspace/pfb-thinkmech/modules/A-eval-infra/scripts:/Users/a1-6/Desktop/workspace/pfb-thinkmech/experiments/stage-ablation"
 cd /Users/a1-6/Desktop/workspace/pfb-thinkmech/experiments/stage-ablation
 QFILE=/Users/a1-6/Desktop/workspace/pfb-thinkmech/experiments/stage-ablation/questions/Q9-agi-pure.txt
 OUT=/Users/a1-6/Desktop/workspace/pfb-thinkmech/modules/B-pipeline-ablation/data/q9-budget-scan
