@@ -27,7 +27,7 @@ for budget in 50 100 150 300 719; do
     ts=$(date '+%Y%m%d-%H%M%S')
     t0=$(date +%s)
     SM_CKPT_DIR="$OUT/checkpoints" python3 s5_state_machine.py \
-      --question-file "$QFILE" --qid q9-agi --max-nodes $budget \
+      --question-file "$QFILE" --qid q9-agi --max-nodes $budget --max-depth 10 \
       > "$OUT/q9-${budget}-r${rep}.stdout" 2>&1
     rc=$?
     t1=$(date +%s)
