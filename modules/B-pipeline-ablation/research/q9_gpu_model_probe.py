@@ -147,7 +147,7 @@ def count_free_params(text):
     return len(syms), sorted(syms)
 
 # ---------- 工具执行 ----------
-SEARCH_TIMEOUT = 40  # 秒; 检索通道无内置超时, 卡死会拖死整个 episode (2026-11-27 hw 探针实证)
+SEARCH_TIMEOUT = 90  # 秒; 检索通道今天慢 (28-32s/query, 平时 5s), 40s 会误杀慢 query 污染 A 臂接地率 (2026-11-27 实证); 90s 放行慢 query, 仍拦真挂死
 # 子进程跑检索: 进程级 kill 干净, 无 GIL/跨线程 socket 阻塞问题 (线程隔离实测死锁)
 _SEARCH_SNIPPET = r'''
 import sys, json, os
@@ -168,6 +168,7 @@ except Exception as e:
 print(json.dumps(out))
 '''
 def do_search(query, k=3):
+    t0 = time.time()
     try:
         p = subprocess.run(
             [sys.executable, "-c", _SEARCH_SNIPPET, _HERE, query, str(k)],
@@ -176,7 +177,9 @@ def do_search(query, k=3):
             return []
         # 最后一行是 JSON (前面可能有检索日志)
         lines = [ln for ln in p.stdout.splitlines() if ln.strip().startswith("[[")]
-        return json.loads(lines[-1]) if lines else []
+        res = json.loads(lines[-1]) if lines else []
+        print(f"  [SEARCH-OK] {query[:50]!r} -> {len(res)} 条 ({time.time()-t0:.0f}s)", flush=True)
+        return res
     except subprocess.TimeoutExpired:
         print(f"  [SEARCH-TIMEOUT] {query[:60]!r} >{SEARCH_TIMEOUT}s, 返回空", flush=True)
         return []
