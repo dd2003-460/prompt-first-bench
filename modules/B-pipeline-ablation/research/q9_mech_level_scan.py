@@ -68,11 +68,23 @@ def main():
         for attempt in range(1, MAX_RETRY + 1):
             try:
                 obj = extract_json(llm_call(prompt))
-                missing = [k for k, *_ in batch if k not in obj or obj[k] not in ("mech", "spec", "other")]
+                short_seen = {}
+                for k, *_ in batch:
+                    s = k.split(":")[1]
+                    short_seen[s] = short_seen.get(s, 0) + 1
+                resolved = {}
+                for k, *_ in batch:
+                    if k in obj and obj[k] in ("mech", "spec", "other"):
+                        resolved[k] = obj[k]
+                    else:
+                        s = k.split(":")[1]
+                        if s in obj and obj[s] in ("mech", "spec", "other") and short_seen[s] == 1:
+                            resolved[k] = obj[s]
+                missing = [k for k, *_ in batch if k not in resolved]
                 if missing:
                     raise ValueError(f"missing/invalid: {missing}")
                 for k, *_ in batch:
-                    labels[k] = obj[k]
+                    labels[k] = resolved[k]
                 print(f"batch {bi + 1}/{len(batches)} ok (attempt {attempt})", flush=True)
                 break
             except Exception as e:
