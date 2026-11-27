@@ -27,9 +27,12 @@
 ## 4. 任务表
 | 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 |
 |---|---|---|---|---|---|
-| P1 双臂驱动脚本+跑（SM 后台+裸基线） | — | ~80（SM 入口+cfg+题面） | ~120（两脚本，write_file 落盘） | 1 | sub-27b |
+| P1 双臂驱动脚本+跑（SM 后台+裸基线） | — | ~80（SM 入口+cfg+题面） | ~120（两脚本，write_file 落盘） | 1 | sub-27b（sa-0-dd003644 在跑） |
 | P2 指标抽取+对照结论 | P1 | ~60（两臂产物 JSON/txt） | ~40（metrics.json+1 行结论） | 1 | sub-27b |
 | P3 判决+登记 | P2 | ~30（metrics.json+本文件 §3） | ~20（decomposition 判决节） | 1 | 判断-Lead |
+| P4 C/E 计算匹配对照臂（BoN N=SM调用数 / GenericMultiStep token 匹配） | P1（需 SM 实际调用数/token 定预算） | ~40（sm-arm.json rounds_log） | ~80（两臂脚本） | 1 | sub-27b |
+| P5 电池 D2-D6 域跑（Q11-Q15 题面已备） | P3 判决=transfer 才跑满；=handcrafted 则先重设计核 | 每域~60 | 每域~40 | 2-3 | sub-27b 分批 |
+| P6 迁移 gap 分布+四必要条件终判 | P4+P5 | ~80（全域 metrics） | ~30（终判节） | 1 | 判断-Lead |
 
 ## 5. 边界
 - 生产 prompt / SM 源码零改动（改了就不是测生产核）
