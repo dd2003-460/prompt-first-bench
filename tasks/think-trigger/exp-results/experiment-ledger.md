@@ -72,6 +72,7 @@
 | G9-independence | rubric 维度间相互独立（Decision 22 本体论反例检验） | - | done | gpu 15 维度两两判定（层级相关/相关/独立，如 g0×g1 层级相关 conf 0.95）；nat/soc 同法（g9-independence-nat.json/soc.json） | ✗✗✓ | experiments/stage-ablation/g9-independence.md; experiments/stage-ablation/g9-independence-gpu.json |
 | S5-SM-bench-DRB | S5 状态机管线在 DRB 公开题四维加权总分 ≥ CellCog Max 56.72 对标线（无泄漏、verified 率正常） | DRB 公开题 drb-1/drb-2/drb-16 | running | - | ✗✓✓ | experiments/stage-ablation/s5-sm-bench-report.md; experiments/stage-ablation/J-drb-2-reverified.json |
 | judge-v2-comparison | 连续 [0,1] judge（每点独立打分）下 A4（深度引导）两域领先 | S0; A3; A4; S3 | done | A4 nat 0.594 / soc 0.756 领先；S3 第三（0.570/0.717）；A3≈S0 确认零效应；臂间差异 n=25-30 不显著 | ✗✓✓ | experiments/stage-ablation/judge-v2-comparison.md |
+| q9-relevance-gate-150 | 相关性门禁（P1H_INDEX+P15B_GAP_FILL 尾部加"节点须直接服务 Q9 部署目标"约束）压低 150 档漂移率 | gated 2 runs (monkeypatch); baseline 150-r1/2/3 (对照不重跑) | done | 同口径关键词粗判：gated 1.3%/0.7% (2/150,1/150) vs baseline 合并 9.1% (41/450)；节点数 150/150 未缩水；假设初步成立（n=2/臂，精确 mech 三要素重扫后置 taskcard-gated-mech-rescan.md）；Lead 复算核验数字一致 | ✓✓✓ | modules/B-pipeline-ablation/data/q9-budget-scan-gated/q9-gated-r{1,2}-*.json; commit ef31c1b2e |
 
 ## 队列（arena 排序区）
 
