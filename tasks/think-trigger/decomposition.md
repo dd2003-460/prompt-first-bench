@@ -204,4 +204,28 @@
   - **caveat**: 300 档 n=1 (r2/r3 在 judge 启动后才跑完, 未入判); 节点级证据不受此污染。
   - **300/719 重启条件 (原设定)**: 新仪器曲线显著非单调 — 现已满足"150 后平坦" → 不重启, 轴正式关闭。
 - **执行偏差注记 (2026-11-27 15:42)**: 15:40 窗口 Lead 未核到本决策即起 resume 队列 (q9_budget_scan_resume.sh, 将重跑 300 r2/r3+719×3)——发现冲突后立即 kill, 无孤儿进程, b300-r2 未落盘 (无 json, 仅 3KB stdout 残片), 数据集不受影响 (仍 10 runs), resume 脚本已删。教训: 起长任务前必须重读 decomposition 最新决策段 (外部编辑可能已改变方向), 不能只信自己上下文里的旧状态。
-- **post_acc 死亡判定 + 救活探针 (2026-11-27 18:40, Lead 地基复核; 19:xx D 指正"只是评分问题"后修正)**: ① 状态机 `s5_state_machine.py` 无 `contradicted` 状态 (只有 pending/verified/degraded/reworked) → post_acc=verified/(verified+contradicted) 分母恒 0 → 10 runs 全 post_acc=1.000 (常数, 零判别力, 已逐 run 复算)。② 矛盾扫描器 `_scan_contradictions` 每轮只扫最近 30 verified 节点、单次 LLM 调用、只报 ≤5 个 → 10 runs 抓到的 2 个矛盾事件是**下限不是真值** (D 指正: 仪器弱 ≠ 事件空间空)。③ **救活探针 (sub sa-0-48c24a27 在跑)**: 不修状态机不重跑 SM, 对 10 runs 全量 verified 节点做 (a) 数值一致性检查 (正则抽参数, 同参数差 >10% 记矛盾) + (b) LLM judge 全量判定 (互斥/无依据), 脚本 `research/q9_postacc_rescue_probe.py`, 落盘 `data/q9-budget-scan/postacc-rescue-probe-20261127.json`。④ **判决路径**: 救活后有区分度 → post_acc 复活为 v1 排序键, D1 之争 (A 惩罚项 vs B 纯) 恢复有效, 待 D 裁; 救活后仍平坦 → post_acc 降级诊断, v1 主端点改 gate 覆盖率 (广度) + post_acc (质量) 互补不互斥。⑤ gate 覆盖曲线 (150 拐点+298 硬顶) 不依赖 post_acc, 已收口不受影响。
+- **post_acc 死亡判定 + 救活探针 (2026-11-27 18:40, Lead 地基复核; 19:xx D 指正"只是评分问题"后修正)**: ① 状态机 `s5_state_machine.py` 无 `contradicted` 状态 (只有 pending/verified/degraded/reworked) → post_acc=verified/(verified+contradicted) 分母恒 0 → 10 runs 全 post_acc=1.000 (常数, 零判别力, 已逐 run 复算)。② 矛盾扫描器 `_scan_contradictions` 每轮只扫最近 30 verified 节点、单次 LLM 调用、只报 ≤5 个 → 10 runs 抓到的 2 个矛盾事件是**下限不是真值** (D 指正: 仪器弱 ≠ 事件空)。③ **救活探针 (sub sa-0-48c24a27 在跑)**: 不修状态机不重跑 SM, 对 10 runs 全量 verified 节点做 (a) 数值一致性检查 (正则抽参数, 同参数差 >10% 记矛盾) + (b) LLM judge 全量判定 (互斥/无依据), 脚本 `research/q9_postacc_rescue_probe.py`, 落盘 `data/q9-budget-scan/postacc-rescue-probe-20261127.json`。④ **判决路径**: 救活后有区分度 → post_acc 复活为 v1 排序键, D1 之争 (A 惩罚项 vs B 纯) 恢复有效, 待 D 裁; 救活后仍平坦 → post_acc 降级诊断, v1 主端点改 gate 覆盖率 (广度) + post_acc (质量) 互补不互斥。⑤ gate 覆盖曲线 (150 拐点+298 硬顶) 不依赖 post_acc, 已收口不受影响。
+
+### Q9 方向级诊断 (2026-11-27 19:xx, D 问"我们在干什么, 能 general 地给优化方向吗")
+**我们在干什么**: 表面=Q9 预算-覆盖曲线; 实际=给 S5 自动研究 harness 做体检。体检结论 (三条独立证据 → 同一根因):
+1. 预算只买节点数不买质量 (150 拐点后平坦, 13/13 预算耗尽停机非收敛, 298 硬顶)
+2. 深度不引入新信息: 经验锚定率 (claim 带数值+来源) by 深度 L2/L3/L4 = 0.19/0.16/0.16 平的 (10 runs 1198 节点, 总 0.16; L1=0/57 是根节点框架 claim 无预期)
+3. **验证门在筛选"模糊" (新发现, 2026-11-27 19:xx 探针)**: verified 集锚定率 2/517=0.4%, degraded 集 182/572=32% — 具体数值 claim 触发联网核验、核验失败→degraded; 模糊 claim 不触发核验→LLM 看一眼就过→verified (机制=假设, 相关性=实测)。验证门系统性把具体 claim 筛出 verified 集。
+**统一根因**: 目标函数错位 — 循环优化"节点产量", 不优化"每节点信息量"。覆盖广度不惩罚软 claim, 验证通过率反而奖励软 claim (Goodhart)。三域佐证: Q6 (深层=代数展开, 条件熵≈0) + Q9 (本条) + objfmt-hack (H2: 停机条件/scorer 驱动 hack, 非格式)。
+**General 方向 (一条原则导出三杠杆)**: 把循环目标从"产节点"改成"增信息"。
+- 杠杆1 验证要有判别力: verified 必须带正证据 (来源+数值核对), 否则留 pending。预言: verified 锚定率 0.4%→≥16%, post_acc 分母变真。
+- 杠杆2 深度必须买接地: 分支无未决经验问题→不展开 (停=无新问题, 非无预算)。预言: 锚定率随深度升, rework 占比降。
+- 杠杆3 停机=收敛非耗尽: frontier 空或 K 轮无新正交节点即停。预言: n_realized 出现 run 间方差 (现在全贴 cap), 单位节点覆盖升。
+**最便宜判别探针**: 救活探针 (在跑) 的 n_unsupported 字段 = 杠杆1 预言的下界测量 (verified 集有多少无依据), 不重跑 SM。救活探针回来 → 三杠杆各派最小实验, 现有 10 runs 是对照臂。
+
+## T9: 本地 AGI 硬件选型探针 (frame-shift 测试) — 2026-11-27
+- 来源: D 反问 "4k 是我们的目标吗? 本地 AGI 最高性价比硬件系统"
+- 假设: 27b 参数记忆里 Roofline(速度frame) 太强, 模型面对硬件选型题会惯性优化 tok/s,
+  而非识别"显存容量=主导因子" (frame-shift 失败)
+- 设计: 复用 GPU 探针 harness, --req hw 题面 (预算5万, 27B-70B, 32K ctx), A/B/C 三臂
+- 外部真值: modules/B-pipeline-ablation/research/hw_probe_ground_truth.md
+  (70B Q4 需 ~46GB 显存, 单卡24GB装不下, 容量主导)
+- 判据: ✓=给出"显存>=权重+KV"容量公式+推荐双卡/大显存; ✗=还在优化tok/s; ✗✗=散文模拟(search=0自称实测)
+- 状态: 跑中 (PID 70577, 2026-11-27 18:50 点火)
+- 产出: data/q9-budget-scan/gpu-model-probe-20261127_hw.json
+- 依赖: 无 (独立); 读: 真值框架; 写: 1 JSON + 判读结论
