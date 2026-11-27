@@ -8,10 +8,8 @@
 \usetikzlibrary{positioning,arrows.meta,calc}
 \usepackage{longtable,booktabs,array}
 \providecommand{\tightlist}{\relax}
-\usepackage{xeCJK}
-\setCJKmainfont{Songti SC}
 
-\title{How Much Should a Decomposition-Tree Node Score? A Closed-Form, Negative-Controlled Conditional-Information Measure (A Toy-Model Demonstration)}
+\title{How Much Does a Decomposition-Tree Node Add? A Precomputable, Negative-Controlled Conditional-Information Protocol (A Toy-Model Demonstration)}
 % Anonymous submission (TMLR double blind): no author block.
 
 \def\month{November}
@@ -22,27 +20,30 @@
 \maketitle
 
 \begin{abstract}
-After a judgment is decomposed into a tree, a natural question with no standard answer is: how much information does each node contribute? We give a closed-form conditional-information quantity: separate a \emph{surface judgment} $S$ (enumeration by share under equal rates) from a \emph{deep judgment} $D$ (obtained by applying true rates), and measure the deep level's \textbf{incremental information} as $H(D|S)$. The quantity depends only on hardware specifications and a workload prior: no experiments, no training, no labels. Across four platforms and 40,000 sampled workloads, the surface judgment misidentifies the bottleneck type on 43--56\% of workloads, the deep correction shifts time share by 0.17--0.23, and deep-only information $H(D|S)$ is 0.71--0.77 bits. Two negative controls exclude the trivial readings that deep nodes merely forward surface information, or that they win by definition: under a flat-rate control the increment is \textbf{exactly zero}, and it is invariant under 24 parameter--depth permutations. Three hand-derived anchors reproduce exactly. With all criteria committed before data generation (preregistration \citep{camerer2018}), we present these results as a demonstration of a \textbf{scoring basis}, not as a solution to any method or alignment problem.
+After a judgment is decomposed into a tree, a natural question with no standard answer is: how much information does each node \emph{add}? We give a precomputable conditional-information protocol: separate a \emph{surface judgment} $S$ (enumeration by share under equal rates) from a \emph{deep judgment} $D$ (obtained by applying true rates), and quantify the deep level's \textbf{incremental information content} via $H(D|S)$ (residual uncertainty) and $I(S;D)$ (information gained). The protocol depends only on hardware specifications and a workload prior: no experiments, no training, no labels --- it can be computed and preregistered \emph{before any experiment}. Across four platforms and 40,000 sampled workloads, the surface judgment misidentifies the bottleneck type on 43--56\% of workloads, and deep-only residual information $H(D|S)$ is 0.71--0.77 bits (57--72\% of total $H(D)$). Two negative controls: under a flat-rate control the increment is \textbf{exactly zero} (an algebraic identity, not a measurement), and under 24 rate-vector permutations the increment varies by $\leq 0.011$ (a sampling artefact, not invariance). We also report the \textbf{failure} of our preregistered node-level criterion: enumeration-type nodes carried 0.5841 bits vs.\ judgment-type 0.1344 bits, with the cross-hardware consistency check returning false. This preregistered negative result motivates the two-level surface-vs-deep model reported here, which is \emph{post hoc}. We present these results as a demonstration of a precomputable scoring protocol, not as a solution to any method or alignment problem.
 \end{abstract}
 
-\section{1. Why this quantity}\label{why-this-quantity}
+\section{Why this quantity}\label{why-this-quantity}
 
 \textbf{Share-based attribution is insufficient.} Bottleneck determination is a compositional function of interacting factors. On the Jetson Thor T5000, FP16 accounts for only 30\% of a 70/30 workload yet consumes 63\% of time after rates are applied (80\% at 50/50). Small share is not small contribution; measures inheriting linearity (share, ablation under fixed context) systematically underweight the interacting component.
 
-\textbf{An information-family measure, not attribution.} Mutual information captures nonlinear dependence without a linearity assumption: $I(S;D)>0$ even when $D$ is a nonlinear function of $S$. The decomposition $H(D)=H(D|S)+I(S;D)$ isolates exactly the information about the bottleneck that survives once the surface judgment is known --- the quantity we want to credit to deep nodes.
+\textbf{A precomputable information-family measure.} Unlike ID3's information gain $I(Y;A)$, which requires labeled data to estimate $p(y,a)$, our quantity $H(D|S)$ depends only on hardware specifications and a workload prior, because both $S$ and $D$ are deterministic functions of the workload composition $f$ --- the distribution of $f$ is assumed, not measured. This makes the quantity \emph{precomputable}: it can be evaluated and preregistered before any experiment is run. This is the fundamental distinction from data-driven information gain, and it is what makes preregistration logically coherent.
 
-\textbf{A two-level structure makes the increment well-defined.} Surface = enumeration of shares under equal rates; deep = the judgment after applying true rates $t_i=f_i/\mathrm{rate}_i$. $H(D|S)$ is precisely how much the deep level adds given the surface level.
+\textbf{A two-level structure makes the increment well-defined.} Surface = enumeration of shares under equal rates; deep = the judgment after applying true rates $t_i=f_i/\mathrm{rate}_i$. The decomposition $H(D)=H(D|S)+I(S;D)$ separates two distinct quantities: $H(D|S)$ is the \emph{residual uncertainty} of the deep judgment given the surface (a measure of how much the deep level is \emph{independent of} the surface), while $I(S;D)$ is the \emph{information gained} about the deep judgment from the surface (a measure of how much the deep level \emph{adds}). The latter is the valid ``contribution'' score: it is zero for a random node, positive for a correct node, and bounded above by $H(D)$.
 
-\textbf{Operational form.} The deep level corrects the surface level in two ways: direction correction (bottleneck-type flip, $S\neq D$) and granularity correction (time-share shift). Flip rate and share shift are interpretable per-workload scores; $H(D|S)$ is their strict information-theoretic form.
+\textbf{Structural advantage over PID.} PID's unique/redundant/synergistic trichotomy requires a third variable $T$ (ground truth). Because $D$ \emph{is} the ground-truth judgment within our model, no ternary decomposition is needed --- the binary split $H(D)=H(D|S)+I(S;D)$ suffices. This is a structural advantage over PID, not merely a statement that ``we did not use PID.''
 
-We state plainly that the chain rule and mutual information are textbook information theory, roofline is textbook computer architecture \citep{roofline2009}, and PID's unique/redundant/synergistic split is prior work. We do not claim these tools are new. The contribution is \textbf{combining them into a scoring protocol that is closed-form, negative-controlled, and preregistrable \citep{camerer2018}}, and testing it completely in one toy domain.
+\textbf{Operational form.} The deep level corrects the surface level in two ways: direction correction (bottleneck-type flip, $S\neq D$) and granularity correction (time-share shift). Flip rate and share shift are interpretable per-workload scores; $H(D|S)$ and $I(S;D)$ are their strict information-theoretic forms.
 
+We state plainly that the chain rule and mutual information are textbook information theory, roofline is textbook computer architecture \citep{roofline2009}, and PID's unique/redundant/synergistic split is prior work. We do not claim these tools are new. The contribution is \textbf{combining them into a precomputable, negative-controlled, preregistrable scoring protocol}, and testing it completely in one toy domain.
+
+\textbf{Relation to Specification Self-Correction.} SSC (Gallego 2025, arXiv:2507.18742) reports an initial hacking rate of 50--70\%. Our 43--56\% figure is a \emph{bottleneck-type misidentification rate} under a uniform workload prior --- a fundamentally different quantity (harness defect trigger rate vs.\ bottleneck classification error rate). The numerical coincidence is coincidental.
 
 \input{fig1-scoring-protocol}
 
-\section{2. Model}\label{model}
+\section{Model}\label{model}
 
-A workload has four components with shares $f_i$ sampled from $\mathrm{Dirichlet}(1,1,1,1)$. Each component has a rate $\mathrm{rate}_i$.
+A workload has four components with shares $f_i$ sampled from $\mathrm{Dirichlet}(1,1,1,1)$ (uniform over the simplex: every workload composition is equally likely). Each component has a rate $\mathrm{rate}_i$.
 
 \begin{itemize}
 \tightlist
@@ -55,45 +56,61 @@ A workload has four components with shares $f_i$ sampled from $\mathrm{Dirichlet
 Incremental quantities:
 
 \[
-\text{flip}=P(S\neq D),\qquad \text{shift}=\mathbb{E}\,|\mathrm{share}_D-\mathrm{share}_S|,
+\text{flip}=P(S\neq D),\qquad \text{shift}=\mathbb{E}\,\tfrac{1}{2}\!\sum_i|\mathrm{share}_{D,i}-\mathrm{share}_{S,i}|,
 \] \[
-H(D|S)=H(D)-I(S;D).
+H(D|S)=H(D)-I(S;D),\qquad I(S;D)=H(D)-H(D|S).
 \]
+
+Here $\mathrm{share}_{D,i}$ denotes the time share of component $i$ under the deep judgment, and $\mathrm{share}_{S,i}$ the corresponding share under the surface judgment. The shift is the total variation distance between the two share distributions, measuring the \emph{total} redistribution of time shares induced by the deep correction.
+
+\textbf{Rate units.} The four rate components have mixed physical units: FP4 and FP16 rates are dense TFLOPS, the scalar rate is proportional to CUDA core count, and the bandwidth rate is GB/s. The time-share formula $t_i=f_i/\mathrm{rate}_i$ requires a consistent unit convention across components; we use the convention that each rate is expressed as ``work processed per second'' in its native unit. This is an approximation: mixing TFLOPS, core count, and GB/s in a single ratio is not physically rigorous. We report sensitivity to this convention in \S7.
 
 Four platforms: RTX 5090 (max/min rate ratio 51.9), Thor T5000 (9.9), RTX 4090 (287.4), A100 (44.3).
 
-\section{3. Results}\label{results}
+\section{Results}\label{results}
 
-\begin{longtable}[]{@{}llll@{}}
+\begin{longtable}[]{@{}lllll@{}}
 \toprule\noalign{}
-Platform & flip & shift & $H(D|S)$ (bits) \\
+Platform & flip & shift & $H(D|S)$ (bits) & $I(S;D)$ (bits) \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-RTX 5090 & 0.527 & 0.200 & 0.76 \\
-Thor T5000 & 0.434 & 0.166 & 0.71 \\
-RTX 4090 & 0.563 & 0.231 & 0.77 \\
-A100 & 0.556 & 0.218 & 0.74 \\
+RTX 5090 & 0.527 & 0.200 & 0.767 & 0.376 \\
+Thor T5000 & 0.434 & 0.166 & 0.764 & 0.587 \\
+RTX 4090 & 0.563 & 0.231 & 0.713 & 0.273 \\
+A100 & 0.556 & 0.218 & 0.746 & 0.285 \\
 \end{longtable}
 
-Three hand-derived anchors reproduce exactly: T5000 50/50 → 80\%; T5000 70/30 → 63\%; 5090 scalar 40\% with issue rate halved → 40\% slower.
+\textbf{Interpretation.} $H(D|S)$ (residual uncertainty) ranges from 0.71 to 0.77 bits, meaning 57--72\% of the deep judgment's total entropy survives even after knowing the surface judgment. $I(S;D)$ (information gained) ranges from 0.27 to 0.59 bits, meaning the surface judgment explains 28--43\% of the deep judgment's entropy. Note that $H(D|S)$ and $I(S;D)$ are complementary: a high $H(D|S)$ indicates the deep judgment is largely independent of the surface (high \emph{redundancy reduction}), while a high $I(S;D)$ indicates the surface judgment carries substantial information about the deep judgment (high \emph{predictive power}).
+
+\textbf{Validity caveat.} $H(D|S)$ as a ``score'' is not monotone in node quality. A pure-noise deep node (outputting a random bottleneck) achieves $H(D|S)=2.000$ bits (the maximum $\log_2 4$), exceeding all real nodes (0.71--0.77). This is expected: $H(D|S)$ measures conditional \emph{uncertainty}, not correctness. The valid contribution score is $I(S;D)$, which is zero for a random node and positive for a correct one. We therefore report $I(S;D)$ as the primary score and $H(D|S)$ as a secondary redundancy-reduction measure.
+
+Two hand-derived anchors reproduce exactly: T5000 50/50 $\rightarrow$ 80\%; T5000 70/30 $\rightarrow$ 63\%. A third internal consistency check (5090 scalar 40\% with issue rate halved $\rightarrow$ 40\% slower) is tautological by construction and is reported only as a code-correctness test.
 
 The correction is not monotone in rate-ratio \emph{extremity}: A100 (ratio 44.3) exceeds 5090 (ratio 51.9) in shift. We therefore claim only dependence on rate-ratio \emph{structure}; with four platforms this is a 4-point structural observation, not a scaling law.
 
-\section{4. Negative controls and defenses}\label{negative-controls-and-defenses}
+\section{Negative controls and defenses}\label{negative-controls-and-defenses}
 
-\textbf{(1) Flat-rate control --- measured arm.} Set all rates of a placeholder hardware to 1. Result: flip = 0.0000, shift = 0.0000, $H(D|S)=0.0$ --- \textbf{exactly} zero, not merely small. This rules out ``deep merely forwards surface information.''
+\textbf{(1) Flat-rate control --- algebraic identity and unit test.} Set all rates of a placeholder hardware to 1. Then $t_i = f_i/1 = f_i$, so $\arg\max_i t_i = \arg\max_i f_i$, i.e., $S \equiv D$ sample-by-sample. Hence $H(D|S) = 0$ \emph{by algebraic identity}, not by measurement. Result: flip = 0.0000, shift = 0.0000, $H(D|S)=0.0$ --- confirming the identity numerically. \textbf{This is a consistency check (unit test) of the implementation, not an empirical control.} It verifies that the code correctly degenerates when rates are flat; it does \emph{not} rule out the possibility that a deep node merely relabels the surface output ($D = \sigma(S)$ for some bijection $\sigma$), which would yield nonzero $H(D|S)$ under real rates despite providing no new information.
 
-\textbf{(2) Parameter--depth permutation --- measured arm.} Permute the rate vector across the four components in all 24 ways, holding the multiset fixed. If the increment tracked the \emph{label} of which component is called deep, it would change; if it tracks rate-ratio \emph{content}, it should not. Result: identity permutation reproduces the main numbers exactly; across permutations flip varies only within a narrow Monte-Carlo band (5090: 0.5251--0.5304). The criterion is de-depth-ified.
+\textbf{(2) Rate-vector permutation --- sampling sensitivity, not invariance.} Permute the rate vector across the four components in all 24 ways, holding the multiset fixed. The hypothesis that the increment is \emph{invariant} under such permutations is \textbf{false}: under common random numbers (the same 40,000 workloads fed to all 24 permutations), the 24 flip values are 23--24 distinct per platform (5090: range 0.5251--0.5304, 24 distinct values; T5000: 0.4333--0.4419, 23 distinct; 4090: 0.5562--0.5641, 23 distinct; A100: 0.5488--0.5574, 24 distinct). The variation ($\leq 0.011$) is small relative to the flip magnitude ($\sim$0.5) but is \emph{not zero}: the increment is not permutation-invariant. The identity permutation trivially reproduces the main numbers (it is the same sample). We therefore \textbf{drop the invariance claim} and report the permutation sensitivity as a robustness check: the increment varies by $\leq 0.011$ across all 24 permutations, confirming that the result is not an artefact of a particular rate assignment.
 
-\textbf{(3) Intra-level type control --- design-level argument.} In our two-level model, surface is enumeration-type and deep is judgment-type, differing only in the rate vector: type is not confounded with depth. An earlier node-level model did confound them, and there the type control ran \emph{against} the hypothesis (enumeration 0.5841 bits \textgreater{} judgment 0.1344 bits). That number comes from a different, confounded model and is not used as evidence.
+\textbf{(3) Preregistered node-level criterion --- negative result.} Our preregistered criterion (commit \texttt{eb1b0598c}, 2026-11-24 17:39, preceding data generation at \texttt{718394ece}, 18:06) specified a node-level model with four nodes and the make-or-break test: ``deep-layer (judgment-type) per-node information gain $>$ shallow-layer (enumeration-type), consistent across $\geq 3$ hardware platforms.'' Running the preregistered script (\texttt{idea53-theory.py}) yields:
 
-\textbf{HARKing declaration.} All criteria, formulas, and the make-or-break test (deep-only information \textgreater{} 0 on real platforms, = 0 on the flat control) were committed before data generation (commit \texttt{eb1b0598c}, 17:39, preceding \texttt{718394ece}, 18:06). The only post hoc change \emph{weakened} a secondary hypothesis (monotonicity in extremity → dependence on structure) because the data contradicted the stronger form.
+\[
+\text{enumeration-type: } 0.5841 \text{ bits/node}, \qquad \text{judgment-type: } 0.1344 \text{ bits/node},
+\]
 
-\section{5. Tree demonstration (a 4-point observation)}\label{tree-demonstration-a-4-point-observation}
+with the cross-hardware consistency check returning \textbf{false}. The preregistered criterion \textbf{failed}: judgment-type nodes carried \emph{less} information than enumeration-type nodes, contradicting the hypothesis. The script itself prints ``make-or-break test = not met / partial''.
 
-Under a two-way split (compute vs memory), the correction decomposes into branch-level and within-branch components whose four cells sum to 1 (additive self-consistency):
+This preregistered negative result is the motivation for the two-level surface-vs-deep model reported in this paper. The two-level model is \textbf{post hoc}: it was developed after the node-level criterion failed, and the preregistration covers only the flat-rate control in its weaker form (``placeholder hardware with no rate differences, gain should $\rightarrow$ 0''). The preregistered content did \emph{not} include $H(D|S)$, the Dirichlet prior, the 40,000-workload sample size, or the 24-permutation test. We report this honestly: the preregistration is a design-direction preregistration, not a criterion-level preregistration.
+
+\textbf{HARKing declaration.} The only post hoc change \emph{weakened} a secondary hypothesis (monotonicity in extremity $\rightarrow$ dependence on structure) because the data contradicted the stronger form. The model replacement (node-level $\rightarrow$ two-level) is a post hoc change motivated by the preregistered negative result, and is disclosed as such.
+
+\section{Tree demonstration (a 4-point observation)}\label{tree-demonstration-a-4-point-observation}
+
+Under a two-way split (compute vs.\ memory), the correction decomposes into branch-level and within-branch components whose four cells sum to 1 (additive self-consistency):
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 10\tabcolsep) * \real{0.1667}}
@@ -106,33 +123,39 @@ Under a two-way split (compute vs memory), the correction decomposes into branch
 \begin{minipage}[b]{\linewidth}\raggedright
 Platform
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+both correct
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 co-flip
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-within-flip
+branch-only
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-co-correct
+within-branch
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-within-correct
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-dominant
+lift over chance
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
 T5000 (9.9) & 0.530 & 0.145 & 0.036 & 0.290 & within \\
-A100 (44.3) & 0.399 & 0.442 & 0.045 & 0.114 & branch \\
-5090 (51.9) & 0.409 & 0.335 & 0.064 & 0.191 & branch \\
-4090 (287.4) & 0.394 & 0.451 & 0.044 & 0.112 & branch \\
+A100 (44.3) & 0.399 & 0.442 & 0.045 & 0.114 & within \\
+5090 (51.9) & 0.409 & 0.335 & 0.064 & 0.191 & within \\
+4090 (287.4) & 0.394 & 0.451 & 0.044 & 0.112 & within \\
 \end{longtable}
 
-Segment-level flip reproduces the 1D main result exactly. The mildest platform (T5000) is within-branch dominant; the three extreme platforms are branch dominant and cluster internally. This is a 4-point structural observation, not a continuous trade-off curve; the split is fixed to compute/memory and alternatives are untested; the extension is post hoc and unregistered but inherits the preregistered flat control.
+\textbf{Split sensitivity.} The ``dominant dimension'' column is \textbf{split-dependent}, not a hardware property. Under the 2v2 compute/memory split reported above, the lift-over-chance comparison (branch flip / 0.5 vs.\ within flip / 0.75) yields within-branch dominance for all four platforms. Under a 1v3 split (\{fp4\}|\{fp16,scalar,bw\}), the 5090 flips to within-branch. Under a 3v1 split (\{fp4,fp16,scalar\}|\{bw\}), three of four platforms flip. Under an alternative 2v2 split (\{fp4,bw\}|\{fp16,scalar\}), all four platforms are within-branch dominant.
 
-\section{6. Scope, differentiation, and extension space}\label{scope-differentiation-and-extension-space}
+\textbf{Prior sensitivity.} Under a fp16-heavy Dirichlet prior $\mathrm{Dir}(1,6,1,1)$ (more realistic for LLM inference), all four platforms' dominant dimensions flip, and flip rates drop from 43--56\% to 3--10\%.
 
-\textbf{A scoring basis, not a solution.} What we deliver is a protocol for how to compute and falsify a node's information increment. It does not solve reward hacking, recover a true objective, or validate any objective-expansion mechanism.
+\textbf{Conclusion.} The 4-point structural observation is \textbf{not robust} to split choice or prior choice. We downgrade it to a negative result: with four platforms and a fixed split, the ``dominant dimension'' is an artefact of the analytical choice, not a hardware property. This is a limitation of the toy model, not a failure of the protocol.
 
-\textbf{Differentiation.} Information gain, roofline, and PID are established tools. Specification Self-Correction (Gallego 2025, arXiv:2507.18742) performs test-time natural-language critique and rewrite of a specification, using no information gain, tree structure, conditional entropy, or quantitative scoring, and no weight updates. Our relation to it is \emph{upstream}: we provide the measurable basis for scoring nodes, and do not touch specification revision.
+\section{Scope, differentiation, and extension space}\label{scope-differentiation-and-extension-space}
+
+\textbf{A precomputable scoring basis, not a solution.} What we deliver is a protocol for how to compute and falsify a node's information increment \emph{before any experiment}. It does not solve reward hacking, recover a true objective, or validate any objective-expansion mechanism.
+
+\textbf{Differentiation.} Information gain, roofline, and PID are established tools. The key distinction from ID3 is that our quantity is \emph{model-driven and precomputable} (requires only hardware specs + prior), whereas ID3's gain is \emph{data-driven} (requires labeled data). This distinction is what makes preregistration logically coherent. The distinction from roofline \citep{roofline2009} is that roofline gives a \emph{verdict} (compute-bound vs.\ memory-bound), while our quantity measures \emph{how much the verdict changes} relative to the surface judgment. Recent work on bottleneck flipping and regime transitions \citep{memoryWallFlip2026,memoryGap2025,saScheduler2026} studies these transitions empirically on real workloads; our contribution is orthogonal: we show that the \emph{expected} transition rate can be computed from specifications alone, before any measurement.
+
+Specification Self-Correction (Gallego 2025, arXiv:2507.18742) performs test-time natural-language critique and rewrite of a specification, using no information gain, tree structure, conditional entropy, or quantitative scoring, and no weight updates. Our relation to it is \emph{upstream}: we provide the measurable basis for scoring nodes, and do not touch specification revision.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 12\tabcolsep) * \real{0.1429}}
@@ -150,7 +173,7 @@ Input
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Output
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Closed-form
+Precomputable
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Exact-zero control
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -162,38 +185,42 @@ Spec revision
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-ID3 information gain & data distribution & split attribute & No (needs data) & No & No & No \\
-Roofline \citep{roofline2009} & compute/bandwidth spec & bottleneck regime & Yes & No & No & No \\
+ID3 information gain & labeled data & split attribute & No (needs data) & No & No & No \\
+Roofline \citep{roofline2009} & compute/bandwidth spec & bottleneck regime & Yes (verdict only) & No & No & No \\
 PID (Williams \& Beer) & multi-source distribution & unique/redundant/synergistic & No (needs distribution) & No & No & No \\
 SSC (2507.18742) & rubric + output & rewritten specification & No (test-time generation) & No & No & \textbf{Yes} \\
-This work & hardware spec + prior & node increment $H(D|S)$ & \textbf{Yes} & \textbf{Yes (=0)} & \textbf{Yes} & No (upstream) \\
+This work & hardware spec + prior & node increment $I(S;D)$, $H(D|S)$ & \textbf{Yes} & \textbf{Yes (=0)} & Partial (design-level) & No (upstream) \\
 \end{longtable}
 
-The table delineates rather than prioritizes: we do not replicate any existing row. We supply one uncovered cell --- that a node's information increment is closed-form computable and falsifiable by an exact-zero control.
+The table delineates rather than prioritizes: we do not replicate any existing row. We supply one uncovered cell --- that a node's information increment is precomputable from specifications alone and falsifiable by an exact-zero control.
 
 \textbf{Extension space (not implemented).} The tree here is the simplest example structure. Richer versions could introduce Bayesian updating from new data, multiple assumption constraints, and structure selection under a minimum-description-length criterion. None of these is implemented or claimed here; we only state the boundary of extensibility.
 
-\section{7. Limitations}\label{limitations}
+\section{Limitations}\label{limitations}
 
 \begin{itemize}
 \tightlist
 \item
-  Flip rate and share shift are \textbf{interpretable scores}, not mutual information; the strict quantity is $H(D|S)$.
+  Flip rate and share shift are \textbf{interpretable scores}, not mutual information; the strict quantities are $H(D|S)$ (residual uncertainty) and $I(S;D)$ (information gained). $H(D|S)$ as a ``contribution score'' is not monotone in node quality (a pure-noise node achieves the maximum 2.000 bits); $I(S;D)$ is the valid contribution score.
 \item
   The 4090 and A100 lack native FP4; their FP4 rates use a $0.5\times$ FP16 proxy, so the 4090's extreme ratio is partly a proxy artifact.
 \item
-  The workload prior is uniform Dirichlet and does not model real low-precision-heavy LLM inference; the flat-control zeroing and structural observation are prior-robust by construction, while absolute flip rates would shift under a biased prior.
+  The workload prior is uniform Dirichlet and does not model real low-precision-heavy LLM inference. The flat-control zeroing is prior-robust (it is an algebraic identity), but the structural observation is \textbf{not} prior-robust: under a fp16-heavy prior $\mathrm{Dir}(1,6,1,1)$, all four platforms' dominant dimensions flip and flip rates drop to 3--10\%.
 \item
-  Monotonicity fails (A100 \textgreater{} 5090 in shift); four platforms cannot support a scaling law.
+  The four rate components have mixed physical units (TFLOPS, core count, GB/s). Sensitivity to the unit convention: multiplying the scalar rate by 10 or 0.1 changes T5000's flip from 0.434 to 0.444 or 0.231 respectively. The headline numbers depend on the unit convention and are stable only within a factor of $\sim$10.
 \item
-  The tree extension is post hoc, 4-point, and fixed-split; the intra-level type control is a design-level argument, not a measured arm.
+  Monotonicity fails (A100 $>$ 5090 in shift); four platforms cannot support a scaling law.
+\item
+  The tree extension is post hoc, 4-point, and fixed-split; the ``dominant dimension'' is a split artefact (flips under alternative splits). The intra-level type control is a design-level argument, not a measured arm.
+\item
+  The preregistration covers the design direction (flat-rate control) but not the specific criteria ($H(D|S)$, Dirichlet prior, 40,000 workloads, 24 permutations). The node-level criterion was preregistered and failed; the two-level model is post hoc.
 \item
   Single domain: all four platforms are GPUs, anchors are hand-derived, no measured trace is used. External spot-checking on public data is future work.
 \end{itemize}
 
-\section{8. Conclusion}\label{conclusion}
+\section{Conclusion}\label{conclusion}
 
-We demonstrate a closed-form, negative-controlled, preregistrable protocol for scoring decomposition-tree nodes. In the toy domain of GPU bottleneck diagnosis, the surface judgment is wrong 43--56\% of the time; the deep increment is 0.17--0.23 in time-share shift and 0.71--0.77 bits of deep-only information, and it vanishes exactly under the flat control. The conclusion is limited to the computability and falsifiability of this scoring basis in this domain: it is computable, reproducible, and falsifiable by its own negative control. It claims neither universality nor a solution to any alignment problem.
+We demonstrate a precomputable, negative-controlled scoring protocol for decomposition-tree nodes. In the toy domain of GPU bottleneck diagnosis, the surface judgment is wrong 43--56\% of the time; the deep increment is 0.17--0.23 in time-share shift, 0.71--0.77 bits of residual uncertainty ($H(D|S)$), and 0.27--0.59 bits of information gained ($I(S;D)$). The flat-rate control zeros the increment by algebraic identity. The preregistered node-level criterion failed (enumeration 0.5841 $>$ judgment 0.1344 bits), motivating the post hoc two-level model. The 4-point structural observation is a split artefact. The conclusion is limited to the precomputability and falsifiability of this scoring basis in this domain: it is computable from specifications alone, reproducible, and falsifiable by its own negative control. It claims neither universality nor a solution to any alignment problem.
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
