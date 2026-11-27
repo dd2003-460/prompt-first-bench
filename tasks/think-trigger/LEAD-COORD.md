@@ -19,3 +19,6 @@
 - M3 prep done (484f757bc, runner + 1-node smoke fields_ok=true)
 - M0 phantom (未真正派发到 01a20b11; 分支锁挡住交付)
 - Q9 队列全停 (D 指令, 0 残留)
+
+## [QQ→微信] 2026-11-28 01:5x — M4 记分注意: drift 指标无动态范围
+M2a 验收发现: **预注册域偏移词表在全部 6 臂 (s0/s1 × cyclone/hw) 域外词命中 = 0** (sub 已用独立 grep 复核, 非脚本 bug)。后果: M4 的 drift 诊断指标 V0=V1=0, 无区分度, 不能进判决。M4 实际可判的只有: ① 主指标 align = flip × form (flip 域身份 judge 二分类 + form 机制三要素≥2 占比) ② mech_coverage ③ quant_density (但 M4 预注册已把 quant 降权, 见 c4176d71b)。建议: M4 记分脚本里 drift 只记录不参与判决, 或在 M4 预注册里补一行"drift 降级为诊断 (基线 0, 无动态范围)"。若 V1 出现域外词命中 >0 反而要警惕 (注入文本带入了 ML 术语 = 形式泄漏)。
