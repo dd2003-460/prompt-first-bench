@@ -1,0 +1,20 @@
+# N98: 长上下文（seq_len=200k）下KV Cache Offloading至主机内存的延迟量化：在DDR4 50-70GB/s带宽下，每token decod
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N44
+
+## Claim
+
+长上下文（seq_len=200k）下KV Cache Offloading至主机内存的延迟量化：在DDR4 50-70GB/s带宽下，每token decode需读取的KV Cache数据量为 200k * 12KB = 2.4GB，Offload后单token延迟 ≈ 2.4GB / 60GB/s ≈ 40ms，加上计算时间，总延迟将远超20ms，证实通信/带宽为绝对瓶颈
+
+## Corrected Claim
+
+长上下文（seq_len=200k）下KV Cache Offloading至主机内存的延迟量化：在DDR4 50-70GB/s带宽下，每token decode需读取的KV Cache数据量为 200k * 12KB = 2.4GB，Offload后单token延迟 ≈ 2.4GB / 60GB/s ≈ 40ms，加上计算时间，总延迟将远超20ms，证实通信/带宽为绝对瓶颈
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：200k tokens * 12KB/token = 2.4GB，2.4GB / 60GB/s = 0.04s = 40ms，计算无误且符合物理直觉

@@ -1,0 +1,20 @@
+# N123: V100 FP16 峰值 15.7 TFLOPS 在 cuBLAS HGEMM [2000, 4096] x [4096, 4096] shape 下的实际可达
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N56
+
+## Claim
+
+V100 FP16 峰值 15.7 TFLOPS 在 cuBLAS HGEMM [2000, 4096] x [4096, 4096] shape 下的实际可达上限为 10.5 TFLOPS (67% 峰值)，但 NVFP4 量化引入的 Dequantize 操作 (INT4->FP16) 在 GPU 上执行额外 ALU 指令，降低有效 FLOPS 至 8.0-9.0 TFLOPS；因此 Qwen3.8-27B Prefill 理想时间应修正为 108 GFLOPs / 8.5 TFLOPS ≈ 12.7ms，剩余 ~107ms 差距主要来自 vLLM 的 Block Manager 锁竞争和 PagedAttention 的索引计算开销，而非纯 GEMM 效率问题。
+
+## Corrected Claim
+
+V100 FP16 峰值 15.7 TFLOPS，cuBLAS HGEMM 实际可达约 10.5 TFLOPS (67%)。若采用 INT4 量化，Dequantize 开销会略微降低有效算力，但主要性能瓶颈在 Prefill 阶段通常仍为计算密集，剩余时间差距需结合具体 Batch Size、序列长度及 vLLM 配置综合评估，不能简单归因于单一因素。
+
+## Evidence
+
+[质询]NVFP4 量化在 Hopper 架构（V100 为 Volta 架构，不支持原生 FP4 硬件加速）上的 Dequantize 开销被严重高估或架构不匹配；V100 不支持 FP4，若指 INT4 量化，其 Dequantize 开销通常不会导致有效算力从 10.5 TFLOPS 骤降至 8.0-9.0 TFLOPS（降幅过大），且将剩余 107ms 差距完全归因于 vLLM 软件开销而忽略内存带宽瓶颈（Prefill 阶段虽计算密集，但大 Batch 下仍受显存带宽影响）缺乏充分依据。 | 逻辑不自洽：V100 为 Volta 架构，不支持 NVFP4（Hopper 特性），此处存在架构混淆；且 Dequantize 开销导致算力下降 20%-30% 不符合常规量化推理性能模型（通常 overhead 较小或可通过融合优化）；来源缺失无法验证具体数值。

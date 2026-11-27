@@ -1,0 +1,19 @@
+{
+  "id": "N56",
+  "claim": "验证 N29 中 V100 FP16 理论峰值 15.7 TFLOPS 的实际可达上限：在 cuBLAS SGEMM/HGEMM 基准测试中，V100 在矩阵乘法 shape 为 [2000, 4096] x [4096, 4096] 时的实际吞吐通常为 9-11 TFLOPS (约 60-70% 峰值)，因此理想 prefill 时间应从 6.9ms 修正为 108 GFLOPs / 10 TFLOPS = 10.8ms，进一步缩小与实际 120ms 的差距，剩余差距需归因于软件栈开销。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]将特定形状 [2000, 4096] x [4096, 4096] 的基准测试结果直接外推为通用 prefill 阶段的实际吞吐上限存在以偏概全的风险；不同序列长度和 batch size 下的 GEMM 效率差异显著，且 9-11 TFLOPS 仅为特定工况下的经验观测值，并非物理极限或普遍适用的理论修正系数。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值为特定工况下的经验观测值，非第一性原理可推导的恒定参数）",
+  "corrected_claim": "在 cuBLAS HGEMM 基准测试中，V100 在矩阵乘法 shape 为 [2000, 4096] x [4096, 4096] 时的实际吞吐约为 9-11 TFLOPS (约 60-70% 峰值)。若 prefill 阶段的主要计算负载符合此形状特征，则理想 prefill 时间可估算为 108 GFLOPs / 10 TFLOPS ≈ 10.8ms，剩余与实际 120ms 的差距需归因于软件栈开销及其他非 GEMM 操作。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N27",
+    "N28",
+    "N29"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

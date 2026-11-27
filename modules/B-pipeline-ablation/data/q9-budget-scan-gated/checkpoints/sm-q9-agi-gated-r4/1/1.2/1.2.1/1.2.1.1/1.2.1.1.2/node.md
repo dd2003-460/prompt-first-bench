@@ -1,0 +1,20 @@
+# N81: GQA架构下显存-上下文trade-off前沿工作点：工作点1（高并发短上下文）：max_num_seqs=8, seq_len=2048, 总KV需求=8*2
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+GQA架构下显存-上下文trade-off前沿工作点：工作点1（高并发短上下文）：max_num_seqs=8, seq_len=2048, 总KV需求=8*2048*491.5KB/4=2GB/卡，占可用显存19%，安全；工作点2（中并发中上下文）：max_num_seqs=4, seq_len=8192, 总KV需求=4*8192*491.5KB/4=4GB/卡，占38%，安全；工作点3（低并发长上下文）：max_num_seqs=1, seq_len=32768, 总KV需求=1*32768*491.5KB/4=4GB/卡，占38%，安全；工作点4（极限上下文）：max_num_seqs=1, seq_len=131072, 总KV需求=16GB/卡，超限需offload，触发N34所述10x延迟惩罚。
+
+## Corrected Claim
+
+GQA架构下显存-上下文trade-off前沿工作点：工作点1（高并发短上下文）：max_num_seqs=8, seq_len=2048, 总KV需求=8*2048*491.5KB/4=2GB/卡，占可用显存19%，安全；工作点2（中并发中上下文）：max_num_seqs=4, seq_len=8192, 总KV需求=4*8192*491.5KB/4=4GB/卡，占38%，安全；工作点3（低并发长上下文）：max_num_seqs=1, seq_len=32768, 总KV需求=1*32768*491.5KB/4=4GB/卡，占38%，安全；工作点4（极限上下文）：max_num_seqs=1, seq_len=131072, 总KV需求=16GB/卡，超限需offload，触发N34所述10x延迟惩罚。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（8*2048*491.5KB/4≈2GB, 4*8192*491.5KB/4≈4GB, 1*32768*491.5KB/4≈4GB, 1*131072*491.5KB/4≈16GB），占比推算合理（假设总显存约10-11GB可用，2GB/10.5GB≈19%, 4GB/10.5GB≈38%），符合GQA显存占用线性增长规律及长上下文需Offload的工程常识。

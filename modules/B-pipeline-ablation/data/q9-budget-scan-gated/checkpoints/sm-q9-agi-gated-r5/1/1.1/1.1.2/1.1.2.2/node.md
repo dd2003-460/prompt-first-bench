@@ -1,0 +1,20 @@
+# N36: 在TP=4下，每个decode step需执行2次AllReduce（attention前后），通信量为2*1*4096*2bytes=16KB（batch_s
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+在TP=4下，每个decode step需执行2次AllReduce（attention前后），通信量为2*1*4096*2bytes=16KB（batch_size=1, seq_len=4096时）。NVLink 300GB/s下通信延迟为16KB/300GB/s≈0.05μs，占3.75ms权重加载时间的0.001%，可忽略不计。
+
+## Corrected Claim
+
+在TP=4下，每个decode step需执行2次AllReduce（attention前后），通信量为2*1*4096*2bytes=16KB（batch_size=1, seq_len=4096时）。NVLink 300GB/s下通信延迟为16KB/300GB/s≈0.05μs，占3.75ms权重加载时间的0.001%，可忽略不计。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TP=4下Attention前后各需一次AllReduce，通信量计算正确（2 * 4096 * 2 bytes = 16KB），延迟估算符合物理直觉且占比极小，结论合理。

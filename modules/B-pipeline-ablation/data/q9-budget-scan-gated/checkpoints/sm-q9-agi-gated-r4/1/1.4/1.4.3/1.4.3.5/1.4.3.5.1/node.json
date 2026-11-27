@@ -1,0 +1,17 @@
+{
+  "id": "N121",
+  "claim": "V100-SXM2-16GB 上运行 Qwen3.8-27B (NVFP4) 的 Prefill 阶段，kernel launch overhead 并非主要瓶颈：单次 GEMM kernel launch 耗时约 5-10 μs，Prefill 涉及约 48 层 * 4 个大 GEMM = 192 次 launch，总 overhead ≈ 1.9ms，仅占 120ms 的 1.6%；主要瓶颈应归因于 cuBLAS 在 V100 上对非对齐矩阵或特定 shape 的低效调度，以及 NVFP4 反量化 (dequantization) 在 CPU/GPU 间的额外数据搬运开销，后者可能增加 50-100ms 延迟。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]NVFP4 是 Blackwell 架构（如 B100/B200）引入的数据格式，V100 (Volta 架构) 硬件不支持原生 NVFP4 计算或存储，因此‘在 V100 上运行 NVFP4’这一前提在硬件层面存在根本性矛盾，除非指代极特殊的软件模拟或非标准实现，但这与常规语境不符。 | 先验知识/题面给定，逻辑校验发现硬件架构与数据格式不匹配（V100 不支持 NVFP4），存在硬逻辑错误/前提矛盾。",
+  "corrected_claim": "V100-SXM2-16GB 不支持原生 NVFP4 格式。若指在 V100 上运行 Qwen3.8-27B 的 FP16/BF16 版本，Prefill 阶段的 kernel launch overhead 通常不是主要瓶颈（占比极低），主要瓶颈在于显存带宽限制及大矩阵乘法的计算效率。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N55"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

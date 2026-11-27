@@ -1,0 +1,20 @@
+# N32: 在 max_num_seqs=8 的并发限制下，实验设计阶段的 3-5 次 refinement 循环若串行执行，总延迟为 5 * 9.4 s ≈ 47 s；若
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+在 max_num_seqs=8 的并发限制下，实验设计阶段的 3-5 次 refinement 循环若串行执行，总延迟为 5 * 9.4 s ≈ 47 s；若并行化（受 TP=4 通信瓶颈制约），实际加速比上限为 1.8x，总延迟降至 ~26 s
+
+## Corrected Claim
+
+在 max_num_seqs=8 的并发限制下，若假设每次 refinement 循环平均耗时约 9.4 s，串行执行 5 次总延迟约为 47 s；若并行化且受 TP=4 通信瓶颈制约，实际加速比可能在 1.5x-2.0x 之间，总延迟预计降至 24-31 s 区间。
+
+## Evidence
+
+[质询]加速比1.8x与TP=4通信瓶颈的因果关系缺乏具体硬件/网络拓扑支撑，且将‘实验设计阶段’的迭代次数固定为5次并直接套用单次推理延迟9.4s，忽略了不同refinement步骤间负载差异及系统开销，属于过度简化的经验估算。 | source=knowledge，逻辑自洽（5*9.4=47, 47/1.8≈26），但具体加速比1.8x和延迟9.4s为经验参数，无外部来源验证，且假设所有refinement步骤耗时相同，故降级。

@@ -1,0 +1,24 @@
+# N82: 核验Qwen3.8-27B是否采用MQA：查阅官方技术报告或config.json确认num_key_value_heads是否为1，若确为MQA则每token
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+核验Qwen3.8-27B是否采用MQA：查阅官方技术报告或config.json确认num_key_value_heads是否为1，若确为MQA则每token KV开销=(2*48*1*128*2bytes)/4=61.44KB/卡，最大上下文=10.5GB/61.44KB≈174,000 tokens，接近max_model_len=262144但仍超显存（需offload 27%），实际可用上下文约120k tokens；若非MQA则N38前提不成立，此分支终止。
+
+## Corrected Claim
+
+若Qwen3.8-27B确认为MQA架构且参数符合假设（2层KV头，48层，128维等），则每token KV开销约为61.44KB/卡，理论最大上下文约174k tokens，受显存限制实际可用约120k tokens；但该模型具体架构参数及型号真实性待官方文档确认。
+
+## Evidence
+
+[质询]该陈述包含大量具体的经验性参数（如Qwen3.8-27B的具体架构参数num_key_value_heads、hidden_size、head_dim等）以及基于这些参数推导出的具体数值（61.44KB/卡、174,000 tokens、120k tokens）。由于缺乏官方技术报告或config.json的直接来源支持，无法验证这些具体数值和架构假设（特别是是否真的采用MQA以及具体的层数/维度配置）是否准确。此外，'Qwen3.8-27B'这一型号名称本身可能存在不确定性（通常Qwen系列有7B, 14B, 32B, 72B等，27B并非标准公开型号，可能是内部版本或误称），这进一步增加了事实核查的难度。 | 经验事实，逻辑自洽但缺来源支持。计算过程在假设参数成立的前提下逻辑正确，但核心前提（模型具体参数及型号真实性）无法通过现有来源验证。
+
+## Search Query
+
+Qwen3 27B multi-query attention MQA num_key_value_heads=1 verification

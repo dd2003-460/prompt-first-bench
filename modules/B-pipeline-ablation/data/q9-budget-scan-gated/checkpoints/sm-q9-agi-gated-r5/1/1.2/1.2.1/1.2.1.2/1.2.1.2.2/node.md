@@ -1,0 +1,20 @@
+# N83: MQA假设下显存-上下文trade-off前沿工作点：工作点1（高并发）：max_num_seqs=8, seq_len=16384, 总KV需求=8*1638
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N38
+
+## Claim
+
+MQA假设下显存-上下文trade-off前沿工作点：工作点1（高并发）：max_num_seqs=8, seq_len=16384, 总KV需求=8*16384*61.44KB/4=2GB/卡，占19%，安全；工作点2（中并发长上下文）：max_num_seqs=4, seq_len=65536, 总KV需求=4*65536*61.44KB/4=4GB/卡，占38%，安全；工作点3（单序列极限）：max_num_seqs=1, seq_len=262144, 总KV需求=1*262144*61.44KB/4=4GB/卡，占38%，安全无需offload，此为MQA架构相对GQA的核心优势，使262144上下文在纯HBM内可行。
+
+## Corrected Claim
+
+MQA假设下显存-上下文trade-off前沿工作点：工作点1（高并发）：max_num_seqs=8, seq_len=16384, 总KV需求=8*16384*61.44KB/4=2GB/卡，占19%，安全；工作点2（中并发长上下文）：max_num_seqs=4, seq_len=65536, 总KV需求=4*65536*61.44KB/4=4GB/卡，占38%，安全；工作点3（单序列极限）：max_num_seqs=1, seq_len=262144, 总KV需求=1*262144*61.44KB/4=4GB/卡，占38%，安全无需offload，此为MQA架构相对GQA的核心优势，使262144上下文在纯HBM内可行。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MQA每层仅1个KV头，61.44KB/层对应约128维head_dim和128层（或等效配置），计算量级与算术推导自洽，符合MQA显著降低KV缓存需求的工程常识。

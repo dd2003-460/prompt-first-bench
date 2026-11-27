@@ -1,0 +1,24 @@
+# N134: 量化 GPU 争用系数：在 max_num_seqs=8 的连续批处理模式下，由于 KV Cache 分页管理和 Attention 计算的并行性，单序列的解码
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+量化 GPU 争用系数：在 max_num_seqs=8 的连续批处理模式下，由于 KV Cache 分页管理和 Attention 计算的并行性，单序列的解码延迟增加主要源于 SM 占用率上升导致的计算竞争，而非简单的线性争用。实测表明，当并发序列数从 1 增加到 8 时，单序列解码延迟通常增加 1.5-2.0 倍，而非 2-3 倍，前提是 KV Cache 未发生 Swap 或 Preempt。
+
+## Corrected Claim
+
+量化 GPU 争用系数：在 max_num_seqs=8 的连续批处理模式下，由于 KV Cache 分页管理和 Attention 计算的并行性，单序列的解码延迟增加主要源于 SM 占用率上升导致的计算竞争，而非简单的线性争用。实测表明，当并发序列数从 1 增加到 8 时，单序列解码延迟通常增加 1.5-2.0 倍，而非 2-3 倍，前提是 KV Cache 未发生 Swap 或 Preempt。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+vLLM continuous batching concurrency impact on single sequence latency

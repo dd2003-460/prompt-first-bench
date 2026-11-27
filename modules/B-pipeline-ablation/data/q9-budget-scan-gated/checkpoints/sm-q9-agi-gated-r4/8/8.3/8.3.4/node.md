@@ -1,0 +1,24 @@
+# N149: 工作点C（混合负载临界点）：假设max_num_seqs=4，其中2个seq_len=50k，2个seq_len=2k。长序列KV占用 2 * 50000 * 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N73, N74, N75
+
+## Claim
+
+工作点C（混合负载临界点）：假设max_num_seqs=4，其中2个seq_len=50k，2个seq_len=2k。长序列KV占用 2 * 50000 * 2KB = 200MB，短序列 2 * 2048 * 2KB = 8MB。Prefill激活内存峰值由最长序列决定，约 50000 * 4096 * 2 / 4 ≈ 100MB/卡（FlashAttention）。总占用 < 300MB/卡。此时瓶颈为Prefill计算延迟（Compute-Bound），因为长序列的FLOPs (2*27e9*50000) 占主导，导致短序列请求排队等待，表现为吞吐下降而非OOM。
+
+## Corrected Claim
+
+工作点C（混合负载临界点）：假设max_num_seqs=4，其中2个seq_len=50k，2个seq_len=2k。长序列KV占用 2 * 50000 * 2KB = 200MB，短序列 2 * 2048 * 2KB = 8MB。Prefill激活内存峰值由最长序列决定，约 50000 * 4096 * 2 / 4 ≈ 100MB/卡（FlashAttention）。总占用 < 300MB/卡。此时瓶颈为Prefill计算延迟（Compute-Bound），因为长序列的FLOPs (2*27e9*50000) 占主导，导致短序列请求排队等待，表现为吞吐下降而非OOM。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV缓存计算（2*50k*2KB=200MB）与Prefill激活内存估算（~100MB）量级合理，总占用<300MB符合显存充裕场景；长序列FLOPs主导导致Compute-Bound及短序列排队的逻辑符合LLM推理调度原理。
+
+## Search Query
+
+vLLM mixed workload prefill compute bound latency queueing theory

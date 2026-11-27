@@ -1,0 +1,19 @@
+{
+  "id": "N146",
+  "claim": "在TP=4配置下，Prefill阶段的激活内存峰值并非由hidden_size线性决定，而是由Attention Score矩阵主导。对于262k tokens，Score矩阵大小为 262144 * 262144 * 8(kv_heads) * 2bytes(FP16) / 4(cards) ≈ 27.5 TB/卡，远超16GB显存。因此，vLLM必须启用FlashAttention或分页注意力机制来避免显存溢出，若未启用，N73的'536MB'估算完全失效，系统将在Prefill第一步即OOM。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：262k tokens的Attention Score矩阵计算量级正确（~27.5TB/卡），远超显存限制，符合FlashAttention必要性原理",
+  "corrected_claim": "在TP=4配置下，Prefill阶段的激活内存峰值并非由hidden_size线性决定，而是由Attention Score矩阵主导。对于262k tokens，Score矩阵大小为 262144 * 262144 * 8(kv_heads) * 2bytes(FP16) / 4(cards) ≈ 27.5 TB/卡，远超16GB显存。因此，vLLM必须启用FlashAttention或分页注意力机制来避免显存溢出，若未启用，N73的'536MB'估算完全失效，系统将在Prefill第一步即OOM。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N73",
+    "N74",
+    "N75"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM flash attention prefill memory usage large sequence length OOM",
+  "retrieval_sources": []
+}

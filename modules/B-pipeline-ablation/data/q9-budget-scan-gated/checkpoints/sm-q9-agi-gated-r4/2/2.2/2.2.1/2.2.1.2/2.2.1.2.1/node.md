@@ -1,0 +1,20 @@
+# N125: N64 中 800 tokens 生成延迟 8-10 秒的计算仅涵盖 Decode 阶段；若包含 Prefill 阶段（假设上下文约 2k-5k tokens）
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+N64 中 800 tokens 生成延迟 8-10 秒的计算仅涵盖 Decode 阶段；若包含 Prefill 阶段（假设上下文约 2k-5k tokens），总延迟将增加 0.6-1.5 秒，使总占比从 27-33% 上升至 30-38%，进一步压缩后续执行窗口。
+
+## Corrected Claim
+
+N64 中 800 tokens 生成延迟 8-10 秒的计算仅涵盖 Decode 阶段；若包含 Prefill 阶段（假设上下文约 2k-5k tokens），总延迟将增加 0.6-1.5 秒，使总占比从 27-33% 上升至 30-38%，进一步压缩后续执行窗口。
+
+## Evidence
+
+[质询]Prefill 阶段的计算复杂度与 Decode 不同（O(N^2) vs O(N)），且受限于内存带宽而非计算单元，其耗时并非简单的线性叠加，具体数值 0.6-1.5s 依赖于硬件并行度和 Batch Size，可能存在偏差。 | 先验知识/题面给定，逻辑校验通过：N64 算力下 2k-5k tokens 的 Prefill 耗时估算符合大模型推理的一般量级规律，占比上升的逻辑推导自洽。

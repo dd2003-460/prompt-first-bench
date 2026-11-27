@@ -1,0 +1,20 @@
+# N90: NVFP4量化导致的Logit偏差机制：W4A16量化将权重精度从16bit降至4bit，引入的量化噪声方差 σ_q^2 与量化步长 Δ 成正比。在长上下文中，
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+NVFP4量化导致的Logit偏差机制：W4A16量化将权重精度从16bit降至4bit，引入的量化噪声方差 σ_q^2 与量化步长 Δ 成正比。在长上下文中，Attention Key-Value 向量长度增加，量化误差累积效应导致 Logit 分布的 KL 散度 D_KL(P_target || P_draft) 随 seq_len 近似线性增长，即 D_KL ≈ k * seq_len，从而接受率 α = exp(-D_KL) 呈指数衰减。
+
+## Corrected Claim
+
+NVFP4/W4A16量化引入的权重噪声会干扰Logit计算。在长上下文中，由于注意力权重的累积效应，量化误差可能导致Logit分布偏移，进而降低接受率。然而，KL散度随序列长度的增长并非严格线性，且受注意力缩放及Softmax归一化的影响，其具体形态依赖于模型结构和量化策略（如KV Cache是否同步量化），接受率的衰减也不一定是简单的指数形式。
+
+## Evidence
+
+[质询]声称KL散度随序列长度“近似线性增长”且接受率呈“指数衰减”缺乏普适的理论支撑。在Transformer架构中，注意力机制具有缩放因子（1/sqrt(d_k）和Softmax归一化，通常会对误差进行抑制或非线性变换，量化噪声的累积更可能表现为有界震荡或次线性增长，而非严格的线性关系导致KL散度无限线性增加。此外，W4A16量化主要影响权重，KV Cache通常保持较高精度（如FP16/BF16），因此“Attention Key-Value向量...量化误差累积”这一前提本身可能存在口径混淆（除非特指KV Cache也被量化，但题干仅提及W4A16）。 | 先验知识/题面给定，逻辑校验发现前提（KV量化）与描述（W4A16）存在潜在矛盾，且线性增长假设违背注意力机制的非线性归一化特性，无法确认为普遍真理。

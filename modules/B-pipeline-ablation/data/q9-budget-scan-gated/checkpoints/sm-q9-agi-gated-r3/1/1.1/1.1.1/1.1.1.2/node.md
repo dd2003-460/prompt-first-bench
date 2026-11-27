@@ -1,0 +1,24 @@
+# N34: 在1451 tokens硬上限下，若需处理262144 tokens的max_model_len请求，必须启用KV Cache Offloading至主机内存。
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+在1451 tokens硬上限下，若需处理262144 tokens的max_model_len请求，必须启用KV Cache Offloading至主机内存。V100服务器典型DDR4内存带宽为50-70 GB/s，相比HBM2的900 GB/s低一个数量级，Offload后每token decode延迟将从~15ms飙升至~150ms以上，导致吞吐量下降10x。
+
+## Corrected Claim
+
+在1451 tokens硬上限下，若需处理262144 tokens的max_model_len请求，必须启用KV Cache Offloading至主机内存。V100服务器典型DDR4内存带宽为50-70 GB/s，相比HBM2的900 GB/s低一个数量级，Offload后每token decode延迟将从~15ms飙升至~150ms以上，导致吞吐量下降10x。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 HBM2带宽约900GB/s，DDR4带宽约50-70GB/s，两者相差约10-18倍；KV Cache offload导致内存访问成为瓶颈，延迟增加与带宽成反比，吞吐量下降10x符合物理直觉和工程常识。
+
+## Search Query
+
+DDR4 memory bandwidth typical server GB/s

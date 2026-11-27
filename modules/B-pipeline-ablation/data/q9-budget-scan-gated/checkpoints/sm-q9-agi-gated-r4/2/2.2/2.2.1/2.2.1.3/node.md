@@ -1,0 +1,20 @@
+# N66: 总token消耗E[Total]的正确计算：初始prompt 2k + Σ_{i=1}^{k} Δtokens_i，其中Δtokens_i独立同分布均值1.5k
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+总token消耗E[Total]的正确计算：初始prompt 2k + Σ_{i=1}^{k} Δtokens_i，其中Δtokens_i独立同分布均值1.5k，E[Total]=2k + E[k]*1.5k = 2k + 4.6*1.5k = 8.9k tokens，而非原计算的12.4k tokens
+
+## Corrected Claim
+
+总token消耗E[Total]的正确计算：初始prompt 2k + Σ_{i=1}^{k} Δtokens_i，其中Δtokens_i独立同分布均值1.5k，E[Total]=2k + E[k]*1.5k = 2k + 4.6*1.5k = 8.9k tokens，而非原计算的12.4k tokens
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 2 + 4.6 * 1.5 = 8.9 正确，且符合期望线性性质 E[X+Y]=E[X]+E[Y]。

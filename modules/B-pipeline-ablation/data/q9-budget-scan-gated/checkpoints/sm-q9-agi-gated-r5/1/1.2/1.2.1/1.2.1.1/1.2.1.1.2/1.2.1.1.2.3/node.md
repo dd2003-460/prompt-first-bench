@@ -1,0 +1,20 @@
+# N163: 工作点 4 (极限上下文) 显存占用量化：在 num_key_value_heads=8 前提下，max_num_seqs=1, seq_len=131072 
+
+- **status**: verified
+- **level**: L6
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N81
+
+## Claim
+
+工作点 4 (极限上下文) 显存占用量化：在 num_key_value_heads=8 前提下，max_num_seqs=1, seq_len=131072 时，总 KV 需求 = 1 * 131072 * 48 KB = 6.0 GB/卡，占 11.125 GB 可用显存的 54%，未超过 N81 声称的 16GB 超限阈值，表明在 GQA 架构下无需 Offload 即可支持 131k 上下文。
+
+## Corrected Claim
+
+工作点 4 (极限上下文) 显存占用量化：在 num_key_value_heads=8 前提下，max_num_seqs=1, seq_len=131072 时，总 KV 需求 = 1 * 131072 * 48 KB = 6.0 GB/卡，占 11.125 GB 可用显存的 54%，未超过 N81 声称的 16GB 超限阈值，表明在 GQA 架构下无需 Offload 即可支持 131k 上下文。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算 1 * 131072 * 48KB ≈ 6.0GB，占比 6.0/11.125 ≈ 54%，数值量级与逻辑自洽。

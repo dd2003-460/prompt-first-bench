@@ -1,0 +1,20 @@
+# N145: 在max_num_seqs=8且每序列均达到max_model_len=262,144的极端满负荷场景下，总KV显存需求为 8 * 262,144 * 12KB
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+在max_num_seqs=8且每序列均达到max_model_len=262,144的极端满负荷场景下，总KV显存需求为 8 * 262,144 * 12KB ≈ 25.2GB，超过单卡11.125GB可用显存，需启用CPU Offloading或限制实际并发序列数至 11.125GB / (262,144 * 12KB) ≈ 3.5，即最多3-4个长序列并发。
+
+## Corrected Claim
+
+在max_num_seqs=8且每序列均达到max_model_len=262,144的极端满负荷场景下，总KV显存需求为 8 * 262,144 * 12KB ≈ 25.2GB，超过单卡11.125GB可用显存，需启用CPU Offloading或限制实际并发序列数至 11.125GB / (262,144 * 12KB) ≈ 3.5，即最多3-4个长序列并发。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算准确（8*262144*12KB≈25.2GB > 11.125GB；11.125GB/(262144*12KB)≈3.5），符合显存容量与并发数的线性关系逻辑。

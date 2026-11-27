@@ -1,0 +1,20 @@
+# N159: 基于修正后的 48 KB/token/卡 与 N143 确定的 11.125 GB 可用显存，重新计算单序列理论最大上下文长度：Max_Context = (1
+
+- **status**: verified
+- **level**: L6
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+基于修正后的 48 KB/token/卡 与 N143 确定的 11.125 GB 可用显存，重新计算单序列理论最大上下文长度：Max_Context = (11.125 * 1024^3) / 49152 ≈ 241,000 tokens，验证其是否超过 vLLM 配置的 max_model_len=262,144。
+
+## Corrected Claim
+
+基于修正后的 48 KB/token/卡 与 N143 确定的 11.125 GB 可用显存，重新计算单序列理论最大上下文长度：Max_Context = (11.125 * 1024^3) / 49152 ≈ 241,000 tokens，验证其是否超过 vLLM 配置的 max_model_len=262,144。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 (11.125 * 1024^3) / 49152 ≈ 241,000 正确，且 241,000 < 262,144 的逻辑比较无误。

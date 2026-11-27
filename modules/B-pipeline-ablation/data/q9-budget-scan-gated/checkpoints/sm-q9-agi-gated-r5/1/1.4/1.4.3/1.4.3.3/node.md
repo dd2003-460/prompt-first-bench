@@ -1,0 +1,24 @@
+# N53: 计算 N28 中 TP=4 AllReduce 延迟公式的隐含假设：公式 T_comm ≈ 2 * n * 4096 * 2 bytes / 300 GB/s 
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N27, N28, N29
+
+## Claim
+
+计算 N28 中 TP=4 AllReduce 延迟公式的隐含假设：公式 T_comm ≈ 2 * n * 4096 * 2 bytes / 300 GB/s 假设了全双工零开销传输，实际 NVLink 存在协议头开销和 PCIe 桥接延迟（若 V100 间非直连 NVLink 而是经 PCIe 交换，带宽降为 16GB/s），需根据服务器实际拓扑（SXM2 模组是否配备 NVSwitch）确定有效带宽 B_eff，重新计算 n=200k 时的真实 T_comm。
+
+## Corrected Claim
+
+计算 N28 中 TP=4 AllReduce 延迟公式的隐含假设：公式 T_comm ≈ 2 * n * 4096 * 2 bytes / B_nominal 假设了全双工零开销传输。实际 NVLink 或 PCIe 链路存在协议头开销和桥接延迟，有效带宽 B_eff 通常低于标称值（例如 PCIe 3.0 x16 双向约 16GB/s，NVLink 视代际而定）。需根据服务器实际拓扑确定 B_eff，重新计算 n=200k 时的真实 T_comm。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1关注拓扑识别与参数确定，子节点2关注基于特定拓扑的计算结果，两者逻辑递进且正交。但父节点明确提到‘协议头开销’是隐含假设之一，而子节点仅处理了‘带宽’差异，完全忽略了‘协议头开销’对总延迟的影响（特别是在小消息或高频率通信中），导致未覆盖父节点指出的所有关键方面。）
+
+## Search Query
+
+Tesla V100 SXM2 NVLink bandwidth per card effective throughput AllReduce latency

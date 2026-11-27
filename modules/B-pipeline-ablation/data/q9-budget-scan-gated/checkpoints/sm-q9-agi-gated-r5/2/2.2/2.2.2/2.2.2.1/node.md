@@ -1,0 +1,20 @@
+# N69: 并行化加速比上限分析：TP=4下GPU计算资源被4张卡共享，8序列并发时每序列获得的计算时间为1/8，但AllReduce通信时间不变，加速比 = min(8,
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+并行化加速比上限分析：TP=4下GPU计算资源被4张卡共享，8序列并发时每序列获得的计算时间为1/8，但AllReduce通信时间不变，加速比 = min(8, 1/(1+T_comm/T_compute))，当T_comm/T_compute=0.15时加速比≈6.9x
+
+## Corrected Claim
+
+并行化加速比上限分析：TP=4下GPU计算资源被4张卡共享，8序列并发时每序列获得的计算时间为1/8，但AllReduce通信时间不变，加速比 = min(8, 1/(1+T_comm/T_compute))，当T_comm/T_compute=0.15时加速比≈6.9x
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：加速比公式符合Amdahl定律变体，数值计算正确（1/(1+0.15)≈0.87，min(8, 0.87*8)=6.96≈6.9）

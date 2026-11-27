@@ -1,0 +1,20 @@
+# N93: 通信原语选择对延迟的影响：Ring All-Reduce 在 4 卡上的延迟约为 2*(N-1)/N * DataSize/Bandwidth + Latenc
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N49
+
+## Claim
+
+通信原语选择对延迟的影响：Ring All-Reduce 在 4 卡上的延迟约为 2*(N-1)/N * DataSize/Bandwidth + Latency。对于 128KB 消息，Ring 传输时间极短 (<1us)，但同步等待时间 (Latency) 主导。Tree All-Reduce 可能降低延迟但增加复杂度，vLLM 默认使用 NCCL，其优化后延迟通常在 5-10us/step 级别。
+
+## Corrected Claim
+
+通信原语选择对延迟的影响：Ring All-Reduce 在 4 卡上的延迟约为 2*(N-1)/N * DataSize/Bandwidth + Latency。对于 128KB 消息，Ring 传输时间极短 (<1us)，但同步等待时间 (Latency) 主导。Tree All-Reduce 可能降低延迟但增加复杂度，vLLM 默认使用 NCCL，其优化后延迟通常在 5-10us/step 级别。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Ring All-Reduce 延迟公式符合通信理论，128KB 数据在典型带宽下传输时间确为亚微秒级，NCCL 优化后的微秒级延迟符合工程常识。

@@ -1,0 +1,20 @@
+# N67: 上下文累积效应：第i次迭代时的prompt长度为2k + (i-1)*1.5k，第i次迭代的prefill延迟与prompt长度成正比，总prefill延迟 =
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+上下文累积效应：第i次迭代时的prompt长度为2k + (i-1)*1.5k，第i次迭代的prefill延迟与prompt长度成正比，总prefill延迟 = Σ_{i=1}^{k} c*(2k+(i-1)*1.5k)，c为每token prefill成本
+
+## Corrected Claim
+
+上下文累积效应：第i次迭代时的prompt长度为2k + (i-1)*1.5k，第i次迭代的prefill延迟与prompt长度成正比，总prefill延迟 = Σ_{i=1}^{k} c*(2k+(i-1)*1.5k)，c为每token prefill成本
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上是正交的，分别关注了常数项c的硬件推导、求和公式的数学简化以及分布式通信的系统级修正，三者互不重叠。然而，完备性不足：父节点明确提到了“第i次迭代”，暗示这是一个多轮对话或Agent循环场景。子节点仅处理了单次Prefill的计算和通信，完全忽略了“上下文累积”带来的跨迭代依赖（例如KV Cache的复用、前缀缓存命中率对Prefill成本的动态影响，或者第i次迭代中Prompt结构的变化），导致未能覆盖“累积效应”这一核心特征。）

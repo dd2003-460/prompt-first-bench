@@ -1,0 +1,20 @@
+# N70: KV Cache显存竞争对并发的限制：8序列并发时每序列KV Cache需求为seq_len*12KB，总需求8*seq_len*12KB，在1.7GB可用显存
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+KV Cache显存竞争对并发的限制：8序列并发时每序列KV Cache需求为seq_len*12KB，总需求8*seq_len*12KB，在1.7GB可用显存下最大并发seq_len = 1.7GB/(8*12KB) ≈ 17.9k tokens，超过此长度需减少并发数
+
+## Corrected Claim
+
+KV Cache显存竞争对并发的限制：8序列并发时每序列KV Cache需求为seq_len*12KB，总需求8*seq_len*12KB，在1.7GB可用显存下最大并发seq_len = 1.7GB/(8*12KB) ≈ 17.9k tokens，超过此长度需减少并发数
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑严密且互斥：第一个节点修正了父节点中错误的显存前提（1.7GB vs 11.125GB），后续三个节点基于修正后的正确参数，分别从‘单序列上限’、‘极端长文本并发’和‘典型短文本并发’三个不同维度进行了正交分析，涵盖了从理论极限到实际场景的关键方面，无重复或矛盾。）

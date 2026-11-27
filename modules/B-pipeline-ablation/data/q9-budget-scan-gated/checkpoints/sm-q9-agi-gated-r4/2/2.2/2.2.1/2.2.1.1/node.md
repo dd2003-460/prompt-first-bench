@@ -1,0 +1,20 @@
+# N64: 实验设计阶段Δtokens均值1.5k的构成分解：文献摘要提取约500 tokens + 实验参数调整约500 tokens + 错误反馈解析约500 toke
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+实验设计阶段Δtokens均值1.5k的构成分解：文献摘要提取约500 tokens + 实验参数调整约500 tokens + 错误反馈解析约500 tokens，三者各自独立，总和E[Δ]=1.5k
+
+## Corrected Claim
+
+实验设计阶段Δtokens均值1.5k的构成分解：文献摘要提取约500 tokens + 实验参数调整约500 tokens + 错误反馈解析约500 tokens，三者各自独立，总和E[Δ]=1.5k
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：500+500+500=1500，算术自洽，且各分项量级符合LLM实验场景常识。

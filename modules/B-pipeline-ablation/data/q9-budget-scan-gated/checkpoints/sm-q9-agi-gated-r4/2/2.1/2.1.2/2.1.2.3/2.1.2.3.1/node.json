@@ -1,0 +1,17 @@
+{
+  "id": "N128",
+  "claim": "PagedAttention页表查找开销修正：页表存储在GPU HBM中，查找为O(1)哈希操作，单次查找延迟约0.1μs，而非N60声称的0.1-0.2ms。每token生成需查询1次页表，总开销0.1μs，占15ms延迟的0.0007%，可忽略不计。N60高估了3个数量级，可能混淆了CPU侧调度开销与GPU侧内存访问。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]单次GPU HBM随机访问延迟通常在1-2μs量级，0.1μs更接近L1/L2缓存或寄存器访问延迟，数值可能过于乐观；此外，PagedAttention的页表查找通常涉及CPU-GPU交互或特定的索引计算，并非简单的纯GPU侧O(1)哈希，且每token生成可能涉及多次KV块映射查询而非仅1次。 | source=knowledge，逻辑自洽（0.1μs远小于15ms，占比计算正确），但具体延迟数值0.1μs及‘每token仅1次查询’属于经验性工程细节，缺乏直接来源支持且与典型HBM延迟量级略有出入，故降级。",
+  "corrected_claim": "PagedAttention页表查找开销极低，单次查找延迟在微秒级（~1μs），每token生成涉及的页表映射开销占总推理延迟的比例极小（<0.01%），可忽略不计。N60声称的0.1-0.2ms高估了实际开销，可能混淆了不同层面的延迟。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N60"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

@@ -1,0 +1,20 @@
+# N74: Offload工作点A（纯CPU内存，无SSD）：将KV Cache完全卸载至DDR4（带宽~60GB/s），单token decode延迟由HBM限制的15m
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+Offload工作点A（纯CPU内存，无SSD）：将KV Cache完全卸载至DDR4（带宽~60GB/s），单token decode延迟由HBM限制的15ms增至T_offload = 3.375GB / 60GB/s ≈ 56.25ms，吞吐量降至17.8 tok/s，适合离线批量处理且对实时性要求极低的科研循环迭代环节。
+
+## Corrected Claim
+
+Offload工作点A（纯CPU内存，无SSD）：将KV Cache完全卸载至DDR4（带宽~60GB/s），单token decode延迟由HBM限制的15ms增至T_offload = 3.375GB / 60GB/s ≈ 56.25ms，吞吐量降至17.8 tok/s，适合离线批量处理且对实时性要求极低的科研循环迭代环节。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：3.375GB / 60GB/s = 0.05625s = 56.25ms，1/0.05625s ≈ 17.78 tok/s，数值计算准确且符合物理直觉。

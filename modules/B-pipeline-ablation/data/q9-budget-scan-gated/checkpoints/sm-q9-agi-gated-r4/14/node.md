@@ -1,0 +1,20 @@
+# N156: 4×V100-SXM2-16GB 集群在满负荷 Decode 状态下的功耗约为 4 * 250W (TDP) = 1000W，加上服务器其他组件 (CPU/RA
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+4×V100-SXM2-16GB 集群在满负荷 Decode 状态下的功耗约为 4 * 250W (TDP) = 1000W，加上服务器其他组件 (CPU/RAM/PSU损耗 ~200W)，总功耗约 1.2 kW。按电价 $0.1/kWh 计算，连续运行 24 小时成本约为 $2.88/天，即每小时成本 $0.12。
+
+## Corrected Claim
+
+4×V100-SXM2-16GB 集群在满负荷 Decode 状态下的功耗约为 4 * 250W (TDP) = 1000W，加上服务器其他组件 (CPU/RAM/PSU损耗 ~200W)，总功耗约 1.2 kW。按电价 $0.1/kWh 计算，连续运行 24 小时成本约为 $2.88/天，即每小时成本 $0.12。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

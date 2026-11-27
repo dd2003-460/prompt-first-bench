@@ -1,0 +1,20 @@
+# N128: Prefill 阶段的计算密度远高于 Decode，2k tokens 的 Prefill 在 TP=4 下每卡承担 ~54 GFLOPs，V100 TF32 
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N65
+
+## Claim
+
+Prefill 阶段的计算密度远高于 Decode，2k tokens 的 Prefill 在 TP=4 下每卡承担 ~54 GFLOPs，V100 TF32 峰值 125 TFLOPS 下理论时间 0.43ms，但受 Kernel Launch 和内存访问局部性影响，实际耗时约为 20-50ms，占比极低，证实 N65 关于 Prefill 非主要瓶颈的定性结论正确，但需补充具体毫秒级数据。
+
+## Corrected Claim
+
+Prefill 阶段的计算密度高于 Decode。以 2k tokens、TP=4 为例，理论计算时间极短（亚毫秒级），但实际耗时受 Kernel Launch 及内存访问影响，通常在毫秒至数十毫秒量级（具体取决于硬件与实现细节），在长序列生成场景中占比相对较低，支持 Prefill 非主要瓶颈的定性结论，但具体毫秒级数据需结合特定硬件基准测试确认。
+
+## Evidence
+
+[质询]数值量级与逻辑自洽性存疑：2k tokens Prefill 在 TP=4 下每卡 54 GFLOPs 的计算量极小，即便考虑 Kernel Launch 开销，实际耗时达到 20-50ms 也显得过高（通常短序列 Prefill 延迟在毫秒级或更低，除非包含大量固定开销或特定硬件瓶颈），且‘占比极低’与‘20-50ms’的具体数值缺乏上下文支撑（相对于什么总时长？）。此外，V100 TF32 峰值 125 TFLOPS 是双精度还是单精度需确认，通常 V100 FP16 为 125 TFLOPS，TF32 性能可能不同或需特定指令集支持。 | 来源缺失，且陈述中具体数值（54 GFLOPs, 0.43ms, 20-50ms）缺乏外部验证，逻辑上 20-50ms 的 Prefill 耗时对于 2k tokens 而言偏高，可能存在口径混淆或特定极端场景未说明，故降级。

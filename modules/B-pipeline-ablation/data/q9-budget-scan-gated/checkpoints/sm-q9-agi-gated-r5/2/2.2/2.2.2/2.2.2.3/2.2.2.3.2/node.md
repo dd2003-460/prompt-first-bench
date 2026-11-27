@@ -1,0 +1,20 @@
+# N148: 连续批处理中Preemption频率与并发数的关系：在vLLM中，Preemption仅在KV Cache碎片化或突发长序列请求时发生；对于稳定的8序列短上下文
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N71
+
+## Claim
+
+连续批处理中Preemption频率与并发数的关系：在vLLM中，Preemption仅在KV Cache碎片化或突发长序列请求时发生；对于稳定的8序列短上下文（4k）负载，由于总需求(384MB)远小于可用显存(11.125GB)，Preemption概率趋近于0，N71假设的'5次refinement中发生2次preemption'在典型场景下不成立，额外延迟贡献约为0。
+
+## Corrected Claim
+
+连续批处理中Preemption频率与并发数的关系：在vLLM中，Preemption仅在KV Cache碎片化或突发长序列请求时发生；对于稳定的8序列短上下文（4k）负载，由于总需求(384MB)远小于可用显存(11.125GB)，Preemption概率趋近于0，N71假设的'5次refinement中发生2次preemption'在典型场景下不成立，额外延迟贡献约为0。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：显存余量巨大（11GB vs 384MB），在稳定负载下触发抢占的概率极低，符合vLLM调度机制逻辑。

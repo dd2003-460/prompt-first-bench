@@ -1,0 +1,20 @@
+# N157: 在 80-100 tok/s 的本地推理速度下，生成一篇 3000 tokens 的科研摘要需时 30-37.5 秒。若引入外部 API (如 GPT-4o) 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在 80-100 tok/s 的本地推理速度下，生成一篇 3000 tokens 的科研摘要需时 30-37.5 秒。若引入外部 API (如 GPT-4o) 作为 'Verifier' 角色进行交叉验证，其 API 延迟通常 <2s，但 Token 成本约为 $0.01-$0.03/1k tokens。对比本地推理的电费成本 ($0.00003/token)，使用 API 进行高频验证在经济上不可行，仅适用于低频关键节点验证。
+
+## Corrected Claim
+
+在 80-100 tok/s 的本地推理速度下，生成一篇 3000 tokens 的科研摘要需时 30-37.5 秒。若引入外部 API (如 GPT-4o) 作为 'Verifier' 角色进行交叉验证，其 API 延迟通常 <2s，但 Token 成本约为 $0.01-$0.03/1k tokens。对比本地推理的电费成本 ($0.00003/token)，使用 API 进行高频验证在经济上不可行，仅适用于低频关键节点验证。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

@@ -1,0 +1,20 @@
+# N105: 评估禁用 MTP 对 Decode 吞吐的影响以权衡 Swap 风险：基于 N57，MTP 带来的净收益为 10-20% 吞吐提升；若禁用 MTP 避免 Swa
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+评估禁用 MTP 对 Decode 吞吐的影响以权衡 Swap 风险：基于 N57，MTP 带来的净收益为 10-20% 吞吐提升；若禁用 MTP 避免 Swap，吞吐下降 10-20%，但消除了 Swap 相关的尾延迟风险；在 max-num-seqs=8 且 KV 余量充足 (N72 显示余量 71%) 的情况下，Swap 触发概率极低，保留 MTP 的期望收益大于禁用 MTP 的稳定性收益，建议保留 MTP 并监控 Swap 计数器。
+
+## Corrected Claim
+
+评估禁用 MTP 对 Decode 吞吐的影响以权衡 Swap 风险：基于 N57，MTP 带来的净收益为 10-20% 吞吐提升；若禁用 MTP 避免 Swap，吞吐下降 10-20%，但消除了 Swap 相关的尾延迟风险；在 max-num-seqs=8 且 KV 余量充足 (N72 显示余量 71%) 的情况下，Swap 触发概率极低，保留 MTP 的期望收益大于禁用 MTP 的稳定性收益，建议保留 MTP 并监控 Swap 计数器。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于N57和N72的数据，在KV余量充足（71%）且并发低（max-num-seqs=8）的条件下，Swap触发概率极低，保留MTP获得的10-20%吞吐收益确实大于规避极低概率尾延迟风险的稳定性收益，决策逻辑自洽。

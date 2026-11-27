@@ -1,0 +1,24 @@
+# N129: KV Cache物理块碎片化对连续批处理的影响：在max_num_seqs=8并发下，PagedAttention的块分配器需维护空闲块列表，分配/释放操作在C
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+KV Cache物理块碎片化对连续批处理的影响：在max_num_seqs=8并发下，PagedAttention的块分配器需维护空闲块列表，分配/释放操作在CPU侧执行，每次新序列加入需分配~seq_len/16个块。块分配开销约0.1ms/块，500 tokens序列需32块，总分配开销3.2ms，占该序列首次prefill延迟（~120ms）的2.7%，但在decode阶段无额外开销（块已预分配）。
+
+## Corrected Claim
+
+KV Cache物理块碎片化对连续批处理的影响：在max_num_seqs=8并发下，PagedAttention的块分配器需维护空闲块列表，分配/释放操作在CPU侧执行。虽然单次块分配开销极小（通常微秒级），但在高并发或频繁调度场景下，CPU侧的管理开销可能成为瓶颈。对于500 tokens序列，需分配约32块，其管理开销相对于GPU计算延迟（如prefill阶段的数十至数百毫秒）占比极低，通常在1%以下，且在decode阶段无额外分配开销。
+
+## Evidence
+
+[质询]具体数值（0.1ms/块、120ms prefill延迟）属于高度依赖硬件和实现细节的经验参数，缺乏通用标准，且将CPU侧块分配开销量化为固定毫秒数过于简化，忽略了内存带宽和系统负载的影响。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+vLLM paged attention block allocation overhead continuous batching

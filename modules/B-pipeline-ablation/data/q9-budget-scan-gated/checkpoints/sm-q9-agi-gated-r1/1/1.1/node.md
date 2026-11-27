@@ -1,0 +1,20 @@
+# N7: V100-SXM2-16GB HBM2 显存带宽为 900 GB/s，L2 缓存为 12 MB；在 TP=4 架构下，单卡有效可用显存扣除 NCCL 缓冲后约为
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+V100-SXM2-16GB HBM2 显存带宽为 900 GB/s，L2 缓存为 12 MB；在 TP=4 架构下，单卡有效可用显存扣除 NCCL 缓冲后约为 15.2 GB，决定了单卡能承载的最大 KV Cache 长度
+
+## Corrected Claim
+
+V100-SXM2-16GB HBM2 显存带宽为 900 GB/s，L2 缓存为 12 MB；在 TP=4 架构下，单卡有效可用显存扣除 NCCL 缓冲后约为 15.2 GB，决定了单卡能承载的最大 KV Cache 长度
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100-SXM2-16GB 官方规格确为 900 GB/s 带宽和 12 MB L2 缓存；16GB 总显存扣除系统开销及 NCCL 通信缓冲后剩余约 15.2GB 用于 KV Cache 符合工程实际量级。

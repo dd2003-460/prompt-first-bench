@@ -1,0 +1,33 @@
+{
+  "id": "N94",
+  "claim": "TP=4 AllReduce在seq_len=4096, batch_size=8时的实际有效带宽修正：考虑到NVLink协议头开销与桥接延迟，有效带宽B_eff约为标称300GB/s的85-90%，修正后的通信延迟为 536.9MB / (300 * 0.85) GB/s ≈ 2.10ms，占decode步时间比例需重算",
+  "level": "L5",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]NVLink的有效带宽效率（85-90%）是一个经验性参数，受具体硬件代际（如A100/H100）、拓扑结构及AllReduce算法实现影响极大，并非固定物理常数；且参考来源均未提供NVLink的具体带宽损耗数据，仅讨论了通用接口开销概念，无法直接支持该特定数值。 | 逻辑计算自洽（536.9 / 255 ≈ 2.10ms），但85-90%的效率系数属于经验事实，参考来源[1][2][3]仅涉及通用总线/PCIe/NVLink概念对比，未提供NVLink AllReduce的具体有效带宽修正值，缺乏直接来源支持。",
+  "corrected_claim": "TP=4 AllReduce在seq_len=4096, batch_size=8时，若假设NVLink有效带宽为标称值的85-90%（约255-270GB/s），则通信延迟约为2.0-2.1ms；该效率系数需根据具体GPU型号和拓扑实测确定。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N43"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "NVLink effective bandwidth protocol overhead AllReduce latency",
+  "retrieval_sources": [
+    {
+      "url": "https://en.wikipedia.org/wiki/List_of_interface_bit_rates",
+      "type": "wikipedia",
+      "title": "List of interface bit rates"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/PCI_Express",
+      "type": "wikipedia",
+      "title": "PCI Express"
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Bus_%28computing%29",
+      "type": "wikipedia",
+      "title": "Bus (computing)"
+    }
+  ]
+}

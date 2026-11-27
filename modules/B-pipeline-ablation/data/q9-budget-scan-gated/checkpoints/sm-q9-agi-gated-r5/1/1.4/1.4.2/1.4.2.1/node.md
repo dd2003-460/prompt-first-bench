@@ -1,0 +1,20 @@
+# N49: N26 中 2.15 GB 的 KV Cache 显存开销计算存在数量级错误：262144 tokens * 4096 hidden_dim * 2 bytes
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+N26 中 2.15 GB 的 KV Cache 显存开销计算存在数量级错误：262144 tokens * 4096 hidden_dim * 2 bytes (FP8) = 2.147 TB，远超单卡 15.2 GB 显存，表明 max_model_len=262144 在当前硬件下完全不可行，实际最大上下文长度受限于 N18/N21 计算的 4000-5000 tokens 或 141 tokens（取决于矛盾解决）。
+
+## Corrected Claim
+
+N26 中 2.15 GB 的 KV Cache 显存开销计算存在数量级错误：262144 tokens * 4096 hidden_dim * 2 bytes (FP8) = 2.147 TB，远超单卡 15.2 GB 显存，表明 max_model_len=262144 在当前硬件下完全不可行，实际最大上下文长度受限于 N18/N21 计算的 4000-5000 tokens 或 141 tokens（取决于矛盾解决）。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1正确指出了父节点中KV Cache计算公式的错误（hidden_dim vs layers*kv_heads*head_dim），子节点2基于修正公式重新计算了最大上下文长度，两者逻辑连贯且无冲突。但父节点明确提到‘取决于矛盾解决’以及‘N18/N21计算的4000-5000 tokens或141 tokens’，子节点仅给出了理论上限28,160 tokens，未解释为何实际可行值远小于此（如权重占用、激活值开销、碎片化等），也未回应父节点中关于N18/N21具体数值矛盾的解决状态，因此不完备。）

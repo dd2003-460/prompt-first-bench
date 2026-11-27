@@ -1,0 +1,19 @@
+{
+  "id": "N150",
+  "claim": "N74中'有效算力利用率40%'的假设在V100 TP=4场景下过于乐观。由于V100不支持FP8/INT8 Tensor Core（仅支持FP16/TF32），且NVFP4量化需Dequant回FP16计算，实际计算密度受限于FP16 Tensor Core峰值（125 TFLOPS）。但在TP=4下，All-Reduce同步开销及Kernel Launch延迟使得有效MFU（Model FLOPs Utilization）通常仅为 15-25%。修正后Prefill延迟 = 108e12 / (125e12 * 0.2) ≈ 4.3s，远高于N74估算的0.6-0.8s。",
+  "level": "L5",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]NVFP4量化在V100上的具体实现路径（是否必须Dequant回FP16）及由此导致的精确性能损失比例属于特定软件栈的工程经验细节，缺乏通用物理定律支持，且不同推理框架（如TensorRT-LLM vs vLLM）的实现差异可能导致实际MFU偏离15-25%区间。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）",
+  "corrected_claim": "N74中'有效算力利用率40%'的假设在V100 TP=4场景下可能过于乐观。鉴于V100不支持原生FP8/INT8 Tensor Core加速，且NVFP4量化需额外反量化开销，实际有效MFU通常低于40%（常见范围约15-25%）。据此修正，Prefill延迟预计显著高于N74估算的0.6-0.8s，可能在4秒左右。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N73",
+    "N74",
+    "N75"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "V100 TP4 all-reduce overhead MFU model flops utilization realistic benchmark",
+  "retrieval_sources": []
+}

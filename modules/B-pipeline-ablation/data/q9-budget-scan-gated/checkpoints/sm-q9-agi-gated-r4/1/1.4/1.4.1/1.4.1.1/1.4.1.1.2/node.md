@@ -1,0 +1,24 @@
+# N102: MTP 投机解码的真正显存瓶颈在于草稿 Token 的 KV Cache 占用：生成 4 个草稿 Token 需额外分配 4 * 64 KB = 256 KB 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+MTP 投机解码的真正显存瓶颈在于草稿 Token 的 KV Cache 占用：生成 4 个草稿 Token 需额外分配 4 * 64 KB = 256 KB 的 KV Cache，虽然绝对值极小，但在高并发 (max-num-seqs=8) 且长上下文 (262k) 场景下，8 个序列 * 256 KB = 2 MB 的额外开销虽可忽略，但 Draft Head 的独立计算图可能导致 Kernel Launch 开销增加，需实测验证其对 P99 延迟的影响是否超过 5%。
+
+## Corrected Claim
+
+MTP 投机解码中，草稿 Token 的 KV Cache 占用通常较小，但在高并发长上下文场景下需关注其累积效应；同时，Draft Head 引入的额外计算图可能增加 Kernel Launch 开销，其对 P99 延迟的具体影响（如是否超过 5%）需通过实测验证，而非预设结论。
+
+## Evidence
+
+[质询]KV Cache 的具体数值（64 KB/token）和总开销（2 MB）属于特定硬件/模型配置下的经验数据，缺乏通用性；且将‘Kernel Launch 开销’作为主要瓶颈并设定‘5%’阈值缺乏理论推导支持，属于未经证实的经验假设。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值无法从第一性原理推出）
+
+## Search Query
+
+vLLM speculative decoding KV cache overhead multi-token prediction memory impact

@@ -1,0 +1,20 @@
+# N58: Decode阶段TP=4 AllReduce通信延迟在典型batch_size=1场景下约为 2 * 1 * 4096 * 2 bytes / 300 GB/s
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+Decode阶段TP=4 AllReduce通信延迟在典型batch_size=1场景下约为 2 * 1 * 4096 * 2 bytes / 300 GB/s ≈ 0.055 ms，占15ms计算时间的0.37%，远小于N9估算的15-25%（后者基于batch_size=8或更长seq_len假设）
+
+## Corrected Claim
+
+Decode阶段TP=4 AllReduce通信延迟在典型batch_size=1场景下约为 2 * 1 * 4096 * 2 bytes / 300 GB/s ≈ 0.055 ms，占15ms计算时间的0.37%，远小于N9估算的15-25%（后者基于batch_size=8或更长seq_len假设）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 2*1*4096*2/300GB/s ≈ 0.055ms 及占比 0.37% 符合算术逻辑，且 TP=4 下 AllReduce 通信量与延迟量级在典型硬件带宽下合理。

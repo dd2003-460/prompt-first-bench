@@ -1,0 +1,20 @@
+# N127: N65 中 Decode 阶段 FLOPs 估算忽略了指令开销；在 V100 上，800 tokens 的 Decode 实际耗时由显存带宽限制（Memory-
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N65
+
+## Claim
+
+N65 中 Decode 阶段 FLOPs 估算忽略了指令开销；在 V100 上，800 tokens 的 Decode 实际耗时由显存带宽限制（Memory-Bound）决定，理论时间 = (Weight_Size * Batch_Size) / Bandwidth，对于 27B NVFP4 模型（~13.5GB 权重），单步延迟 ≈ 13.5GB / 900GB/s ≈ 15ms，800 步 ≈ 12s，与 N64 的 8-10s 存在偏差，需校正带宽利用率系数。
+
+## Corrected Claim
+
+N65 中 Decode 阶段 FLOPs 估算忽略了指令开销；在 V100 上，800 tokens 的 Decode 实际耗时由显存带宽限制（Memory-Bound）决定，理论时间 = (Weight_Size * Batch_Size) / Bandwidth，对于 27B NVFP4 模型（~13.5GB 权重），单步延迟 ≈ 13.5GB / 900GB/s ≈ 15ms，800 步 ≈ 12s，与 N64 的 8-10s 存在偏差，需校正带宽利用率系数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 HBM2带宽约900GB/s，27B NVFP4权重约13.5GB，计算13.5/900=0.015s=15ms，800步*15ms=12s，数值量级与逻辑推导均正确。

@@ -1,0 +1,20 @@
+# N19: V100 HBM2 900GB/s带宽在处理13.5GB权重时，理论最大访存吞吐受限，单卡每秒可处理的token数受限于权重加载速率（约67 tok/s）
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+V100 HBM2 900GB/s带宽在处理13.5GB权重时，理论最大访存吞吐受限，单卡每秒可处理的token数受限于权重加载速率（约67 tok/s）
+
+## Corrected Claim
+
+V100 HBM2 900GB/s带宽在处理13.5GB权重时，理论最大访存吞吐受限，单卡每秒可处理的token数受限于权重加载速率（约67 tok/s）
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑矛盾（一个计算得出267 tok/s，另一个隐含或基于父节点的67 tok/s进行对比，且未明确解释为何父节点数值错误，导致上下文不一致）；完备性不足，父节点提到“理论最大访存吞吐受限”，但子节点仅关注了Decode阶段的算术强度瓶颈，未涵盖Prefill阶段（计算密集型）或Batch Size对吞吐的影响，无法全面支撑父节点关于“单卡每秒可处理token数”的通用结论。）

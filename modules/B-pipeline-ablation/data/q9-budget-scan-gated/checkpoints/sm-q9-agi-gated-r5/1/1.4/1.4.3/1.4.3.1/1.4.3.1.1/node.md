@@ -1,0 +1,20 @@
+# N113: 在 TP=4 配置下，单卡 KV Cache 可用显存修正为 10.5 GB（基于 N48 修正值：15.2 GB 物理显存 - 3.375 GB 权重 - 0
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+在 TP=4 配置下，单卡 KV Cache 可用显存修正为 10.5 GB（基于 N48 修正值：15.2 GB 物理显存 - 3.375 GB 权重 - 0.8 GB NCCL - 0.5 GB CUDA 上下文），而非 N51/N52 隐含的 1.7 GB 或 N33 的错误值，据此重新计算 32k/64k/128k 上下文下的 KV 占用分别为 384 MB/768 MB/1536 MB，均远低于 10.5 GB 上限，表明显存并非限制 MTP 实验的主要瓶颈。
+
+## Corrected Claim
+
+在 TP=4 配置下，单卡 KV Cache 可用显存修正为 10.5 GB（基于 N48 修正值：15.2 GB 物理显存 - 3.375 GB 权重 - 0.8 GB NCCL - 0.5 GB CUDA 上下文），而非 N51/N52 隐含的 1.7 GB 或 N33 的错误值，据此重新计算 32k/64k/128k 上下文下的 KV 占用分别为 384 MB/768 MB/1536 MB，均远低于 10.5 GB 上限，表明显存并非限制 MTP 实验的主要瓶颈。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（15.2-3.375-0.8-0.5=10.525≈10.5），KV Cache 占用量级符合常规大模型推理场景（32k-128k 上下文占用远小于 10GB 显存），结论逻辑自洽。

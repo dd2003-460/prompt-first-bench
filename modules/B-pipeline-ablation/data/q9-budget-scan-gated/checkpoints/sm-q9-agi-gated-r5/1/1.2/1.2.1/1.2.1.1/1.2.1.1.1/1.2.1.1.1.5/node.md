@@ -1,0 +1,24 @@
+# N160: 核验 Qwen3.8-27B 是否采用 MLA (Multi-head Latent Attention) 或 GQA：查阅模型技术报告或代码库，确认 KV C
+
+- **status**: degraded
+- **level**: L6
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N80
+
+## Claim
+
+核验 Qwen3.8-27B 是否采用 MLA (Multi-head Latent Attention) 或 GQA：查阅模型技术报告或代码库，确认 KV Cache 是否经过低秩压缩（Compressed KV），若存在压缩，需获取压缩比率 r 以修正 Bytes_per_token_per_card 公式。
+
+## Corrected Claim
+
+需首先确认 'Qwen3.8-27B' 是否为有效模型标识符。若指代 Qwen3 系列某特定尺寸模型，需查阅官方技术报告确认其是否采用 MLA 或 GQA 及 KV Cache 压缩策略；目前无法基于现有信息确定具体压缩比率 r。
+
+## Evidence
+
+[质询]Qwen3.8-27B 并非公开存在的标准模型版本（截至当前知识库，Qwen 系列主要包含 Qwen2.5, Qwen3 等，且 27B 规格通常对应 Qwen2.5-32B 或 Qwen3-30B-A3B 等 MoE 架构，纯 Dense 27B 较少见且命名不规范），该陈述基于一个可能不存在或命名错误的模型实体，导致无法验证其具体的注意力机制细节。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且模型名称疑似不准确，无法确认具体架构细节）
+
+## Search Query
+
+Qwen3.8-27B architecture GQA MLA compressed KV cache ratio

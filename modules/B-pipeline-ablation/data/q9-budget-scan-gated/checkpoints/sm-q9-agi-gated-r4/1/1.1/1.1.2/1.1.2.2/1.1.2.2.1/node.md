@@ -1,0 +1,20 @@
+# N78: 修正N36中通信量计算错误：TP=4下AllReduce同步的是hidden_states（维度4096），通信量应为 2 * batch_size * hid
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N36
+
+## Claim
+
+修正N36中通信量计算错误：TP=4下AllReduce同步的是hidden_states（维度4096），通信量应为 2 * batch_size * hidden_dim * 2bytes = 16KB（bs=1），而非N36误用的seq_len维度；在NVLink 300GB/s下延迟为 16KB/300GB/s ≈ 0.053μs，占3.75ms decode步时间的0.0014%，确认可忽略。
+
+## Corrected Claim
+
+修正N36中通信量计算错误：TP=4下AllReduce同步的是hidden_states（维度4096），通信量应为 2 * batch_size * hidden_dim * 2bytes = 16KB（bs=1），而非N36误用的seq_len维度；在NVLink 300GB/s下延迟为 16KB/300GB/s ≈ 0.053μs，占3.75ms decode步时间的0.0014%，确认可忽略。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：通信量计算 2*1*4096*2B=16KB 正确，延迟 16KB/300GB/s≈0.053μs 量级合理，占比 0.0014% 符合直觉。

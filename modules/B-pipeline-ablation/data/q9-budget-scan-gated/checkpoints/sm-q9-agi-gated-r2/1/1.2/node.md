@@ -1,0 +1,20 @@
+# N8: Qwen3.8-27B 采用 NVFP4 (W4A16) 量化，权重占用约 13.5 GB；FP8 KV Cache 下，每 token 的 KV 开销为 (2
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+Qwen3.8-27B 采用 NVFP4 (W4A16) 量化，权重占用约 13.5 GB；FP8 KV Cache 下，每 token 的 KV 开销为 (2 * num_layers * head_dim * 2 bytes / TP_size)，需结合具体层数计算单序列最大上下文长度
+
+## Corrected Claim
+
+Qwen3.8-27B 采用 NVFP4 (W4A16) 量化，权重占用约 13.5 GB；FP8 KV Cache 下，每 token 的 KV 开销为 (2 * num_layers * head_dim * 2 bytes / TP_size)，需结合具体层数计算单序列最大上下文长度
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在NVFP4(4bit)下权重约为13.5GB，KV Cache计算公式符合Transformer架构基本原理

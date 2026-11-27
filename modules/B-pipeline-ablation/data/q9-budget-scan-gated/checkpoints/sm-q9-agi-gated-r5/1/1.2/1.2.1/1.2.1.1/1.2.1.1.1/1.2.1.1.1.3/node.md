@@ -1,0 +1,20 @@
+# N158: 若 N138 确认 num_key_value_heads=8，代入公式得 Bytes_per_token_per_card = (2 * 48 * 8 * 1
+
+- **status**: verified
+- **level**: L6
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N80
+
+## Claim
+
+若 N138 确认 num_key_value_heads=8，代入公式得 Bytes_per_token_per_card = (2 * 48 * 8 * 128 * 1) / 4 = 49152 bytes (48 KB)，修正 N80 中 '491.5KB' 的数量级错误（原值误将 48KB 当作 491.5KB）。
+
+## Corrected Claim
+
+若 N138 确认 num_key_value_heads=8，代入公式得 Bytes_per_token_per_card = (2 * 48 * 8 * 128 * 1) / 4 = 49152 bytes (48 KB)，修正 N80 中 '491.5KB' 的数量级错误（原值误将 48KB 当作 491.5KB）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程 (2 * 48 * 8 * 128 * 1) / 4 = 49152 bytes = 48 KB 准确无误，且正确指出了原值 491.5KB 的数量级错误（约10倍偏差）。

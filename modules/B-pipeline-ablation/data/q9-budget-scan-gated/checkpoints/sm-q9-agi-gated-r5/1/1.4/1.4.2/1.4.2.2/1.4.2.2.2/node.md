@@ -1,0 +1,24 @@
+# N112: 实际最大上下文长度受限于 KV Cache 显存与并发数的乘积：若 max_num_seqs=8，则每序列可用 KV Cache 为 12.5 GB / 8 =
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N50
+
+## Claim
+
+实际最大上下文长度受限于 KV Cache 显存与并发数的乘积：若 max_num_seqs=8，则每序列可用 KV Cache 为 12.5 GB / 8 = 1.5625 GB，对应最大上下文长度 1.5625 GB / 491.5 KB ≈ 3,270 tokens/序列，总容量 26,160 tokens。
+
+## Corrected Claim
+
+实际最大上下文长度受限于 KV Cache 显存与并发数的乘积：若 max_num_seqs=8，则每序列可用 KV Cache 为 12.5 GB / 8 = 1.5625 GB，对应最大上下文长度 1.5625 GB / 491.5 KB ≈ 3,270 tokens/序列，总容量 26,160 tokens。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（12.5/8=1.5625, 1.5625GB/491.5KB≈3270, 3270*8=26160），符合KV Cache显存分配的基本逻辑。
+
+## Search Query
+
+vLLM concurrent sequences KV cache allocation strategy

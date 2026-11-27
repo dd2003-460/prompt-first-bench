@@ -1,0 +1,20 @@
+# N123: 4×V100-SXM2-16GB 集群的总 HBM 带宽为 3.6 TB/s (4 × 900 GB/s)，但 TP=4 模式下 Decode 阶段每卡仅承担 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N63
+
+## Claim
+
+4×V100-SXM2-16GB 集群的总 HBM 带宽为 3.6 TB/s (4 × 900 GB/s)，但 TP=4 模式下 Decode 阶段每卡仅承担 1/4 的权重读取，且受 All-Reduce 同步阻塞影响，有效带宽利用率约为 60-70%，导致单 Token 生成延迟下限受限于跨卡同步而非单卡带宽。
+
+## Corrected Claim
+
+4×V100-SXM2-16GB 集群的总 HBM 带宽为 3.6 TB/s (4 × 900 GB/s)，但 TP=4 模式下 Decode 阶段每卡仅承担 1/4 的权重读取，且受 All-Reduce 同步阻塞影响，有效带宽利用率约为 60-70%，导致单 Token 生成延迟下限受限于跨卡同步而非单卡带宽。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 SXM2 HBM带宽确为900GB/s，TP=4下Decode阶段受All-Reduce通信开销限制，有效带宽利用率60-70%符合分布式推理工程常识。
