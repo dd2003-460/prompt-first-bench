@@ -88,7 +88,11 @@ def build_result(per_run, gate_ids):
     sim_medians = {b: [per_run[kr]["sim_median"] for kr in
                        [(b, r) for (bb, r) in per_run if bb == b]] for b in BUDGETS}
     rates = [v for v in gate_hit_rate.values() if v is not None]
-    if rates and (all(v < 0.1 for v in rates) or all(v > 0.9 for v in rates)):
+    n_budgets_with_data = sum(1 for b in BUDGETS if n_per_budget.get(b, 0) > 0)
+    if n_budgets_with_data < len(BUDGETS):
+        verdict = (f"数据不足({n_budgets_with_data}/{len(BUDGETS)} 档): 重标定判定需全档到位"
+                   "(单档≈0 分不清'阈值过高'vs'低预算真没覆盖'); 当前 sim_medians 仅供观测")
+    elif rates and (all(v < 0.1 for v in rates) or all(v > 0.9 for v in rates)):
         verdict = ("gate 命中率全档≈0(<0.1)或≈1(>0.9): 建议按 Q9 域 sim 分布重标定 "
                    "COS_THRESHOLD=0.70 (gpu 域标定, Q9 域未重校; 只重算 embedding 不重跑 SM)")
     else:
