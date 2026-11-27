@@ -359,5 +359,18 @@ def main():
     json.dump(out, open(fp, "w"), ensure_ascii=False, indent=1)
     print(f"saved: {fp}", flush=True)
 
+    # 接地审计自动接入 (2026-11-27): 每个探针 run 出接地统计, 散文模拟不再靠事后手工审计
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from q9_grounding_audit import audit_arm
+        for arm_key, arm in out["arms"].items():
+            rows = audit_arm(arm_key, arm.get("per_episode") or [])
+            grs = [r["grounded_rate"] for r in rows]
+            n_sim = sum(1 for r in rows if r["sim_flag"])
+            print(f"[GROUNDING] {arm_key}: mean_grounded_rate="
+                  f"{sum(grs)/len(grs):.3f} sim_flag={n_sim}/{len(rows)}", flush=True)
+    except Exception as e:  # 审计失败不阻塞主流程
+        print(f"[GROUNDING] audit skipped: {e}", flush=True)
+
 if __name__ == "__main__":
     main()
