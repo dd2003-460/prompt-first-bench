@@ -9,7 +9,9 @@
 | `hds_probe.py` | R2：H(D|S) 在不同条件化口径下的取值 |
 | `hds_same_sampler.py` | R2（**核心**）：用作者自己的采样器（`random.Random(42)`, `gammavariate`, N=40000）复算 H(D|S)，证明表中 T5000/4090 两行互换 |
 | `closed_form_check.py` | R5：`P(Exp(λ_i) 为最大)` 的精确有理式，证明 H(D) 可闭式，稿件未做 |
-| `final_checks.py` | R3/R4：CRN 置换检验（24 排列精确不变）、H(D|S) 的 MC 噪声、错误节点得分更高 |
+| `final_checks.py` | R3/R4：CRN 置换检验、H(D|S) 的 MC 噪声、错误节点得分更高 |
+| `perm_theory_check.py` | **R4（关键，推翻审稿人初判）**：24 置换的不变性是**总体恒真**（Dirichlet(1,1,1,1) 坐标可交换），N↑ 时 range 单调收缩；作者的 "narrow MC band" 说法正确 |
+| `nullmodel_check.py` | R6：chance 基线（branch=0.5, within=0.25），归一化**不**改变 dominant 判定（审稿人撤回该批评） |
 | `trace_hds.py` | R2：穷举可能产生 0.76/0.71/0.77/0.74 的口径，确认无一口径命中 |
 | `verify_sec5_and_scoring.py` | R6/R7：§5 四格表重建 + anti-bottleneck 控制 |
 | `split_sensitivity.py` | R6（**核心**）："dominant dimension" 随剖分而变 |
