@@ -39,6 +39,31 @@ sys.path.insert(0, "/Users/a1-6/Desktop/workspace/pfb-thinkmech/modules/D-decomp
 sys.path.insert(0, "/Users/a1-6/Desktop/workspace/pfb-thinkmech/modules/A-eval-infra/scripts")
 sys.path.insert(0, ARM_DIR)
 os.chdir(AB)
+# ── LLM 原始输出落盘（M2a 方差探针追加项，2026-11-28）──
+# harness 日志只有 "[LLM] call done in Xs out_len=Y" 摘要行，无 content 全文
+# → domain_shift_ratio 指标在 4/6 臂无法计算。runner 层 monkey-patch call_llm
+# （先 patch 再 import s5_state_machine：模块级 from-import 与函数内局部 import
+# 都从 ablation_harness 模块取属性，故全路径覆盖）。测量仪器非实验变量，两臂同口径。
+import ablation_harness
+RAW_DIR = os.path.join(HERE, "raw-llm-calls")
+RAW_FN = os.path.join(RAW_DIR, f"m3-{args.arm}-{args.domain}-r{args.rep}.jsonl")
+os.makedirs(RAW_DIR, exist_ok=True)
+_orig_call_llm = ablation_harness.call_llm
+_cnt = {"n": 0}
+def _logged_call_llm(*a, **kw):
+    _cnt["n"] += 1
+    idx = _cnt["n"]
+    res = _orig_call_llm(*a, **kw)
+    content = res[0] if isinstance(res, tuple) else res
+    rec = {"call_idx": idx, "ts": time.strftime("%F %T"),
+           "max_tokens": kw.get("max_tokens"), "temperature": kw.get("temperature"),
+           "prompt_len": len(a[0]) if a else None,
+           "out_len": len(content) if isinstance(content, str) else None,
+           "content": content}
+    with open(RAW_FN, "a") as f:
+        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    return res
+ablation_harness.call_llm = _logged_call_llm
 import s5_state_machine, prompts
 assert s5_state_machine.__file__.startswith(ARM_DIR), f"WRONG SM: {s5_state_machine.__file__}"
 assert prompts.__file__.startswith(ARM_DIR), f"WRONG prompts: {prompts.__file__}"
