@@ -43,6 +43,13 @@
 | competitor-survey.md | 竞品/bench 对标 |
 | paper-draft.md | 论文草稿 |
 
+## 层 4：版本登记册（Q9REG, 2026-11-27）
+| 文件 | 内容 |
+|---|---|
+| `../modules/B-pipeline-ablation/data/registry/registry.json` | 题面/gold/units 三维登记册（脚本生成, 可重复）：每个 qid 的题面版本/gold 版本/units+canonical 标记+题面-gold 绑定（含证据） |
+| `../modules/B-pipeline-ablation/data/registry/conflicts.md` | 冲突清单（当前 3 条：gpu-units 分叉 / Q9 编号撞车 / Q1 gold 副本） |
+| `../modules/B-pipeline-ablation/scan_gold_registry.py` | 生成器（只读扫描, 重跑即更新；新增题面/gold 后跑一次） |
+
 ## 当前瓶颈（2026-11-05 数据说话）
 1. **M1 事实准确率（均分 0.60，拖累最大 0.100）**：27B 知识天花板——硬件细节（HBM 带宽/PCIe 代数）记错，gold 核心矛盾点（PCIe vs SXM 带宽比 1.68x）系统性漏掉。prompt 工程解决不了，换更强模型或强制查 datasheet 才有出路。
 2. **M2/M5 是度量口径问题不是能力问题**：M5≈0 因为 65/90 产物正文行内无有效 URL（来源在独立 sources 字段且多为 bing 跳转链接）；M2≈0.1 因为 fact/inference 标签覆盖率≈0（模型不写标签）。gates.py 的行级锚点检测对这种输出形态天然失明，需要改成"sources 字段关联"口径再评。
