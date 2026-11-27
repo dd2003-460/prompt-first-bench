@@ -60,6 +60,17 @@ REQ_NO_TOOL = (
     "你是研究员，预算不限。调研要求：建模 GPU 推理性能的影响与瓶颈"
     "（如 27B LLM 在 V100/A100/4090 上的推理）。找出主导因子，把模型表达成紧凑公式。"
 )
+HW_REQ = (
+    "你是研究员，预算 ≤ 5 万元人民币。任务：为本地部署 LLM 设计最高性价比的硬件系统。"
+    "目标能力：本地流畅运行 27B-70B 级别开源模型（含 KV cache 开销），支持长上下文 ≥32K 的多步推理任务。"
+    "找出主导因子（什么决定这套系统能否达成目标），把选型逻辑表达成紧凑公式，并给出具体配置推荐（型号/数量/价格）。"
+    "你有 search 工具（查真实规格与价格）和 code_exec（算数值）。"
+)
+HW_REQ_NOTOOL = (
+    "你是研究员，预算 ≤ 5 万元人民币。任务：为本地部署 LLM 设计最高性价比的硬件系统。"
+    "目标能力：本地流畅运行 27B-70B 级别开源模型（含 KV cache 开销），支持长上下文 ≥32K 的多步推理任务。"
+    "找出主导因子（什么决定这套系统能否达成目标），把选型逻辑表达成紧凑公式，并给出具体配置推荐（型号/数量/价格）。"
+)
 
 CODE_EXEC_TOOL = {
     "type": "function",
@@ -75,6 +86,9 @@ CODE_EXEC_TOOL = {
     },
 }
 ALL_TOOLS = TOOLS + [CODE_EXEC_TOOL]
+
+# 题面模式: None=GPU 推理建模(默认); "hw"=本地 AGI 硬件选型 (frame-shift 探针)
+REQ_MODE = None
 
 # ---------- 自由参数计数: 公式行 (含 =/≈/∝) 里的独立符号 ----------
 # 注: 启发式上界 —— 抓公式行里的独立符号, 排除数字常量/虚词/单位/硬件名。
@@ -160,13 +174,20 @@ def do_code_exec(code, sandbox):
         return f"(exec error: {e})"
 
 # ---------- agent episode ----------
-def run_episode(arm, ep_id, sandbox):
+def run_episode(arm, ep_id, sandbox, req_mode="gpu"):
     """完整 agent 循环: 模型自主调工具, max_turns 封顶。
-    arm A=裸(有工具无hook); arm B=带自审 hook(每 3 轮); arm C=无 harness(无工具, 纯参数记忆)。"""
-    if arm == "C":
-        msgs = [{"role": "user", "content": REQ_NO_TOOL}]
+    arm A=裸(有工具无hook); arm B=带自审 hook(每 3 轮); arm C=无 harness(无工具, 纯参数记忆)。
+    req_mode: gpu=GPU 推理建模(默认); hw=本地 AGI 硬件选型(frame-shift 探针)。"""
+    if req_mode == "hw":
+        req_base = HW_REQ
+        req_notool = HW_REQ_NOTOOL
     else:
-        msgs = [{"role": "user", "content": RESEARCH_REQ +
+        req_base = RESEARCH_REQ
+        req_notool = REQ_NO_TOOL
+    if arm == "C":
+        msgs = [{"role": "user", "content": req_notool}]
+    else:
+        msgs = [{"role": "user", "content": req_base +
                  "\n(可用工具: search=检索外部资料; code_exec=执行 Python 代码做数值验证, 如算 roofline 拐点/KV cache 占用/FLOPs 估算。)"}]
     traj, code_runs = [], []
     final_text, n_turns = "", 0
@@ -259,6 +280,8 @@ def main():
                     help="只跑 A 臂 1 个完整 episode, 验证 harness 跑通+落盘")
     ap.add_argument("--arms", default="", help="指定臂, 逗号分隔 (如 C); 默认 A,B")
     ap.add_argument("--tag", default="", help="输出文件名后缀 (如 _C)")
+    ap.add_argument("--req", default="gpu", choices=["gpu", "hw"],
+                    help="题面: gpu=GPU推理建模(默认); hw=本地AGI硬件选型(frame-shift探针)")
     args = ap.parse_args()
     if args.dry_run:
         arms = ["A"]; n_eps = 1; tag = ""
@@ -275,6 +298,7 @@ def main():
 
     out = {"observed_at": datetime.now(timezone.utc).astimezone().isoformat(),
            "script": "q9_gpu_model_probe.py",
+           "req_mode": args.req,
            "mode": "dry-run" if args.dry_run else f"arms-{','.join(arms)}",
            "model": MODEL, "max_turns": MAX_TURNS, "hook_every": HOOK_EVERY,
            "selftest": st, "arms": {}}
@@ -282,7 +306,7 @@ def main():
         per = []
         for i in range(n_eps):
             print(f"arm_{arm} ep{i}: running...", flush=True)
-            r = run_episode(arm, i, sandbox)
+            r = run_episode(arm, i, sandbox, req_mode=args.req)
             per.append(r)
             print(f"arm_{arm} ep{i}: turns={r['n_turns']} tools={r['tools_used']} "
                   f"free_params={r['free_params']}", flush=True)
