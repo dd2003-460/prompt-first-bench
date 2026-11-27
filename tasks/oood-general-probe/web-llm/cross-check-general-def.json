@@ -1,0 +1,26 @@
+{
+  "kind": "ralph_web_llm_cross_check",
+  "topic": "general 操作化定义 + OOD 迁移电池判据的交叉验证",
+  "question_summary": "推理脚手架(状态机+prompt,不改权重)的 general 性操作化定义(域外净增益>0 + 迁移gap小)是否与 ML 社区标准一致; 缺什么; 更严格判据",
+  "observed_at": "2026-11-27T21:05:00+08:00",
+  "channel": "ego-browser (已登录会话, 非无头)",
+  "responses": [
+    {
+      "provider_id": "gemini",
+      "url": "https://gemini.google.com/app",
+      "verdict": "定义更接近 zero-shot domain transfer / cross-domain algorithmic generalisation, 但缺'源域学到什么可迁移规则'的机制刻画; 裸 LLM 单发基线太弱——很多脚手架本质是增加 test-time compute(多次采样/自我批评/结构化分解), 不是泛化能力提升",
+      "key_points": ["定义≈OOD 迁移但缺机制层", "单发基线混淆 test-time compute"],
+      "artifact": "web-llm/gemini-general-def.md"
+    },
+    {
+      "provider_id": "chatgpt",
+      "url": "https://chatgpt.com/",
+      "verdict": "反驳第2点(test-time compute 混淆)成立且是最重要的实验设计缺陷; 第1点(缺机制刻画)部分成立但对固定脚手架要求过高。给出: 六臂对照矩阵(Bare/ExtCoT/BoN/SelfRefine/GenericMultiStep/TargetScaffold), 计算预算匹配(token/FLOPs/latency), 四必要条件判据(Kernel Invariance / Compute-Adjusted Gain 带预注册CI / Low Migration Gap ε / LODO 纪律), migration gap 须相对计算匹配对照而非绝对准确率",
+      "key_points": ["Observed Gain = Scaffold Effect + Extra Compute Effect + Interaction", "MC 对照须事前冻结不事后挑", "Δ 须单侧 CI 下界>0 非点估计", "gap 定义修正为相对 MC 的增益差"],
+      "artifact": "web-llm/chatgpt-general-def.md"
+    }
+  ],
+  "successful_provider_ids": ["gemini", "chatgpt"],
+  "consensus": "两 LLM 一致: 裸基线对照不够, 必须加计算匹配的通用对照臂(BoN/GenericMultiStep)排除 test-time compute 混淆; 迁移 gap 须相对匹配对照定义; 固定脚手架跨域净增益可作为操作性 general 的最低判据, 机制层 general 需额外验证",
+  "applied_to": "tasks/oood-general-probe/oood-battery-spec.md §1 (四必要条件+MC 对照臂+gap 定义修正)"
+}
