@@ -269,13 +269,13 @@
 
 | 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 |
 |---|---|---|---|---|---|
-| M0 arena 调研: general 推理成熟机制 (A prompt级/B评测/C开源) | 无 | - | - | - | sub-arena (已派 11-27 23:4x; 11-28 01:0x 核验: 交付未落盘, e8eccd96 新 commit 是 idea53 review 非 M0; 待 ego-browser 查会话状态) |
+| M0 arena 调研: general 推理成熟机制 (A prompt级/B评测/C开源) | 无 | - | - | - | sub-arena (已派 11-27 23:4x; 11-28 01:3x fetch 核验: 分支 tip 仍 8dcd3c0a=任务卡, >75min 无交付, 超预估 2 倍; 处置: 不阻塞 M 线(M2 已用 cc 评审替代交叉核对), 后台继续等, 交付后交叉核对"只注T1+T2"裁决) |
 | M1a 基线提取: S1/B 双臂机械指标 → baseline-pre-injection.json (脚本落盘) | 无 | ~50 | 脚本+~30 | 1 | sub-27b |
 | M1b prompt 结构盘点: s1/prompts.py → prompt-inventory.json (脚本落盘) | 无 | 471 | 脚本+~30 | 1 | sub-27b |
 | M2 注入变体设计: V0=S1现状 / V1=+5模板 / V2=M0 调研 top 机制 | M0+M1b | ~100 | ~80 | 1 | 判断-Lead (done 11-28 00:55, m2-injection-design-20261128.md; 只注 T1+T2 合并版, T3/T4/T5 与 harness 职责冲突不注) |
-| M2a 方差探针: 已有 6 臂 rep 间三指标 cv → 定 M3 reps 功效 | 无 | 脚本 | 脚本+json | 1 | sub-27b (已派 11-28 01:1x sa-0-e1f3d6ec, 零 GPU; 任务卡 taskcard-m2a-variance-probe.md @ f6b764bab) |
+| M2a 方差探针: 已有 6 臂 rep 间三指标 cv → 定 M3 reps 功效 | 无 | 脚本 | 脚本+json | 1 | sub-27b (✅ done 11-28 01:2x @ 3003978bb, 零 GPU; variance-report.json; 注: 6臂各1rep, 报的是跨臂方差非rep间方差, rep间方差由M3 3reps 自带) |
 | M2b V1 实现: s1/→v1/ 复制 + T1+T2 注入 + 冒烟 | M2 | ~100 | 复制+diff | 1 | sub-27b (done 11-28 00:59 @ d03c9423d, 冒烟 ok 3 节点 JSON 契约不破) |
-| M3 对照实验: V0/V1(/V2) × 3 域(气象/硬件/埋雷) × 2 reps, 40节点, 无检索口径 | M2 | - | - | 1/臂 | sub-27b(跑批) |
+| M3 对照实验: V1×3域(cyclone/mining/hw) 各3reps + V0(s1)cyclone 2reps = 11reps, 40节点, 无检索口径 | M2 | - | - | 1/rep | sub-27b(🔄 prep 在跑 sa-0-0728988f: runner+队列 dry-run, 夜间批 Lead 核验后启; 设计见 m2-injection-design-20261128.md) |
 | M4 记分+判决: 机械指标(机制覆盖/量化claim/域偏移率) + 预注册判据 | M3 | ~100 | ~60 | 1 | sub-27b + 判断-Lead |
 | M5 论文化+review: claim 强度/对抗核验 | M4 判决为正 | - | - | - | arena + 判断-Lead (后置) |
 
