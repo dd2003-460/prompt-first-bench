@@ -68,8 +68,10 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
     ├── E1. 预算轴定义（search 次数 / token / 时间，单变量）
     │   └── 原子：选 1 个预算参数（SM 已有 budget_nodes/per_layer_cap/max_rounds），
     │       扫 4-5 个档位（含 unlimited 上限档）
-    ├── E2. 质量轴（judge depth/coverage，同现有 rubric）
-    │   └── 原子：复用 judge_v2_depth.score_run
+    ├── E2. 质量轴（机械实例化密度为主 + judge 为辅）
+    │   └── 原子：q9_formula_instantiation_probe.py（21 gold 公式签名，mention/instantiated 两级）为主轴；
+    │       judge_v2_depth 降为辅助轴（⚠ 11-27 21:50 探针：11 门 7 道 reliability 维饱和放水，
+    │       judge 仅作旁证不作唯一质量轴）。依据 formula-instantiation-probe-20261127.json
     ├── E3. 跑预算扫描（每档 ≥3 reps，同负载）
     │   └── 原子：batch driver，spec 驱动
     └── E4. Pareto 曲线（预算 vs 质量，找拐点 = 性价比最优点）
@@ -110,7 +112,7 @@ research-agi-budget（D 硬件条件下，预算控制 AI 在 Pareto 边界上�
 
 **固定变量**（单变量原则，全部不动）：max_depth=5（resume 已证明 L5 必要）、max_kids=8、β=3.0、θ=0.10、prompt（B 修复后版本）、题（gpu，gold 最完整）、seed=42。
 
-**质量轴**：judge_v2_depth 的 depth + coverage（现有 rubric，38 判定点）。
+**质量轴**：主轴 = 机械公式实例化密度（q9_formula_instantiation_probe.py，21 gold 公式签名，mention/instantiated 两级）；辅轴 = judge_v2_depth 的 depth + coverage（现有 rubric，38 判定点，⚠ 11-27 21:50 探针证其 reliability 维 7/11 门饱和放水，故降为旁证）。
 **每档 ≥3 reps**（方差来源已知：vLLM 并发非确定性，T53b 已量化）。
 **Pareto 输出**：(cost=节点数/时间, quality=depth) 散点 → 包络线 → 拐点 = Δquality/Δcost 跌破阈值的点。
 **预期**：B1→B3 陡升（覆盖主导），B3→B5 趋平（边际贡献因子价值低）→ 拐点在 B3 附近 = 性价比最优点。若 B4/B5 仍陡 → 当前默认 150 是欠预算，应上调。
