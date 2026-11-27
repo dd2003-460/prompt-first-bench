@@ -172,10 +172,15 @@ def run_episode(arm, ep_id, sandbox):
     final_text, n_turns = "", 0
     for turn in range(1, MAX_TURNS + 1):
         n_turns = turn
-        payload = {"model": MODEL, "messages": msgs, "max_tokens": TURN_MAX_TOKENS,
-                   "temperature": 0.0,
-                   "tools": [] if arm == "C" else ALL_TOOLS,
-                   "tool_choice": "auto"}
+        if arm == "C":
+            # 端点拒收 tools=[] (400), C 臂彻底不发 tools/tool_choice 字段
+            payload = {"model": MODEL, "messages": msgs, "max_tokens": TURN_MAX_TOKENS,
+                       "temperature": 0.0}
+        else:
+            payload = {"model": MODEL, "messages": msgs, "max_tokens": TURN_MAX_TOKENS,
+                       "temperature": 0.0,
+                       "tools": ALL_TOOLS,
+                       "tool_choice": "auto"}
         msg = call(payload)
         tc = msg.get("tool_calls") or []
         content = (msg.get("content") or "").strip()
