@@ -27,6 +27,7 @@
 - 命中哪个假设：H1 / H2 / H3
 - 依据数字：
 - caveat（n=2/臂、单题域、同模型自评风险）：
+- **仪器 caveat (2026-11-27 17:12, text 臂核出)**: syn_sib_rate 主端点结构性近零 — text 臂 252 兄弟对 Jaccard max=0.44/median=0.02, harness β 冗余惩罚在生成时预过滤同义节点, 幸存兄弟天然正交。两臂 syn_sib 都≈0 时 **不得判 H2**, 真因=harness 预过滤掩盖格式效应。判别力改看: ① Jaccard 分布形状 (formula 臂 max/p95 是否显著高) ② info_density ③ rework_density。
 
 ## 导出
 - 对 ⑥ 思考触发分支的影响：

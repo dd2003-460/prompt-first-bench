@@ -53,14 +53,27 @@ def metrics(fn):
         for pid in pids:
             by_parent.setdefault(pid, []).append(n)
     sib_pairs, sib_syn = 0, 0
+    jac_scores = []
     for ps in by_parent.values():
         for a, b in itertools.combinations(ps, 2):
             sib_pairs += 1
             ia = claims.index(a.get("claim", "")) if a.get("claim","") in claims else 0
             ib = claims.index(b.get("claim", "")) if b.get("claim","") in claims else 0
-            if jaccard(ng[ia], ng[ib]) > 0.5:
+            s = jaccard(ng[ia], ng[ib])
+            jac_scores.append(s)
+            if s > 0.5:
                 sib_syn += 1
     syn_sib = sib_syn / max(1, sib_pairs)
+    # Jaccard 分布 (修正后的判别端点: harness β 预过滤使 syn_sib 近零, 分布形状才有判别力)
+    import statistics
+    jac_scores.sort(reverse=True)
+    jac_stats = {
+        "n_pairs": len(jac_scores),
+        "max": round(jac_scores[0], 3) if jac_scores else 0.0,
+        "p95": round(jac_scores[max(0, int(len(jac_scores) * 0.05))], 3) if jac_scores else 0.0,
+        "median": round(statistics.median(jac_scores), 3) if jac_scores else 0.0,
+        "gt05": sum(1 for s in jac_scores if s > 0.5),
+    }
     # 聚类
     n_clusters = cluster(claims) if claims else 0
     # 深度
@@ -75,6 +88,7 @@ def metrics(fn):
         "n_nodes": len(nodes),
         "dup40_rate": round(dup40, 3),
         "syn_sib_rate": round(syn_sib, 3),
+        "jac_stats": jac_stats,
         "eff_clusters": n_clusters,
         "info_density": round(n_clusters / max(1, len(nodes)), 3),
         "depth_dist": lvl,
