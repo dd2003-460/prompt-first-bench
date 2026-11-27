@@ -79,14 +79,14 @@ echo "=== q9-gated queue DONE $(date '+%F %T') ===" | tee -a /tmp/q9-gated-queue
 (每 rep 结束检查 rc=0; 两 rep 都 rc=0 才进 S3。)
 
 ### S3: 验证 + 落盘
-- 确认 $OUT 下有 2 个 run json (q9-agi-gated-*.json), 各节点数 ~150 (读 json 的 nodes 长度)
-- 漂移率初测 (粗判, 精确 mech 重扫由 Lead 后置): 对每个 gated run 的 nodes, 统计 claim 含以下无关关键词的比例: `Celery|队列|M1 Max|Apple|JSON schema|schema 开销|Docker|Kubernetes|CI/CD|GitHub Action` — 与 baseline 150 档对照 (baseline 漂移率 34%, 来自 mech-scan)
-- git add 新文件 (run_q9_gated.py + 2 个 run json + stdout), commit: `feat(q9): 相关性门禁臂 150×2 (monkeypatch P1_DECOMPOSE)`
+- 确认 $OUT 下有 2 个 run json (q9-gated-*.json), 各节点数 ~150 (读 json 的 nodes 长度)
+- 漂移率粗测 (**同口径对照**, 精确 mech 重扫由 Lead 后置): 用同一份关键词表 `Celery|队列|M1 Max|Apple|JSON schema|schema 开销|Docker|Kubernetes|CI/CD|GitHub Action` 分别统计 ① gated 2 runs ② baseline 150 档 3 runs (`/Users/a1-6/Desktop/workspace/pfb-thinkmech/modules/B-pipeline-ablation/data/q9-budget-scan/q9-150-r{1,2,3}-*.json`) 的 claim 命中占比, 汇报两组数字。(注意: 这是关键词粗判, 不是 LLM 三要素判据; baseline 34% 是 LLM 判据下的 other 率, 口径不同不可直接比, 只比同口径下的 gated vs baseline。)
+- git add 新文件 (run_q9_gated.py + 2 个 run json + stdout), commit: `feat(q9): 相关性门禁臂 150×2 (monkeypatch P1H_INDEX+P15B_GAP_FILL)`
 
 ### S4: 汇报 (1 行)
 `gated 2 runs: 节点数 X/Y, 粗漂移率 A%/B% (baseline 34%), json 路径, commit hash`
 
 ## 失败处理
-- GATE MISSING → 检查 s5_pipeline 是否 from-import (若是, 还需 patch s5_pipeline.P1_DECOMPOSE, 已含在 wrapper)
+- GATE MISSING → 检查 s5_pipeline 是否 from-import (若是, 还需 patch s5_pipeline.P1H_INDEX / P15B_GAP_FILL, 已含在 wrapper)
 - run json 节点数 <100 → 门禁过严, 如实汇报不重跑
 - LLM 端点 8787 不可用 → 汇报阻塞, 不重试
