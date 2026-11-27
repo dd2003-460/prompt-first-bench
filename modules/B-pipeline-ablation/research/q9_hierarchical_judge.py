@@ -63,14 +63,20 @@ def main():
         gate_cmp[jid] = {"judge_hits": jh, "mech_hits": mh, "leak_cells": leak}
     # (c) 预算轴
     budget_axis = []
-    for b in ["50", "100", "150", "300"]:
+    for b in ["50", "100", "150", "300", "719"]:
         rs = [r for r in per_run if r["budget"] == b]
+        if not rs:
+            budget_axis.append({"budget": b, "mech_total_mean": None,
+                                "grounded_mean": None, "judge_hits_mean": None, "n_runs": 0})
+            continue
         mech = round(sum(r["total"] for r in rs) / len(rs), 3)
         gr = round(sum(r["grounded_total"] for r in rs) / len(rs), 3)
-        jh = [judge[b][f"r{r['rep']}"]["n_gates_hit"] for r in rs]
+        jh = [judge.get(b, {}).get(f"r{r['rep']}", {}).get("n_gates_hit") for r in rs]
+        jh = [x for x in jh if x is not None]
         budget_axis.append({"budget": b, "mech_total_mean": mech,
                             "grounded_mean": gr,
-                            "judge_hits_mean": round(sum(jh) / len(jh), 3)})
+                            "judge_hits_mean": round(sum(jh) / len(jh), 3) if jh else None,
+                            "n_runs": len(rs)})
     out = {"per_run": per_run, "gate_comparison": gate_cmp, "budget_axis": budget_axis}
     out_path = os.path.join(DATA, "hierarchical-judge-v1-20261127.json")
 
@@ -85,15 +91,23 @@ def main():
     print("\n(c) 预算轴: 机械 total 均值 (0-21) / grounded 均值 / judge n_gates_hit 均值 (0-11)")
     print(f"{'budget':<8}{'mech_total':>14}{'grounded':>12}{'judge_hits':>14}")
     for row in budget_axis:
-        print(f"{row['budget']:<8}{row['mech_total_mean']:>14}{row['grounded_mean']:>12}{row['judge_hits_mean']:>14}")
+        def _f(v):
+            return f"{v:>14}" if v is not None else f"{'n/a':>14}"
+        print(f"{row['budget']:<8}{_f(row['mech_total_mean'])}{_f(row['grounded_mean'])}{_f(row['judge_hits_mean'])}")
 
     # (d) reliability 维 2x2 拆分: 硬放水(未提及却 hit) vs 软放水(提未实例化却 hit)
     probe = json.load(open(os.path.join(DATA, "formula-instantiation-probe-20261127.json")))
     pmap = {r["file"]: r for r in probe["per_run"]}
     cell = {}
     for r in per_run:
-        gh = judge[r["budget"]][f"r{r['rep']}"]["gate_hit"]
-        pj = pmap[r["file"]]["per_j"]
+        jb = judge.get(r["budget"])
+        if jb is None or f"r{r['rep']}" not in jb:
+            continue  # LLM-judge 未覆盖该档 (如 719)
+        gh = jb[f"r{r['rep']}"]["gate_hit"]
+        pj = pmap.get(r["file"])
+        if pj is None:
+            continue  # 探针未覆盖该 run (新补跑档)
+        pj = pj["per_j"]
         for j in DIM["N-3_reliability"]:
             ms = ("提+实例化" if (pj[j]["mention"] and pj[j]["instantiated"])
                   else ("提未实例化" if pj[j]["mention"] else "未提及"))
