@@ -1,0 +1,60 @@
+{
+  "task_id": "Q9E-Scan",
+  "status": "done",
+  "started_at": "2026-11-27T11:48:20+08:00",
+  "finished_at": "2026-11-27T16:35:00+08:00",
+  "evidence": {
+    "pid": null,
+    "pid_file": "tasks/think-trigger/exp-results/q9e-scan.pid",
+    "wrapper_log": "tasks/think-trigger/exp-results/q9e-scan-wrapper-20261127-114554.log",
+    "queue_log": "/tmp/q9-budget-scan-queue.log",
+    "out_dir": "modules/B-pipeline-ablation/data/q9-budget-scan/",
+    "launch": "python3 subprocess.Popen(bash q9_budget_scan_queue.sh, start_new_session=True) — macOS 无 setsid 二进制, start_new_session=True 即 setsid 等效(独立 session/pgid=22941, PPID=1, 先例 T8c-B-Rerun 同款)",
+    "detached_check": "ps: PPID=1 PGID=22941 SESS=0 (已脱离 Hermes 会话进程组); worker pid 22948 s5_state_machine --qid q9-agi --max-nodes 50 在跑; q9-50-r1.stdout 已落 OUT",
+    "expected_original": "15 runs 全落盘; 完成标志=resume log 末行 'RESUME DONE' + 15 个 q9-{budget}-r{rep}-{ts}.json",
+    "expected_final": "D 15:50 停扫决策(decomposition.md L192, commit 1a6d25752): 负结果已确立, 300/719 档正式停止, 换仪器=q9_llm_judge_coverage.py。最终真 run=10 个(50x3+100x3+150x3+300-r1), 全 rc=0, sha256 唯一",
+    "goal_state": "research-agi-budget.context.restart_pid=14147 (objfmt-hack runner, 非本任务); restart_pid_task/note 已记 Q9E-Scan 停止与 kill 全清",
+    "progress": "10/15 runs 真落盘(50x3+100x3+150x3 全 rc=0 n_nodes 精确; 300-r1 rc=0 n_nodes=298); 300-r2/r3+719x3 按停扫决策不补跑",
+    "last_check": "2026-11-27T16:35:00+08:00",
+    "quarantine": "modules/B-pipeline-ablation/data/q9-budget-scan/quarantine-20261127/ (7 个伪产物+QUARANTINE-NOTE.md, 死因铁证=3 伪 json 与 300-r1 字节级相同 sha256 ca8b5c8daf...)"
+  },
+  "thinking_log": [
+    {
+      "trigger": "T-失配",
+      "observation": "协议硬边界写 `setsid nohup <cmd> &`, 但 macOS 无 setsid 二进制 (which setsid 空)",
+      "action": "按 T8c-B-Rerun 已验证先例改用 python subprocess start_new_session=True (setsid 等效), 并用 ps 验证 PPID=1/独立 PGID/SESS=0 确认真脱离",
+      "result": "脱离确认: PPID=1, PGID=22941, SESS=0, worker 22948 存活; 等效性有先例+实测双重支撑"
+    },
+    {
+      "trigger": "T-矛盾",
+      "observation": "monitor 信号 STALE:Q9E-Scan(暗示崩溃) 与磁盘事实矛盾(wrapper/worker 均存活, stdout 12:44 在写, 4/15 run 落盘)",
+      "action": "按协议 STALE 分支核磁盘: ps 探活 22941/43417 + pgrep + queue log tail + out dir 计数 + goal state restart_pid 对账",
+      "result": "死因=无(monitor 45min 超时启发式对 ~2.4h 长队列误报); 不接力不重做, 刷新回执心跳, 状态保持 claimed 继续跟踪"
+    },
+    {
+      "trigger": "T-矛盾",
+      "observation": "monitor 第 2 次报 STALE:Q9E-Scan(13:42, 上 tick 12:45 已判同型误报)。核磁盘: wrapper 22941 存活(PPID=1 已脱离, etime 1:56:44), worker 54570 在跑 budget=150 rep=1(--max-nodes 150), q9-150-r1.stdout mtime=13:42 活跃写入, queue log 5/15 run 全 rc=0, goal state restart_pid=22941 一致",
+      "action": "queue_monitor.py L97-104 逻辑核实: claimed 回执 mtime>45min 无条件 STALE(不探活) → 死因=无, 系心跳启发式对 ~2.4h 长队列的周期性误报(每 ~45min 一次, 属预期行为)。刷新回执心跳(last_check/progress/worker_pid), 状态保持 claimed, 不接力不重做",
+      "result": "误报确认(第 2 次同型); 心跳刷新后下轮 monitor 应回 WORKING; 剩余 10 runs(150/300/719 档)预计 ~1.5h, 期间每 ~45min 预期再现同型 STALE, 处置=刷新心跳"
+    },
+    {
+      "trigger": "T-矛盾",
+      "observation": "monitor 第 3 次报 STALE:Q9E-Scan(14:41, 前两次 12:45/13:42 已判同型误报)。核磁盘: wrapper 22941 存活(PPID=1, etime 2:55:07), worker 76505 在跑 budget=150 rep=3, q9-150-r3.stdout mtime=14:41:06(检查时刻 14:41:07, 1s 前活跃), queue log 8/15 run 全 rc=0, goal state restart_pid=22941 一致",
+      "action": "同前两次处置: 死因=无(claimed 回执 mtime>45min 心跳启发式对 ~11h 长队列的周期性误报), 刷新心跳, 状态保持 claimed, 不接力不重做",
+      "result": "误报确认(第 3 次同型); 剩余 7 runs(150-r3 + 300x3 + 719x3)预计 ~3-4h(300/719 档更慢); 期间每 ~45min 预期再现同型 STALE, 处置=刷新心跳"
+    },
+    {
+      "trigger": "T-矛盾",
+      "observation": "monitor 第 4 次报 STALE:Q9E-Scan(15:36)。前三次(12:45/13:42/14:41)均判为 45min 心跳误报; 本次核磁盘=真死: wrapper 22941 不在, worker 无, queue log 停在 300-r1(9/15), 300-r2 stdout 停在 15:32:26 无 json 落盘。死因排查: 机器 37 天未睡(uptime), 无 sleep/wake 事件, 8787 健康(/health 200), 无 python 崩溃报告, 13:59 jetsam 事件=每日 13:59 例行(近 5 天同刻)与本死无关 → 死因未定(外部 kill 或未知信号, 无 traceback)",
+      "action": "按协议 STALE 分支: 核磁盘确认死因(非心跳误报)后从断点续做。发现并行会话(Lead)已写好 resume 脚本 experiments/stage-ablation/q9_budget_scan_resume.sh(15:40, 只补缺 5 个, 与 q9_budget_scan_queue.sh 同参)——不重写, 直接用它; pgrep 防双起后 python start_new_session=True 起 wrapper 3651, ps 验证 PPID=1 脱离; 刷 pid 文件+goal state restart_pid=3651",
+      "result": "接力成功: wrapper 3651 (PPID=1, PGID=3651) + worker 3658 跑 300-r2; 已完成 9 runs 不重跑(任务卡验收=15/15 落盘, 断点续做符合); 死因未定已记录, 若 resume 再死于同位置(300-r2)则同死法第 2 次→需换路(caffeinate/拆单 run 起)"
+    },
+    {
+      "trigger": "T-矛盾",
+      "observation": "monitor 第 5 次报 DEAD:Q9E-Scan(16:15, 回执 claimed mtime 15:45 探活 pid 3651 失败)。核磁盘: wrapper 3651/worker 3658 均不在; resume log 3 行全 rc=143/143/137(SIGTERM/SIGKILL) 无 RESUME DONE; OUT 目录 13 个 json 但 300-r2/300-r3/719-r1 三个与 300-r1 字节级相同(sha256 全=ca8b5c8daffbaacd..., mtime 全在 16:11:35-16:11:55 kill 时刻); goal state restart_pid_note 记 16:11 Lead 已 kill -9 全清 3651(泄漏未杀, 持续重拉子进程抢 8787); commit fa1935be1+1a6d25752 记 D 15:50 停扫决策(负结果确立, 300/719 档停止, 换仪器 LLM judge)",
+      "action": "死因=Lead 16:11 按停扫决策 kill -9 全清(有意终止, 非崩溃); 伪产物机制定位: q9_budget_scan_queue.sh L35-38 每次 run 后无条件 cp runs-s5-sm-q9-agi.json(SM 固定输出文件, kill 时停留在 300-r1 内容)→ 3 个伪 json。处置: ①不补跑 300/719(停扫决策优先于原 15/15 验收) ②7 个伪产物(3 json+4 stdout)移入 quarantine-20261127/(不删, 留铁证) ③核 10 个真 run sha256 全唯一 ④写 QUARANTINE-NOTE.md 记死因链+judge 污染风险提示(judge 2887 16:11-16:21 窗口可能已 glob 到伪文件)",
+      "result": "现场已清理: OUT 目录剩 10 个真 run(50x3+100x3+150x3+300-r1, 全 rc=0); 任务终态=D 停扫决策下的正式停止(非失败): 负结果已由 10 run 确立(7/7 rework 停机+深层零信息增益+cosine 仪器失效), 换仪器 q9_llm_judge_coverage.py 在跑(judge pid 2887)。回执 status=done(按停扫决策收口, 15/15 验收被 D 决策取代), 监督者核: ①quarantine 7 文件+NOTE ②10 真 run 唯一性 ③judge 产出验收时按 NOTE 核对 300-r2/r3、719-r1 条目=重复计数需剔除"
+    }
+  ],
+  "recovery_note": "2026-11-27 16:15 monitor 报 DEAD:Q9E-Scan(第 5 次异常信号, 前 4 次: 3 次心跳误报+1 次真死已接力)。本次核磁盘: resume wrapper 3651 已被 Lead 16:11 按 D 停扫决策 kill -9 全清(有意终止); kill 瞬间 wrapper 的 fail-open cp 逻辑产出 3 个伪 json(=300-r1 字节级副本)+4 个过期 stdout, 已隔离至 quarantine-20261127/(含 QUARANTINE-NOTE.md 死因铁证)。10 个真 run 完好(sha256 全唯一)。任务按停扫决策收口 done, 不补跑 300/719; 后续=换仪器 judge 产出验收(注意 16:11-16:21 窗口伪文件污染风险)。"
+}
