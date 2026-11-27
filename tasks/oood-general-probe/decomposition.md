@@ -39,3 +39,8 @@
 - 不碰在跑的 run_q9_gated.py（PID 95936）及其 checkpoints
 - 8787 与 gated run 共享（max-num-seqs=8），直接跑不排队
 - SM 预算硬顶 max_nodes=40；>40min 停报部分结果
+
+## 6. 核/配置/超参三层分离（D「把非 general 部分去掉」→ 隔离非删除）
+- 设计: `kernel-config-split.md`（S0 原版 / S1 剥离版域中性 / B 裸基线，2×2 三臂，判决域味=污染/域适配配置/功能）
+- 任务: K1 生成剥离版 prompt → K2 S1 气象 → K3 S0/S1/B 硬件 40 节点 → K4 三臂判决（详见该文件 §5 任务表）
+- 时序: S0 气象(在跑)验收后派 K1；K2/K3 等 8787 释放
