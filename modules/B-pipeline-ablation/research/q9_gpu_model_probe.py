@@ -72,6 +72,13 @@ HW_REQ_NOTOOL = (
     "找出主导因子（什么决定这套系统能否达成目标），把选型逻辑表达成紧凑公式，并给出具体配置推荐（型号/数量/价格）。"
 )
 
+# D 2026-11-27 18:55 原话的"简单 prompt" — D 臂 = C 臂(无工具) + 这句, 测它能否解锁 frame-shift
+DPROMPT = (
+    "\n\n[工作要求] 尽最大努力分解这个问题，用第一性原理和研究者思维。"
+    "不要急于给答案：先列出所有可能的因子，逐一检验哪个是真正的瓶颈，"
+    "否定掉不成立的解释，最后才收敛到最紧凑的模型。"
+)
+
 CODE_EXEC_TOOL = {
     "type": "function",
     "function": {
@@ -218,6 +225,9 @@ def run_episode(arm, ep_id, sandbox, req_mode="gpu"):
         req_notool = REQ_NO_TOOL
     if arm == "C":
         msgs = [{"role": "user", "content": req_notool}]
+    elif arm == "D":
+        # D 臂 = C 臂(无工具) + D 的"简单 prompt", 测它能否解锁 frame-shift (2026-11-27 D 担忧直接探针)
+        msgs = [{"role": "user", "content": req_notool + DPROMPT}]
     else:
         msgs = [{"role": "user", "content": req_base +
                  "\n(可用工具: search=检索外部资料; code_exec=执行 Python 代码做数值验证, 如算 roofline 拐点/KV cache 占用/FLOPs 估算。)"}]
@@ -225,8 +235,8 @@ def run_episode(arm, ep_id, sandbox, req_mode="gpu"):
     final_text, n_turns = "", 0
     for turn in range(1, MAX_TURNS + 1):
         n_turns = turn
-        if arm == "C":
-            # 端点拒收 tools=[] (400), C 臂彻底不发 tools/tool_choice 字段
+        if arm in ("C", "D"):
+            # 端点拒收 tools=[] (400), C/D 臂彻底不发 tools/tool_choice 字段
             payload = {"model": MODEL, "messages": msgs, "max_tokens": TURN_MAX_TOKENS,
                        "temperature": 0.0}
         else:
@@ -342,7 +352,8 @@ def main():
             per.append(r)
             print(f"arm_{arm} ep{i}: turns={r['n_turns']} tools={r['tools_used']} "
                   f"free_params={r['free_params']}", flush=True)
-        out["arms"][f"arm_{arm}_{'raw' if arm == 'A' else ('selfaudit' if arm == 'B' else 'noharness')}"] = {"per_episode": per}
+        _label = {"A": "raw", "B": "selfaudit", "C": "noharness", "D": "simpleprompt"}[arm]
+        out["arms"][f"arm_{arm}_{_label}"] = {"per_episode": per}
 
     fp = os.path.join(DATA, f"gpu-model-probe-{datetime.now().strftime('%Y%m%d')}{tag}.json")
     json.dump(out, open(fp, "w"), ensure_ascii=False, indent=1)
