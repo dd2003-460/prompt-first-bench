@@ -7,6 +7,31 @@
 # 验收: ① 2 个 gated run json 落盘 (节点数 ~150) ② 漂移率 (脚本算 other 占比) < baseline 均值 34% ③ 1 commit
 # 边界: 不改 s5_pipeline.py/prompts.py/s5_state_machine.py 本体 (monkeypatch 注入); 不碰 baseline 数据; 评分 (mech 重扫) 后置由 Lead 做
 
+## S0 (2026-11-27 22:5x Lead 授权追加): 修 q9_mech_level_scan.py 的 judge 短键 bug
+背景 (sub 探针坐实): judge(qwen3.8-27b@8787) 间歇性丢弃 run-tag 前缀——同一批 attempt1 返回全键 'gated-r1:N18', attempt2/3 返回短键 'N18'; 脚本 L71 精确全键校验 → 短键整批 missing → 3 重试耗尽 FATAL。
+修法 (仅改 research/q9_mech_level_scan.py 的 missing 校验段, 约 12 行替换 4 行): 精确全键优先; 短键 (冒号后 id) 仅当该短键在批内唯一时才接受 (防混批歧义; 已模拟验证 gated 38 批短键碰撞=0):
+```python
+                obj = extract_json(llm_call(prompt))
+                short_seen = {}
+                for k, *_ in batch:
+                    s = k.split(":")[1]
+                    short_seen[s] = short_seen.get(s, 0) + 1
+                resolved = {}
+                for k, *_ in batch:
+                    if k in obj and obj[k] in ("mech", "spec", "other"):
+                        resolved[k] = obj[k]
+                    else:
+                        s = k.split(":")[1]
+                        if s in obj and obj[s] in ("mech", "spec", "other") and short_seen[s] == 1:
+                            resolved[k] = obj[s]
+                missing = [k for k, *_ in batch if k not in resolved]
+                if missing:
+                    raise ValueError(f"missing/invalid: {missing}")
+                for k, *_ in batch:
+                    labels[k] = resolved[k]
+```
+修完先干跑 1 批验证 (python3 -c 调 llm_call 单批 8 节点, 确认短键能被接受), 再跑全量。此修复向后兼容 baseline (baseline 全键命中时短键分支不触发)。
+
 ## 执行步骤 (纯执行, 按序)
 
 ### S1: 写 wrapper (monkeypatch 注入, 不改本体)
