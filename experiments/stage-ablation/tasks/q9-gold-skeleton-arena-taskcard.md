@@ -60,3 +60,25 @@
 - gold 骨架落 pfb/bench/rubric-v3/ablation/gold-Q9.md（格式同 gold-Q6.md）
 - rubric 判定点 × 层级（D3）随 gold 一起出
 - metacog_axis 在 Q9 上跑通（替换 TCO 题的测量对象）= ⑤ 子项完成判据
+
+## 派发记录（Lead 追加）
+
+- 卡 A：2026-11-26 20:30 派发（会话 01a217e1-361f-722e-a89e-50aa4f218b5c），20:53 完成；push 被沙箱无凭据阻断，patch 经 CAS API 拉回落盘 @ b47817a2d（2026-11-27）。
+- 卡 B：2026-11-26 未派发（arena 搜索"任务卡 B"/"独立回答" 无匹配会话）；2026-11-27 重派。
+
+## 卡 B 派发说明（2026-11-27 重派用，agent 读本节）
+
+[仓库] dd2003-460/prompt-first-bench，分支 thinkmech-review（HEAD 见派发 prompt 声明）。
+[任务] 执行上文「任务卡 B（交叉验证）」：独立回答任务卡 A 的同一问题（5 因子分解树）。
+  独立性要求（硬）：不读 experiments/stage-ablation/tasks/q9-gold-skeleton-A.md（卡 A 交付物，
+  本分支上存在——禁止读取，读了即独立性失效）；背景/约束/交付格式以任务卡 A 段为准。
+[交付] ① 文件 experiments/stage-ablation/tasks/q9-gold-skeleton-B.md（格式同任务卡 A 交付要求）
+  ② git add + commit（作者 arena-agent <arena-agent@local>，subject 含 "Q9 D2: gold 骨架 B"）
+  ③ 生成 git format-patch -1 > 0001-Q9-D2-gold-B-arena.patch 存 workspace 根目录
+  （push 若无凭据被阻断属预期：不要重试 push、不要索要 token——patch 落盘即完成，Lead 拉回）
+[回执] 对话末尾原样带回以下指纹 + commit sha + patch 文件名 + 交付文件行数：
+  REPO=https://github.com/dd2003-460/prompt-first-bench BRANCH=thinkmech-review
+  TASKCARD_SHA256=c298969d55a4778812407429051d029bf91ef05de2556ca5d30eb435a04f6669
+  （自洽规则：本任务卡全文中所有含 "TASKCARD_SHA256=" 的行整行剔除后，剩余全文 sha256）
+[核验纪律] 同任务卡 A：arXiv ID 逐个 abs 页核验、凭记忆 ID 被证伪要记录、
+  论文自报数字标 [待交叉验证]、无法核验标「未验证」。
