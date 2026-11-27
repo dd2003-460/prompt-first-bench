@@ -1,0 +1,704 @@
+{
+ "instrument": "postacc-rescue-probe: numeric-consistency (regex) + LLM judge (qwen3.8-27b @127.0.0.1:8787, temp=0, batch=20)",
+ "observed_at": "2026-11-27T19:07:17.270324+08:00",
+ "per_run": [
+  {
+   "file": "q9-100-r1-20261127-122642.json",
+   "budget": 100,
+   "rep": 1,
+   "n_nodes": 100,
+   "n_verified": 50,
+   "n_contradictions_numeric": 0,
+   "n_contradictions_llm": 3,
+   "n_unsupported": 3,
+   "n_error_batches": 0,
+   "n_judged_nodes": 50,
+   "numeric_contra_params": {},
+   "llm_issues": {
+    "N74": {
+     "issue": "contradiction",
+     "desc": "4×V100 250W=1000W，加其他250W应为1250W，但声称P_total≈850W，数值矛盾"
+    },
+    "N75": {
+     "issue": "unsupported",
+     "desc": "1440min/35min≈41.14≠45，1440min/15min=96≠144，计算明显错误"
+    },
+    "N76": {
+     "issue": "unsupported",
+     "desc": "月成本$61.2应除以月有效结论数(45×30×0.5=675)，而非日有效数(45×0.5)，导致$2.72错误"
+    },
+    "N81": {
+     "issue": "unsupported",
+     "desc": "RTT 200ms≈0.0033min，非0.2min，导致T_iter_mixed计算错误(25.24≠24.84)"
+    },
+    "N92": {
+     "issue": "contradiction",
+     "desc": "公式中P_syntax_error_catch≈0.95已使P_detect_final≥0.95>0.90，目标自动满足，无需实测P_logic_error_catch_sympy，与'需实测'及'目标使>0.90'存在逻辑矛盾"
+    },
+    "N106": {
+     "issue": "contradiction",
+     "desc": "KV Cache显存计算错误：64GB×0.90=57.6GB，减去14.2+2.0+1.5=17.7GB后应为39.9GB，但claim中写≈41.7GB，数值矛盾"
+    }
+   },
+   "post_acc_rescued": 0.94
+  },
+  {
+   "file": "q9-100-r2-20261127-124305.json",
+   "budget": 100,
+   "rep": 2,
+   "n_nodes": 100,
+   "n_verified": 45,
+   "n_contradictions_numeric": 2,
+   "n_contradictions_llm": 0,
+   "n_unsupported": 3,
+   "n_error_batches": 0,
+   "n_judged_nodes": 45,
+   "numeric_contra_params": {
+    "成功率 (%)": [
+     {
+      "node": "N31",
+      "val": 85.0,
+      "unit": "%"
+     },
+     {
+      "node": "N31",
+      "val": 95.0,
+      "unit": "%"
+     }
+    ],
+    "tensorcore峰值 (tflops)": [
+     {
+      "node": "N38",
+      "val": 125.0,
+      "unit": "tflops"
+     },
+     {
+      "node": "N38",
+      "val": 989.0,
+      "unit": "tflops"
+     }
+    ]
+   },
+   "llm_issues": {
+    "N52": {
+     "issue": "unsupported",
+     "desc": "能耗成本计算错误：CPU 10W×0.1h + GPU 300W×0.003h = 1.9Wh = 0.0019kWh，成本应为0.0019×$0.12≈$0.000228，而非$0.00004"
+    },
+    "N69": {
+     "issue": "unsupported",
+     "desc": "公式应用错误：当p=0.05时ln(0.05/p)=ln(1)=0，导致n≥0，与实际所需样本量矛盾"
+    },
+    "N85": {
+     "issue": "unsupported",
+     "desc": "延误比例计算错误：20分钟/14400分钟≈0.139%，而非0.4%"
+    }
+   },
+   "post_acc_rescued": 0.9556
+  },
+  {
+   "file": "q9-100-r3-20261127-125630.json",
+   "budget": 100,
+   "rep": 3,
+   "n_nodes": 100,
+   "n_verified": 62,
+   "n_contradictions_numeric": 0,
+   "n_contradictions_llm": 3,
+   "n_unsupported": 8,
+   "n_error_batches": 0,
+   "n_judged_nodes": 62,
+   "numeric_contra_params": {},
+   "llm_issues": {
+    "N12": {
+     "issue": "contradiction",
+     "desc": "Cohen's d 阈值与 N22 冲突（N12 要求 >0.2，N22 要求 >0.5）"
+    },
+    "N22": {
+     "issue": "contradiction",
+     "desc": "Cohen's d 阈值与 N12 冲突（N22 要求 >0.5，N12 要求 >0.2）"
+    },
+    "N36": {
+     "issue": "unsupported",
+     "desc": "Qwen3.8-27B 模型不存在，参数引用无依据"
+    },
+    "N37": {
+     "issue": "unsupported",
+     "desc": "Qwen3.8-27B 模型不存在，参数引用无依据"
+    },
+    "N48": {
+     "issue": "unsupported",
+     "desc": "引用 N31 的 FLOPs 分级错误，N31 仅描述 NVLink 带宽"
+    },
+    "N70": {
+     "issue": "unsupported",
+     "desc": "V100 GPU 典型 TDP 为 250W，4 卡集群满载功耗应约 1000W，而非 800W"
+    },
+    "N78": {
+     "issue": "contradiction",
+     "desc": "N52 允许 n<30 时使用非参数检验，但 N78 将样本量 N_sample>=30 列为 Rigor_Score 的必要条件，导致合规操作被误判为不严谨"
+    },
+    "N92": {
+     "issue": "unsupported",
+     "desc": "V100-SXM2 NVLink 双向带宽实际为 900 GB/s（6×150 GB/s），非 300 GB/s，导致通信延迟计算基础错误"
+    },
+    "N93": {
+     "issue": "unsupported",
+     "desc": "FLOPs 计算错误：100k×768×2×(32/256)=19.2 MFLOPs，非 2.4 MFLOPs，数值量级明显错误"
+    },
+    "N98": {
+     "issue": "unsupported",
+     "desc": "4×V100 功耗应为 1200W（单卡 300W），非 300W，导致电费成本计算错误"
+    },
+    "N100": {
+     "issue": "unsupported",
+     "desc": "按公式 N_min≈2×(1.96+0.84)²/d² 计算，d=0.2 时应为 392 次，非 1250 次；d=0.5 时应为 63 次，非 200 次，数值严重偏离"
+    }
+   },
+   "post_acc_rescued": 0.9516
+  },
+  {
+   "file": "q9-150-r1-20261127-131538.json",
+   "budget": 150,
+   "rep": 1,
+   "n_nodes": 150,
+   "n_verified": 63,
+   "n_contradictions_numeric": 0,
+   "n_contradictions_llm": 1,
+   "n_unsupported": 3,
+   "n_error_batches": 0,
+   "n_judged_nodes": 63,
+   "numeric_contra_params": {},
+   "llm_issues": {
+    "N25": {
+     "issue": "unsupported",
+     "desc": "4xV100峰值功耗应为~1000W（单卡TDP 250W），600W明显低于硬件规格"
+    },
+    "N96": {
+     "issue": "unsupported",
+     "desc": "KV Cache公式中d_ff=128参数错误，实际应基于hidden_size（如4096）计算，导致结果10.2GB/seq明显偏低，与物理实际不符"
+    },
+    "N103": {
+     "issue": "contradiction",
+     "desc": "按给定参数（P_avg=1000W）计算月成本为$108，超过其定义的Tier 1上限$100，存在逻辑矛盾"
+    },
+    "N143": {
+     "issue": "unsupported",
+     "desc": "KV Cache 显存计算量级错误，代入参数后实际应为 ~21.47 GB/seq 而非 1.28 GB"
+    }
+   },
+   "post_acc_rescued": 0.9841
+  },
+  {
+   "file": "q9-150-r2-20261127-135433.json",
+   "budget": 150,
+   "rep": 2,
+   "n_nodes": 150,
+   "n_verified": 62,
+   "n_contradictions_numeric": 2,
+   "n_contradictions_llm": 1,
+   "n_unsupported": 8,
+   "n_error_batches": 0,
+   "n_judged_nodes": 62,
+   "numeric_contra_params": {
+    "降至 (%)": [
+     {
+      "node": "N33",
+      "val": 60.0,
+      "unit": "%"
+     },
+     {
+      "node": "N48",
+      "val": 18.0,
+      "unit": "%"
+     },
+     {
+      "node": "N49",
+      "val": 5.0,
+      "unit": "%"
+     },
+     {
+      "node": "N65",
+      "val": 8.0,
+      "unit": "%"
+     },
+     {
+      "node": "N66",
+      "val": 30.0,
+      "unit": "%"
+     },
+     {
+      "node": "N116",
+      "val": 60.0,
+      "unit": "%"
+     }
+    ],
+    "提升 (%)": [
+     {
+      "node": "N44",
+      "val": 48.0,
+      "unit": "%"
+     },
+     {
+      "node": "N127",
+      "val": 85.0,
+      "unit": "%"
+     }
+    ]
+   },
+   "llm_issues": {
+    "N38": {
+     "issue": "unsupported",
+     "desc": "fp8 KV Cache每token占用量计算错误，实际应为约256KB而非0.125GB"
+    },
+    "N39": {
+     "issue": "unsupported",
+     "desc": "QLoRA微调中Adam优化器状态26.4GB明显过高，与低秩适配特性不符"
+    },
+    "N54": {
+     "issue": "unsupported",
+     "desc": "5000篇论文embedding存储占用2-3GB FP32明显过高，实际应约20MB"
+    },
+    "N76": {
+     "issue": "contradiction",
+     "desc": "预留25%预算缓冲后可用预算为$375，仅支持37次实验，与声称的50次矛盾"
+    },
+    "N85": {
+     "issue": "unsupported",
+     "desc": "KV Cache计算严重错误，262144 tokens单序列占用1.25GB远低于合理量级（实际应为数十GB）"
+    },
+    "N140": {
+     "issue": "unsupported",
+     "desc": "INT4 应为 0.5 bytes/param，非 0.125 bytes/param，导致显存计算错误"
+    },
+    "N149": {
+     "issue": "unsupported",
+     "desc": "TTFT 计算应为 4.0 GB / 51.2 GB/s ≈ 78.1 ms，非 156 ms"
+    },
+    "N150": {
+     "issue": "unsupported",
+     "desc": "FLOPs 计算结果应为 1.14 TFLOPs，非 1.14 GFLOPs，单位错误"
+    },
+    "N158": {
+     "issue": "unsupported",
+     "desc": "decode 延迟增量计算错误：0.05 s/token × 50-100 tokens = 2.5-5 s，非 1.0-1.4 s"
+    }
+   },
+   "post_acc_rescued": 0.9516
+  },
+  {
+   "file": "q9-150-r3-20261127-141813.json",
+   "budget": 150,
+   "rep": 3,
+   "n_nodes": 150,
+   "n_verified": 65,
+   "n_contradictions_numeric": 3,
+   "n_contradictions_llm": 1,
+   "n_unsupported": 8,
+   "n_error_batches": 0,
+   "n_judged_nodes": 65,
+   "numeric_contra_params": {
+    "成本增加 (倍)": [
+     {
+      "node": "N18",
+      "val": 4.0,
+      "unit": "倍"
+     },
+     {
+      "node": "N66",
+      "val": 4.0,
+      "unit": "倍"
+     },
+     {
+      "node": "N93",
+      "val": 8.3,
+      "unit": "倍"
+     }
+    ],
+    "中的 (%)": [
+     {
+      "node": "N62",
+      "val": 65.0,
+      "unit": "%"
+     },
+     {
+      "node": "N63",
+      "val": 50.0,
+      "unit": "%"
+     }
+    ],
+    "预计降 (%)": [
+     {
+      "node": "N83",
+      "val": 5.0,
+      "unit": "%"
+     },
+     {
+      "node": "N106",
+      "val": 30.0,
+      "unit": "%"
+     }
+    ]
+   },
+   "llm_issues": {
+    "N60": {
+     "issue": "unsupported",
+     "desc": "网络传输耗时31.44s与本地推理180s的占比计算错误（实际应为17.46%而非14.9%），数值明显不符"
+    },
+    "N75": {
+     "issue": "unsupported",
+     "desc": "S_logic计算错误：0.95×0.99=0.9405，但声称0.9505"
+    },
+    "N80": {
+     "issue": "unsupported",
+     "desc": "4/5一致时熵≈0.72bits>0.5，与H(p)<0.5矛盾"
+    },
+    "N84": {
+     "issue": "unsupported",
+     "desc": "100W×5min=0.0083kWh，但声称0.005kWh"
+    },
+    "N93": {
+     "issue": "unsupported",
+     "desc": "GPT-4o成本计算错误：40k×$2.5/M + 10k×$10/M = $0.2，但声称$0.15"
+    },
+    "N132": {
+     "issue": "unsupported",
+     "desc": "262,144 tokens × 2KB/token = 512MB，但声称524.288MB，单位换算错误"
+    },
+    "N134": {
+     "issue": "unsupported",
+     "desc": "50 × 524.288MB ≈ 25.6GB，但声称25.2GB，计算错误"
+    },
+    "N146": {
+     "issue": "unsupported",
+     "desc": "V100-SXM2不支持NVSwitch，声称NVSwitch连接的4GPU集群与硬件规格矛盾"
+    },
+    "N149": {
+     "issue": "contradiction",
+     "desc": "T_comm=0.52ms与N150的NVLink有效带宽(470-550GB/s)矛盾：按All-Reduce典型数据量(如64层×16KB=1MB)计算，T_comm应≈0.002ms，远低于0.52ms"
+    }
+   },
+   "post_acc_rescued": 0.9385
+  },
+  {
+   "file": "q9-300-r1-20261127-144752.json",
+   "budget": 300,
+   "rep": 1,
+   "n_nodes": 298,
+   "n_verified": 121,
+   "n_contradictions_numeric": 7,
+   "n_contradictions_llm": 13,
+   "n_unsupported": 10,
+   "n_error_batches": 0,
+   "n_judged_nodes": 121,
+   "numeric_contra_params": {
+    "带宽 (gb/s)": [
+     {
+      "node": "N7",
+      "val": 2560.0,
+      "unit": "gb/s"
+     },
+     {
+      "node": "N202",
+      "val": 900.0,
+      "unit": "gb/s"
+     }
+    ],
+    "若idle_power (w)": [
+     {
+      "node": "N60",
+      "val": 180.0,
+      "unit": "w"
+     },
+     {
+      "node": "N171",
+      "val": 220.0,
+      "unit": "w"
+     }
+    ],
+    "power_idle (w)": [
+     {
+      "node": "N61",
+      "val": 180.0,
+      "unit": "w"
+     },
+     {
+      "node": "N173",
+      "val": 220.0,
+      "unit": "w"
+     }
+    ],
+    "降至 (%)": [
+     {
+      "node": "N148",
+      "val": 65.0,
+      "unit": "%"
+     },
+     {
+      "node": "N240",
+      "val": 15.0,
+      "unit": "%"
+     }
+    ],
+    "当d_kl (bits)": [
+     {
+      "node": "N149",
+      "val": 0.05,
+      "unit": "bits"
+     },
+     {
+      "node": "N149",
+      "val": 0.15,
+      "unit": "bits"
+     }
+    ],
+    "成本 (元)": [
+     {
+      "node": "N214",
+      "val": 0.0035,
+      "unit": "元"
+     },
+     {
+      "node": "N222",
+      "val": 8.3,
+      "unit": "元"
+     }
+    ],
+    "提升 (%)": [
+     {
+      "node": "N252",
+      "val": 90.0,
+      "unit": "%"
+     },
+     {
+      "node": "N294",
+      "val": 55.0,
+      "unit": "%"
+     }
+    ]
+   },
+   "llm_issues": {
+    "N7": {
+     "issue": "unsupported",
+     "desc": "V100-SXM2-16GB 的 HBM2 带宽实际约为 900 GB/s，而非 1600 GB/s，数值与公开硬件规格严重不符"
+    },
+    "N9": {
+     "issue": "unsupported",
+     "desc": "27B FP16 模型总权重约 54 GB，TP=4 时每卡应承载 13.5 GB，而非 3.375 GB，数值计算错误"
+    },
+    "N27": {
+     "issue": "unsupported",
+     "desc": "N11 未定义阈值动态调整算法，此处引用无依据"
+    },
+    "N39": {
+     "issue": "contradiction",
+     "desc": "与 N54 矛盾：N54 公式推算 64k 上下文 KV Cache 约 256 MB，而 N39 声称 2.5-3.5 GB"
+    },
+    "N54": {
+     "issue": "contradiction",
+     "desc": "与 N39 和 N55 矛盾：其声称每 1k tokens KV Cache 增量 4 MB，但按公式计算应远高于此，导致 N39/N55 数值不一致"
+    },
+    "N55": {
+     "issue": "contradiction",
+     "desc": "与 N54 矛盾：N54 的 KV Cache 增量数值错误，导致 N55 的并发数计算基础失效"
+    },
+    "N57": {
+     "issue": "unsupported",
+     "desc": "流水线气泡公式 (p-1)/m 在 p=2, m=1 时应为 100%，而非 50%，数值计算错误"
+    },
+    "N112": {
+     "issue": "unsupported",
+     "desc": "算术强度计算错误：8.6 TFLOPs / 268 MB ≈ 32,000 FLOPs/Byte，非32，导致结论错误"
+    },
+    "N120": {
+     "issue": "contradiction",
+     "desc": "FP16下每1k tokens KV Cache增量8.4MB与N155中4MB矛盾"
+    },
+    "N125": {
+     "issue": "unsupported",
+     "desc": "4KB内存拷贝耗时10ns远低于物理极限（400GB/s下应为~10μs）"
+    },
+    "N143": {
+     "issue": "unsupported",
+     "desc": "27B模型NVFP4权重应为13.5GB而非6.75GB"
+    },
+    "N155": {
+     "issue": "contradiction",
+     "desc": "FP16下每1k tokens KV Cache增量4MB与N120中8.4MB矛盾"
+    },
+    "N161": {
+     "issue": "contradiction",
+     "desc": "fp8下32k序列KV Cache 1.6GB与N155中64MB矛盾"
+    },
+    "N165": {
+     "issue": "contradiction",
+     "desc": "Ring All-Reduce通信量计算错误，正确值应为20.25GB而非9GB，导致延迟估算偏差"
+    },
+    "N180": {
+     "issue": "contradiction",
+     "desc": "25.2GB/8序列应为3.15GB而非6.3GB，数值计算错误"
+    },
+    "N197": {
+     "issue": "contradiction",
+     "desc": "与N170的4x V100 idle功耗160W±20W矛盾，此处声称200-300W"
+    },
+    "N200": {
+     "issue": "contradiction",
+     "desc": "折旧成本单位混淆，N199使用美元而此处误用元，导致盈亏平衡点计算错误"
+    },
+    "N201": {
+     "issue": "contradiction",
+     "desc": "Prefill耗时计算错误，实际应约10.8秒而非2.2秒，总延迟严重低估"
+    },
+    "N220": {
+     "issue": "contradiction",
+     "desc": "人工标注成本计算错误：5分钟/篇×50篇=250分钟≈4.17小时，按50元/小时计算应为208.3元，但声称41元"
+    },
+    "N246": {
+     "issue": "unsupported",
+     "desc": "积分项贡献计算错误（Ki=0.5, e=0.1, t=5周应为0.25，限幅后0.2，非0.05）；微分项贡献计算错误（Kd=0.1, de/dt=0.05应为0.005，非0.05）"
+    },
+    "N292": {
+     "issue": "unsupported",
+     "desc": "28.5秒占60秒基准的比例应为47.5%，非32%，数值计算明显错误"
+    },
+    "N295": {
+     "issue": "unsupported",
+     "desc": "T_gap计算错误：5s/(1-0.8)=25s，非6.25s"
+    },
+    "N298": {
+     "issue": "contradiction",
+     "desc": "公式计算结果应为≈0.0078 (0.78%)，但claim中错误地给出≈0.024 (2.4%)，与自身公式参数矛盾"
+    }
+   },
+   "post_acc_rescued": 0.8347
+  },
+  {
+   "file": "q9-50-r1-20261127-114554.json",
+   "budget": 50,
+   "rep": 1,
+   "n_nodes": 50,
+   "n_verified": 22,
+   "n_contradictions_numeric": 1,
+   "n_contradictions_llm": 1,
+   "n_unsupported": 1,
+   "n_error_batches": 0,
+   "n_judged_nodes": 22,
+   "numeric_contra_params": {
+    "理论峰值算力 (tflops)": [
+     {
+      "node": "N49",
+      "val": 125.0,
+      "unit": "tflops"
+     },
+     {
+      "node": "N49",
+      "val": 62.5,
+      "unit": "tflops"
+     }
+    ]
+   },
+   "llm_issues": {
+    "N41": {
+     "issue": "contradiction",
+     "desc": "N41中单卡权重占用7.25-7.75GB与N44中Overhead_Bytes每卡1.2-2.0GB矛盾，按N44计算应为7.95-8.75GB"
+    },
+    "N52": {
+     "issue": "unsupported",
+     "desc": "Qwen3-27B 模型未公开存在，其 Draft 模块参数量占比（5-10%）缺乏公开依据"
+    }
+   },
+   "post_acc_rescued": 0.9091
+  },
+  {
+   "file": "q9-50-r2-20261127-115521.json",
+   "budget": 50,
+   "rep": 2,
+   "n_nodes": 50,
+   "n_verified": 14,
+   "n_contradictions_numeric": 2,
+   "n_contradictions_llm": 0,
+   "n_unsupported": 0,
+   "n_error_batches": 0,
+   "n_judged_nodes": 14,
+   "numeric_contra_params": {
+    "提升 (%)": [
+     {
+      "node": "N16",
+      "val": 95.0,
+      "unit": "%"
+     },
+     {
+      "node": "N33",
+      "val": 85.0,
+      "unit": "%"
+     },
+     {
+      "node": "N43",
+      "val": 82.0,
+      "unit": "%"
+     }
+    ],
+    "抽样率 (%)": [
+     {
+      "node": "N32",
+      "val": 100.0,
+      "unit": "%"
+     },
+     {
+      "node": "N32",
+      "val": 30.0,
+      "unit": "%"
+     },
+     {
+      "node": "N32",
+      "val": 10.0,
+      "unit": "%"
+     }
+    ]
+   },
+   "llm_issues": {},
+   "post_acc_rescued": 0.8571
+  },
+  {
+   "file": "q9-50-r3-20261127-121252.json",
+   "budget": 50,
+   "rep": 3,
+   "n_nodes": 50,
+   "n_verified": 13,
+   "n_contradictions_numeric": 1,
+   "n_contradictions_llm": 0,
+   "n_unsupported": 1,
+   "n_error_batches": 0,
+   "n_judged_nodes": 13,
+   "numeric_contra_params": {
+    "contextwindow的 (%)": [
+     {
+      "node": "N11",
+      "val": 20.0,
+      "unit": "%"
+     },
+     {
+      "node": "N44",
+      "val": 15.0,
+      "unit": "%"
+     }
+    ]
+   },
+   "llm_issues": {
+    "N39": {
+     "issue": "unsupported",
+     "desc": "单位错误：900 GB/s ÷ 3 bytes 应得 300 GB/s（数据传输速率），而非 300 G ops/s（操作速率），数值描述与物理意义不符"
+    }
+   },
+   "post_acc_rescued": 0.9231
+  }
+ ],
+ "per_budget_mean": {
+  "50": 0.8964,
+  "100": 0.9491,
+  "150": 0.9581,
+  "300": 0.8347
+ },
+ "overall_mean": 0.9245,
+ "baseline_post_acc": 1.0,
+ "note": "post_acc_rescued=(n_verified-min(n_verified,n_num+n_llm))/n_verified; n_unsupported 单独记录未计入扣减(保守口径); 数值检查覆盖全部节点, LLM 只判 verified; n_num 按矛盾参数个数计, n_llm 按矛盾节点数计, 两者相加可能有少量重复计数"
+}
