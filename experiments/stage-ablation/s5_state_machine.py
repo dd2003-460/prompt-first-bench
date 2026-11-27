@@ -1689,6 +1689,20 @@ if __name__ == "__main__":
     # ckpt/final json 落 stage-ablation/（与 gpu run 同目录），不再依赖进程 cwd。
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     sm = DecompStateMachine(q, qid=qid)
+    # --anchor-file PATH: 意图锚点探针 (OBJHACK H1 机制升级, 2026-11-27)。
+    # 把锚点文本追加到 sm.question → 每轮 prompt 可见 (L1 + 下游分解/verify 都用 self.question)。
+    # 关键: sm 已用原题 q 构造, self.entities 基于原题 (不含锚点) → 锚点不污染 leak_check。
+    # 锚点须与题目实体零重叠 (登记前已核), 否则会触发 LEAK 误杀。
+    anchor_file = None
+    for k, v in enumerate(_raw):
+        if v == "--anchor-file" and k + 1 < len(_raw):
+            anchor_file = _raw[k+1]
+        elif v.startswith("--anchor-file="):
+            anchor_file = v.split("=", 1)[1]
+    if anchor_file:
+        _anchor = open(anchor_file).read().strip()
+        sm.question = q + "\n\n【意图锚点 · 验收 gate 列表(分解须逐条覆盖)】\n" + _anchor
+        print(f"[T53 SM] anchor injected: {len(_anchor)} chars from {anchor_file}", flush=True)
     # --max-nodes N: 覆盖硬顶（resume 时 ckpt 节点数可能已超默认 150）
     for k, v in enumerate(_raw):
         if v == "--max-nodes" and k + 1 < len(_raw):
