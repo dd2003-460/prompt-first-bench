@@ -147,24 +147,41 @@ def count_free_params(text):
     return len(syms), sorted(syms)
 
 # ---------- 工具执行 ----------
-SEARCH_TIMEOUT = 30  # 秒; 检索通道无内置超时, 卡死会拖死整个 episode (2026-11-27 hw 探针实证)
+SEARCH_TIMEOUT = 40  # 秒; 检索通道无内置超时, 卡死会拖死整个 episode (2026-11-27 hw 探针实证)
+# 子进程跑检索: 进程级 kill 干净, 无 GIL/跨线程 socket 阻塞问题 (线程隔离实测死锁)
+_SEARCH_SNIPPET = r'''
+import sys, json, os
+_here = sys.argv[1]
+sys.path.insert(0, _here)
+_repo = os.path.abspath(os.path.join(_here, "..", "..", ".."))
+sys.path.insert(0, os.path.join(_repo, "modules", "B-pipeline-ablation", "scripts"))
+sys.path.insert(0, os.path.join(_repo, "experiments", "stage-ablation"))
+sys.path.insert(0, os.path.join(_repo, "modules", "D-decomp-state-machine", "scripts"))
+from pfb_retriever import PfbRetriever
+q, k = sys.argv[2], int(sys.argv[3])
+try:
+    srcs = PfbRetriever(q).search(max_results=k)
+    out = [[s.get("url",""), (s.get("raw_content") or "")[:800]] for s in srcs]
+except Exception as e:
+    out = []
+    print(f"[search-sub err] {e}", file=sys.stderr)
+print(json.dumps(out))
+'''
 def do_search(query, k=3):
-    import concurrent.futures
-    def _run():
-        return PfbRetriever(query).search(max_results=k)
-    ex = concurrent.futures.ThreadPoolExecutor(max_workers=1)
     try:
-        fut = ex.submit(_run)
-        srcs = fut.result(timeout=SEARCH_TIMEOUT)
-        return [(s.get("url", ""), (s.get("raw_content") or "")[:800]) for s in srcs]
-    except concurrent.futures.TimeoutError:
+        p = subprocess.run(
+            [sys.executable, "-c", _SEARCH_SNIPPET, _HERE, query, str(k)],
+            timeout=SEARCH_TIMEOUT, capture_output=True, text=True)
+        if p.returncode != 0:
+            return []
+        # 最后一行是 JSON (前面可能有检索日志)
+        lines = [ln for ln in p.stdout.splitlines() if ln.strip().startswith("[[")]
+        return json.loads(lines[-1]) if lines else []
+    except subprocess.TimeoutExpired:
         print(f"  [SEARCH-TIMEOUT] {query[:60]!r} >{SEARCH_TIMEOUT}s, 返回空", flush=True)
         return []
     except Exception as e:
         return []
-    finally:
-        # wait=False: 不让主线程被卡死的检索线程拖住 (超时后线程泄漏但无害, 进程退出即回收)
-        ex.shutdown(wait=False, cancel_futures=True)
 
 def results_text(res):
     if not res:
