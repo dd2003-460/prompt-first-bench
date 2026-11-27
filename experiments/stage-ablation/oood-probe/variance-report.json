@@ -1,0 +1,154 @@
+{
+  "task": "M2a 方差探针: 6 臂三诊断指标跨臂离散度（零 GPU）",
+  "generated_by": "variance_probe.py",
+  "metric_defs": {
+    "mech_cov": "机制覆盖率(三要素≥2 节点占比)",
+    "quant_density": "量化claim密度(含数字/公式/区间节点占比)",
+    "domain_shift_ratio": "域偏移率(域外词命中/域内词命中)"
+  },
+  "vocab_source": "tasks/think-trigger/m2-injection-design-20261128.md §2 预注册词表",
+  "per_arm": {
+    "S0_weather": {
+      "mech_cov": 0.775,
+      "quant_density": 0.85,
+      "domain_shift_ratio": null,
+      "n_nodes": 40,
+      "transcript_available": false,
+      "dsr_note": "SM 臂 transcript 不可得：日志仅含 [LLM] call done 摘要行（无 reasoning 全文），节点 JSON 无 reasoning 字段，域偏移率按任务卡规则标 null 不硬算",
+      "source_file": "sm-arm.json"
+    },
+    "S1_weather": {
+      "mech_cov": 0.575,
+      "quant_density": 0.85,
+      "domain_shift_ratio": null,
+      "n_nodes": 40,
+      "transcript_available": false,
+      "dsr_note": "SM 臂 transcript 不可得：日志仅含 [LLM] call done 摘要行（无 reasoning 全文），节点 JSON 无 reasoning 字段，域偏移率按任务卡规则标 null 不硬算",
+      "source_file": "s1-sm-arm.json"
+    },
+    "B_weather": {
+      "mech_cov": 1.0,
+      "quant_density": 1.0,
+      "domain_shift_ratio": 0.0,
+      "n_nodes": 1,
+      "transcript_available": true,
+      "dsr_note": null,
+      "source_file": "baseline-arm.txt"
+    },
+    "S0_hw": {
+      "mech_cov": 0.375,
+      "quant_density": 0.825,
+      "domain_shift_ratio": null,
+      "n_nodes": 40,
+      "transcript_available": false,
+      "dsr_note": "SM 臂 transcript 不可得：日志仅含 [LLM] call done 摘要行（无 reasoning 全文），节点 JSON 无 reasoning 字段，域偏移率按任务卡规则标 null 不硬算",
+      "source_file": "k3-s0-hw.json"
+    },
+    "S1_hw": {
+      "mech_cov": 0.1,
+      "quant_density": 0.85,
+      "domain_shift_ratio": null,
+      "n_nodes": 40,
+      "transcript_available": false,
+      "dsr_note": "SM 臂 transcript 不可得：日志仅含 [LLM] call done 摘要行（无 reasoning 全文），节点 JSON 无 reasoning 字段，域偏移率按任务卡规则标 null 不硬算",
+      "source_file": "k3-s1-hw.json"
+    },
+    "B_hw": {
+      "mech_cov": 1.0,
+      "quant_density": 1.0,
+      "domain_shift_ratio": 0.0,
+      "n_nodes": 1,
+      "transcript_available": true,
+      "dsr_note": null,
+      "source_file": "k3-baseline-hw.txt"
+    }
+  },
+  "variance": {
+    "mech_cov": {
+      "all_arms": {
+        "mean": 0.6375,
+        "sd": 0.3587,
+        "min": 0.1,
+        "max": 1.0,
+        "n_valid": 6,
+        "per_arm": {
+          "S0_weather": 0.775,
+          "S1_weather": 0.575,
+          "B_weather": 1.0,
+          "S0_hw": 0.375,
+          "S1_hw": 0.1,
+          "B_hw": 1.0
+        },
+        "note": "机制覆盖率(三要素≥2 节点占比): 6 臂各 1 rep，跨臂离散度（含臂与域间差异），非 rep 间噪声；B 臂 n_nodes=1 为结构性退化值（整段=1 节点），拉高 max，解读以 sm_only 为准"
+      },
+      "sm_only": {
+        "mean": 0.4562,
+        "sd": 0.2882,
+        "min": 0.1,
+        "max": 0.775,
+        "n_valid": 4,
+        "per_arm": {
+          "S0_weather": 0.775,
+          "S1_weather": 0.575,
+          "S0_hw": 0.375,
+          "S1_hw": 0.1
+        },
+        "note": "机制覆盖率(三要素≥2 节点占比): 仅 4 个 SM 臂（各 40 节点、1 rep）；sd 为跨臂离散度（臂间+域间），非 rep 间噪声。判断 3 reps 是否够：若目标臂间差(如 S0 vs S1) ≫ 预期 rep 噪声则够；rep 噪声本身未测，需 M3 同臂多 rep 补跑后重估"
+      }
+    },
+    "quant_density": {
+      "all_arms": {
+        "mean": 0.8958,
+        "sd": 0.0813,
+        "min": 0.825,
+        "max": 1.0,
+        "n_valid": 6,
+        "per_arm": {
+          "S0_weather": 0.85,
+          "S1_weather": 0.85,
+          "B_weather": 1.0,
+          "S0_hw": 0.825,
+          "S1_hw": 0.85,
+          "B_hw": 1.0
+        },
+        "note": "量化claim密度(含数字/公式/区间节点占比): 6 臂各 1 rep，跨臂离散度（含臂与域间差异），非 rep 间噪声；B 臂 n_nodes=1 为结构性退化值（整段=1 节点），拉高 max，解读以 sm_only 为准"
+      },
+      "sm_only": {
+        "mean": 0.8438,
+        "sd": 0.0125,
+        "min": 0.825,
+        "max": 0.85,
+        "n_valid": 4,
+        "per_arm": {
+          "S0_weather": 0.85,
+          "S1_weather": 0.85,
+          "S0_hw": 0.825,
+          "S1_hw": 0.85
+        },
+        "note": "量化claim密度(含数字/公式/区间节点占比): 仅 4 个 SM 臂（各 40 节点、1 rep）；sd 为跨臂离散度（臂间+域间），非 rep 间噪声。判断 3 reps 是否够：若目标臂间差(如 S0 vs S1) ≫ 预期 rep 噪声则够；rep 噪声本身未测，需 M3 同臂多 rep 补跑后重估"
+      }
+    },
+    "domain_shift_ratio": {
+      "mean": 0.0,
+      "sd": 0.0,
+      "min": 0.0,
+      "max": 0.0,
+      "n_valid": 2,
+      "per_arm": {
+        "S0_weather": null,
+        "S1_weather": null,
+        "B_weather": 0.0,
+        "S0_hw": null,
+        "S1_hw": null,
+        "B_hw": 0.0
+      },
+      "note": "域偏移率(域外词命中/域内词命中): 仅 B 臂 2/6 可算（SM 臂日志只有 [LLM] call done 摘要行，无 reasoning 全文，按任务卡规则标 null 不硬算）；n_valid=2 的 sd 无统计意义，只作两臂方向性对比"
+    }
+  },
+  "caveat": "6 臂各仅 1 rep：'variance' 实为跨臂极差（臂间+域间差异混在一起），不能直接当 rep 间方差用。B 臂 n_nodes=1（整段=1 节点）使 mech_cov/quant_density 退化为 0/1，跨臂统计以 sm_only 视图为准。",
+  "verdict_3reps": {
+    "mech_cov": "可分辨：SM 臂间差 0.2(气象 S0-S1)/0.275(硬件 S0-S1)，远超预注册判决阈值(form 5pp)；即便 rep 噪声达 ~5pp 量级，3 reps 均值差仍能分辨臂间差",
+    "quant_density": "难分辨：4 SM 臂仅 0.825-0.85（极差 0.025），臂间几乎无差，该指标在现有 6 臂上不具判别力——不是 reps 不够，是指标本身饱和(40 节点里 82-85% 都含数字)，建议 M4 降权或换定义",
+    "domain_shift_ratio": "无法判：4/6 臂无 reasoning transcript 标 null，仅 B 臂 2 臂可算且均=0.0（域外词 0 命中）；M3 若需此指标必须在 harness 落盘 LLM 原始输出（当前日志只记摘要行）"
+  }
+}
