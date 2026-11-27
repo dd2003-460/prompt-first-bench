@@ -1,3 +1,6 @@
+> ⚠️ legacy（2026-11-27 迁移自 experiments/stage-ablation/INDEX.md）：描述迁移前结构。
+> 现行结构见 `experiments/stage-ablation/INDEX.md`；历史数据/脚本/文档已迁至 modules/{A,B,D,E,F}-*/ 与 archive/。
+
 # stage-ablation 索引（T17/T22-T25）
 
 > 1-loop 阶段消融实验：prompt 各阶段（调研/分解/核验...）对最终产出质量的影响。
