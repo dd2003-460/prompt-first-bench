@@ -168,6 +168,7 @@ def layer_coverage(nodes, gold_units, model, cos_threshold=COS_THRESHOLD):
     return score, {"coverage": round(score, 4), "n_confirmed": len(confirmed),
                    "n_gold": len(gold_units), "n_magnets": len(magnets),
                    "magnet_ids": sorted(gold_units[g]["unit_id"] for g in magnets),
+                   "confirmed_ids": sorted(gold_units[g]["unit_id"] for g in confirmed),
                    "cos_threshold": cos_threshold,
                    "sim_median": round(float(np.median(top1_sim)), 3)}
 
