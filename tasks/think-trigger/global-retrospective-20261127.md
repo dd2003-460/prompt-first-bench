@@ -83,7 +83,7 @@
 - 选卡题 = **数值锚点 gold**(14GB/0.679/774…) → 公式判对错天然适用, correctness_layer_v0 接在这里是对的
 - research-AGI 题 = **过程/定义 gold**(J1-J14 全定义: fit_i/throughput/claim precision/κ/source coverage; grep Q9-v2.md 带单位数值锚点仅 2 个) → 公式判**无锚可判**
 - 故"公式判没接入"的准确表述: 不是没接, 是对主实验题(research-AGI)无锚可判; LLM-judge gate(J1-J14 语义覆盖)才是 research-AGI 题**对的**仪器(与 gold 同源 Q9-v2.md)
-**真缺口**: research-AGI 主实验题**没有廉价数值真值** — 问题类型决定, 非仪器 bug。要给主实验题上公式判, 须先造数值锚点 gold(类比选卡题 calc.py)。judge 问题的根 = 主实验题 gold 是定义型, 缺数值真值层
+**真缺口(21:41 修正)**: 上轮说"research-AGI 无锚可判"**过重** — Q9-v2.md 有 21 个定义式(J1 fit_i=1[W+KV+A+R≤16GiB]/J15 T_serial=Σ/J16 makespan/max_DAG/J21 B*=min B:ΔQ/ΔB<0.01/节点…), 其中 4 个 S-a 输入确定性(16GiB 在 gold 内)。准确表述: 缺**点值锚**(无"答案=X"可容差比对), 不缺**关系锚**(定义式本身可判"实例化没+输入可溯源没")。gold 类型二分修正为: 选卡=点值锚(判值), research-AGI=关系锚(判实例化)。D 21:41 提议"逐级概念-公式标志"= 该关系锚的逐级化, 探针 q9_formula_instantiation_probe.py
 **幸存**: 量化 L1/L2 grep(21%/1.8%/0.7% + 预算轴反相关)是题无关测量(量 run 内量化话题 vs 推导), 不受此更正影响, 仍成立
 
 ## 十一、更正: §8 决定性数字不可复现, judge 伪影 claim 降级 (2026-11-27 21:35)
@@ -94,6 +94,16 @@
 - **判决**: "整条预算曲线增益是 judge 伪影"**定量证据撤回**, 降级为定性假设: judge 单调升(6.33→10.00) + 300 档 L2 密度不升(13.76%≈100 档 13.00%) → "judge 涨买的不是推导密度"仍可疑, 但**不再是已证结论**
 - **幸存**: ①judge +58% 一手复现 ②三层 grep 定性(21%/1.8%/0.7%, 绝对数不依赖丢失脚本, 但 L2 绝对数 22 同样不可复现, 标 [待核验]) ③gold 类型二分(§十)不受影响
 - **流程教训**: 决定性数字必须脚本落盘才可进 retrospective — ad-hoc 数字进文档 = 制造下一次更正的原料。规则: 承重数字无脚本/无一手路径 = 视为未证
+
+## 十二、决定性重测: 预算曲线不是纯伪影, judge 病灶定位到 reliability 门 (2026-11-27 21:50)
+**触发**: D 21:41 提议"逐级概念-公式标志" → 最便宜探针 = 把 gold Q9-v2.md 的 21 个定义式做成机械签名, 逐式判 run 里 mention(L1)/instantiated(L2, 概念+公式右侧同现), 脚本 `research/q9_formula_instantiation_probe.py` 落盘 `data/q9-budget-scan/formula-instantiation-probe-20261127.json`
+**重算 (一手, 可复现)**:
+- corr(judge, mention L1) = **+0.21** vs corr(judge, inst L2) = **+0.67** — judge 跟"实例化"的相关远大于跟"提及"的相关, **§8/§11 的"judge 买 L1 不买 L2"方向反了**
+- 预算轴: judge 6.33→10.00(+58%), 但 **instantiation 0.7→5.0(+614%)** 而 mention 仅 10.7→12.0(+12%) — 预算真的在买"把公式实例化"的深度, 不是买话题复读。**"预算曲线=judge 伪影"撤回**, 降级为"judge 在 reliability 门放水"
+**judge 病灶定位 (逐门对账, 一手)**: 11 道门里 judge 在 **7 道放水**(J3/J4/J9/J10/J11/J13/J14: 300 档全判 hit 但模型 0 提及或仅近邻概念), **2 道真判别**(J2 吞吐/J12 κ: judge 升伴随真实实例化), **1 道恒严**(J5: 全程 0)。reliability 维(J9-J14)在 300 档饱和=无判别力
+**结论修正**: judge 不是"测 L1 不测 L2", 是 **reliability 门饱和+放水**(接受相邻/模糊内容为 hit), capability 门(J1/J2)有判别力。预算增益是真的(实例化深度), judge 问题是 reliability 维失效
+**D 提议验证**: "逐级概念-公式标志"= 正确仪器 — 本探针是其第一个机械实现, 直接暴露了 LLM-judge 看不到的 reliability 空洞。下一步 = 把 21 签名升级为逐级 judge(每节点 score=概念匹配×公式实例化×输入溯源, 权重 gold 已有)
+**探针局限(标)**: 正则签名是概念级近似, "instantiated"=概念+公式右侧同现, 非"算对了"; n=10。够用来(a)推翻 L1/L2 反转 (b)定位 judge 放水门, 不够用来当正确性判据
 
 ## 九、P20 判决 + 设计规则结晶 (2026-11-27 20:15)
 **P20 证伪**：弱域(hw 题, D 原话"本地AGI最高性价比硬件系统") C'/D' 对照 — C' 3/3 ✗(容量主导实例配置), D' 2/3 ✗+1/3 部分(ep1 多因子: Token_latency∝1/min(GPU_bw,互联_bw)), 双臂 0/6 碰 MoE。D'≈C' → "通用思考指令残余力在弱域"假设死亡。
