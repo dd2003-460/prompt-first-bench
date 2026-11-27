@@ -193,3 +193,4 @@
 - **换仪器**: LLM judge (qwen3.8-27b via 8787, temp=0) 替代 bge-m3 cosine 判 gate 覆盖。脚本 `modules/B-pipeline-ablation/research/q9_llm_judge_coverage.py`, 输入 = 已完成 10 个 run json (50/100/150/300-r1), 不重跑 SM。
 - **已知风险**: judge 与被判对象同源 (qwen3.8-27b 自评) — 若结果异常需换独立 judge 复核。
 - **300/719 档重启条件**: 新仪器下 50→100→150 曲线形状显著非单调 (如 150 反超 100) 才值得补跑; 否则预算轴正式关闭, 转入 ⑥ 思考触发。
+- **执行偏差注记 (2026-11-27 15:42)**: 15:40 窗口 Lead 未核到本决策即起 resume 队列 (q9_budget_scan_resume.sh, 将重跑 300 r2/r3+719×3)——发现冲突后立即 kill, 无孤儿进程, b300-r2 未落盘 (无 json, 仅 3KB stdout 残片), 数据集不受影响 (仍 10 runs), resume 脚本已删。教训: 起长任务前必须重读 decomposition 最新决策段 (外部编辑可能已改变方向), 不能只信自己上下文里的旧状态。
