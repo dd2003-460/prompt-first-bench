@@ -56,6 +56,10 @@ HOOK_TEXT = (
     "[全局回顾] 复盘：你否定了什么（排除的错误解释）？留下什么空间？"
     "你当前的因子集（frame）对不对，还是在优化一个局部代理？"
 )
+REQ_NO_TOOL = (
+    "你是研究员，预算不限。调研要求：建模 GPU 推理性能的影响与瓶颈"
+    "（如 27B LLM 在 V100/A100/4090 上的推理）。找出主导因子，把模型表达成紧凑公式。"
+)
 
 CODE_EXEC_TOOL = {
     "type": "function",
@@ -157,16 +161,21 @@ def do_code_exec(code, sandbox):
 
 # ---------- agent episode ----------
 def run_episode(arm, ep_id, sandbox):
-    """完整 agent 循环: 模型自主调工具, max_turns 封顶。arm B 每 3 轮注入自审 hook。"""
-    msgs = [{"role": "user", "content": RESEARCH_REQ +
-             "\n(可用工具: search=检索外部资料; code_exec=执行 Python 代码做数值验证, 如算 roofline 拐点/KV cache 占用/FLOPs 估算。)"},
-            ]
+    """完整 agent 循环: 模型自主调工具, max_turns 封顶。
+    arm A=裸(有工具无hook); arm B=带自审 hook(每 3 轮); arm C=无 harness(无工具, 纯参数记忆)。"""
+    if arm == "C":
+        msgs = [{"role": "user", "content": REQ_NO_TOOL}]
+    else:
+        msgs = [{"role": "user", "content": RESEARCH_REQ +
+                 "\n(可用工具: search=检索外部资料; code_exec=执行 Python 代码做数值验证, 如算 roofline 拐点/KV cache 占用/FLOPs 估算。)"}]
     traj, code_runs = [], []
     final_text, n_turns = "", 0
     for turn in range(1, MAX_TURNS + 1):
         n_turns = turn
         payload = {"model": MODEL, "messages": msgs, "max_tokens": TURN_MAX_TOKENS,
-                   "temperature": 0.0, "tools": ALL_TOOLS, "tool_choice": "auto"}
+                   "temperature": 0.0,
+                   "tools": [] if arm == "C" else ALL_TOOLS,
+                   "tool_choice": "auto"}
         msg = call(payload)
         tc = msg.get("tool_calls") or []
         content = (msg.get("content") or "").strip()
@@ -243,11 +252,16 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true",
                     help="只跑 A 臂 1 个完整 episode, 验证 harness 跑通+落盘")
+    ap.add_argument("--arms", default="", help="指定臂, 逗号分隔 (如 C); 默认 A,B")
+    ap.add_argument("--tag", default="", help="输出文件名后缀 (如 _C)")
     args = ap.parse_args()
-    arms = ["A"] if args.dry_run else ["A", "B"]
-    n_eps = 1 if args.dry_run else N_EPISODES_FULL
+    if args.dry_run:
+        arms = ["A"]; n_eps = 1; tag = ""
+    else:
+        arms = ([a.strip() for a in args.arms.split(",") if a.strip()] or ["A", "B"])
+        n_eps = N_EPISODES_FULL; tag = args.tag
     os.makedirs(DATA, exist_ok=True)
-    print(f"mode={'dry-run(A-only)' if args.dry_run else 'full(A+B)'} "
+    print(f"mode={'dry-run(A-only)' if args.dry_run else 'custom'} "
           f"arms={arms} n_episodes={n_eps} max_turns={MAX_TURNS}", flush=True)
 
     sandbox = tempfile.mkdtemp(prefix="q9-gpu-probe-")
@@ -256,7 +270,7 @@ def main():
 
     out = {"observed_at": datetime.now(timezone.utc).astimezone().isoformat(),
            "script": "q9_gpu_model_probe.py",
-           "mode": "dry-run" if args.dry_run else "full",
+           "mode": "dry-run" if args.dry_run else f"arms-{','.join(arms)}",
            "model": MODEL, "max_turns": MAX_TURNS, "hook_every": HOOK_EVERY,
            "selftest": st, "arms": {}}
     for arm in arms:
@@ -267,9 +281,9 @@ def main():
             per.append(r)
             print(f"arm_{arm} ep{i}: turns={r['n_turns']} tools={r['tools_used']} "
                   f"free_params={r['free_params']}", flush=True)
-        out["arms"][f"arm_{arm}_{'raw' if arm == 'A' else 'selfaudit'}"] = {"per_episode": per}
+        out["arms"][f"arm_{arm}_{'raw' if arm == 'A' else ('selfaudit' if arm == 'B' else 'noharness')}"] = {"per_episode": per}
 
-    fp = os.path.join(DATA, f"gpu-model-probe-{datetime.now().strftime('%Y%m%d')}.json")
+    fp = os.path.join(DATA, f"gpu-model-probe-{datetime.now().strftime('%Y%m%d')}{tag}.json")
     json.dump(out, open(fp, "w"), ensure_ascii=False, indent=1)
     print(f"saved: {fp}", flush=True)
 
