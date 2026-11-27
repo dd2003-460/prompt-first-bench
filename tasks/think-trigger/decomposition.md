@@ -84,6 +84,18 @@
 
   **step 3 — 登记**：research-agi-budget 子项⑥已含 T1-T4（`context.think_trigger_branch`），本整合把 T3 从"待 T1+T2"推进到"整合完成"。能力证据落点：27b 在 general 提示下能复刻 D 三步链的**形式**（form 5.67/6），但 flip=0（域偏移 100%）——"AGI 系统能接住 D 思路"的证据是**形式的**，内容的（正确机制域）尚未接住，这正是 think-trigger 要补的（触发词带域锚点+因果层指令）。
 
+### T3b 逐级机械 judge（D 2026-11-27 提议"上一级往下拆, 每级正确性用概念-公式标志"）
+- 背景: 现有 correctness_layer_v0 是平的(36 gold 单元挂 sympy, N 轴锚叶子数值, S 轴仅 4 正则签名), 无"逐级"概念。D 提议 = 把 S 轴推广到全部 gold 节点 + 沿树递归。
+- 探针已落地(21:50, commit 466555d12): q9_formula_instantiation_probe.py 把 Q9-v2.md 21 定义式做成机械签名, mention(L1)/instantiated(L2) 两级。结果: corr(judge,L1)=+0.21 vs corr(judge,L2)=+0.67; 预算 50→300 instantiation +614% ≫ mention +12%(预算真买深度非伪影); 逐门对账 7 门放水(J3/J4/J9/J10/J11/J13/J14) / 2 门真判别(J2/J12) / 1 门恒严(J5)。
+- **本任务(v1 机械 judge)**: 把 21 签名升级为逐级 judge——每节点 score = 概念匹配 × 公式实例化 × 输入溯源, reliability 维(J9-J14)换机械判(消除 LLM-judge 放水)。
+- 任务表:
+  | 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 |
+  |---|---|---|---|---|---|
+  | S1 签名表抽共享模块 q9_gold_signatures.py(probe/judge 都 import, 不复制) | 无 | ~200 | ~150 | 1 | 脚本-Lead |
+  | S2 逐级 judge v1: 节点级 score=概念×实例化×溯源, 输出 per-node JSON | S1 | ~150 | ~200 | 1 | 脚本-Lead |
+  | S3 对 10 run 重打分, 对比 LLM-judge, 验证 reliability 维机械判消除放水 | S2 | ~100 | ~80 | 1 | 脚本-Lead |
+- 验收: per-node score JSON 落盘; reliability 门(J9-J14)机械判与 LLM-judge 分歧处可逐条解释; 3 commit 各自 scoped add。
+
 ### T5 流程索引层（咒语=调度器，D 2026-11-25 提出）
 - 目标：把咒语从"固定指针"（先压后展→总走六阶段）改成"动态检索"（按问题类型找相关流程）
 - 洞察（D）：咒语不是思考程序，而是思考流程的调度器——索引+检索+执行。和 RAG（检索增强生成）同构，检索对象从文本片段换成思考流程。信息论上站得住：调度器信息量远小于被调度程序。

@@ -15,36 +15,11 @@ gold Q9-v2.md 有 21 个定义式 (关系锚), 逐式判 run 里
 instantiated 判据放宽为"给出符号式/区间"也算。
 """
 import json, glob, re, os, statistics
+from q9_gold_signatures import SIG  # 单一事实源 (T3b 共享模块)
 
 DATA = os.path.join(os.path.dirname(__file__), "..", "data", "q9-budget-scan")
 RUNS = sorted(glob.glob(os.path.join(DATA, "q9-*-r*.json")))
 JUDGE = json.load(open(os.path.join(DATA, "llm-judge-coverage-20261127.json")))
-
-# 21 个定义式签名: (jid, 概念正则, 实例化附加正则)
-# instantiated = 概念命中 且 (同行/同节点出现 = 带右侧内容, 或具体数字)
-SIG = [
-    ("J1",  r"fit|显存(适配|占用|够|装)|内存(墙|占用)|W.{0,6}KV.{0,6}(A|R)", r"16\s*(GiB|GB)|≤\s*16|W\s*[+＋]\s*KV"),
-    ("J2",  r"吞吐|throughput|tokens?/?sec|tok/s",                        r"\d+(\.\d+)?\s*(tok|token)s?/?s|tokens?/?sec\s*[=≈]|/秒"),
-    ("J3",  r"可观测上限|观测上限|NCU|kernel.{0,6}(上限|计数器)|SM.{0,6}占用", r"max\s*\{|max\(.*\)|上限\s*[=≈]"),
-    ("J4",  r"Q_target|目标.{0,4}(质量|能力)|发表级",                       r"Σ|/6|I\s*\("),
-    ("J5",  r"G_cap|能力(缺口|差距)|Q_now",                                  r"max\s*\(\s*0|max\(0"),
-    ("J6",  r"kWh|电耗|能耗|电费|P_avg",                                     r"kWh\s*[=≈]|P\s*[·×x]\s*t|kW\s*[·×x]"),
-    ("J7",  r"折旧|残值|摊销|C_hw|硬件(成本|价格)",                          r"[−-]\s*残值|/可用|服务小时|摊销"),
-    ("J8",  r"C_API|API.{0,4}(成本|费用)|token.{0,4}(单价|价格)",            r"T_in|p_in|输入.{0,4}(token|价格)|输出.{0,4}(token|价格)"),
-    ("J9",  r"claim.{0,4}precision|主张.{0,4}(精度|准确)|判真",              r"precision\s*[=≈]|/已裁决|/裁决"),
-    ("J10", r"unsupported|无证据|与证据冲突",                                 r"rate\s*[=≈]|/已审|冲突.{0,4}比"),
-    ("J11", r"experiment.{0,4}pass|实验(通过|通过率)|验收测试",               r"pass\s*[=≈]|/有效测试|/有效"),
-    ("J12", r"κ|kappa|一致性|双评审",                                         r"p_o|p_e|\(1\s*[−-]\s*p_e\)"),
-    ("J13", r"source.{0,4}coverage|来源(覆盖|可追溯)|溯源",                   r"coverage\s*[=≈]|/全部|可追溯.{0,4}数"),
-    ("J14", r"repeatability|可复现|复现.{0,4}(率|run)",                       r"复现.{0,4}run|Wilson|/n\b"),
-    ("J15", r"T_serial|串行(时间|耗时)|阶段(计时|耗时)",                       r"t_decompose|Σ\s*\(|decompose.{0,10}research"),
-    ("J16", r"makespan|DAG|关键路径|并行(时间|耗时)",                          r"max_{path}|max\(.*DAG|DAG.{0,10}Σ|关键路径"),
-    ("J17", r"speedup|加速比|等待率|T_wall",                                  r"T_serial\s*/\s*T_wall|T_blocked|加速比\s*[=≈]"),
-    ("J18", r"ΔQ|干预.{0,4}(对照|基线)|因果效应",                              r"Q\s*\(.{0,8}\)\s*[−-]|ΔQ\s*[=≈]"),
-    ("J19", r"tool.{0,4}success|工具(成功率|调用)|调用.{0,4}成功",             r"success\s*[=≈]|/计划调用|/计划"),
-    ("J20", r"gate.{0,4}pass|阶段(验收|门)|验收门",                            r"gate\s*pass|/计划门|门数"),
-    ("J21", r"B\*|边际(收益|成本)|Pareto|预算(拐点|最优)",                     r"ΔQ\s*/\s*ΔB|min\s*B|0\.01\s*/\s*节点"),
-]
 
 def probe_run(f):
     r = json.load(open(f))
