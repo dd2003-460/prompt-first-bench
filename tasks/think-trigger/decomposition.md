@@ -260,6 +260,8 @@
 
 ## M: 思考机制落地 team (2026-11-27 D 指令「找个team去研究和实现, 如果能像我一样思考, 论文只是需要让arena和自己review」)
 
+**双 lead 协调 (2026-11-28 01:3x, QQ 会话写入)**: 微信会话 + QQ 会话同时在推 M 线 → M2a 重复做(两边结果一致: power_risk=low, 最大 cv=0.035, 3 reps 够用)。分工锁定: 微信会话=M 线主推进(方向对齐主场, 已推 M3 prep @ 484f757bc); QQ 会话=① arena M0 催交付(已直接进会话 01a20b11 发消息) ② M3 夜间批启动前核验 ③ 跟 D 对齐。**夜间批启动权=微信会话**(它持有 M3 prep 上下文), QQ 只做核验不抢启, 避免双启。
+
 **主线重定义**: 验收物 = 27b 在生产循环里表现出 D 式思考（爬层/统一覆盖/量化落地/类比审计/判据瓶颈），测量=对照实验机械指标。论文/claim 强度/review = 后置（arena 对抗核验 + 自己 review）。
 **既有地基（一手证据已核）**: K4b 判决定格 (oood-column-status.md 23:0x): S1(剥离版) ≥ S0(域味版)，域味=负资产，kernel general 成立；S1/B 双臂数据在盘上 (experiments/stage-ablation/oood-probe/s1/, metrics-2x2.json @ 2e2cf60bf)。
 **5 模板源** (projects/AI-计算科学/D1-persona-align/memory/general-thinking-template-20261124.md): T1代价模型/T2统一覆盖/T3量化落地/T4类比审计/T5判据瓶颈，每条带触发条件+动作。
@@ -275,7 +277,7 @@
 | M2 注入变体设计: V0=S1现状 / V1=+5模板 / V2=M0 调研 top 机制 | M0+M1b | ~100 | ~80 | 1 | 判断-Lead (done 11-28 00:55, m2-injection-design-20261128.md; 只注 T1+T2 合并版, T3/T4/T5 与 harness 职责冲突不注) |
 | M2a 方差探针: 已有 6 臂 rep 间三指标 cv → 定 M3 reps 功效 | 无 | 脚本 | 脚本+json | 1 | sub-27b (✅ done 11-28 01:2x @ 3003978bb, 零 GPU; variance-report.json; 注: 6臂各1rep, 报的是跨臂方差非rep间方差, rep间方差由M3 3reps 自带) |
 | M2b V1 实现: s1/→v1/ 复制 + T1+T2 注入 + 冒烟 | M2 | ~100 | 复制+diff | 1 | sub-27b (done 11-28 00:59 @ d03c9423d, 冒烟 ok 3 节点 JSON 契约不破) |
-| M3 对照实验: V1×3域(cyclone/mining/hw) 各3reps + V0(s1)cyclone 2reps = 11reps, 40节点, 无检索口径 | M2 | - | - | 1/rep | sub-27b(🔄 prep 在跑 sa-0-0728988f: runner+队列 dry-run, 夜间批 Lead 核验后启; 设计见 m2-injection-design-20261128.md) |
+| M3 对照实验: V1×3域(cyclone/mining/hw) 各3reps + V0(s1)cyclone 2reps = 11reps, 40节点, 无检索口径 | M2 | - | - | 1/rep | sub-27b(✅ prep @ 54eb4e5a7: run_v1_sm.py 按参数切arm + raw-llm落盘 + launch_m3.sh 幂等串行; 🔄 夜间批在跑 PID 11234 起 01:20, log=m3-queue.log, 预计 4-6h) |
 | M4 记分+判决: 机械指标(机制覆盖/量化claim/域偏移率) + 预注册判据 | M3 | ~100 | ~60 | 1 | sub-27b + 判断-Lead |
 | M5 论文化+review: claim 强度/对抗核验 | M4 判决为正 | - | - | - | arena + 判断-Lead (后置) |
 
