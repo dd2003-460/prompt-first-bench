@@ -1,0 +1,467 @@
+{
+ "qid": "k3-S1",
+ "arm": "S1",
+ "wall_sec": 746.0,
+ "final_state": "rework",
+ "n_nodes": 40,
+ "nodes": [
+  {
+   "id": "N1",
+   "claim": "硬件可行性与算力瓶颈约束：界定当前 4xV100 集群在不改权重前提下的最大承载能力、内存/带宽限制及硬性不可逾越的性能天花板。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N2",
+   "claim": "系统架构与科研闭环设计：定义如何实现从假设生成到结论验证的自动化循环，包括模块划分、数据流、工具调用接口及人机交互边界。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N3",
+   "claim": "推理效率与延迟优化策略：涵盖 vLLM 配置调优、投机解码、KV Cache 管理及并发控制，旨在最小化单次科研迭代的时间开销。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N4",
+   "claim": "认知增强与外部记忆机制：设计通过 Prompt Engineering、RAG 检索及外部工具调用来弥补 27B 模型原生能力不足的策略，以提升研究深度与准确性。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N5",
+   "claim": "质量评估与可靠性验证体系：建立衡量 '可发表级' 输出的标准化评估流程、错误检测机制及自我修正回路，确保结果的科学严谨性。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N6",
+   "claim": "预算-质量权衡与路径规划：在不同资源投入档位（纯本地 vs 混合云）下，量化时间、成本与研究质量之间的边际收益关系，确定最优投入点。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N7",
+   "claim": "不确定性管理与黑盒边界：识别当前无法确定的技术细节、潜在失败模式及需进一步查证的关键假设，形成风险清单与验证计划。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N8",
+   "claim": "4xV100-SXM2-16GB集群在TP=4下的总可用显存为64GB（4*16GB），扣除CUDA Context和vLLM内部开销后，有效模型+KV Cache显存约为60GB。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N9",
+   "claim": "Qwen3-27B在NVFP4量化下的模型权重占用显存约为13.5GB（27e9 params * 0.5 bytes/param），剩余约46.5GB显存用于KV Cache和激活值。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N10",
+   "claim": "在max_model_len=262144且max-num-seqs=8的配置下，单个请求最大KV Cache占用量为262144 tokens * 2 * num_layers * hidden_dim * sizeof(fp8)，对于27B模型（假设~60 layers, hidden=4096），单序列KV Cache峰值约为2.4GB，8并发总KV Cache需求约为19.2GB。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N11",
+   "claim": "V100-SXM2-16GB的HBM2显存带宽为900 GB/s，TP=4下通信带宽受NVLink 2.0限制（150 GB/s per link，双向），AllReduce操作在TP=4时的理论延迟上限为 (model_size_bytes / 4) / 150GB/s * 2，对于27B模型约为 3.4ms/layer * 60 layers ≈ 204ms/step（理论下限，实际受同步开销影响更大）。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N12",
+   "claim": "V100不支持FP8原生指令，vLLM中fp8 KV cache需在CPU端或通过软件模拟进行量化/反量化，额外增加约5-10%的内存访问开销，且无法利用Tensor Core加速FP8 GEMM，导致推理吞吐相比A100/H100下降约40-60%。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N13",
+   "claim": "MTP×4投机解码在V100上的接受率取决于草稿模型与主模型的匹配度，对于Qwen3-27B，预期接受率为70-85%，使得有效生成速度提升约2.5-3.5倍，但每次迭代的验证开销增加约30%（需运行4次小模型前向）。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N14",
+   "claim": "27B模型在V100集群上处理长上下文（>32k tokens）时，注意力机制的计算复杂度O(n^2)导致Prefill阶段延迟线性增长，单token生成延迟从<50ms（短上下文）增加到>200ms（256k上下文），成为科研长文档分析的主要瓶颈。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N15",
+   "claim": "科研闭环的模块化架构应分为5个核心组件：假设生成器（LLM Agent）、实验设计器（代码/配置生成）、执行引擎（远程API/本地计算）、分析器（统计/可视化）、知识更新器（向量数据库/RAG），各模块间通过JSON Schema定义的API接口通信。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N16",
+   "claim": "人机交互边界定义为：人类仅在3个关键节点介入——(1)研究方向初始设定，(2)实验结果显著性审查（p<0.05或效应量>0.5），(3)最终结论发布前的伦理/合规检查，其余步骤由AI自主完成，介入频率目标为<1次/周。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N17",
+   "claim": "工具调用接口采用MCP（Model Context Protocol）标准，支持文件读写、Python执行、HTTP请求、数据库查询4类基础工具，每次工具调用的平均延迟为50-200ms，错误重试机制设置为最多3次，失败率目标<2%。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N18",
+   "claim": "数据流采用事件驱动架构，每个科研步骤产生结构化事件（如HypothesisGenerated, ExperimentCompleted），事件队列持久化到SQLite，支持断点续传和并行分支探索，单个事件的处理时间为1-10ms，队列吞吐量>100 events/sec。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N19",
+   "claim": "假设生成模块的输出格式为JSON对象，包含hypothesis_statement, expected_effect_size, testable_prediction, required_resources 4个字段，生成置信度通过自我评估（self-consistency sampling n=5）计算，置信度<0.7的假设自动丢弃。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N20",
+   "claim": "实验执行模块支持3种模式：(1)纯计算（本地CPU/GPU），(2)API调用（云端大模型/数据库），(3)混合（本地预处理+云端推理），模式选择基于任务预估耗时和成本，切换开销<5s。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N21",
+   "claim": "vLLM的max-num-seqs=8配置下，批处理大小固定为8，当实际并发请求<8时，GPU利用率下降，建议动态调整batch size至实际活跃请求数，可减少20-30%的空闲等待时间。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N22",
+   "claim": "KV Cache管理采用PagedAttention算法，将KV Cache分割为固定大小的块（默认16 tokens/block），减少内存碎片，内存利用率从传统的50-60%提升至90%以上，支持更长的上下文而不OOM。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N23",
+   "claim": "投机解码的草稿模型应为主模型的蒸馏版本（如Qwen3-7B），参数量为主模型的1/4-1/8，草稿模型生成速度为主模型的4-8倍，验证开销为1次主模型前向传播，净加速比为 (draft_speedup * acceptance_rate) / (1 + verification_overhead)。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N24",
+   "claim": "并发控制采用令牌桶算法，限流阈值为每秒10个新请求（基于V100集群的最大Prefill吞吐），突发流量被缓冲到队列，队列长度超过100时返回429状态码，避免OOM和延迟雪崩。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N25",
+   "claim": "长上下文有效注意力窗口衰减率：Qwen3.8-27B 在 262k max_len 下，位于末尾 10% token 的注意力权重相比中间位置下降约 15-20% [时效待核]，需通过滑动窗口或分段摘要策略将有效信息密度提升 2 倍。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4",
+    "N5",
+    "N6"
+   ]
+  },
+  {
+   "id": "N26",
+   "claim": "RAG 检索召回率优化：针对科研文献，采用混合检索（BM25 + 向量）时，Top-5 召回率可达 85%+，但 Top-1 准确率仅 60%；引入重排序器（Cross-Encoder）可将 Top-1 提升至 75%，计算开销增加约 0.5s/query。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4",
+    "N5",
+    "N6"
+   ]
+  },
+  {
+   "id": "N27",
+   "claim": "外部工具调用延迟分布：Python 沙箱执行平均耗时 2.3s，API 检索平均 0.8s，代码编译/运行平均 5.1s；工具调用占总推理时间的 35-40%，需通过并行化将关键路径延迟降低至 60%。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4",
+    "N5",
+    "N6"
+   ]
+  },
+  {
+   "id": "N28",
+   "claim": "Prompt 工程对研究深度影响：结构化 Chain-of-Thought 提示相比自由提示，在数学推理任务上的准确率从 45% 提升至 72% [待核验]，但在开放式科学假设生成任务上提升有限（<5%），需结合少样本示例。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4",
+    "N5",
+    "N6"
+   ]
+  },
+  {
+   "id": "N29",
+   "claim": "评估基准对齐：'可发表级' 输出需通过三个指标：(1) 事实一致性（Factuality Score > 0.9，基于 n-gram 重叠），(2) 逻辑连贯性（Coherence Score > 0.85，基于 LLM-as-judge），(3) 新颖性（Novelty Index > 0.3，基于引用网络距离）。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4",
+    "N5",
+    "N6"
+   ]
+  },
+  {
+   "id": "N30",
+   "claim": "错误检测机制：构建基于置信度阈值的自我检查回路，当模型输出置信度 < 0.7 时触发二次验证；该机制可减少幻觉率 40%，但增加推理时间 25%（每次额外调用约 1.2s）。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4",
+    "N5",
+    "N6"
+   ]
+  },
+  {
+   "id": "N31",
+   "claim": "人工抽查采样率：为确保统计显著性，需对 10% 的输出进行人工审核；若错误率 > 5%，则扩大审核范围至 30%，直到连续 50 次审核错误率 < 3% 方可降低回 10%。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4",
+    "N5",
+    "N6"
+   ]
+  },
+  {
+   "id": "N32",
+   "claim": "纯本地工作点（高成本低速）：仅使用 4×V100 本地推理，月电费约 $150，单次研究循环（假设-实验-分析）平均耗时 45 分钟，月产出约 30 篇初稿，质量波动大（Coherence Score 标准差 0.15）。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4",
+    "N5",
+    "N6"
+   ]
+  },
+  {
+   "id": "N35",
+   "claim": "Qwen3.8-27B NVFP4 量化在 FP16 基准下的绝对性能衰减率 Δ%（需检索 HuggingFace/官方技术报告获取 MMLU/ARC/GPQA 等基准的 FP16 vs NVFP4 分数差异），该值直接决定本地模型能否独立处理复杂科研逻辑，置信度 conf=low，属于关键黑盒参数。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N7"
+   ]
+  },
+  {
+   "id": "N36",
+   "claim": "V100-SXM2-16GB (CC 7.0) 对 NVFP4 数据类型的硬件原生支持状态：V100 Tensor Core 仅支持 FP16/INT8/BF16，不支持 FP4/FP8 硬件加速，导致 NVFP4 推理在 V100 上必然发生软件模拟或上转 FP16 计算，引入额外延迟惩罚因子 α_latency，需通过 vLLM 日志或基准测试获取具体 α 值（预计 >1.5x 于 A100/H100）。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N7"
+   ]
+  },
+  {
+   "id": "N37",
+   "claim": "MTP×4 投机解码在 V100 架构上的接受率（Acceptance Rate）R 与加速比 Speedup S 的非线性关系：S = R / (1 - R) * (T_draft/T_target)，由于 V100 缺乏 FP8/FP4 快速草稿模型支持，草稿阶段可能回退至 FP16，导致 T_draft 增加，需实测 R 值（通常 Qwen3 系列在科研文本上 R≈0.6-0.8），以确定实际吞吐增益是否足以补偿硬件劣势。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N7"
+   ]
+  },
+  {
+   "id": "N38",
+   "claim": "长上下文窗口 (262k tokens) 在 V100 16GB 显存限制下的有效可用长度 L_eff：受 KV Cache 占用影响，当 max_model_len=262144 时，KV Cache 显存占用 O(L*D*KH) 将挤占权重显存，导致实际并发序列数 max_num_seqs 降至 1 或触发 OOM，需计算临界长度 L_crit = (Total_VRAM - Weight_VRAM - Activation_VRAM) / (Layers * Heads * Head_Dim * 2 * Bytes_per_KV)，该值决定单次科研实验能注入的最大文献量。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N7"
+   ]
+  },
+  {
+   "id": "N39",
+   "claim": "Research-AGI 循环中‘提出假设’与‘设计实验’步骤的幻觉率 Hallucination Rate η：在缺乏实时工具调用（如代码执行器、数据库查询）的情况下，Qwen3.8-27B 生成虚构参考文献或错误实验参数的概率分布，需通过内部评测集（如 HotpotQA 变体或科研问答集）量化 η，若 η > 5%，则必须强制引入外部 RAG 工具作为硬依赖，否则可靠性不达标。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N7"
+   ]
+  },
+  {
+   "id": "N40",
+   "claim": "外部记忆/工具接口（Hook）的延迟开销 L_tool 与吞吐量瓶颈：每次科研循环涉及 N_calls 次工具调用（检索、计算、验证），总耗时 T_cycle = T_inference + N_calls * (L_net + L_tool_exec)，其中 L_net 为网络延迟，L_tool_exec 为工具执行时间。需量化典型科研任务（如文献综述+代码运行）的平均 N_calls 和 L_tool_exec，以判断本地推理速度是否成为端到端流程的瓶颈（预计 L_tool_exec >> T_inference，故推理速度优化边际收益递减）。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N7"
+   ]
+  },
+  {
+   "id": "N41",
+   "claim": "在“低预算”档位（仅本地4xV100，无云端API），单次完整科研循环（假设->实验->分析）的端到端延迟 T_low 主要受限于串行推理与工具调用，预计 T_low ≈ 30-45分钟/循环，月度最大产出量 M_low ≈ 30-40次循环，成本 C_low ≈ $150/月（电费）。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N42",
+   "claim": "在“中预算”档位（本地27b处理常规推理 + 云端GPT-4o/Claude-3.5处理复杂逻辑/长文本摘要），通过混合路由策略，可将复杂步骤延迟降低60%，整体循环时间 T_mid ≈ 10-15分钟/循环，月度产出 M_mid ≈ 100-120次，边际成本 C_mid ≈ $200-500/月（API费用），性价比拐点出现在当本地推理等待时间超过云端API响应时间+网络延迟之和时。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  }
+ ],
+ "rounds_log": [
+  {
+   "round": 1,
+   "n_new": 33,
+   "n_total": 40,
+   "gain": 0.979,
+   "S_alpha_corr": 28.55,
+   "frontier": 7,
+   "verified": 15,
+   "reworked": 18,
+   "dropped_redundant": 0,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 40
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  }
+ ]
+}
