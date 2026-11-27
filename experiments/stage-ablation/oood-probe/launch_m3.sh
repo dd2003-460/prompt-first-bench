@@ -39,9 +39,9 @@ QS=oood-probe/.m3-queue-body.sh
   i=0
   for c in "${CMDS[@]}"; do
     i=$((i+1))
-    echo "echo \"[\$i/${#CMDS[@]}] start \$(date +%T): $c\""
+    echo "echo \"[$i/${#CMDS[@]}] start \$(date +%T): $c\""
     echo "$c"
-    echo "echo \"[\$i/${#CMDS[@]}] exit=\$? \$(date +%T)\""
+    echo "echo \"[$i/${#CMDS[@]}] exit=\$? \$(date +%T)\""
   done
   echo "echo '=== M3 queue end \$(date +%F %T) ==='"
 } > "$QS"
