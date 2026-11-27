@@ -20,10 +20,12 @@ except Exception as e:
 tot = sum(v.get('total', 0) for v in d.get('counts_by_level', {}).values())
 if tot != 1198: fails.append(f"totals={tot} != 1198")
 
-# ② 回溯 3 条 mech_samples
+# ② 回溯 3 条 mech_samples (run tag 从文件名 q9-(\d+)-r(\d+) 提取)
 src = {}
 for f in RUNS:
-    tag = f.split('/')[-1][:10]
+    m = re.search(r'q9-(\d+)-r(\d+)', f)
+    if not m: continue
+    tag = f"{m.group(1)}-r{m.group(2)}"
     for n in json.load(open(f))['nodes']:
         src[(tag, str(n.get('id')))] = (n.get('claim') or '')
 miss = 0
@@ -42,7 +44,7 @@ if '机制级' not in log and 'mech' not in log.lower(): fails.append("未见 me
 
 # 决策树输入: budget × level 的 mech_rate
 def budget_of(tag):
-    m = re.match(r'q9-(\d+)-r', tag)
+    m = re.match(r'(\d+)-r', tag)
     return m.group(1) if m else '?'
 agg = {}
 for tag, v in d.get('counts_by_run', {}).items():
@@ -63,5 +65,13 @@ print("\n=== mech_rate(level) ===")
 for lv in sorted(lvl_agg):
     m, t = lvl_agg[lv]
     print(f"  {lv}: {m}/{t} = {m/max(t,1):.3f}")
+print("\n=== other_rate(budget, level) 漂移 ===")
+for b in sorted(agg):
+    runs = [v for k, v in d.get('counts_by_run', {}).items() if budget_of(k) == b]
+    ot = sum(v.get('total', 0) for v in runs); oo = sum(v.get('other', 0) for v in runs)
+    print(f"  budget {b}: other {oo}/{ot} = {oo/max(ot,1):.3f}")
+for lv in sorted(d.get('counts_by_level', {})):
+    v = d['counts_by_level'][lv]
+    print(f"  {lv}: other {v.get('other',0)}/{v.get('total',0)} = {v.get('other',0)/max(v.get('total',1),1):.3f}")
 print(f"\ncalibration: {json.dumps(cal, ensure_ascii=False)[:300] if cal else 'MISSING'}")
 print(f"conclusion: {d.get('conclusion')}")
