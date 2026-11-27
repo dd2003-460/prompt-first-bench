@@ -187,3 +187,9 @@
 **Q9E-Analyze 提前诊断（2026-11-27 13:35，50/100 档 6 runs 已完）**：① **analyze_q9e_scan.py 命名 bug（已修）**：gate_ids 是 J-id（J1..J14），confirmed 集合存 N-* unit_id，`g in confirmed` 恒 False → 原 analysis.json 的 gate 矩阵结构性全 0（13:27 那份全 0 是 bug 不是数据）。修=j_id→unit_id 映射。② **阈值不可标定（负对照实证）**：Q6→Q9 gold 负对照 sim p50=0.587/p99=0.686，Q9→Q9 gold 正样本 p50=0.588——正负分布重叠，bge-m3 cosine 在 Q9 域无区分力（gold unit 文本含公式/权重/conf 标注，相似度天花板 ~0.65）。阈值扫 0.50-0.70 全区间，gate 命中率从 1.0 单调跌到 0，无平台。③ **P1 判决不得基于当前仪器**：需换仪器（候选：gold unit 只取核心概念文本算 sim / LLM judge 逐 unit 判定），换后 50/100 档数据可复用（run json 不动）。落盘：data/q9-budget-scan/threshold-recalibration-20261127.json（含负对照）+ research/q9_threshold_recalibrate.py |
 
 **B' 截断修复设计（Lead 判断 2026-11-26）**：根因=总预算 24576 < B' 六阶段真实需求 69227（碎片化 cap 4096 是表象，截断态已耗 94% 总预算）。修复=MAX_A 24576→73728（=6×12288，覆盖 69K 下限），A' 同步 73728 保 matched 上限语义（A' 实际 ~13K，上限不改变其行为）。对照语义澄清为「同预算上限、各自自然消耗」——预算不足以完成流程时测的是「预算饥饿」非「流程价值」，故预算须覆盖流程真实需求下限。进 post-hoc 文件（smoke 已跑过数据，冻结文件只读）。
+
+### Q9E-Scan 决策变更 (2026-11-27 15:50, D 指令"负结果已确立为何还跑")
+- **停扫**: 300/719 档队列已 kill (PID 22941 + 子进程)。依据: 负结果 13:35 已确立 (7/7 rework 停机 + 深层零信息增益 + cosine 仪器失效), 继续扩 x 轴 = 惯性, 非信息增益。
+- **换仪器**: LLM judge (qwen3.8-27b via 8787, temp=0) 替代 bge-m3 cosine 判 gate 覆盖。脚本 `modules/B-pipeline-ablation/research/q9_llm_judge_coverage.py`, 输入 = 已完成 10 个 run json (50/100/150/300-r1), 不重跑 SM。
+- **已知风险**: judge 与被判对象同源 (qwen3.8-27b 自评) — 若结果异常需换独立 judge 复核。
+- **300/719 档重启条件**: 新仪器下 50→100→150 曲线形状显著非单调 (如 150 反超 100) 才值得补跑; 否则预算轴正式关闭, 转入 ⑥ 思考触发。
