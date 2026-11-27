@@ -14,6 +14,7 @@ BASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "data", "q
 INPUTS = [
     os.path.join(BASE, "gpu-model-probe-20261127.json"),
     os.path.join(BASE, "gpu-model-probe-20261127_C.json"),
+    os.path.join(BASE, "gpu-model-probe-20261127_D.json"),
 ]
 
 NUM_RE = re.compile(r"\d+(?:\.\d+)?")
