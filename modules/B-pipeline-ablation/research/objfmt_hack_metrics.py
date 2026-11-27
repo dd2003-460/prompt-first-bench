@@ -44,9 +44,14 @@ def metrics(fn):
     heads = [c[:40] for c in claims]
     dup40 = sum(1 for h in heads if heads.count(h) > 1) / max(1, len(heads))
     # syn_sib: 兄弟节点对 n-gram Jaccard>0.5
+    # 修复(2026-11-27): 实际字段是 parent_ids(list), 原读 parent_id/parent 全落 ROOT 桶
+    # → "兄弟对"退化为全对; 按 spec 改为同 parent 分组(多 parent 节点进每个 parent 组)
     by_parent = {}
     for n in nodes:
-        by_parent.setdefault(n.get("parent_id") or n.get("parent") or "ROOT", []).append(n)
+        pids = n.get("parent_ids") or ([n["parent_id"]] if n.get("parent_id") else
+                                        ([n["parent"]] if n.get("parent") else ["ROOT"]))
+        for pid in pids:
+            by_parent.setdefault(pid, []).append(n)
     sib_pairs, sib_syn = 0, 0
     for ps in by_parent.values():
         for a, b in itertools.combinations(ps, 2):
@@ -78,12 +83,20 @@ def metrics(fn):
         "final_state": d.get("final_state"),
     }
 
+def find_arm(arm, r):
+    """匹配实际文件名 runs-s5-sm-objfmt-{arm}-r{r}.json (run.sh cp 过来), 排除 smoke。
+    修复: 原脚本硬编码 {arm}-r{r}.json, 与实际落盘名不符 → run 结束后全 missing。"""
+    import glob
+    cands = [c for c in glob.glob(os.path.join(ARMS, f"*objfmt-{arm}-r{r}.json"))
+             if "_smoke" not in os.path.basename(c)]
+    return cands[0] if cands else None
+
 def main():
     out = {}
     for arm in ["text", "formula"]:
         for r in [1, 2]:
-            fn = os.path.join(ARMS, f"{arm}-r{r}.json")
-            if not os.path.exists(fn):
+            fn = find_arm(arm, r)
+            if not fn:
                 out[f"{arm}-r{r}"] = {"missing": True}; continue
             out[f"{arm}-r{r}"] = metrics(fn)
             print(f"{arm}-r{r}: nodes={out[f'{arm}-r{r}']['n_nodes']} "
