@@ -38,8 +38,9 @@ Q9 budget-scan 10 个 run 共 1198 节点 (L1=57/L2=260/L3=586/L4=295)。此前�
 ## 验收
 - JSON 存在且 `counts_by_level` 各级 total 之和 = 1198
 - 样例可回溯: 抽 3 条 mech_samples 在原 json 里 grep 得到相同 id+claim 片段
+- **judge 一致率**: 读校准集 `data/q9-budget-scan/judge-calib-set-20261127.json` (Lead 手工标注 16 条边界样例, 含 mech/spec/other 三档), 对你的判定算一致率 (exact match + 混淆矩阵), 写进结果 JSON 的 `calibration` 字段。一致率 <75% 时结论里必须声明 "judge 松紧未校准, 绝对值不可信, 仅跨档相对值可用"
 - commit 存在 (`git log --oneline -1`)
-- 汇报: 1 行数字 (mech/spec/other 总数 + 按深度分布) + JSON 路径 + commit hash
+- 汇报: 1 行数字 (mech/spec/other 总数 + 按深度分布) + 一致率 + JSON 路径 + commit hash
 
 ## 边界
 - 不修状态机、不改 10 个 run json、不重跑 SM、不改 decomposition.md
