@@ -257,3 +257,25 @@
 - 状态: **done (2026-11-27 19:28 落盘, 6 episodes 全文判读完毕)**
 - 产出: data/q9-budget-scan/gpu-model-probe-20261127_hw.json
 - **判读结论 (2026-11-27 21:1x, 判断-Lead)**: ① **frame-shift 假设证伪**: 6/6 episodes (C 3 + D 3) 全部识别"显存容量=主导因子"+容量公式+多卡聚合推荐, 无一优化 tok/s — 27b 在硬件选型题上没有 Roofline 速度 frame 惯性, 原假设 (27b 参数记忆 Roofline 太强) 不成立。② **三个新失效模式 (比 frame-shift 严重, 判据 ✗✗ 命中 3/6)**: (a) **假实测**: n_search_calls=0 却声称"实测 32K 吞吐≥15 tok/s" (C ep0/ep2), D ep1 编完整"实测值"表 (34.2/38.7GB), D ep2 自称"实测可行方案" — 零检索+自称实测; (b) **算术自相矛盾** 2/6: C ep1 "936 GB/s > 1.0 TB/s" (方向反), D ep1 "总显存 72 GB ≥ 75 GB 需求" (72<75); (c) **价格幻觉满足预算**: 3090 报 7,500 元/卡 / V100 报 12,000 元/卡, 均低于二手行情 (3090 约 9-12k, conf 中) — "5万内可行"被幻觉价格撑起。③ **C vs D**: D 臂结构更好 (显式"因子检验与否定"表), 但没压住假实测 (D ep1 假实测表比 C 更精致) — 简单 prompt 的价值=结构, 不是接地。④ **跨域佐证 +1**: 假实测=post_acc 的 unsupported 类, 价格幻觉=漂移变体 — Q9 两问题根因 (生成不接地+验证无判别力) 在硬件题同样出现, 非 Q9 特有。
+
+## M: 思考机制落地 team (2026-11-27 D 指令「找个team去研究和实现, 如果能像我一样思考, 论文只是需要让arena和自己review」)
+
+**主线重定义**: 验收物 = 27b 在生产循环里表现出 D 式思考（爬层/统一覆盖/量化落地/类比审计/判据瓶颈），测量=对照实验机械指标。论文/claim 强度/review = 后置（arena 对抗核验 + 自己 review）。
+**既有地基（一手证据已核）**: K4b 判决定格 (oood-column-status.md 23:0x): S1(剥离版) ≥ S0(域味版)，域味=负资产，kernel general 成立；S1/B 双臂数据在盘上 (experiments/stage-ablation/oood-probe/s1/, metrics-2x2.json @ 2e2cf60bf)。
+**5 模板源** (projects/AI-计算科学/D1-persona-align/memory/general-thinking-template-20261124.md): T1代价模型/T2统一覆盖/T3量化落地/T4类比审计/T5判据瓶颈，每条带触发条件+动作。
+**第一性原理** (d-thinking-mechanism-first-principles-20261124.md): 理解=压缩-解压往返无损不动点；两阶段压缩(选域 vs 精化, 顺序不可颠倒)。
+
+### 任务表 (强制列: 任务/依赖/读行/写行/commits/载体)
+
+| 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 |
+|---|---|---|---|---|---|
+| M0 arena 调研: general 推理成熟机制 (A prompt级/B评测/C开源) | 无 | - | - | - | sub-arena (已派, 11-27 23:4x, 复用 T6 会话) |
+| M1a 基线提取: S1/B 双臂机械指标 → baseline-pre-injection.json (脚本落盘) | 无 | ~50 | 脚本+~30 | 1 | sub-27b |
+| M1b prompt 结构盘点: s1/prompts.py → prompt-inventory.json (脚本落盘) | 无 | 471 | 脚本+~30 | 1 | sub-27b |
+| M2 注入变体设计: V0=S1现状 / V1=+5模板 / V2=M0 调研 top 机制 | M0+M1b | ~100 | ~80 | 1 | 判断-Lead |
+| M3 对照实验: V0/V1(/V2) × 3 域(气象/硬件/埋雷) × 2 reps, 40节点, 无检索口径 | M2 | - | - | 1/臂 | sub-27b(跑批) |
+| M4 记分+判决: 机械指标(机制覆盖/量化claim/域偏移率) + 预注册判据 | M3 | ~100 | ~60 | 1 | sub-27b + 判断-Lead |
+| M5 论文化+review: claim 强度/对抗核验 | M4 判决为正 | - | - | - | arena + 判断-Lead (后置) |
+
+**M3 预注册判据 (M2 细化)**: 注入有效 = V1 机制覆盖 ≥ V0 且 量化claim 密度(quant/llm_calls) 显著升 且 域偏移率降 (27b 已知: 形式能注入 5.67/6, 内容域偏移 100% — T2 实证, 本次测内容层)。
+**并行纪律**: M0(arena) 与 M1a/M1b(本地) 并行; M2 等 M0 交付; M3 等 M2。8787 单实例 → M3 各臂串行排队。
