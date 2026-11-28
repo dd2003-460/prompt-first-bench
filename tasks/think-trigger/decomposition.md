@@ -271,7 +271,7 @@
 
 | 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 |
 |---|---|---|---|---|---|
-| M0 arena 调研: general 推理成熟机制 (A prompt级/B评测/C开源) | 无 | - | - | - | sub-arena (已派 11-27 23:4x; 11-28 01:3x fetch 核验: 分支 tip 仍 8dcd3c0a=任务卡, >75min 无交付, 超预估 2 倍; 处置: 不阻塞 M 线(M2 已用 cc 评审替代交叉核对), 后台继续等, 交付后交叉核对"只注T1+T2"裁决) |
+| M0 arena 调研: general 推理成熟机制 (A prompt级/B评测/C开源) | 无 | - | - | - | sub-arena (**✅ DELIVERED 11-27 17:16 UTC @ f8477718 分支 dccefaf3c, 已 cherry-pick 回 thinkmech @ 952880ee1** → tasks/think-trigger/m0-general-reasoning-survey.md; 台账原记"分支 423a71ef 超时无交付"=查错分支, 实际交付在 f8477718。内容: A 7 机制(Zero-shot CoT/Step-Back/Least-to-Most/AID/schema约束/SpARE/UoT-BALAR) + B 4 评测法(ARC-AGI-2/知识冲突探针/跨域零样本/预算内accuracy) + C 3 开源(ToT/LangGraph/框架族谱) + 2 gap(构念无标准benchmark/schema约束无同构文献)。**⚠️ 未消费**: M2 设计在 M0 交付前已定稿(只注 T1+T2), V2 臂(M0 top 机制)始终未建 —— D 2026-11-28 质询"实验前有没有调研/有没有解决方案"暴露此断层) |
 | M1a 基线提取: S1/B 双臂机械指标 → baseline-pre-injection.json (脚本落盘) | 无 | ~50 | 脚本+~30 | 1 | sub-27b |
 | M1b prompt 结构盘点: s1/prompts.py → prompt-inventory.json (脚本落盘) | 无 | 471 | 脚本+~30 | 1 | sub-27b |
 | M2 注入变体设计: V0=S1现状 / V1=+5模板 / V2=M0 调研 top 机制 | M0+M1b | ~100 | ~80 | 1 | 判断-Lead (done 11-28 00:55, m2-injection-design-20261128.md; 只注 T1+T2 合并版, T3/T4/T5 与 harness 职责冲突不注) |
