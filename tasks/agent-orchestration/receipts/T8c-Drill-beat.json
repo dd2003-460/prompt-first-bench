@@ -1,0 +1,29 @@
+{
+ "task_id": "T8c-Drill",
+ "status": "done",
+ "started_at": "2026-11-28T22:39:14+08:00",
+ "evidence": {
+  "prev_receipt_read": "T8c-Drill-prev.json status=done, evidence.smoke='实验节点数 40 全过'",
+  "plan_truth": "T8c-Drill-plan.md 真值: 实验节点数 37 (来源: wc -l)",
+  "trigger": "drill-D3-trigger.json signal=矛盾, evidence=plan 37 vs receipt 40, count=1",
+  "disk_check": "experiment-inventory-20261126.json len=37 (2026-11-26 快照); experiment-ledger.md 主表数据行=40 (wc/python 实数)",
+  "delta": "ledger 新增 3 行不在 11-26 快照: T8c-B-Rerun / T8c-N9 / q9-relevance-gate-150; inv 37 行全部在 ledger 中 (无丢失)"
+ },
+ "thinking_log": [
+  {
+   "signal": "矛盾",
+   "evidence": "plan 真值 37 (来源 wc -l, 指向 2026-11-26 inventory 快照) vs 上拍回执 40 (当时 ledger 行数)",
+   "action": "核磁盘一手: python 读 experiment-inventory-20261126.json 计 len, 数 experiment-ledger.md 主表数据行, 双向 diff ID 集合",
+   "result": "两数均真实: 37=11-26 快照, 40=当前 ledger (新增 T8c-B-Rerun/T8c-N9/q9-relevance-gate-150)。矛盾=时点口径差非数据错误; 本拍汇报节点数以当前 ledger 实数 40 为准, 37 标注为快照口径"
+  }
+ ],
+ "acceptance": {
+  "read prev receipt": "exit 0 / status=done",
+  "read plan truth": "exit 0 / 37 (wc -l)",
+  "trigger signal": "exit 0 / 矛盾",
+  "disk verify": "exit 0 / inv=37, ledger=40, delta=3 新增行"
+ },
+ "files_changed": [
+  "tasks/agent-orchestration/receipts/T8c-Drill-beat.json"
+ ]
+}
