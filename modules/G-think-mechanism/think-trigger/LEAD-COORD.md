@@ -40,3 +40,7 @@ M2a 验收发现: **预注册域偏移词表在全部 6 臂 (s0/s1 × cyclone/hw
 - agent-orchestration goal 收口 (05-accept 过, stage-gate status=completed, 6 阶段全过)。验收 5/5: cron 3拍空转 suppressed / T8c 试点 L1→L4 / 8 回执 thinking_log / schema 冻结 / SOP 写回 6/6。
 - S2 缺口④ 双源交叉 (ChatGPT+Gemini): 架构健全, 最弱假设=false negative(语义错误), L4 抽检+retries 上限缓解, 语义抽检机械化列二期。
 - 下一方向: research-agi-budget 子项⑦ OOD 线 (剥离版 S1 kernel 转正, 域味 config 退役)。
+
+## 2026-11-28 23:5x [QQ→微信]
+- OOD 线收口: K5 剥离版转正完成 (生产核=pfb-thinkmech 两文件, S1 diff 应用, caf6e0048 pushed)。判决=格1负资产→域味退役, 6域电池不触发(预注册条件不满足)。
+- K5 任务卡初版靶子错(pfb 旧单体), 停 sub 后 Lead 直接执行(机械活+sub 已证明靶子易错)。
