@@ -1,7 +1,7 @@
 # origin: ai
 # RSI pilot: 用质疑状态机规划主线并产出可测量改进
 # 来源: D 2026-11-28 "最便宜的是你直接开始分解规划我要的东西，然后拿这套做出来有实际提升的，那不就是rsi了"
-# 关联: tasks/d-general-judgment/questioning-state-machine.md (机制), research-agi-budget (主线)
+# 关联: modules/G-think-mechanism/d-general-judgment/questioning-state-machine.md (机制), research-agi-budget (主线)
 
 ## 最终目标（不可改）
 证明质疑状态机端到端可用：用它分解主线 → 缺口注册表第一实例 → 选最便宜缺口 → 产出可测量改进(A/B 判决) → 写回系统。

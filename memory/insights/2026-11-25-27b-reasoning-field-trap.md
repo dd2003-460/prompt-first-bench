@@ -33,7 +33,7 @@ reasoning = msg.get("reasoning") or ""   # ← 必须抓这个
 - v1（只抓 content）：臂B 爬层 1.33 / 预言力 0.67 / 边界 1.33（总 3.00/6）
 - v2（抓 content+reasoning 重评）：臂B 爬层 2.00 / 预言力 2.00 / 边界 1.67（总 5.67/6）
 - 修正方向：臂B 3/3 采样全部爬到机制层+推出可检验预言（v1 误判为 1/3）
-- 详见 `tasks/think-trigger/exp-results/scores_v2.md`（含修正说明）
+- 详见 `modules/G-think-mechanism/think-trigger/exp-results/scores_v2.md`（含修正说明）
 
 ## 适用范围
 

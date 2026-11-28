@@ -7,14 +7,14 @@
 
 | # | 机制 | 出处文件 | 解决什么 | 不解决什么 |
 |---|---|---|---|---|
-| M1 | Zero-shot CoT 触发词（"let's think step by step"） | tasks/think-trigger/m0-general-reasoning-survey.md A1 | 把模型推入推理分布（激活已有能力） | 只改条件分布，不产生 strategic 层动作 |
+| M1 | Zero-shot CoT 触发词（"let's think step by step"） | modules/G-think-mechanism/think-trigger/m0-general-reasoning-survey.md A1 | 把模型推入推理分布（激活已有能力） | 只改条件分布，不产生 strategic 层动作 |
 | M2 | Step-Back 抽象升级（先问高层原理再作答） | 同上 A2 | 实例级→原理级检索，泛化程序 | 实测（redteam verdict v2 臂）未把审查顶到"查前人"层 |
 | M3 | Least-to-Most / Plan-and-Solve 分解触发 | 同上 A3 | 跨 easy-hard 泛化缺口 | 分解结构本身增益存疑（T24 回执：naive 分解可 hurt） |
 | M4 | 注入式解码 AID（阻止早停） | 同上 A4 | 证明"已会但默认不用"可被最小注入翻转 | 需解码层改造，非 prompt/harness 可用 |
 | M5 | 输出 schema 约束（证据带 f(参数±Δ)） | 同上 A5 | 逼出已有参数敏感性程序 | 无同构文献（M0 gap-1）；T54 两次实证加规则负收益 |
 | M6 | SpARE 知识选择转向（parametric vs contextual） | 同上 A6 | 证明知识选择行为可被外部信号控制 | 白盒残差流 steering，非 prompt-only |
 | M7 | 信息增益驱动提问/行动选择（UoT/BALAR, expected MI） | 同上 A7 | 把"要不要贝叶斯更新"变成显式选择目标 | 只覆盖"提问/行动选择"，不含方向质疑与性价比 |
-| M8 | T1 stop_hook 反思注入（薄思考检测→注入"general 机制是什么"） | tasks/think-trigger/decomposition.md T1（stage-gate 仓 1b30bc6） | 生产循环里"做多想少"的触发器；已实现+沙箱 5 场景验证 | 触发的是"爬层反思"，非 4 维 strategic 判断；未在生产测自发 [SEARCH] 率 |
+| M8 | T1 stop_hook 反思注入（薄思考检测→注入"general 机制是什么"） | modules/G-think-mechanism/think-trigger/decomposition.md T1（stage-gate 仓 1b30bc6） | 生产循环里"做多想少"的触发器；已实现+沙箱 5 场景验证 | 触发的是"爬层反思"，非 4 维 strategic 判断；未在生产测自发 [SEARCH] 率 |
 | M9 | T2 "接着考虑"两臂实验（general 提示 vs 无） | 同上 T2（exp-results/scores_v2.md） | 证明 27b 在 general 提示下 3/3 爬到机制层+预言力 | 100% 域偏移（爬到混沌域非 D 的 landscape 域）——深度有了，方向判据（flip）全 0 |
 | M10 | T4 修脚本打转检测（同报错≥2/同文件打转→general 思考注入） | 同上 T4（stage-gate 仓 7229159） | 卡住时的升级触发；12 生产 session 0 误报 | 触发条件是"卡住"，D 式质疑是先验的、不依赖卡住 |
 | M11 | 缺口信号触发器（正则扫防御性语言→反思注入→模型写 [SEARCH]） | experiments/stage-ablation/oood-probe/trigger-verdict-20261128.md | 决定性正：习惯×信息×触发回路成立，查得精准对口 | 只在"模型已说出缺口"后点火；D 式"看到东西就质疑"发生在缺口表述之前，无缺口信号可扫 |

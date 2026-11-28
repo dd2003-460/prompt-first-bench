@@ -6,7 +6,7 @@
 - SM 臂产物: `/Users/a1-6/Desktop/workspace/pfb-thinkmech/experiments/stage-ablation/oood-probe/sm-arm.json`
   （40 节点，每节点 {id, claim, level, source, status, edge_type, parent_ids}；另有 rounds_log/wall_sec/final_state）
 - 裸基线臂: `/Users/a1-6/Desktop/workspace/pfb-thinkmech/experiments/stage-ablation/oood-probe/baseline-arm.txt`（27b 单发全文）
-- 预注册判据: `/Users/a1-6/Desktop/workspace/pfb-thinkmech/tasks/oood-general-probe/decomposition.md` §3（只读 §3，~15 行）
+- 预注册判据: `/Users/a1-6/Desktop/workspace/pfb-thinkmech/modules/G-think-mechanism/oood-general-probe/decomposition.md` §3（只读 §3，~15 行）
 
 ## 题面（Q10 气象域，因果解释结构）
 为什么热带气旋登陆后会迅速减弱？要求：识别所有物理机制 / 每机制量化 / 指出主导项 / 不同强度气旋差异 / 不确定点收黑盒。

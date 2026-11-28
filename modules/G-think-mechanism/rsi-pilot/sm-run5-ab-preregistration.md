@@ -40,4 +40,4 @@
   → 机制收益 = 条件性 (任务含假设层缺陷时有效), 与预注册条件预言 P-sm4-1 一致
 
 ## 边界
-- 不动任何现有脚本/队列; 只写 tasks/rsi-pilot/sm-run5-* 文件
+- 不动任何现有脚本/队列; 只写 modules/G-think-mechanism/rsi-pilot/sm-run5-* 文件

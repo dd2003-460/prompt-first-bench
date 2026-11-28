@@ -77,7 +77,7 @@ CLAIM → EVIDENCE → COLLISION → CRITIQUE → TOYMODEL → WRITING
 - [ ] 打转轮数 vs 基线（idea53 5 轮旧域撞车）可测、可对比
 
 ## 7. 开放问题（D 拍板）
-1. 认知层放哪：`pfb/tasks/autoresearch-sm/`（现 staging）vs workspace `loop/`（canonical，跨项目）？
+1. 认知层放哪：`pfb/modules/G-think-mechanism/autoresearch-sm/`（现 staging）vs workspace `loop/`（canonical，跨项目）？
    倾向：MVP 在 pfb 验证，转正后移 `loop/` 并接入 ralph 阶段门禁。
 2. 对抗者用谁：本地 27b subagent（免费、快、弱）vs arena（强、慢、要派发）？
    倾向：MVP 用本地 subagent，CRITIQUE 态失败 2 次自动升级 arena。

@@ -37,7 +37,7 @@ D 前半段 + 以下完整指令（逐字，不增不减）：
 ## 判据（T2 三判据 + flip，共四维）
 
 ### 判据1-3（同 T2 preregistration.md，0/1/2 分）
-爬层 / 预言力 / 边界识别——定义原文见 tasks/think-trigger/preregistration.md，不重抄。
+爬层 / 预言力 / 边界识别——定义原文见 modules/G-think-mechanism/think-trigger/preregistration.md，不重抄。
 
 ### 判据4：flip（0/1，T3 新增，域身份对不对）
 - 0：爬到的机制域 ≠ loss landscape/非凸优化域（如滑向混沌动力学/物理框架）

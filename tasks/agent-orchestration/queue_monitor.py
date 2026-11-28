@@ -8,7 +8,7 @@ import re
 import time
 
 WS = "/Users/a1-6/Desktop/workspace/pfb-thinkmech"
-TABLE = os.path.join(WS, "tasks/think-trigger/decomposition.md")
+TABLE = os.path.join(WS, "modules/G-think-mechanism/think-trigger/decomposition.md")
 REC_DIR = os.path.join(WS, "tasks/agent-orchestration/receipts")
 STALE_SECS = 45 * 60
 

@@ -234,7 +234,7 @@ def score_sample(sample_id, payload, qid, model, winner=cl.WINNER_CARD):
 
 STOCK_S0 = [f"{_ROOT}/experiments/stage-ablation/runs-prod/S0-gpu-r{i}.json" for i in range(1, 11)]
 STOCK_S5 = f"{_ROOT}/experiments/stage-ablation/runs-s5-sm-gpu.json"
-STOCK_T8B = f"{_ROOT}/tasks/think-trigger/exp-results/raw_outputs_t8b.json"
+STOCK_T8B = f"{_ROOT}/modules/G-think-mechanism/think-trigger/exp-results/raw_outputs_t8b.json"
 
 
 def preset_paths(preset):

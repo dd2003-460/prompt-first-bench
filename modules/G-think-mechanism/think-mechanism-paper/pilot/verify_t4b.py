@@ -5,7 +5,7 @@
 """
 import json, os, sys, hashlib
 
-BASE = "tasks/think-mechanism-paper/pilot"
+BASE = "modules/G-think-mechanism/think-mechanism-paper/pilot"
 fails = []
 oks = []
 

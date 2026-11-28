@@ -5,14 +5,14 @@ extract_j3a_factors.py — J3a S1：从 gold-tree.md + calc.py 确定性提取�
 # origin: ai · 2026-11-26 · 载体修正：纯机械提取不该派 reasoning sub（27b reasoning 在"想"阶段烧光输出预算，
 #   J3a 家族 4 次同死因），改用确定性脚本。本脚本是复用工具，输出落盘不进任何上下文。
 # 用法: python3 extract_j3a_factors.py  （在 pfb-thinkmech 根目录跑）
-# 产出: tasks/think-trigger/exp-results/j3a-factors.json
+# 产出: modules/G-think-mechanism/think-trigger/exp-results/j3a-factors.json
 """
 import json, re, os
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 TREE = os.path.join(ROOT, "bench/rubric-v3/ablation/gold-tree.md")
 CALC = os.path.join(ROOT, "bench/rubric-v3/tasks/T0-local-27b/reference/calc.py")
-OUT  = os.path.join(ROOT, "tasks/think-trigger/exp-results/j3a-factors.json")
+OUT  = os.path.join(ROOT, "modules/G-think-mechanism/think-trigger/exp-results/j3a-factors.json")
 
 NODE_RE = re.compile(r"N-(\d+(?:\.\d+)*)")
 

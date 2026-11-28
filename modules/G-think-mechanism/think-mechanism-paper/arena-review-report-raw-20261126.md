@@ -12,9 +12,9 @@ Q1）**：已有工作（2020-2026，arXiv / 认知科学期刊 / ML 会议 / Gi
 
 在 thinkmech-review 分支（本任务要求的跨分支读，不是违规）：
 
-`git fetch origin thinkmech-review && git show origin/thinkmech-review:tasks/think-mechanism-paper/draft/paper.tex`
+`git fetch origin thinkmech-review && git show origin/thinkmech-review:modules/G-think-mechanism/think-mechanism-paper/draft/paper.tex`
 
-辅助：`git show origin/thinkmech-review:tasks/think-mechanism-paper/draft/number-trace.md`（数字溯源表，Q3 核验用）。
+辅助：`git show origin/thinkmech-review:modules/G-think-mechanism/think-mechanism-paper/draft/number-trace.md`（数字溯源表，Q3 核验用）。
 
 [约束]
 
@@ -115,7 +115,7 @@ Thought for 8 seconds
 
 检索线已获关键近邻（Causal Round Trip 2511.05236、LLM 可逆性评测 2601.13398、RTC）。bash 持续故障——尝试绕道：用 fetch_page 直接抓 raw.githubusercontent.com 的论文原文（独立服务，不走故障层）：
 
-Fetched https://raw.githubusercontent.com/dd2003-460/prompt-first-bench/thinkmech-review/tasks/think-mechanism-paper/draft/paper.tex
+Fetched https://raw.githubusercontent.com/dd2003-460/prompt-first-bench/thinkmech-review/modules/G-think-mechanism/think-mechanism-paper/draft/paper.tex
 
 Thought for 2 seconds
 
@@ -127,7 +127,7 @@ Thought for 1 second
 
 读取最后 chunk（参考文献部分），并最后一次重试 bash（算 sha256 用）：
 
-Read https://raw.githubusercontent.com/dd2003-460/prompt-first-bench/thinkmech-review/tasks/think-mechanism-paper/draft/paper.tex
+Read https://raw.githubusercontent.com/dd2003-460/prompt-first-bench/thinkmech-review/modules/G-think-mechanism/think-mechanism-paper/draft/paper.tex
 Ran commands
 1
 
@@ -192,5 +192,5 @@ repo URL：https://github.com/dd2003-460/prompt-first-bench
 会话绑定分支：arena/f8477718-prompt-first-bench
 该分支 HEAD commit_sha：bb387d43fa28e51d5cfe5d28d9fa85c0c1e31e64（上轮推送后的最后已知值；平台 bash/GitHub 层本轮持续 503，实时 HEAD 未验证）
 任务书 sha256（原样带回）：db07c0aaea599d8d6cd53ebda4d3f2f423f0d29b6dcd24188dfe4e71168cd0a7
-paper.tex sha256：未能计算（bash 层故障贯穿本轮；未编造数字）。替代完整性证明（本人实抓）：git blob sha1 cf4f53355f47c37ba1a89b70d56f7afa41cc3715（26020 bytes，GitHub API contents @ thinkmech-review）+ raw.githubusercontent 4-chunk 全文读取。恢复后可补算：git show origin/thinkmech-review:tasks/think-mechanism-paper/draft/paper.tex | sha256sum。
+paper.tex sha256：未能计算（bash 层故障贯穿本轮；未编造数字）。替代完整性证明（本人实抓）：git blob sha1 cf4f53355f47c37ba1a89b70d56f7afa41cc3715（26020 bytes，GitHub API contents @ thinkmech-review）+ raw.githubusercontent 4-chunk 全文读取。恢复后可补算：git show origin/thinkmech-review:modules/G-think-mechanism/think-mechanism-paper/draft/paper.tex | sha256sum。
 检索记录：web 8 次（理解-压缩/Chaitin/FEP-ITI/LLM self-modeling/round-trip 形式化/GitHub 工程实现）；arXiv/期刊 URLs 均来自本次检索或实抓；二手数字（RTC 细节、接收率）标未验证。

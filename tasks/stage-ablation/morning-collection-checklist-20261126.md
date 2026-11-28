@@ -49,7 +49,7 @@ for p in 15606 19059 36173 69029 71865; do kill -0 $p 2>/dev/null && echo "$p ST
 
 ## 3. armC' ε_pred 终审（learn-to-think 05-accept 重判）
 - 读 `logs/armc-prime-post-*.log`
-- 产物: `tasks/learn-to-think/exp03-armc/armc_prime_raw_outputs.json`（3 样本）+ `_judge.json`（eps-judge 终审）
+- 产物: `modules/G-think-mechanism/learn-to-think/exp03-armc/armc_prime_raw_outputs.json`（3 样本）+ `_judge.json`（eps-judge 终审）
 - **两级判定**:
   - 机械屏 armc-eps-screen: flip（T3 原词表 CHAOS/DMECH/DINFO）+ ε_pred gold 轴（信息论/条件数/batch/强凸）
   - LLM 终审 eps-judge: 结构对齐（信息流角色, 防鹦鹉学舌）

@@ -36,16 +36,16 @@
 8. **最终回复**（一行）：`DONE <短ID> | receipt <路径> | commit <hash> | acceptance <过/总>`
 
 ## 任务卡映射（当前队列）
-- T8c-ReAnchor-A → `tasks/think-trigger/exp-results/reanchor-taskcard.md`
-- T8c-ReAnchor-B → `tasks/think-trigger/exp-results/posthoc-taskcard.md`（前置：A 的 commit hash 已补进该卡「前置」节，由监督者验收 A 后填写）
-- T8c-smoke-rerun → `tasks/think-trigger/exp-results/smoke-rerun-taskcard.md`（前置：A 验收过 + MAX_A 已=73728）
-- T8c-B-Rerun → `tasks/think-trigger/decomposition.md` 任务表 T8c-B-Rerun 行（自包含任务卡，2026-11-27 00:33 立项；eval 命令已钉死在该行 00:55 注记）
-- T8c-N9 → `tasks/think-trigger/exp-results/n9-taskcard.md`（前置：三前置 sub 验收 1c5489ff8/41104aa19/15c3c4309；脚本已幂等，接力=重跑自动跳过已完成 run）
+- T8c-ReAnchor-A → `modules/G-think-mechanism/think-trigger/exp-results/reanchor-taskcard.md`
+- T8c-ReAnchor-B → `modules/G-think-mechanism/think-trigger/exp-results/posthoc-taskcard.md`（前置：A 的 commit hash 已补进该卡「前置」节，由监督者验收 A 后填写）
+- T8c-smoke-rerun → `modules/G-think-mechanism/think-trigger/exp-results/smoke-rerun-taskcard.md`（前置：A 验收过 + MAX_A 已=73728）
+- T8c-B-Rerun → `modules/G-think-mechanism/think-trigger/decomposition.md` 任务表 T8c-B-Rerun 行（自包含任务卡，2026-11-27 00:33 立项；eval 命令已钉死在该行 00:55 注记）
+- T8c-N9 → `modules/G-think-mechanism/think-trigger/exp-results/n9-taskcard.md`（前置：三前置 sub 验收 1c5489ff8/41104aa19/15c3c4309；脚本已幂等，接力=重跑自动跳过已完成 run）
 （新任务由监督者派发时在此追加一行）
 
 ## 硬边界
 - 不动 calc.py / correctness_layer_v0.py / T8b 相关文件（任务卡边界节优先）
-- 长任务（预计 >10 分钟）：`setsid nohup <cmd> > log 2>&1 &` 后台起，PID 记入回执，**同时把 PID 写入对应 goal 的 `~/.hermes/.stage-gate/<goal_id>.json` context.restart_pid 字段**（stop_hook 等待分支只读 goal state，receipt 里的 PID 它看不见——2026-11-26 23:27 smoke 实证：PID 只在 receipt → stop_hook 落便签分支 → 30-60s/次便签轰炸，观察记录 tasks/think-trigger/stophook-experiment-observation.md F1），本 tick 结束；下 tick 先探活（kill -0）再接力
+- 长任务（预计 >10 分钟）：`setsid nohup <cmd> > log 2>&1 &` 后台起，PID 记入回执，**同时把 PID 写入对应 goal 的 `~/.hermes/.stage-gate/<goal_id>.json` context.restart_pid 字段**（stop_hook 等待分支只读 goal state，receipt 里的 PID 它看不见——2026-11-26 23:27 smoke 实证：PID 只在 receipt → stop_hook 落便签分支 → 30-60s/次便签轰炸，观察记录 modules/G-think-mechanism/think-trigger/stophook-experiment-observation.md F1），本 tick 结束；下 tick 先探活（kill -0）再接力
   - **Hermes 跟踪后台 ≠ setsid 脱离（2026-11-26 23:33 证伪，同死法第 2 次观测）**：T8c-smoke-rerun 执行者以"Hermes 跟踪后台（等价脱离）"为由未用 setsid，pid 97852 在 A 臂完成后无声死亡（无 traceback，收据停留 claimed）。setsid 是硬性要求不是可选项：Hermes 跟踪进程的存活绑定 Hermes 会话生命周期，会话压缩/切换时可能被回收。违反 = 长任务中途死亡 + supervisor 接力成本（本次 B 臂接力耗时 ~20 分钟）
 - 任务卡未明确要求时不派 subagent（任务卡粒度已过阈值）
 - **起长任务前查 receipts/ 当锁（2026-11-27 00:37 协调事故）**：Lead 与 cron 执行者是两个独立会话，monitor 的 WORKING 状态只挡执行者互抢，不挡 Lead 直接起进程。事故：CapFix-Verify 已由微信执行者 00:29 完成（回执 DONE），Lead 00:37 未查 receipts/ 直接起重复进程 25725，跑完 stage 01 后覆盖了执行者的 sidecar B1_01/B1_02（固定文件名），靠 git 恢复。**硬规则：任何会话（Lead/执行者）起长任务前，先 `ls receipts/<任务短ID>.json`——存在且 status∈{claimed,working,done} → 不重复起，改探活/验收/接力**。判别信号：发现 sidecar/产物 mtime 早于自己启动时刻 = 别人先跑过，立即停手核回执。**kill 验证（2026-11-27 00:40 二次覆盖实证）**：`kill <pid>` 打在 setsid 包装层不杀 worker——25725 被 kill 后 python worker 继续跑到 00:40:57，二次覆盖 B1_04/04.5。杀进程后必须 `pgrep -f <脚本名>` 确认 worker 真死（或 `kill -- -<pgid>` 杀整组），不能只看 kill 返回 0

@@ -4,13 +4,13 @@
 # 上游: TASK-J3a-S1-extract.md（S1 产出 j3a-factors.json）+ 原 TASK-J3a-hierarchy.md 的 §1-§5 验收标准
 
 ## 只读这些输入（不读其他，不联网）
-1. `tasks/think-trigger/exp-results/j3a-factors.json` — S1 产出（一次读完，这是主要事实源）
-2. `tasks/think-trigger/exp-results/j3b_generalization.py` — 只 grep/读「4 判据」相关段（≤40 行），§5 作用域节引用它
-3. `tasks/think-trigger/decomposition.md` — 只读 J3 行的「共同方向」段（≤15 行），论证方向锚
+1. `modules/G-think-mechanism/think-trigger/exp-results/j3a-factors.json` — S1 产出（一次读完，这是主要事实源）
+2. `modules/G-think-mechanism/think-trigger/exp-results/j3b_generalization.py` — 只 grep/读「4 判据」相关段（≤40 行），§5 作用域节引用它
+3. `modules/G-think-mechanism/think-trigger/decomposition.md` — 只读 J3 行的「共同方向」段（≤15 行），论证方向锚
 **禁止读 gold-tree.md / calc.py**——它们的结构已在 S1 JSON 里（带 source_line），需要复核某叶时按 source_line 定点读 ≤10 行。
 
 ## 唯一产出
-`tasks/think-trigger/exp-results/j3a-hierarchy.md`，5 节（每节 <40 行）：
+`modules/G-think-mechanism/think-trigger/exp-results/j3a-hierarchy.md`，5 节（每节 <40 行）：
 - §1 层级因素树（从 S1 JSON layers 转录成树形，顶层 4 因素 = 3 性能 + 1 成本）
 - §2 正交检查（逐层：同层两因素 SHARE 乘积/交集是否为空；S1 JSON 的 share_tag 就是判据；证不出 = `[开放]` + 缺什么）
 - §3 最小检查（逐层：删该层后下层是否失去压缩——用 S1 JSON 的 c_pass_formula 公式结构论证，如删带宽层 t_decode 项失去解释）

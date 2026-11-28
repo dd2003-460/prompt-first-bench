@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # origin: ai
 # learn-to-think 03-experiment 臂C 跑数脚本：域锚点+因果层指令（T3 修正），验证 flip 0→1
-# 臂A/臂B 复用 T2 数据（tasks/think-trigger/exp-results/raw_outputs_v2.json），本脚本只跑臂C 3 次
-# 预注册: tasks/learn-to-think/exp03-armc-prereg-20261125.md (commit 5e6294aba)
+# 臂A/臂B 复用 T2 数据（modules/G-think-mechanism/think-trigger/exp-results/raw_outputs_v2.json），本脚本只跑臂C 3 次
+# 预注册: modules/G-think-mechanism/learn-to-think/exp03-armc-prereg-20261125.md (commit 5e6294aba)
 # 用法: python3 run_armc.py [--dry-run]   (--dry-run 只打印 prompt 不发请求，供预检)
 import json, time, urllib.request, os, sys
 
@@ -72,7 +72,7 @@ def main():
         "front_text": FRONT,
         "arm_c_prompt": ARM_C,
         "prereg_commit": "5e6294aba",
-        "t2_ab_source": "tasks/think-trigger/exp-results/raw_outputs_v2.json (commit 38e6b34d6)",
+        "t2_ab_source": "modules/G-think-mechanism/think-trigger/exp-results/raw_outputs_v2.json (commit 38e6b34d6)",
         "started_at": time.strftime("%Y-%m-%d %H:%M:%S %z"),
     }, "samples": []}
     for i in range(1, 4):

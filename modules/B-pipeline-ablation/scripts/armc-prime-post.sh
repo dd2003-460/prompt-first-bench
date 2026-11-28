@@ -4,12 +4,12 @@
 #   (armc-eps-screen.py: flip T3 原词表 + ε_pred gold 轴, 鉴别力已验证)。
 # 背景: learn-to-think 05-accept REJECTED (ε_pred 0/3) → 回 03 发 armC' 补充任务书。
 #   armC' 只依赖 vLLM 空闲, 不依赖 catchup C1-C4 成败 (catchup 失败也继续)。
-# 落盘: logs/armc-prime-post-<ts>.log + tasks/learn-to-think/exp03-armc/armc_prime_raw_outputs.json
+# 落盘: logs/armc-prime-post-<ts>.log + modules/G-think-mechanism/learn-to-think/exp03-armc/armc_prime_raw_outputs.json
 # 用法: background=true 起, 完成后 notify
 set -uo pipefail
 PFB=/Users/a1-6/Desktop/workspace/pfb
 SA=$PFB/experiments/stage-ablation
-LT=$PFB/tasks/learn-to-think/exp03-armc
+LT=$PFB/modules/G-think-mechanism/learn-to-think/exp03-armc
 CATCHUP_PID=${1:?用法: armc-prime-post.sh <vllm-catchup_pid>}
 TS=$(date +%Y%m%d-%H%M%S)
 LOG=$SA/logs/armc-prime-post-$TS.log

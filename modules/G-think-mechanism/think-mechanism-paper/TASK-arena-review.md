@@ -14,8 +14,8 @@
 
 ## [论文全文]
 在 thinkmech-review 分支（本任务要求的跨分支读，不是违规）：
-`git fetch origin thinkmech-review && git show origin/thinkmech-review:tasks/think-mechanism-paper/draft/paper.tex`
-辅助：`git show origin/thinkmech-review:tasks/think-mechanism-paper/draft/number-trace.md`（数字溯源表，Q3 核验用）。
+`git fetch origin thinkmech-review && git show origin/thinkmech-review:modules/G-think-mechanism/think-mechanism-paper/draft/paper.tex`
+辅助：`git show origin/thinkmech-review:modules/G-think-mechanism/think-mechanism-paper/draft/number-trace.md`（数字溯源表，Q3 核验用）。
 
 ## [约束]
 - 中文回答；每条结论标 conf(0-1)；Q1 给来源 URL；不确定标"未验证"

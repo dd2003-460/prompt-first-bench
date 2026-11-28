@@ -12,11 +12,11 @@
 ## 只读这些输入文件（不读其他，不联网）
 1. `bench/rubric-v3/ablation/gold-tree.md` — gold 树结构（层级+因素+SHARE/BOUND 标注）
 2. `bench/rubric-v3/tasks/T0-local-27b/reference/calc.py` — c_pass 公式（顶层估计器，看它实际消费哪些叶子）
-3. `tasks/think-trigger/exp-results/j3b_generalization.py` — J3b 结果（作用域边界 4 判据，你的"作用域"节要引用它）
-4. `tasks/think-trigger/decomposition.md` — J3 行的"共同方向"段（你的论证方向锚）
+3. `modules/G-think-mechanism/think-trigger/exp-results/j3b_generalization.py` — J3b 结果（作用域边界 4 判据，你的"作用域"节要引用它）
+4. `modules/G-think-mechanism/think-trigger/decomposition.md` — J3 行的"共同方向"段（你的论证方向锚）
 
 ## 产出
-`tasks/think-trigger/exp-results/j3a-hierarchy.md`，结构：
+`modules/G-think-mechanism/think-trigger/exp-results/j3a-hierarchy.md`，结构：
 - §1 层级因素树（顶层 4 因素 → 各层叶子，用 gold-tree.md 的实际结构，不发明新因素）
 - §2 正交检查（逐层：同层两因素的 SHARE 乘积/交集是否为空；gold 树的 SHARE 标注就是判据）
 - §3 最小检查（逐层：删掉该层后下层是否失去压缩——用 calc.py 的公式结构论证，如删掉带宽层 t_decode 项失去解释）

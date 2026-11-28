@@ -18,7 +18,7 @@ import json, re, sys, os, functools
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 PFB = os.path.abspath(os.path.join(HERE, "..", "..", ".."))
-T8B_PATH = os.path.join(PFB, "tasks/think-trigger/exp-results/raw_outputs_t8b.json")
+T8B_PATH = os.path.join(PFB, "modules/G-think-mechanism/think-trigger/exp-results/raw_outputs_t8b.json")
 S5_PATH = os.path.join(PFB, "experiments/stage-ablation/runs-s5-sm-gpu.json")
 UNITS_PATH = os.path.join(PFB, "modules/B-pipeline-ablation/gold-gpu-units.json")
 OUT_JSON = os.path.join(HERE, "correctness-layer-dryrun-20261125.json")

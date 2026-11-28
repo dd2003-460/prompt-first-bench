@@ -1,7 +1,7 @@
 # 任务卡 T8c-FORMAL-RERUN v3：S0 重锚（纯机械，零验证）
 
 # origin: ai · 2026-11-26 · 换路重派（v1 deleg_c1362ca5 死在环境探测 0 进展；v2 deleg_0f1ec5c3 死在验证阶段 0 commit）
-# 上游: 本卡 v2（tasks/think-trigger/TASK-T8c-FORMAL-RERUN.md，被本卡取代）
+# 上游: 本卡 v2（modules/G-think-mechanism/think-trigger/TASK-T8c-FORMAL-RERUN.md，被本卡取代）
 # 换路理由: v2 的 21 分钟全耗在锚点数字 cross-verify（终端实算烧输出），验证结果全对但 0 落盘。
 #           v3 把这些数字当**既定事实**（下面 §已验证数字），sub 禁止任何重算/跑 probe/读 calc.py。
 
@@ -12,10 +12,10 @@
 - 新 winner 锚点: **V100×4/W4/n=2**（$975 档，区间 $775–975 全档稳健，见 blocked.md 区间表）
 
 ## 只读输入（分段读，每段 ≤50 行，读完立即 patch）
-1. `tasks/think-trigger/exp-results/t8c-spec-final.md` — 题面（§4 正文 V100 $2500 处、§2 winner 锚点段）
-2. `tasks/think-trigger/exp-results/eval_t8c_smoke.py` — 判别器（winner 卡型硬编码 3090 处）
-3. `tasks/think-trigger/exp-results/run_exp_t8c.py` — harness（MAX_B 标量处）
-4. `tasks/think-trigger/exp-results/t8c-preregistration.md` — 旧预注册（v2 要引用其结构）
+1. `modules/G-think-mechanism/think-trigger/exp-results/t8c-spec-final.md` — 题面（§4 正文 V100 $2500 处、§2 winner 锚点段）
+2. `modules/G-think-mechanism/think-trigger/exp-results/eval_t8c_smoke.py` — 判别器（winner 卡型硬编码 3090 处）
+3. `modules/G-think-mechanism/think-trigger/exp-results/run_exp_t8c.py` — harness（MAX_B 标量处）
+4. `modules/G-think-mechanism/think-trigger/exp-results/t8c-preregistration.md` — 旧预注册（v2 要引用其结构）
 
 ## 执行（全部离线，零 LLM，零 vLLM；每步 = 读目标段 → patch → 立即 commit）
 **S0（3 commit）**

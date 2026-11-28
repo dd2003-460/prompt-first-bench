@@ -4,9 +4,9 @@
 ## 背景（读这些文件，别凭我转述）
 1. 5 模板定义：/Users/a1-6/Desktop/workspace/projects/AI-计算科学/D1-persona-align/memory/general-thinking-template-20261124.md
 2. 第一性原理：/Users/a1-6/Desktop/workspace/projects/AI-计算科学/D1-persona-align/memory/d-thinking-mechanism-first-principles-20261124.md
-3. OOD 判决（已定格）：/Users/a1-6/Desktop/workspace/pfb-thinkmech/tasks/oood-general-probe/oood-column-status.md
+3. OOD 判决（已定格）：/Users/a1-6/Desktop/workspace/pfb-thinkmech/modules/G-think-mechanism/oood-general-probe/oood-column-status.md
 4. 生产 prompt（剥离域味版 S1）：/Users/a1-6/Desktop/workspace/pfb-thinkmech/experiments/stage-ablation/oood-probe/s1/prompts.py
-5. 任务表：/Users/a1-6/Desktop/workspace/pfb-thinkmech/tasks/think-trigger/decomposition.md（M 节）
+5. 任务表：/Users/a1-6/Desktop/workspace/pfb-thinkmech/modules/G-think-mechanism/think-trigger/decomposition.md（M 节）
 
 ## 已知实证（硬约束，设计不能违背）
 - T2 实验：27b 能复刻"爬一层"的**形式**（机械分 5.67/6），但**内容** 100% 域偏移——形式注入有效，机制注入无效。
@@ -20,7 +20,7 @@ Q3. **实验设计**：V0(S1 现状) / V1(+5 模板) / V2(调研 top 机制，�
 Q4. **失败预案**：如果 V1 只提升形式分不提升内容分，下一步最该做什么（换注入方式？换模型能力假设？放弃 prompt 级走 hook 级）？
 
 ## 输出要求
-- 写到 /Users/a1-6/Desktop/workspace/pfb-thinkmech/tasks/think-trigger/cc-design-review-20261128.md
+- 写到 /Users/a1-6/Desktop/workspace/pfb-thinkmech/modules/G-think-mechanism/think-trigger/cc-design-review-20261128.md
 - 每个 Q 一节，≤15 行/节，中文，带 conf(0-1)
 - 最后加一节"反对 Lead 可能倾向的地方"（你的独立判断，哪怕和我预设相反）
 - 不要改任何生产文件，只写这一个输出文件

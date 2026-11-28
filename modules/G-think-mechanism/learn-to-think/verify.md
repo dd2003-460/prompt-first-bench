@@ -10,7 +10,7 @@
 | 预注册完整性（五字段） | 缺【失败降级】字段（4/5） | 5/5 字段齐（b02786033 补节，判据未动，数据未跑红线未破） | ✅ 达标 |
 | 预注册先于数据 | 5e6294aba @ 05:19 | 臂C 数据未产出（runner 未跑，队列 STEP4 待触发）→ 时间戳序成立 | ✅ 达标 |
 | runner 参数一致性 | dry-run 0 次对照（仅语法） | py_compile PASS + 指令逐字 diff prereg L28 一致（44350b270 记录）+ gold 隔离 grep 5 关键词 0 命中 | ✅ 达标 |
-| 判据同源（不重抄） | 判据 1-3 散在 T2 文档 | prereg L39-40 显式引用 tasks/think-trigger/preregistration.md，0 处重抄 | ✅ 达标 |
+| 判据同源（不重抄） | 判据 1-3 散在 T2 文档 | prereg L39-40 显式引用 modules/G-think-mechanism/think-trigger/preregistration.md，0 处重抄 | ✅ 达标 |
 | 04-eval 维度 | 2 维（form/align），缺向前方向 | 3 维=(压缩比, ε_rep[=align], ε_pred)，form 降为 ε_rep 廉价代理，0 新增平铺维度（lossless L60-65 导出关系） | ✅ 达标 |
 | 05 泛化接口 | 无（缺口 #4 只标了问题） | decomposition 05 节定义跨域迁移判据（换域重跑臂C 指令模板，判据不变） | ✅ 达标 |
 | design.md 改动项可回滚 | — | 4/4 改动项含 git revert + commit hash；不可逆项 0 | ✅ 达标 |

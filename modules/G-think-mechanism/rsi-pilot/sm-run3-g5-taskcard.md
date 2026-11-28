@@ -16,7 +16,7 @@
 2. 读 experiments/stage-ablation/q9_budget_scan_queue_v2.sh 全文（<200 行），找到 SKIP 判定逻辑（already_done / existing 判定那段）
 3. 静态分析：该判定在什么条件下会对「文件实际不存在」返回 SKIP？重点看：glob 匹配模式、通配符、文件名时间戳后缀、大小写、路径拼接
 4. 隔离复现（不许跑队列本身！）：把判定逻辑抄成一个独立小脚本，用「不存在的文件名」喂它，看返回什么。复现脚本写到 /Users/a1-6/.hermes/cache/scratch/g5-repro.py
-5. 结论写入 tasks/rsi-pilot/sm-run3-g5-verdict.md（<30 行）：判决(是/否) + 根因(文件:行号) + 复现输出 + 修复建议(一行，不实施)
+5. 结论写入 modules/G-think-mechanism/rsi-pilot/sm-run3-g5-verdict.md（<30 行）：判决(是/否) + 根因(文件:行号) + 复现输出 + 修复建议(一行，不实施)
 
 ## 边界（违反=任务失败）
 - 禁止运行 q9_budget_scan_queue_v2.sh 或 launch_q9_detached_v2.sh（会启动数小时的实验）

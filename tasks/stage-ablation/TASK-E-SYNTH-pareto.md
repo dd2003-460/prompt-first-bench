@@ -39,7 +39,7 @@
 
 ## 硬约束
 - 全程离线：只读 6 个指定文件 + 重算 json，零 LLM 调用、不碰 8787。
-- 不碰 tasks/think-trigger/ 下任何文件（另两个 sub 在写）。
+- 不碰 modules/G-think-mechanism/think-trigger/ 下任何文件（另两个 sub 在写）。
 - 数字必须带来源文件+行/键；文件里没有的数字不编，标 [待核验]。
 - 增量 commit（S1 一个、S3 一个）。
 - 最终汇报 ≤15 行：三域曲线是否齐全 + 矛盾裁决一句话（带 conf）+ 推荐操作点一句话 + 文档路径 + commit 链。

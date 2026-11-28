@@ -6,13 +6,13 @@ verify_j3a_properties.py — J3a S2 机械检查：从 S1 JSON 生成 j3a-hierar
 #   不该派 reasoning sub（27b 在"想"阶段烧光输出预算，J3a 家族 4 次同死因）。
 #   本脚本生成机械部分落盘；§2 正交判断/§3 最小/§5 作用域由 Lead 基于本脚本输出做品味判断后追加。
 # 用法: python3 verify_j3a_properties.py  （pfb-thinkmech 根目录）
-# 产出: tasks/think-trigger/exp-results/j3a-hierarchy.md（§1/§4/§2 线索 + §3/§5 占位）
+# 产出: modules/G-think-mechanism/think-trigger/exp-results/j3a-hierarchy.md（§1/§4/§2 线索 + §3/§5 占位）
 """
 import json, os, re
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
-SRC  = os.path.join(ROOT, "tasks/think-trigger/exp-results/j3a-factors.json")
-OUT  = os.path.join(ROOT, "tasks/think-trigger/exp-results/j3a-hierarchy.md")
+SRC  = os.path.join(ROOT, "modules/G-think-mechanism/think-trigger/exp-results/j3a-factors.json")
+OUT  = os.path.join(ROOT, "modules/G-think-mechanism/think-trigger/exp-results/j3a-hierarchy.md")
 
 # c_pass 公式结构（来自 gold-tree 公式行 + calc.py，固定）：
 # c_pass = c_hour / (u × λ_raw × G_pass)

@@ -5,7 +5,7 @@
 
 ## 输入（K4a 产出，只读）
 - `experiments/stage-ablation/oood-probe/metrics-2x2.json`（6 臂机械指标 + 气象 4 机制 + 硬件 37unit 批判 + gate_cov）
-- 左列已有半判决: `tasks/oood-general-probe/oood-column-status.md`（S1 OOD ≥ S0 OOD，已排除"负资产"格）
+- 左列已有半判决: `modules/G-think-mechanism/oood-general-probe/oood-column-status.md`（S1 OOD ≥ S0 OOD，已排除"负资产"格）
 
 ## 判决矩阵（预注册，源自 kernel-config-split.md §4, b2af0909d）
 
@@ -25,8 +25,8 @@
 ## 执行节（K4a 数据到后，Lead 直接做，~10 分钟）
 1. 读 metrics-2x2.json，抽 S0_hw/S1_hw 的 unit_cov + gate_cov，算 Δ
 2. 对照上表定格（gate_cov 与 unit_cov 方向不一致时以 unit_cov 为准，gate_cov 记入备注）
-3. 写判决节 append 进 `tasks/oood-general-probe/oood-column-status.md`（含: 定格 + 数字 + 对 D 问题的一句话答案 + 数据质量注记）
-4. commit: `git add tasks/oood-general-probe/ && git commit -m "verdict: K4b 2x2 域味判决 (格N: <结论>)"`
+3. 写判决节 append 进 `modules/G-think-mechanism/oood-general-probe/oood-column-status.md`（含: 定格 + 数字 + 对 D 问题的一句话答案 + 数据质量注记）
+4. commit: `git add modules/G-think-mechanism/oood-general-probe/ && git commit -m "verdict: K4b 2x2 域味判决 (格N: <结论>)"`
 5. 回报 D 一句话: 定格 + 对"GPU 不 general 为什么搞这些"的答案
 
 ## 边界

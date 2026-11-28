@@ -106,7 +106,7 @@
 **探针局限(标)**: 正则签名是概念级近似, "instantiated"=概念+公式右侧同现, 非"算对了"; n=10。够用来(a)推翻 L1/L2 反转 (b)定位 judge 放水门, 不够用来当正确性判据
 
 ## 十三、逐级机械 judge v1 落地: 放水拆成硬/软两档 (2026-11-27 22:20)
-**触发**: §十二 的下一步 — 把 21 签名从探针升级为逐级 judge (D 21:41 提议的完整形态)。任务表 `tasks/think-trigger/decomposition.md` T3b, 3 commit: `69510afd4`(S1 签名抽共享模块) / `c3c2afe8e`(S2+S3 judge 脚本) / `67f57cb22`(v1.1 修正)
+**触发**: §十二 的下一步 — 把 21 签名从探针升级为逐级 judge (D 21:41 提议的完整形态)。任务表 `modules/G-think-mechanism/think-trigger/decomposition.md` T3b, 3 commit: `69510afd4`(S1 签名抽共享模块) / `c3c2afe8e`(S2+S3 judge 脚本) / `67f57cb22`(v1.1 修正)
 **设计**: 每叶 score = 概念匹配 × 公式实例化 (D 原话两因子), 沿 5 维度卷起 (N-1 能力 J1-5 / N-2 成本 J6-8 / N-3 可靠 J9-14 / N-4 时间 J15-17 / N-5 杠杆 J18-21), 与 LLM-judge 11 门逐格对账。溯源第三因子初版乘进主分 → **塌成 1/210** (ablation: 双重积 22/210, 加 TRACE 同行要求后清零) → 按奥卡姆砍实体, 溯源降为独立诊断字段 + grounded 次级计数
 **一手结果** (脚本 `research/q9_hierarchical_judge.py` 落盘 `data/q9-budget-scan/hierarchical-judge-v1-20261127.json`, 可复现):
 - 机械 total 预算轴 **0.67→2.0→2.67→5.0** (单调升, 方向对 judge 但更干净: judge 在 50/100 档还平着 6.33/6.33, 机械已分出 0.67/2.0)

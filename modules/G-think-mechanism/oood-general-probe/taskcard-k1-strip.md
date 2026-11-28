@@ -1,6 +1,6 @@
 # 任务卡 K1 — 生成 S1 剥离版 prompt（域中性副本，生产零改动）
 > 你是纯执行 sub。本卡是唯一指令来源。零改动生产文件（只复制+改副本）。git commit 由你做（见 S4）。
-> 设计依据: `tasks/oood-general-probe/kernel-config-split.md` §2（不要读其他文件做判断）。
+> 设计依据: `modules/G-think-mechanism/oood-general-probe/kernel-config-split.md` §2（不要读其他文件做判断）。
 
 ## S0 步骤
 ### S1 建副本

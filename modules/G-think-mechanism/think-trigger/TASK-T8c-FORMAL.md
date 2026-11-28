@@ -10,14 +10,14 @@ T8c smoke 按 pre-commit 规则停止：B 臂 FINAL 截断 100%（harness per-st
 MAX_A 同步保持 matched 口径）。本任务 = 修复 + 重冻预注册 + 启动正式 n=9/臂。
 
 ## 只读这些输入文件（不读其他，不联网）
-1. `tasks/think-trigger/exp-results/t8c-stop-rootcause-20261125.md` — 根因 + 修复方案（runner 改动点 L18/L143）
-2. `tasks/think-trigger/exp-results/run_exp_t8c.py` — 待修 runner
-3. `tasks/think-trigger/exp-results/t8c-preregistration.md` — 旧预注册（跑数后只读，v2 另开文件）
-4. `tasks/think-trigger/exp-results/t8c-spec-final.md` — 题面终稿（冻结 2c16f644f，不改）
+1. `modules/G-think-mechanism/think-trigger/exp-results/t8c-stop-rootcause-20261125.md` — 根因 + 修复方案（runner 改动点 L18/L143）
+2. `modules/G-think-mechanism/think-trigger/exp-results/run_exp_t8c.py` — 待修 runner
+3. `modules/G-think-mechanism/think-trigger/exp-results/t8c-preregistration.md` — 旧预注册（跑数后只读，v2 另开文件）
+4. `modules/G-think-mechanism/think-trigger/exp-results/t8c-spec-final.md` — 题面终稿（冻结 2c16f644f，不改）
 5. `bench/rubric-v3/tasks/T0-local-27b/reference/calc.py` — c_pass（V100 翻转检查用）
 6. `knowledge-base/hardware/v100-sxm2.json` — V100 卡（price=null，conf 0.9）
 7. `bench/rubric-v3/ablation/formal-matrix/blind-eval/doc-D3.md` L40 — V100 ①类价 $775–975（gpudojo 2026-10-28）
-8. `tasks/think-trigger/exp-results/gold_gpu_oracle.py` — oracle（V100 翻转检查用）
+8. `modules/G-think-mechanism/think-trigger/exp-results/gold_gpu_oracle.py` — oracle（V100 翻转检查用）
 
 ## 步骤（严格按序，每步落盘 + commit）
 
@@ -34,7 +34,7 @@ MAX_A 同步保持 matched 口径）。本任务 = 修复 + 重冻预注册 + �
 - commit。
 
 ### S3 预注册 v2（另开文件，旧预注册只读）
-`tasks/think-trigger/exp-results/t8c-preregistration-v2.md`，相对 v1 的修订：
+`modules/G-think-mechanism/think-trigger/exp-results/t8c-preregistration-v2.md`，相对 v1 的修订：
 - ① 预算口径：per-stage 字典（04/04.5=8192，其余 4096）+ MAX_A=28672 matched。
 - ② 新增第四断点型："计算对但综合断"（run0 已算出正确 winner 0.6798≈gold，死在 04.5 说出来）——Stage 0 机械检查增加：B 臂 04.5 截断但 04 已含正确 winner 的样本单独归类（不计入作废，计入"综合断"桶）。
 - ③ secondary endpoint：三型断点分布（A1 候选构建断/A2 评估断/A3 排序分歧），工具 `research/judge_pipeline_v0.py`（`python3 judge_pipeline_v0.py <run文件> --qid gpu`），存量基线 17 条 A1×7/A2×9/A3×1 作对照先验；A3 稀有（n=9 功效低），判据写明"A3=0 不当无 A3"。
@@ -42,7 +42,7 @@ MAX_A 同步保持 matched 口径）。本任务 = 修复 + 重冻预注册 + �
 - 冻结：文件头写冻结时间 + 派发时 HEAD commit。commit。
 
 ### S4 启动正式跑（长进程，脱离会话）
-- `setsid nohup python3 tasks/think-trigger/exp-results/run_exp_t8c.py --n 9 > tasks/think-trigger/exp-results/t8c-formal-run.log 2>&1 &`（参数名以 runner argparse 实际为准，先 `--help` 核对）。
+- `setsid nohup python3 modules/G-think-mechanism/think-trigger/exp-results/run_exp_t8c.py --n 9 > modules/G-think-mechanism/think-trigger/exp-results/t8c-formal-run.log 2>&1 &`（参数名以 runner argparse 实际为准，先 `--help` 核对）。
 - 把真实 PID + 启动时刻写进 `t8c-formal-state.json`（status=running, pid, started_at, prereg_ref=v2 commit, v100_price_ref=doc-D3 ①类）。
 
 ### S5 验证真的在跑（三项判据，缺一不可）

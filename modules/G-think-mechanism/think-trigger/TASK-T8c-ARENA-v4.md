@@ -17,7 +17,7 @@
 - 建议：用 calc.py（`bench/rubric-v3/tasks/T0-local-27b/reference/calc.py`）spot-check 翻转点，确认 0.4979 < 0.6807。
 
 ## 改动点（4 文件，winner 锚 3090→V100 贯穿）
-**1. `tasks/think-trigger/exp-results/t8c-spec-final.md`**
+**1. `modules/G-think-mechanism/think-trigger/exp-results/t8c-spec-final.md`**
 - L65 硬件表：V100 单价 $2500 → $975（来源改 gpudojo 2026-10-28 ①类，删「③类假设钉死」措辞）
 - L67-71 脆弱性披露：整段重写——现在 V100 更便宜且更快，V100×4/W4/n=2 稳赢；3090 一侧对价格不敏感
 - L147 题面正文：V100 单价 $2500 → $975
@@ -33,7 +33,7 @@
 - calc.HARDWARE 引用（L397/406）：`calc.HARDWARE["3090"]` → `["V100"]`，`calc.c_pass("3090",...)` → `("V100",...)`
 - **跑 selftest 确认无回归**（11/11 或等价）
 
-**3. `tasks/think-trigger/exp-results/t8c_judge_format_probe.py`**
+**3. `modules/G-think-mechanism/think-trigger/exp-results/t8c_judge_format_probe.py`**
 - 6 个 fixture（CORRECT/ERR_A1/ERR_A2/ERR_A3/CORRECT_TBL/ERR_A3_TBL）：winner 角色从 3090 换到 V100
   - CORRECT：V100×4/W4/n=2 被枚举+评估+强推荐 → indeterminate
   - ERR_A1：V100 从未进候选集（只看了 3090）→ A1
@@ -42,7 +42,7 @@
   - CORRECT_TBL / ERR_A3_TBL：表格行格式同上角色互换
 - **跑 probe 确认 6/6 全对**
 
-**4. `tasks/think-trigger/exp-results/run_exp_t8c.py`**
+**4. `modules/G-think-mechanism/think-trigger/exp-results/run_exp_t8c.py`**
 - L33 Q 字符串：V100 单价 $2500 → $975
 - MAX_A/MAX_B 保持不变（token-matched 不变量，两臂预算相等 24576）
 

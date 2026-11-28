@@ -2,7 +2,7 @@
 # origin: ai (M2a 方差探针, 任务卡 m2a-variance-probe)
 """M2a 方差探针（零 GPU）：对已有 6 臂数据算三诊断指标，输出 variance-report.json。
 
-三指标定义（预注册于 tasks/think-trigger/m2-injection-design-20261128.md §2）：
+三指标定义（预注册于 modules/G-think-mechanism/think-trigger/m2-injection-design-20261128.md §2）：
   - mech_cov        机制覆盖率 = 机制三要素(参数变化+因果说明+影响量)≥2 的节点/总节点
   - quant_density   量化claim密度 = 含数字/公式/区间的节点/总节点
   - domain_shift_ratio 域偏移率 = transcript 域外机制词命中/域内机制词命中（词表预注册 §2）
@@ -188,7 +188,7 @@ def main():
         "task": "M2a 方差探针: 6 臂三诊断指标跨臂离散度（零 GPU）",
         "generated_by": "variance_probe.py",
         "metric_defs": metrics,
-        "vocab_source": "tasks/think-trigger/m2-injection-design-20261128.md §2 预注册词表",
+        "vocab_source": "modules/G-think-mechanism/think-trigger/m2-injection-design-20261128.md §2 预注册词表",
         "per_arm": per_arm,
         "variance": variance,
         "caveat": ("6 臂各仅 1 rep：'variance' 实为跨臂极差（臂间+域间差异混在一起），"

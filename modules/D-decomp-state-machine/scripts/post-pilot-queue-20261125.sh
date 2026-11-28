@@ -53,7 +53,7 @@ log "STEP3 T-JUDGE-1-J4 rc=$rc"
 
 # ---- Step 4: learn-to-think 臂C（3 次调用, 预注册 5e6294aba, runner 44350b270 dry-run 验证过）----
 log "STEP4 armC START"
-( cd "$PFB" && python3 -u tasks/learn-to-think/exp03-armc/run_armc.py ) >> "$LOG" 2>&1
+( cd "$PFB" && python3 -u modules/G-think-mechanism/learn-to-think/exp03-armc/run_armc.py ) >> "$LOG" 2>&1
 rc=$?
 log "STEP4 armC rc=$rc"
 

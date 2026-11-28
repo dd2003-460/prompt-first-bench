@@ -7,11 +7,11 @@
 # 依赖: 等 vllm-catchup (PID 36173) 退出 + vLLM /v1/models ready。
 #   时序: 与 armc-prime-post (69029) 同门抢 vLLM, 但本测试仅 2 样本 ~30s,
 #   先跑完验证判官, 再让 armC-prime 用已验证的判官 (若 FAIL, 明早解读时知道判官不可信)。
-# 落盘: logs/eps-judge-discrim-<ts>.log + tasks/learn-to-think/exp03-armc/discrim-test_judge.json
+# 落盘: logs/eps-judge-discrim-<ts>.log + modules/G-think-mechanism/learn-to-think/exp03-armc/discrim-test_judge.json
 set -uo pipefail
 PFB=/Users/a1-6/Desktop/workspace/pfb
 SA=$PFB/experiments/stage-ablation
-LT=$PFB/tasks/learn-to-think/exp03-armc
+LT=$PFB/modules/G-think-mechanism/learn-to-think/exp03-armc
 GATE_PID=${1:?用法: eps-judge-discrim.sh <gate_pid>}
 TS=$(date +%Y%m%d-%H%M%S)
 LOG=$SA/logs/eps-judge-discrim-$TS.log

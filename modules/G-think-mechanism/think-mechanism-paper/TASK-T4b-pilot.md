@@ -4,7 +4,7 @@
 > 性质：最小可行性 pilot，n=1/cell，不做统计显著性声明（论文里会如实这么写）。零成本（本地 vLLM）。
 
 ## [背景]
-论文 `tasks/think-mechanism-paper/draft/paper.tex` 的贡献之一是 5 个可注入思考模板 T1-T5（定义见 `projects/AI-计算科学/D1-persona-align/memory/general-thinking-template-20261124.md` 第 30-40 行，模板正文如下，照抄进 system prompt）：
+论文 `modules/G-think-mechanism/think-mechanism-paper/draft/paper.tex` 的贡献之一是 5 个可注入思考模板 T1-T5（定义见 `projects/AI-计算科学/D1-persona-align/memory/general-thinking-template-20261124.md` 第 30-40 行，模板正文如下，照抄进 system prompt）：
 
 ```
 T1 Cost model: when you solve a concrete problem or are asked "is X optimal?", write down the cost model (what cost is computed, under what premises) and a unified form; verify the original solution is a special case. If you cannot derive it, name the missing premise.
@@ -36,7 +36,7 @@ T5 Criterion bottleneck: when a framework takes shape, find the "criterion bottl
 - T5: 含指明哪一步缺廉价 ground truth + 闭合对策（合成域/可执行验证/预注册）。两项全有=1，否则 0
 - 附加记录（不计分）：每个 run 的 output tokens 数、是否出现 "needs measurement"/"cheapest probe"/"special case" 等标志词（grep 计数）
 
-## [交付]（全部落盘 `tasks/think-mechanism-paper/pilot/`）
+## [交付]（全部落盘 `modules/G-think-mechanism/think-mechanism-paper/pilot/`）
 1. `runs.json` — 10 个 run 的原始输出（prompt id / condition / full text / tokens / latency / status）
 2. `audit-rubric.md` — 上面的 rubric 原文
 3. `results.md` — 表：prompt × 条件 × 模板分（0/1）+ 每条件合计 + 标志词计数；最后一节：局限性声明（n=1/cell、单模型、无统计检验、分数是机械 checklist 非质量分）

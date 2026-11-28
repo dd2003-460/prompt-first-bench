@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """M2a variance probe: per-arm per-rep metric stats + power-risk verdict.
 Zero-GPU, read-only over checkpoints. Writes m2a-variance-probe.json (overwrite).
-Spec: tasks/think-trigger/taskcard-m2a-variance-probe.md
+Spec: modules/G-think-mechanism/think-trigger/taskcard-m2a-variance-probe.md
 """
 import json
 import math

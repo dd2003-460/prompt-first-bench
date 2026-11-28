@@ -1,6 +1,6 @@
 # M0 调研报告 — general 推理成熟机制（A prompt级注入 / B 评测方法 / C 开源实现）
 > 2026-11-27 · 执行：arena 会话（绑定分支 arena/f8477718-prompt-first-bench）
-> **留空声明①（任务书缺失）**：指定任务书"M0"在 thinkmech-review 分支全历史不存在（实核：d92374e61 与 HEAD 9dd75445c8d046c2dfdf2136beda8ed76c6fd2c0 两时点 `git grep "M0"` 零命中；experiments/stage-ablation/ 与 tasks/think-trigger/ 下仅有 T54/T8c/J3a 系列）。本报告按派发消息内规格（三类：A prompt级注入 / B 评测方法 / C 开源实现）重建执行。
+> **留空声明①（任务书缺失）**：指定任务书"M0"在 thinkmech-review 分支全历史不存在（实核：d92374e61 与 HEAD 9dd75445c8d046c2dfdf2136beda8ed76c6fd2c0 两时点 `git grep "M0"` 零命中；experiments/stage-ablation/ 与 modules/G-think-mechanism/think-trigger/ 下仅有 T54/T8c/J3a 系列）。本报告按派发消息内规格（三类：A prompt级注入 / B 评测方法 / C 开源实现）重建执行。
 > **留空声明②（分支约束）**：会话硬约束禁止 push 到非绑定分支——本报告落盘于 arena/f8477718-prompt-first-bench 同路径，移植命令：`git fetch origin arena/f8477718-prompt-first-bench && git cherry-pick <本commit>`。
 > **留空声明③**：会话从未收到过该 M0 任务的此前派发（对话历史：IDEA-review 五轮 + #10 分解树 + 闭式 paper 核验 + thinkmech 只读 review）；"TMLR review"=上轮已完成（只读）；"hermes-workspace-zero"无本会话记录，未混入。
 

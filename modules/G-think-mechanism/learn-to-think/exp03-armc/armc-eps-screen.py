@@ -9,7 +9,7 @@
 #   兼容两种结构: {meta, samples:[...]} (armC) 或 [...] (T2 raw_outputs_v2)
 import json, re, sys
 
-# T3 原词表 (tasks/think-trigger/exp-results/scores_v2.md L92-94, 逐字)
+# T3 原词表 (modules/G-think-mechanism/think-trigger/exp-results/scores_v2.md L92-94, 逐字)
 CHAOS = ['李雅普诺夫', 'Lyapunov', '混沌', '吸引子', '相空间', '初始条件', '指数发散',
          'logistic', 'lorenz', '分岔', 'SDIC']
 DMECH = ['landscape', '非凸', 'loss', '损失曲面', '凸优化', '损失景观', '损失函数']

@@ -48,4 +48,4 @@ tasks/stage-ablation/gpu-mainline-status-20261127.md。要求: 状态描述必�
 
 ## 边界
 - 6 个短 run，8787 上 K2/K3 在跑，可接受（R3a 先例: 6 个短调用无影响）
-- 不动任何现有脚本/队列; 只写 tasks/rsi-pilot/sm-run4-* 文件
+- 不动任何现有脚本/队列; 只写 modules/G-think-mechanism/rsi-pilot/sm-run4-* 文件

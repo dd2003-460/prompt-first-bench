@@ -1,12 +1,12 @@
 # TASK-T4a — think-mechanism-paper 文本修订（按 arena review 报告）
 
-> origin: ai · 2026-11-26 · 触发：arena review 判决"需修改后投"（conf 0.7）。报告：`tasks/think-mechanism-paper/arena-review-report-raw-20261126.md`（先完整读它）
-> 性质：【按报告修订】，不是自由发挥。所有修改点都来自 arena 报告，你不发明新内容、不加新 claim。pilot 数据由 T4b 先行产出（`tasks/think-mechanism-paper/pilot/results.md`），你负责把它填进 M7。
+> origin: ai · 2026-11-26 · 触发：arena review 判决"需修改后投"（conf 0.7）。报告：`modules/G-think-mechanism/think-mechanism-paper/arena-review-report-raw-20261126.md`（先完整读它）
+> 性质：【按报告修订】，不是自由发挥。所有修改点都来自 arena 报告，你不发明新内容、不加新 claim。pilot 数据由 T4b 先行产出（`modules/G-think-mechanism/think-mechanism-paper/pilot/results.md`），你负责把它填进 M7。
 
 ## [输入]
-- 论文：`tasks/think-mechanism-paper/draft/paper.tex`（476 行，8pp，xelatex 编译 0 err，6 条已验证引用）
-- arena 报告：`tasks/think-mechanism-paper/arena-review-report-raw-20261126.md`
-- 数字溯源：`tasks/think-mechanism-paper/draft/number-trace.md`（改动涉及数字时同步更新）
+- 论文：`modules/G-think-mechanism/think-mechanism-paper/draft/paper.tex`（476 行，8pp，xelatex 编译 0 err，6 条已验证引用）
+- arena 报告：`modules/G-think-mechanism/think-mechanism-paper/arena-review-report-raw-20261126.md`
+- 数字溯源：`modules/G-think-mechanism/think-mechanism-paper/draft/number-trace.md`（改动涉及数字时同步更新）
 
 ## [修改清单（按优先级，全部来自 arena 报告）]
 
@@ -44,7 +44,7 @@
 - 改法：把"可复现"条款从无损定义里挪出来（或改成 tolerance 下的操作判据：同输入两次压缩输出差异在 tolerance 带内），避免与信息论 lossless 术语冲突（必要时在定义处加一句 "we use 'lossless' in an operational sense distinct from information-theoretic invertibility"）
 
 ### M7：pilot 结果节
-- 读 `tasks/think-mechanism-paper/pilot/results.md`（T4b 产出，派发本任务时应已存在）
+- 读 `modules/G-think-mechanism/think-mechanism-paper/pilot/results.md`（T4b 产出，派发本任务时应已存在）
 - 在 Protocol 节末尾新增小节 "A Minimal Pilot (preliminary)"：5 prompt × 2 条件分数表（照抄 results.md 的表）+ 一段解读（模板注入后哪些维度提升、哪些没变，如实写，不夸大）+ 局限性声明（n=1/cell、单模型、无统计检验、机械 checklist 非质量分）
 - 如果 results.md 不存在或 runs 有 error：只写"pilot 进行中/部分完成"占位 + 已完成部分，不编造
 - 数字进 number-trace.md（来源=pilot/runs.json）

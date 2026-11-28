@@ -14,5 +14,5 @@ Q3: 混合方案（短规则+1个示范）是否优于纯规则？M3 跑批前�
 Q4: M3 判负（align 提升<2pp 且 form 提升>5pp = 形式模仿）时，判别树的下一步（知识锚点探针→域条件化→能力缺口）里，"示范注入"该插在哪个位置？
 
 ## 输出
-写到 tasks/think-trigger/cc-review2-injection-type-20261128.md。只写这一个文件。中文。
+写到 modules/G-think-mechanism/think-trigger/cc-review2-injection-type-20261128.md。只写这一个文件。中文。
 约束：你可以读 v1/prompts.py 的注入段（experiments/stage-ablation/oood-probe/v1/prompts.py 搜"思考习惯"）和 m2-injection-design-20261128.md，但不要读其他文件，不要改任何文件。

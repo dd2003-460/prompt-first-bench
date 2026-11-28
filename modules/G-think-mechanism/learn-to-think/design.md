@@ -8,10 +8,10 @@
 
 | # | 改动项 | 目标文件 | 改动描述 | 回滚方式 | 验证方法（前后对照） |
 |---|---|---|---|---|---|
-| 1 | 臂C 预注册协议 | tasks/learn-to-think/exp03-armc-prereg-20261125.md | 三臂条件（A/B 复用 T2 数据 + C 新跑 3 次）、采样参数（temp 0.7/max 1024，与 T2 一致保可比）、四维判据（爬层/预言力/边界/flip）、H1 可证伪假设、失败降级 | git revert 该文件（commit 5e6294aba 首预注册 + b02786033 补降级节） | 预注册红线：文件 commit 时间戳早于任何臂C 数据产出（git log 对照）；判据与 T2 preregistration.md 逐条 diff 一致（不重抄，引用） |
-| 2 | 臂C runner | tasks/learn-to-think/exp03-armc/run_armc.py | 3 次独立采样调用 8787（qwen3.8-27b-mtp），原始输出落盘 exp03-armc/raw_outputs.json，格式同 T2 | git revert（commit 44350b270） | dry-run 验证过（零 LLM 调用，commit 44350b270 记录）；正式跑时对照 prereg 采样参数逐字段一致（model/temp/max_tokens/指令逐字） |
-| 3 | 04-eval 评分协议 | tasks/learn-to-think/lossless-criterion-operationalization.md | 三维=(压缩比, ε_rep[=align], ε_pred)；ε_pred=held-out 预言命中率（N=3 起步，命中 1 即过）；结构对齐=信息流角色非逐字 | git revert（04:45 commit） | 与 04-eval 现有 form/align 维度的关系节（L60-65）：form 降为 ε_rep 廉价代理，不新增平铺维度；待核验节 3 条（标注者一致性 κ≥0.7 / N 取值 / token vs 字符）留作 03 实验内自证 |
-| 4 | 05-generalize 接口预留 | tasks/learn-to-think/decomposition.md 05 节 | 03 出结果后的泛化判据：域锚点是否可迁移到其他 D 机制域（缺口 #4 跨域迁移条件） | git revert | 03 的 flip 命中率按域分组（本实验单域 loss-landscape；迁移=换域重跑臂C 指令模板，判据不变） |
+| 1 | 臂C 预注册协议 | modules/G-think-mechanism/learn-to-think/exp03-armc-prereg-20261125.md | 三臂条件（A/B 复用 T2 数据 + C 新跑 3 次）、采样参数（temp 0.7/max 1024，与 T2 一致保可比）、四维判据（爬层/预言力/边界/flip）、H1 可证伪假设、失败降级 | git revert 该文件（commit 5e6294aba 首预注册 + b02786033 补降级节） | 预注册红线：文件 commit 时间戳早于任何臂C 数据产出（git log 对照）；判据与 T2 preregistration.md 逐条 diff 一致（不重抄，引用） |
+| 2 | 臂C runner | modules/G-think-mechanism/learn-to-think/exp03-armc/run_armc.py | 3 次独立采样调用 8787（qwen3.8-27b-mtp），原始输出落盘 exp03-armc/raw_outputs.json，格式同 T2 | git revert（commit 44350b270） | dry-run 验证过（零 LLM 调用，commit 44350b270 记录）；正式跑时对照 prereg 采样参数逐字段一致（model/temp/max_tokens/指令逐字） |
+| 3 | 04-eval 评分协议 | modules/G-think-mechanism/learn-to-think/lossless-criterion-operationalization.md | 三维=(压缩比, ε_rep[=align], ε_pred)；ε_pred=held-out 预言命中率（N=3 起步，命中 1 即过）；结构对齐=信息流角色非逐字 | git revert（04:45 commit） | 与 04-eval 现有 form/align 维度的关系节（L60-65）：form 降为 ε_rep 廉价代理，不新增平铺维度；待核验节 3 条（标注者一致性 κ≥0.7 / N 取值 / token vs 字符）留作 03 实验内自证 |
+| 4 | 05-generalize 接口预留 | modules/G-think-mechanism/learn-to-think/decomposition.md 05 节 | 03 出结果后的泛化判据：域锚点是否可迁移到其他 D 机制域（缺口 #4 跨域迁移条件） | git revert | 03 的 flip 命中率按域分组（本实验单域 loss-landscape；迁移=换域重跑臂C 指令模板，判据不变） |
 
 ## 正交性自检（逐对）
 

@@ -1,18 +1,18 @@
 # 任务卡 T8c-FORMAL-RERUN：选项 A 重锚 + 正式跑
 
 # origin: ai · 2026-11-26 · Lead 决策（选项 A）· sub 纯执行
-# 上游: T8c S1 fail-fast 触发（tasks/think-trigger/exp-results/t8c-formal-blocked.md）
+# 上游: T8c S1 fail-fast 触发（modules/G-think-mechanism/think-trigger/exp-results/t8c-formal-blocked.md）
 # 决策依据: spec §2 脆弱性披露预注册应急路径「V100 ③→①升级落在 $2033 以下 → winner 锚点重定 + 数据作废重跑」。
 #           ①类实价 $975（doc-D3 L40, gpudojo 2026-10-28）< $2033 ⇒ 触发。Lead 选 A（重锚+重跑），弃 B（弱 claim）/C（混淆测量）。
 
 ## 已探查文件位置（Lead 预探查，不要重新搜索，直接读/改这些）
-- 题面冻结 spec: `tasks/think-trigger/exp-results/t8c-spec-final.md`（commit 2c16f644f，111 行；§4 题面正文含 V100 $2500，§2 winner 锚点段）
-- 预注册: `tasks/think-trigger/exp-results/t8c-preregistration.md`
-- S1 翻转证据: `tasks/think-trigger/exp-results/t8c-formal-blocked.md`（①类价 $975、新 winner=V100×4/W4/n=2 c_pass 0.4979、区间稳健性表、盈亏平衡价 $2032.9）
-- 判别器（J1 三型，winner 卡型硬编码 3090 在此）: `tasks/think-trigger/exp-results/eval_t8c_smoke.py`
-- harness runner（MAX_B 标量在此）: `tasks/think-trigger/exp-results/run_exp_t8c.py`
+- 题面冻结 spec: `modules/G-think-mechanism/think-trigger/exp-results/t8c-spec-final.md`（commit 2c16f644f，111 行；§4 题面正文含 V100 $2500，§2 winner 锚点段）
+- 预注册: `modules/G-think-mechanism/think-trigger/exp-results/t8c-preregistration.md`
+- S1 翻转证据: `modules/G-think-mechanism/think-trigger/exp-results/t8c-formal-blocked.md`（①类价 $975、新 winner=V100×4/W4/n=2 c_pass 0.4979、区间稳健性表、盈亏平衡价 $2032.9）
+- 判别器（J1 三型，winner 卡型硬编码 3090 在此）: `modules/G-think-mechanism/think-trigger/exp-results/eval_t8c_smoke.py`
+- harness runner（MAX_B 标量在此）: `modules/G-think-mechanism/think-trigger/exp-results/run_exp_t8c.py`
 - c_pass 公式（①类参数，只读参考）: `bench/rubric-v3/tasks/T0-local-27b/reference/calc.py`
-- 口径参考（只读）: `tasks/think-trigger/exp-results/gold_gpu_oracle.py`
+- 口径参考（只读）: `modules/G-think-mechanism/think-trigger/exp-results/gold_gpu_oracle.py`
 
 ## 执行纪律（27b 输出上限防护，必须遵守）
 - **先写后读**：S0 每个改动 = 读目标段（limit 50 行内）→ 立即 patch → 立即 commit。禁止一次读完整个文件再动手。
