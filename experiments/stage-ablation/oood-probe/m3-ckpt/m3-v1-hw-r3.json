@@ -1,0 +1,471 @@
+{
+ "qid": "m3-v1-hw-r3",
+ "arm": "v1",
+ "domain": "hw",
+ "rep": "3",
+ "max_nodes": 40,
+ "wall_sec": 581.8,
+ "final_state": "rework",
+ "n_nodes": 40,
+ "fields_ok": true,
+ "nodes": [
+  {
+   "id": "N1",
+   "claim": "能力天花板与瓶颈定位：确定27b本地模型在现有硬件（V100-16GB×4, NVFP4量化）下，科研循环各环节的理论能力上限与物理瓶颈（如上下文窗口限制、推理延迟、显存占用），明确'不可逾越的边界'与'可通过工程手段突破的瓶颈'",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N2",
+   "claim": "科研循环各环节的实现路径与可靠性保障：针对假设生成、实验设计、执行、分析、结论验证、知识更新六个环节，分别给出基于prompt+hook+外部记忆/工具的具体实现方案，并评估各环节的可靠性来源与失败模式，确保乘积项中R不为零",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N3",
+   "claim": "质量对齐与可发表级标准的达成机制：定义'可发表级'的可操作化检查清单，设计从模型原始输出到符合顶刊标准的转化流程（包括自我批判、引用验证、逻辑一致性检查等），确保质量因子Q达到阈值，而非仅依赖模型内在能力",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N4",
+   "claim": "硬件约束下的系统架构与资源调度策略：在固定硬件条件下，设计推理服务（vLLM配置）、编排层（MacBook Pro）、外部工具链之间的最优协作架构，包括批处理策略、缓存机制、并行度调整，以最小化单步延迟并最大化吞吐量，直接影响时间因子T",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N5",
+   "claim": "预算-质量-速度的三维权衡曲面：量化不同投入档位（纯本地/混合云端API/高算力云端）下，时间T、成本K、质量Q、可靠性R的变化曲线，识别帕累托前沿上的关键拐点，为决策者提供'花多少钱买多快多好'的明确映射",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N6",
+   "claim": "不确定性源与待验证黑盒清单：识别所有影响目标函数但当前证据不足的关键变量（如27b在特定科研任务上的真实能力、vLLM配置的实际吞吐、API成本波动等），建立可追溯的查证计划与置信度标注体系，确保最终方案的鲁棒性",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N7",
+   "claim": "长上下文精度衰减阈值：Qwen3.8-27b在NVFP4量化下，输入长度超过16k tokens后，关键信息提取准确率下降幅度需通过RULER或HELMET基准测试量化（预期下降>15%则触发外部记忆分片策略）",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "quotient",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N8",
+   "claim": "有效吞吐瓶颈计算：在max-num-seqs=8并发下，V100-16GB×4集群的实际tokens/s吞吐受限于PCIe带宽与HBM2读写速率，理论峰值与实测差距需用nsys profile数据标定（预期瓶颈在KV cache传输而非算力）",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N9",
+   "claim": "显存碎片化率：在max_model_len=262144设置下，vLLM PagedAttention的显存碎片化率随并发数增加而上升，当碎片化率>20%时需启用--enable-chunked-prefill优化（预期碎片化率与max-num-seqs呈非线性关系）",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N10",
+   "claim": "MTP投机解码接受率：MTP×4配置下，Qwen3.8-27b的token接受率随任务复杂度（科研文献分析vs代码生成）变化，需实测不同任务类型的接受率分布（预期接受率<60%时MTP收益为负）",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N11",
+   "claim": "NVFP4量化误差累积：在长推理链（>10步）中，NVFP4量化的累积误差导致逻辑一致性下降，需通过CoT长度与错误率的回归分析量化（预期每增加1000 tokens，逻辑错误率上升5-10%）",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N12",
+   "claim": "假设生成多样性指数：基于prompt模板的假设生成，其Shannon多样性指数需>2.5 bits/assumption才能覆盖足够多的研究方向，低于该阈值时需引入温度采样或自我博弈机制",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N13",
+   "claim": "实验设计可行性验证：生成的实验方案需通过计算资源约束检查（预计运行时间<72h，显存占用<64GB），否则自动标记为不可行并降级为模拟实验（预期可行性通过率约30-50%）",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N14",
+   "claim": "外部记忆检索命中率：基于向量数据库的实验结果检索，其Top-5命中率需>70%才能有效支撑知识更新，低于该阈值时需优化embedding模型或索引结构（预期命中率受文档切分粒度影响显著）",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N15",
+   "claim": "代码执行沙箱隔离度：实验执行阶段的代码需在Docker沙箱中运行，其资源限制（CPU<4核，内存<16GB，网络禁用）确保主服务不受影响，预期沙箱启动开销<2s",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N16",
+   "claim": "结论验证交叉检验率：生成的研究结论需通过至少2种独立方法（如统计检验+可视化检查）的交叉验证，验证通过率需>80%才能进入下一步（预期交叉验证成本约为单次分析的3倍）",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N17",
+   "claim": "知识更新冲突检测：新结论与已有知识库的冲突检测，需基于语义相似度>0.85判定为潜在冲突，冲突解决策略采用版本控制+人工审核（预期冲突率约5-10%）",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N18",
+   "claim": "引用准确性率：生成的参考文献需通过DOI解析与摘要匹配验证，准确性率需>95%才能达到可发表标准（预期幻觉引用率约3-5%，需通过外部API验证）",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N19",
+   "claim": "逻辑一致性得分：论文草稿的逻辑一致性需通过自动评分器（如CritiqueLLM）打分，得分需>4.5/5.0才能进入人工审核（预期初稿得分约3.0-3.5，需2-3轮迭代）",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N20",
+   "claim": "新颖性检测F1分数：研究结论的新颖性需通过与近1年顶刊论文的向量相似度对比，F1分数需>0.8才能认定为新颖（预期新颖性误报率约10-15%）",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N21",
+   "claim": "写作风格合规率：论文语言需符合学术写作规范（如被动语态使用率>70%，术语标准化率>90%），违规率需<5%才能通过风格检查（预期初稿违规率约20-30%）",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N22",
+   "claim": "图表质量评分：生成的图表需通过自动美学评分器打分，得分需>4.0/5.0才能用于投稿（预期初稿评分约3.0，需手动调整或重新生成）",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N23",
+   "claim": "4×V100-16GB 运行 Qwen3.8-27B (NVFP4, TP=4) 的理论峰值吞吐量上限约为 200-300 tokens/s (聚合)，基于 HBM2 带宽 900GB/s × 4 卡及 FP4 权重大小 13.5GB 计算的带宽瓶颈估算值 [待核验]",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N24",
+   "claim": "vLLM MTP×4 (Multi-Token Prediction) 投机解码在 Qwen3.8 架构下的实际接受率 (Acceptance Rate) 预期为 60%-80%，这将使有效吞吐量提升 2.5-4x，具体取决于 Prompt 的自回归复杂度 [待核验]",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N25",
+   "claim": "FP8 KV Cache 将显存占用降低至 FP16 的 50% 左右，使得 max_model_len=262144 在 4×16GB 显存下的理论最大并发序列数 (max-num-seqs) 上限为 16-24 条，受限于剩余显存空间约 12GB/卡 [待核验]",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N26",
+   "claim": "MacBook Pro M1 Max 作为编排节点的 I/O 瓶颈在于 PCIe 4.0 x4 接口，与服务器通信的理论带宽上限为 8GB/s，但在网络代理模式下实际有效吞吐通常 < 100MB/s，需采用异步非阻塞架构以避免阻塞推理流",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N27",
+   "claim": "纯本地模式 (Tier 1) 的边际成本 K_local ≈ $0.05/hour (仅电费，按 2kW 负载计算)，单次科研循环 (约 500k tokens) 的成本低于 $0.02，但平均完成时间 T_local ≈ 4-6 小时，主要受限于串行推理瓶颈",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N28",
+   "claim": "混合云端模式 (Tier 2) 引入 API 调用后，单次科研循环成本 K_hybrid 预计上升至 $0.5-$2.0 (取决于 API 价格及调用频次)，但通过并行化非关键路径可将时间 T_hybrid 压缩至 1-2 小时，质量 Q 因模型多样性可能提升 10-15%",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N29",
+   "claim": "高算力云端模式 (Tier 3) 使用大模型集群 (如 A100/H100 集群) 时，单次循环成本 K_cloud > $10，时间 T_cloud < 30 分钟，可靠性 R 最高，但存在数据隐私风险及冷启动延迟，适合高风险高价值假设验证",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N30",
+   "claim": "帕累托前沿的关键拐点位于 '本地 27B 基础推理 + 云端小模型验证' 组合处，此时每单位质量提升的边际成本最低，预计比纯本地模式节省 40% 时间，比全云端模式节省 90% 成本",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N31",
+   "claim": "27B 本地模型在 '提出假设' 步骤的创造性上限：在未见过的跨学科领域，其生成假设的新颖性评分 (Novelty Score) 预计低于 GPT-4o 的 30-50%，需通过外部检索工具注入最新文献以弥补知识截止日期的缺陷",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6"
+   ]
+  },
+  {
+   "id": "N32",
+   "claim": "vLLM 在高负载 (max-num-seqs=8) 下的 P99 延迟抖动：预计 P99 延迟比 P50 高出 200-300%，主要源于 KV Cache 碎片化及抢占机制，需通过设置合理的 preemption threshold 来平滑尾延迟",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6"
+   ]
+  },
+  {
+   "id": "N33",
+   "claim": "外部工具链 (代码执行器/检索引擎) 的失败率对整体科研循环可靠性的影响：若工具失败率为 5%，且循环包含 10 个工具调用步骤，则单次循环成功率 R_cycle = (1-0.05)^10 ≈ 60%，需设计自动重试与降级策略以提升端到端可靠性",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6"
+   ]
+  },
+  {
+   "id": "N34",
+   "claim": "在4×V100-16GB硬件约束下，实现'执行'模块的计算密集型任务（如大规模矩阵运算或仿真）需依赖CPU卸载或轻量级本地GPU加速，V100不支持INT8推理加速（相比A100/T4），导致计算密集型步骤的耗时占比预计超过总循环时间的40%，成为'执行'模块的主要延迟源。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N35",
+   "claim": "'分析'模块的核心依赖因子是外部代码解释器（Python Sandbox）的执行稳定性与速度，其处理标准统计库（pandas/numpy）脚本的平均延迟为15-30秒/次，若未进行本地缓存优化，将导致单次科研循环中'分析'步骤累计耗时超过20分钟，显著拖累整体效率。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N36",
+   "claim": "各贡献因子中，'检索质量'（Information Retrieval Quality）对最终'可发表级'结论的准确率影响权重最高，弹性系数约为0.6；即检索命中率每提升10%，最终结论被人工抽查判定的'正确率'提升约6%，远高于单纯增加推理步数的边际收益（弹性系数<0.2）。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N37",
+   "claim": "存在强依赖关系：'假设生成'的多样性（N12）必须高于阈值才能有效利用'外部记忆检索'（N14），若假设多样性低，检索系统将返回高度重叠的结果，导致'知识更新'模块的有效增量信息量减少50%以上，形成负反馈循环。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "stochastic",
+   "parent_ids": []
+  },
+  {
+   "id": "N38",
+   "claim": "第一阶段（Week 1-2）实施路线图为'闭环验证'：仅启用'提出假设->执行简单代码->人工审核'链路，目标是确保端到端流程无崩溃，预期每周可完成5-10个微型实验，此时系统可靠性（Reliability）目标设为>90%。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N39",
+   "claim": "基于RULER基准，Qwen3.8-27b (NVFP4) 在16k tokens上下文下的关键信息提取准确率绝对值（Accuracy@16k），作为后续衰减计算的基准分母",
+   "level": "L3",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "quotient",
+   "parent_ids": [
+    "N7"
+   ]
+  },
+  {
+   "id": "N40",
+   "claim": "基于RULER基准，Qwen3.8-27b (NVFP4) 在32k tokens上下文下的关键信息提取准确率绝对值（Accuracy@32k），用于量化16k后的斜率变化",
+   "level": "L3",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "quotient",
+   "parent_ids": [
+    "N7"
+   ]
+  }
+ ],
+ "rounds_log": [
+  {
+   "round": 1,
+   "n_new": 32,
+   "n_total": 38,
+   "gain": 0.979,
+   "S_alpha_corr": 27.61,
+   "frontier": 6,
+   "verified": 4,
+   "reworked": 28,
+   "dropped_redundant": 0,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 38
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  },
+  {
+   "round": 2,
+   "n_new": 2,
+   "n_total": 40,
+   "gain": 0.807,
+   "S_alpha_corr": 31.63,
+   "frontier": 32,
+   "verified": 0,
+   "reworked": 2,
+   "dropped_redundant": 1,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 36,
+    "quotient": 3,
+    "stochastic": 1
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  }
+ ]
+}

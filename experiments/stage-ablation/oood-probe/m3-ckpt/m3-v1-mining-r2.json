@@ -1,0 +1,513 @@
+{
+ "qid": "m3-v1-mining-r2",
+ "arm": "v1",
+ "domain": "mining",
+ "rep": "2",
+ "max_nodes": 40,
+ "wall_sec": 211.1,
+ "final_state": "rework",
+ "n_nodes": 40,
+ "fields_ok": true,
+ "nodes": [
+  {
+   "id": "N1",
+   "claim": "稳态传热计算基准：基于题面给定数值，应用傅里叶定律进行无量纲一致性与数值准确性的计算过程，确保得出36kW这一基准解。",
+   "level": "L1",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N2",
+   "claim": "物理前提的边界条件敏感性：分析几何参数变化（厚度减半）对热流量的影响时，区分恒温边界与恒流/恒功率边界的物理差异，判定'翻倍'说法的成立条件。",
+   "level": "L1",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N3",
+   "claim": "输入数据的有效性审计：独立于计算过程，对题面给定的物性参数（导热系数）进行外部知识库比对，识别其与典型工程材料的偏差，执行'黑盒'质疑流程。",
+   "level": "L1",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N4",
+   "claim": "结论置信度与反事实推理控制：在存在潜在数据错误时，控制定性结论的强度，避免基于未验证的异常数据做出超出物理常识（如优于铜）的过度推断。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N5",
+   "claim": "确定计算所需的基础几何与温度参数：面积 A = 0.1 m × 0.1 m = 0.01 m²，厚度 d = 1 cm = 0.01 m，温差 ΔT = 100°C - 20°C = 80 K",
+   "level": "L2",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N6",
+   "claim": "应用傅里叶定律公式 Q = k·A·ΔT/d，代入给定导热系数 k = 450 W/(m·K) 及基础参数，计算稳态热流量 Q = 450 × 0.01 × 80 / 0.01 = 36000 W (36 kW)",
+   "level": "L2",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N8",
+   "claim": "恒温边界条件下的比例关系推导：在两端温度固定（ΔT = const）的前提下，由 Q ∝ 1/d 推导，厚度减半 (d' = d/2) 导致热流量翻倍 (Q' = 2Q)",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N9",
+   "claim": "恒功率/恒流边界条件的物理差异分析：若热源功率恒定 (Q = const)，厚度减半会导致热阻 R_th = d/(kA) 减半，从而引起界面温度梯度改变（温差 ΔT 减半），此时“散热能力”指代不清，'翻倍'说法不成立",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N11",
+   "claim": "目标材料基准值检索：查询典型铝合金（如 6061-T6）的标准导热系数，典型值约为 201 W/(m·K)（范围 167-205 W/(m·K)），作为独立验证基准",
+   "level": "L2",
+   "source": "search",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N12",
+   "claim": "数值偏差量化分析：计算题面给定值 (450 W/(m·K)) 与基准值 (201 W/(m·K)) 的相对偏差，(450 - 201) / 201 ≈ 123.9%，确认偏离程度远超正常实验误差或温度波动范围",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N13",
+   "claim": "跨材料量级比对：将 450 W/(m·K) 与常见高导热金属（如纯铜 ~400 W/(m·K)、铝 ~200 W/(m·K)）进行横向对比，识别出该数值具有“异常高导热”特征，触发黑盒疑点警报",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N15",
+   "claim": "建立输入端验证协议：在最终输出前，必须执行 'contradiction_scan_input' 步骤，对比题面给定常数与领域常识库（如标准材料手册值），若偏差超过 50% 则强制插入 'Warning: Input parameter may be erroneous' 标签，禁止无条件信任输入",
+   "level": "L2",
+   "source": "search",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N16",
+   "claim": "量化置信度降级策略：当检测到给定参数 k=450 W/(m·K) 与基准值 201 W/(m·K) 存在显著偏差时，应将最终热流量计算结果（36 kW）的置信度从 'High' 降级为 'Low (Conditional)'，并注明该结果仅在假设题面值正确的条件下有效，而非绝对事实",
+   "level": "L2",
+   "source": "search",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N18",
+   "claim": "恒功率边界下“散热能力”定义歧义的量化澄清：若定义为最大允许温升下的功率容量 (P_max = ΔT_max/R_th)，则 R_th 减半导致 P_max 翻倍，说法成立；若定义为特定温差下的实际散热量，则 Q 恒定，说法不成立",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N9"
+   ]
+  },
+  {
+   "id": "N19",
+   "claim": "6061-T6 铝合金导热系数的温度依赖性：在 20°C 至 100°C 范围内，k(T) 近似线性下降，斜率 dk/dT ≈ -0.05 至 -0.1 W/(m·K²)，导致高温端 (100°C) 的有效导热系数比低温端 (20°C) 低约 2-5%",
+   "level": "L3",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N11"
+   ]
+  },
+  {
+   "id": "N20",
+   "claim": "6061-T6 导热系数基准值的权威来源分布：ASM Handbook 给出 167 W/(m·K) (20°C)，MATPRO 数据库给出 201 W/(m·K) (20°C)，这种 20% 左右的源间差异源于热处理状态 (T6 vs T651) 和测量方法的不同",
+   "level": "L3",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N11"
+   ]
+  },
+  {
+   "id": "N21",
+   "claim": "实验室标准测量误差量化：根据 ASTM E1225 标准，稳态 guarded hot plate 法测量金属导热系数的典型扩展不确定度 (k=2) 约为 ±1-2%，即 201 W/(m·K) 的合理实验波动范围为 197-205 W/(m·K)",
+   "level": "L3",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N12"
+   ]
+  },
+  {
+   "id": "N22",
+   "claim": "题面给定值 450 W/(m·K) 的可信度排除边界：即使考虑所有已知铝合金变体（包括高纯铝 ~237 W/(m·K) 和特殊增强复合材料），物理上限远低于 450 W/(m·K)，因此 123.9% 的偏差无法用材料多样性解释，确认为输入错误",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N12"
+   ]
+  },
+  {
+   "id": "N23",
+   "claim": "纯铜（110, 100°F）的标准导热系数精确值为 401 W/(m·K)（ASTM E153/ASM Handbook），作为高导热基准参照点",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N13",
+    "N15",
+    "N16"
+   ]
+  },
+  {
+   "id": "N24",
+   "claim": "高纯银（99.99%）的导热系数约为 429 W/(m·K)，证明 450 W/(m·K) 超过了纯金属常见上限，进一步证实非典型铝合金",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N13",
+    "N15",
+    "N16"
+   ]
+  },
+  {
+   "id": "N25",
+   "claim": "常见铝合金（6061-T6, 7075-T6）导热系数集中在 170-210 W/(m·K) 区间，平均值约 190 W/(m·K)，构成'正常铝合金'分布中心",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N13",
+    "N15",
+    "N16"
+   ]
+  },
+  {
+   "id": "N26",
+   "claim": "统计异常判定：计算 450 W/(m·K) 相对于铝合金均值 (190) 的 z-score = (450-190)/σ，若取 σ≈15 W/(m·K)，z=17.3，远超 3σ 阈值，确认为离群值",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N13",
+    "N15",
+    "N16"
+   ]
+  },
+  {
+   "id": "N27",
+   "claim": "定义输入验证算法逻辑：input_value vs reference_distribution; if |input - mean| > k*std_dev OR |input - median| > 50% then flag='WARNING'",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N13",
+    "N15",
+    "N16"
+   ]
+  },
+  {
+   "id": "N28",
+   "claim": "量化 50% 阈值灵敏度：对于 k=201 的材料，50% 阈值区间为 [100.5, 301.5]；450 超出上限 49.8%，刚好触发；若阈值为 40%，区间 [120.6, 281.4]，450 同样触发",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N13",
+    "N15",
+    "N16"
+   ]
+  },
+  {
+   "id": "N29",
+   "claim": "定义置信度降级映射函数：Confidence_Score = Base_Score * (1 - Deviation_Ratio^2)，其中 Deviation_Ratio = |k_given - k_ref|/k_ref = 1.239，导致得分大幅下降",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N13",
+    "N15",
+    "N16"
+   ]
+  },
+  {
+   "id": "N30",
+   "claim": "量化条件化结果表达：最终答案应表述为 'Q = 36 kW (assuming k=450); Q_corrected ≈ 16.1 kW (if k=201)'，并标注两者差异因子为 450/201 ≈ 2.24",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N13",
+    "N15",
+    "N16"
+   ]
+  },
+  {
+   "id": "N33",
+   "claim": "量化恒功率边界下的热阻变化：当 d'=d/2 时，R_th' = (d/2)/(kA) = 0.5 R_th；结合 R_th = 0.01/(450×0.01) ≈ 0.00222 K/W，得到 R_th' ≈ 0.00111 K/W，证明热阻严格减半",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N18"
+   ]
+  },
+  {
+   "id": "N34",
+   "claim": "推导功率容量 P_max 与热阻 R_th 的反比关系：P_max = ΔT_max / R_th，因此 R_th 减半导致 P_max 翻倍；若设定允许温升 ΔT_max=80K，P_max 从 36kW 变为 72kW",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N18"
+   ]
+  },
+  {
+   "id": "N36",
+   "claim": "6061-T6 导热系数温度依赖性的微观机理：电子热导占主导 (~70%)，声子热导为辅；随温度升高，电子-声子散射率增加导致热阻上升，k(T) 下降",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N19"
+   ]
+  },
+  {
+   "id": "N37",
+   "claim": "量化 20°C 至 100°C 范围内的有效导热系数变化：采用线性插值 k(T) = 201 - 0.05*(T-20)，在 100°C 时 k_eff ≈ 197 W/(m·K)，偏差约 -2.0%；若斜率取 -0.1，则 k_eff ≈ 193 W/(m·K)，偏差 -4.0%",
+   "level": "L4",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N19"
+   ]
+  },
+  {
+   "id": "N38",
+   "claim": "评估温度依赖性对稳态热流量计算的影响：使用 k_avg (20-100°C) 代替常数 201 W/(m·K)，修正后的 Q_corrected ≈ 15.8-15.9 kW，相比常数假设的 16.1 kW 偏差 <2%，在工程精度内可忽略",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N19"
+   ]
+  },
+  {
+   "id": "N39",
+   "claim": "解析 ASM Handbook 给出 167 W/(m·K) 的条件限制：该值通常对应 6061-O (退火态) 或较厚的板材截面，而 T6 时效硬化态的典型值为 201 W/(m·K)，状态差异导致 ~20% 的数值分歧",
+   "level": "L4",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N20"
+   ]
+  },
+  {
+   "id": "N40",
+   "claim": "量化测量方法对导热系数确定的影响：激光闪射法 (ASTM E1461) 测量热扩散率 α 并结合比热 C_p 计算 k=αC_p，其不确定度通常为 ±3-5%；稳态热流计法 (ASTM E1225) 不确定度 ±1-2%，解释不同数据库数值的离散性",
+   "level": "L4",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N20"
+   ]
+  },
+  {
+   "id": "N42",
+   "claim": "高导热金属材料导热系数排名前三位的上限序列：银 (429) > 铜 (401) > 金 (318) W/(m·K)，确立了常见纯金属导热系数的物理上限约为 430 W/(m·K)。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N24"
+   ]
+  },
+  {
+   "id": "N43",
+   "claim": "基于纯金属上限 (429 W/(m·K)) 的排除边界量化：题面值 450 W/(m·K) 超出纯银上限 4.9% ((450-429)/429)，由于任何合金因晶格散射其 k 必然低于纯组分，因此 450 必然属于物理不可能或数据错误。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N24"
+   ]
+  },
+  {
+   "id": "N44",
+   "claim": "6061-T6 铝合金导热系数基准值：20°C 时典型值为 201 W/(m·K)，ASTM E153 给出的波动范围为 190-205 W/(m·K)（取决于具体 T6 时效工艺）。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N25"
+   ]
+  },
+  {
+   "id": "N45",
+   "claim": "7075-T6 铝合金导热系数基准值：20°C 时典型值为 150 W/(m·K)，ASTM E153 给出的波动范围为 140-155 W/(m·K)，显著低于 6061 系列。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N25"
+   ]
+  },
+  {
+   "id": "N46",
+   "claim": "常见铝合金分布的统计量化：取 6061-T6 (201) 与 7075-T6 (150) 为代表，算术平均值为 μ = 175.5 W/(m·K)，极差为 51 W/(m·K)，确立'正常铝合金'分布的中心位置及宽度。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N25"
+   ]
+  },
+  {
+   "id": "N47",
+   "claim": "分布中心值的来源约束：N25 中提到的 190 W/(m·K) 是 6061-T6 与 7075-T6 的简单算术平均 ((201+150)/2 ≈ 175.5) 还是加权平均？由于 6061 在结构中应用更广，简单平均可能低估了'常见'的中心值，需明确 190 的权重来源。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N25"
+   ]
+  },
+  {
+   "id": "N48",
+   "claim": "铝合金导热系数总体标准差 (σ) 的估算：基于 6061 (190-205) 和 7075 (140-155) 的范围，若将不同牌号视为离散分布，总体 σ ≈ 15-20 W/(m·K)；若仅考虑单一牌号的实验误差，σ ≈ 2-3 W/(m·K)。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N26"
+   ]
+  }
+ ],
+ "rounds_log": [
+  {
+   "round": 1,
+   "n_new": 9,
+   "n_total": 13,
+   "gain": 0.97,
+   "S_alpha_corr": 11.77,
+   "frontier": 4,
+   "verified": 7,
+   "reworked": 2,
+   "dropped_redundant": 3,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 13
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  },
+  {
+   "round": 2,
+   "n_new": 13,
+   "n_total": 26,
+   "gain": 0.922,
+   "S_alpha_corr": 27.76,
+   "frontier": 9,
+   "verified": 10,
+   "reworked": 3,
+   "dropped_redundant": 6,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 26
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  },
+  {
+   "round": 3,
+   "n_new": 14,
+   "n_total": 40,
+   "gain": 0.874,
+   "S_alpha_corr": 48.09,
+   "frontier": 13,
+   "verified": 10,
+   "reworked": 4,
+   "dropped_redundant": 13,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 40
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  }
+ ]
+}

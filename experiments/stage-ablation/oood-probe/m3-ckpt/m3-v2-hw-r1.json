@@ -1,0 +1,461 @@
+{
+ "qid": "m3-v2-hw-r1",
+ "arm": "v2",
+ "domain": "hw",
+ "rep": "1",
+ "max_nodes": 40,
+ "wall_sec": 135.5,
+ "final_state": "rework",
+ "n_nodes": 40,
+ "fields_ok": true,
+ "nodes": [
+  {
+   "id": "N1",
+   "claim": "认知架构与科研闭环映射：定义如何将'假设-实验-结论'的科研循环拆解为LLM可执行的原子操作序列（Agent Loop），并确定各步骤间的状态传递协议与终止条件。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N2",
+   "claim": "推理引擎效能边界与瓶颈分析：基于V100集群与Qwen3.8-27B的具体配置（NVFP4/TP=4/MTP），量化单步推理延迟、吞吐量上限及长上下文（262k）下的内存/算力瓶颈，确立理论最大并发度。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N3",
+   "claim": "外部工具链与执行环境集成：规范模型调用外部资源（代码解释器、文献检索API、数据库）的接口标准、沙箱安全策略及工具返回结果的解析机制，确保'执行'环节的物理落地能力。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N4",
+   "claim": "记忆系统与知识持久化策略：设计短期工作记忆（KV Cache管理）与长期知识存储（向量库/结构化DB）的分层架构，解决跨会话状态保持与知识累积更新的问题。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N5",
+   "claim": "质量评估与可靠性保障机制：构建自动化验证管线（事实核查、逻辑一致性检查、可复现性测试）与人工抽检流程，定义'可发表级'的具体量化指标及置信度校准方法。",
+   "level": "L1",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N6",
+   "claim": "预算-性能权衡与扩展路径：分析本地算力、云端API调用与人力介入三种资源的边际成本曲线，制定在不同预算档位下的最优混合调度策略及硬件受限下的降级/升级方案。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N7",
+   "claim": "将科研循环中的'提出假设'操作化为生成N个候选假设，其中N受限于上下文窗口长度与生成时间，具体公式为 N = floor(max_model_len / avg_token_per_hypothesis) - system_prompt_tokens",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N8",
+   "claim": "在'提出假设'步骤中，平均每个假设占用的token数 avg_token_per_hypothesis 约为 500-800 tokens，基于顶刊摘要与引言结构的统计分布 [待核验]",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N9",
+   "claim": "在'设计实验'步骤中，实验方案的结构化表示采用JSON Schema，包含 fields: [hypothesis_id, method, variables, controls, metrics]，序列化后平均长度为 1200 tokens",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N10",
+   "claim": "在'执行'步骤中，外部工具调用的频率 f_tool_call 与实验复杂度 C 成正比，f_tool_call = alpha * C，其中 alpha 为每单位复杂度的调用次数，典型值 alpha ∈ [0.5, 2.0] [待核验]",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N11",
+   "claim": "在'分析'步骤中，数据分析代码生成的正确率 P_correct_code 依赖于代码长度 L_code，P_correct_code = exp(-beta * L_code)，beta 为错误累积系数，典型值 beta ≈ 0.001 per line [待核验]",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N12",
+   "claim": "在'得出可验证结论'步骤中，结论的可验证性指标 V = (number_of_replications * statistical_significance) / p_value_threshold，其中 statistical_significance 通常要求 p < 0.05",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N13",
+   "claim": "Agent Loop 的状态传递协议采用 ReAct 格式，状态向量 S_t = [thought_t, action_t, observation_t]，其中 observation_t 的长度上限为 max_observation_tokens = 4096",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N14",
+   "claim": "Agent Loop 的终止条件定义为置信度阈值 τ，当模型输出的结论置信度 C_conf > τ 且经过 K 次自我反思验证后终止，τ 典型值为 0.85，K=3 [待核验]",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N15",
+   "claim": "在NVFP4量化与TP=4配置下，Qwen3.8-27B的单token生成延迟 T_gen 可通过公式 T_gen = T_prefill / n_tokens + T_decode 计算，其中 T_prefill 为预填充阶段耗时，T_decode 为解码阶段每token耗时",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N16",
+   "claim": "在V100-SXM2-16GB集群上，Qwen3.8-27B的预填充阶段耗时 T_prefill 与输入长度 L_in 呈线性关系，T_prefill = gamma * L_in，gamma 为每token预填充时间，典型值 gamma ≈ 0.05 ms/token [待核验]",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N17",
+   "claim": "在MTP×4投机解码下，解码阶段每token耗时 T_decode 降低为 T_decode_base / (1 + spec_factor)，其中 spec_factor 为投机解码加速因子，典型值 spec_factor ≈ 1.5-2.0 [待核验]",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N18",
+   "claim": "在max_model_len=262144的长上下文场景下，KV cache占用内存 M_kv = num_layers * num_heads * head_dim * seq_len * sizeof(fp8) * num_seqs，其中 num_layers=32, num_heads=32, head_dim=128, sizeof(fp8)=1 byte",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N19",
+   "claim": "在TP=4配置下，单卡模型权重占用内存 M_weight = total_params * bytes_per_param / tp_size，对于27B参数模型，bytes_per_param=4 (NVFP4)，tp_size=4，故 M_weight ≈ 27e9 * 4 / 4 = 27 GB，超出单卡16GB限制，需依赖offload或分片",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N20",
+   "claim": "在max-num-seqs=8的并发设置下，理论最大吞吐量 Throughput_max = num_gpus * gpu_flops / (ops_per_token * latency_per_token)，其中 gpu_flops 为V100-SXM2-16GB的FP16峰值算力 15.7 TFLOPS",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N21",
+   "claim": "在长上下文（262k）下，注意力计算的FLOPs复杂度为 O(L^2 * d)，其中 L=262144, d=hidden_dim=4096，导致单次前向传播FLOPs约为 262144^2 * 4096 * 2 ≈ 5.6e16 FLOPs，远超V100集群总算力 4*15.7e12 = 6.28e13 FLOPS，成为主要瓶颈",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N22",
+   "claim": "代码解释器工具的标准接口定义为 execute_code(code_str, timeout_sec) -> {stdout, stderr, exit_code}，其中 timeout_sec 默认值为 300秒，exit_code=0 表示成功",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N23",
+   "claim": "文献检索API（如Semantic Scholar）的调用格式为 search_papers(query, max_results=10) -> [{title, abstract, citation_count, year}]，平均响应时间 T_api ≈ 200ms [待核验]",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N24",
+   "claim": "数据库查询工具的安全沙箱策略限制只能访问只读视图 read_only_view，禁止 DROP/DELETE/UPDATE 操作，通过SQL解析器拦截危险关键字，拦截成功率 P_block ≈ 99.9% [待核验]",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N25",
+   "claim": "工具返回结果的解析机制采用结构化提取，从raw_output中提取 key_fields = [result_value, error_msg, metadata]，提取准确率 P_extract 依赖于输出格式的规范性，典型值 P_extract ≈ 0.95 [待核验]",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N26",
+   "claim": "长期知识库采用混合检索架构：语义相似度检索（余弦相似度阈值 τ=0.75）与关键词倒排索引（BM25 k1=1.5, b=0.75）并行运行，通过 RRF (Reciprocal Rank Fusion) 融合分数 S(d) = Σ 1/(k+rank_i(d))，k=60",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N27",
+   "claim": "长期知识向量嵌入使用 BGE-M3 模型（1024维），单条记录存储开销为 1024*4 bytes = 4KB 向量 + 512 tokens * 2 bytes/token ≈ 1KB 元数据，总计 ~5KB/entry；V100 集群内存上限 64GB 可容纳约 12.8M 条独立知识单元",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N28",
+   "claim": "短期工作记忆采用滑动窗口策略：保留最近 W=8192 tokens 的对话历史，超出部分压缩为摘要（Summary Compression Ratio r=0.2，即 8192 tokens 压缩至 1638 tokens），压缩后摘要插入上下文头部，总有效上下文长度 L_eff = W + 1638 ≈ 9830 tokens",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N29",
+   "claim": "知识更新冲突检测机制：新知识与现有知识相似度 > 0.95 时触发冲突检测，计算逻辑一致性得分 C = 1 - |P(new) - P(old)|，若 C < 0.5 则标记为矛盾并启动人工审核队列，否则自动合并（权重 w_new = 0.7, w_old = 0.3）",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N30",
+   "claim": "KV Cache 管理策略：采用 PagedAttention 算法，块大小 B=16 tokens，每块占用内存 M_block = 16 * d_model * n_layers * 2 bytes (Q,K) = 16 * 4096 * 48 * 2 = 6.29MB；V100 16GB 显存扣除模型权重后剩余 ~4GB 用于 KV Cache，支持最大并发序列数 N_seq = 4GB / 6.29MB ≈ 652 序列（理论上限）",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N31",
+   "claim": "事实核查管线：生成结论后调用外部 API（如 Wikipedia API 或 PubMed）进行实体链接，验证关键事实（F1-Fn）的存在性与准确性，准确率指标 Accuracy = TP / (TP + FP + FN)，要求 ≥ 0.95；每个结论平均需验证 5±2 个关键事实",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N32",
+   "claim": "逻辑一致性检查：使用形式化验证器（如 Z3 SMT Solver）将论证步骤转化为逻辑命题，检查推导链中是否存在矛盾（Contradiction Detection），计算一致性得分 Consistency = Valid Steps / Total Steps，要求 ≥ 0.98；平均每篇论文含 20±5 个逻辑步骤",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N33",
+   "claim": "可复现性测试：自动生成实验代码并运行，比较输出结果与预期值的偏差 Δ = |Output - Expected| / Expected，要求 Δ ≤ 0.05（5% 误差）；每个实验平均需运行 3 次取均值，单次运行时间 T_run ≈ 10-30 分钟（取决于复杂度）",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N34",
+   "claim": "'可发表级'量化指标：引用顶刊（如 Nature, Science, Cell）近 5 年论文的统计特征，定义评分函数 Score = w1*Novelty + w2*Rigor + w3*Clarity，其中 Novelty ∈ [0,1] 由新颖性检测算法计算（与已有文献相似度 < 0.8），Rigor ∈ [0,1] 由 N12/N13/N14 得分加权平均，Clarity ∈ [0,1] 由可读性指标（Flesch-Kincaid Grade Level ≤ 12）计算；总分要求 ≥ 0.85",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N35",
+   "claim": "置信度校准方法：使用温度缩放（Temperature Scaling）调整模型输出概率，最小化 ECE (Expected Calibration Error)，ECE = (1/N) Σ |Confidence - Accuracy|；训练集大小 N_calib ≥ 1000 样本，目标 ECE ≤ 0.05；校准后置信度区间 [p_low, p_high] 覆盖真实概率的频率 ≥ 95%",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N36",
+   "claim": "本地推理边际成本：V100 功耗 250W/GPU × 4 GPU = 1000W，电价 $0.10/kWh，每小时电费 $0.10；qwen3.8-27b 在 V100 集群上生成 1 token 耗时 T_gen ≈ 0.5ms（MTP×4 加速），每秒生成 2000 tokens，每小时生成 7.2M tokens，单位 token 成本 C_local = $0.10 / 7.2M ≈ $1.39e-8/token",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6"
+   ]
+  },
+  {
+   "id": "N37",
+   "claim": "云端 API 边际成本：以 GPT-4o 为例，输入价格 $2.5/M tokens，输出价格 $10/M tokens；平均输入:输出比例 = 3:1，混合单价 C_cloud = (3*$2.5 + 1*$10) / 4 = $4.375/M tokens = $4.375e-6/token，是本地成本的 ~315 倍",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6"
+   ]
+  },
+  {
+   "id": "N38",
+   "claim": "人力介入边际成本：研究员时薪 $50/hour，每小时可处理 10±2 个复杂推理步骤，单位步骤成本 C_human = $50 / 10 = $5/step；每个步骤平均生成 100 tokens，单位 token 成本 $0.05/token，是本地成本的 ~3.6M 倍，是云端成本的 ~11.4 倍",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6"
+   ]
+  },
+  {
+   "id": "N39",
+   "claim": "最优混合调度策略：基于任务复杂度分级，简单任务（<1000 tokens）使用本地推理（成本最低），中等任务（1000-10000 tokens）使用本地+轻量云端验证（平衡速度与成本），复杂任务（>10000 tokens 或高不确定性）使用云端 API+人工复核（保证质量）；切换阈值由边际收益递减点决定，即 d(C_total)/d(x) = 0 处",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6"
+   ]
+  },
+  {
+   "id": "N40",
+   "claim": "硬件受限降级方案：当本地 KV Cache 不足或推理延迟 > 5s/token 时，启用量化降级（NVFP4 → INT8）牺牲精度换取速度，推理速度提升 2x 但困惑度（Perplexity）上升 5-10%；若仍不满足，卸载长上下文至 MacBook Pro（M1 Max 32GB 内存）处理非关键步骤，本地仅负责核心推理",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6"
+   ]
+  }
+ ],
+ "rounds_log": [
+  {
+   "round": 1,
+   "n_new": 34,
+   "n_total": 40,
+   "gain": 0.971,
+   "S_alpha_corr": 27.75,
+   "frontier": 6,
+   "verified": 26,
+   "reworked": 8,
+   "dropped_redundant": 0,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 40
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  }
+ ]
+}

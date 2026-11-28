@@ -1,0 +1,414 @@
+{
+ "qid": "m3-s1-mining-r1",
+ "arm": "s1",
+ "domain": "mining",
+ "rep": "1",
+ "max_nodes": 40,
+ "wall_sec": 225.6,
+ "final_state": "verify",
+ "n_nodes": 32,
+ "fields_ok": true,
+ "nodes": [
+  {
+   "id": "N1",
+   "claim": "稳态热传导定量计算：涵盖基于题面给定参数（尺寸、温差、导热系数）应用傅里叶定律进行数值代入与单位换算的全过程，确保结果量级与精度符合物理规律。",
+   "level": "L1",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N2",
+   "claim": "参数敏感性逻辑判定：涵盖对几何参数变化（厚度减半）导致热流量变化的因果分析，重点辨析边界条件（恒温vs恒功）对结论有效性的决定性影响。",
+   "level": "L1",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N3",
+   "claim": "输入前提真实性校验：涵盖对题面给定物理常数（如导热系数）与领域常识/文献典型值的比对，识别潜在的错误假设并生成独立的查证清单（黑盒表）。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N4",
+   "claim": "稳态一维热传导流量 Q 的计算公式为 Q = k * A * ΔT / d，其中 k 为导热系数 (W/m·K)，A 为截面积 (m²)，ΔT 为温差 (K)，d 为厚度 (m)。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N5",
+   "claim": "截面积 A 的数值计算：根据题面尺寸 10cm x 10cm，A = 0.1 m * 0.1 m = 0.01 m²。",
+   "level": "L2",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N6",
+   "claim": "温差 ΔT 的数值计算：根据题面边界条件 100°C 和 20°C，ΔT = 100 - 20 = 80 K。",
+   "level": "L2",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N7",
+   "claim": "厚度 d 的数值换算：根据题面尺寸 1cm，d = 0.01 m。",
+   "level": "L2",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N8",
+   "claim": "导热系数 k 的取值：直接采用题面给定值 450 W/(m·K) 进行后续计算（尽管该值存疑，但计算步骤需基于给定条件执行）。",
+   "level": "L2",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N9",
+   "claim": "最终热流量 Q 的数值代入结果：Q = 450 * 0.01 * 80 / 0.01 = 36,000 W (36 kW)。",
+   "level": "L2",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N10",
+   "claim": "厚度减半后的新热流量 Q_new 计算：将 d 替换为 d/2，公式变为 Q_new = k * A * ΔT / (d/2) = 2 * Q_old = 72,000 W (72 kW)。",
+   "level": "L2",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N11",
+   "claim": "结论有效性前提分析：'散热能力翻倍'仅在两端温度维持恒定（恒温边界）时成立；若改为恒定热源功率输入，厚度减半会导致热阻减半、温升降低，但总耗散功率由热源决定而非几何结构直接线性倍增。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N12",
+   "claim": "题面给定导热系数 450 W/(m·K) 与常见铝合金（如 6061-T6，典型值约 170-205 W/(m·K)）相比异常偏高，接近纯铜（~400 W/(m·K)），需标记为可疑数据。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N15",
+   "claim": "恒功率边界条件下，厚度减半后的稳态温差 ΔT_new 计算：若热源功率 P 恒定（例如 36,000 W），则 ΔT_new = P * R_new = 36,000 * 0.00111 ≈ 40 K，即温差从 80 K 降至 40 K，而非热流量翻倍。",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N10"
+   ]
+  },
+  {
+   "id": "N17",
+   "claim": "恒温边界假设的工程可行性量化：维持 100°C 和 20°C 两端恒温需要外部换热器功率分别至少为 Q_old 和 Q_new，即加热端需提供 36 kW 输入，冷却端需移除 36 kW 热量（厚度减半后均为 72 kW），此功率规模决定了边界条件的实际可实现性。",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N11"
+   ]
+  },
+  {
+   "id": "N18",
+   "claim": "恒功率边界下的温度场分布：在恒功率输入 P 下，平板内部温度呈线性分布，热流密度 j = P/A 恒定，温度梯度 |dT/dx| = j/k 恒定，厚度减半使最大温差减半，但不改变温度分布的线性特征。",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N11"
+   ]
+  },
+  {
+   "id": "N19",
+   "claim": "边界条件切换的临界判据：当外部换热系数 h 满足 h*A >> k*A/d（即 Bi = h*d/k << 1）时，系统趋近恒温边界；当 h*A << k*A/d 时，趋近绝热/恒功率边界，Bi 数决定了哪种理想化假设更贴近实际。",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "pending",
+   "edge_type": "quotient",
+   "parent_ids": [
+    "N11"
+   ]
+  },
+  {
+   "id": "N20",
+   "claim": "6061-T6 铝合金在 20°C 至 100°C 温度范围内的导热系数实测值：典型值为 201 W/(m·K)（室温），随温度升高略有下降，100°C 时约为 195-205 W/(m·K)，与题面给定值 450 W/(m·K) 偏差超过 100%。",
+   "level": "L3",
+   "source": "search",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N12"
+   ]
+  },
+  {
+   "id": "N21",
+   "claim": "高导热铝合金（如 AlSiC 复合材料）的导热系数上限：即使是最优化的铝基复合材料，导热系数通常不超过 250-300 W/(m·K)，仍显著低于题面给定的 450 W/(m·K)，后者更接近纯铜（~400 W/(m·K)）或纯银（~430 W/(m·K)）的量级。",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N12"
+   ]
+  },
+  {
+   "id": "N22",
+   "claim": "题面给定值 450 W/(m·K) 的物理一致性检验：若该值属实，则该材料的比热容 c_p 和密度 ρ 需满足热扩散率 α = k/(ρ*c_p) > 100 mm²/s，这与常见金属（Al: ~96 mm²/s, Cu: ~111 mm²/s）相比偏高，暗示材料可能非典型铝合金。",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "quotient",
+   "parent_ids": [
+    "N12"
+   ]
+  },
+  {
+   "id": "N24",
+   "claim": "若忽略面积项或单位换算错误的常见量级校验：正确结果应为 36 kW 量级；若误将面积 100 cm² 当作 100 m² 或漏乘面积，会导致结果偏离 36 kW 达两个数量级以上（如 3.6 MW 或 36 W），用于验证计算过程的量级合理性。",
+   "level": "L3",
+   "source": "search",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N25",
+   "claim": "基于题面给定参数 k=450 W/(m·K), d=0.01 m 计算的无量纲毕渥数 Bi = h*d/k 的临界阈值：当 Bi < 0.1 时近似恒温边界，此时要求 h > k/(10*d) = 450/(0.1) = 4500 W/(m²·K)；当 Bi > 10 时近似恒功率/绝热边界，要求 h < k/(10*d) = 45 W/(m²·K)。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "quotient",
+   "parent_ids": [
+    "N19"
+   ]
+  },
+  {
+   "id": "N26",
+   "claim": "自然对流空气环境中典型换热系数 h_nat ≈ 5-25 W/(m²·K)，代入 Bi = h*d/k 得 Bi ∈ [0.11, 0.56]，处于过渡区但更接近绝热/恒功率侧（因 Bi > 0.1），说明在自然风冷下“恒温边界”假设不成立，实际更接近恒功率限制。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "quotient",
+   "parent_ids": [
+    "N19"
+   ]
+  },
+  {
+   "id": "N27",
+   "claim": "强制风冷环境下典型换热系数 h_forced ≈ 25-250 W/(m²·K)，代入 Bi = h*d/k 得 Bi ∈ [0.56, 5.56]，大部分区间 Bi > 0.1，表明除非使用极高风速或液冷（h > 4500 W/(m²·K)），否则难以达到严格恒温边界，工程上需修正边界条件假设。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "quotient",
+   "parent_ids": [
+    "N19"
+   ]
+  },
+  {
+   "id": "N28",
+   "claim": "6061-T6 铝合金在 20°C 时的导热系数基准值：根据 ASM Handbook 及标准材料数据库，k(20°C) = 201 ± 5 W/(m·K)，该值为实验室测量平均值的下限区间起点。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N20"
+   ]
+  },
+  {
+   "id": "N29",
+   "claim": "6061-T6 铝合金导热系数随温度的线性回归斜率：在 20°C 至 100°C 范围内，dk/dT ≈ -0.05 W/(m·K²)，导致 k(100°C) ≈ 201 - 0.05*(80) = 197 W/(m·K)，偏差幅度约为 2%，远小于题面 450 与 201 之间的 124% 偏差。",
+   "level": "L4",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N20"
+   ]
+  },
+  {
+   "id": "N30",
+   "claim": "AlSiC（铝硅碳）复合材料导热系数的体积分数加权估算：根据混合律 k_composite ≈ φ_Al*k_Al + φ_Cu*... (实际主要增强相为 SiCp, k~120 W/mK)，即使 SiCp 体积分数达到 30% 且界面接触良好，理论上限 k_max ≈ 0.7*200 + 0.3*120 = 176 W/(m·K)，若添加少量高导热填充物优化，实验实测上限通常在 250-300 W/(m·K) 之间，无法达到 450 W/(m·K)。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N21"
+   ]
+  },
+  {
+   "id": "N31",
+   "claim": "纯铜与纯银在 20°C-100°C 的平均导热系数：纯铜 k_Cu ≈ 401 W/(m·K) (20°C) 降至 ~390 W/(m·K) (100°C)；纯银 k_Ag ≈ 429 W/(m·K) (20°C) 降至 ~415 W/(m·K) (100°C)。题面 450 W/(m·K) 高于纯银在 100°C 时的实测值，物理上不可能属于任何已知铝合金体系。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N21"
+   ]
+  },
+  {
+   "id": "N32",
+   "claim": "基于题面给定值 k=450 W/(m·K) 及典型铝合金物性（ρ≈2700 kg/m³, c_p≈900 J/kg·K），计算推导出的热扩散率 α 理论值为 450 / (2700 * 900) ≈ 1.85 × 10⁻⁴ m²/s (185 mm²/s)。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "quotient",
+   "parent_ids": [
+    "N22"
+   ]
+  },
+  {
+   "id": "N34",
+   "claim": "物性参数反推一致性检查：若坚持 k=450 且保持典型铝合金密度 ρ=2700 kg/m³，则比热容 c_p 必须低至约 390 J/(kg·K) 才能维持 α≤111 mm²/s (铜的水平)，但这远低于铝合金典型比热容 (~900 J/kg·K)，证明该 k 值与“铝合金”身份在热扩散率维度上不相容。",
+   "level": "L4",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "quotient",
+   "parent_ids": [
+    "N22"
+   ]
+  },
+  {
+   "id": "N35",
+   "claim": "单位换算错误导致的量级偏差量化：若错误地将面积 A=0.01 m² 误算为 100 m² (即 100 cm² 直接当 100 m² 用，未除以 10000)，计算结果将变为 Q = 450 * 100 * 80 / 0.01 = 36,000,000 W (36 MW)，比正确值 36 kW 高出 3 个数量级。",
+   "level": "L4",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N24"
+   ]
+  },
+  {
+   "id": "N36",
+   "claim": "漏乘面积项导致的量级偏差量化：若在计算中遗漏面积因子 A (即计算 Q = k * ΔT / d)，结果为 450 * 80 / 0.01 = 3,600,000 W (3.6 MW)，比正确值 36 kW 高出 2 个数量级。",
+   "level": "L4",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N24"
+   ]
+  },
+  {
+   "id": "N37",
+   "claim": "厚度单位换算错误导致的量级偏差量化：若错误地将厚度 d=0.01 m 误算为 1 m (即 1 cm 直接当 1 m 用，未除以 100)，计算结果将变为 Q = 450 * 0.01 * 80 / 1 = 360 W，比正确值 36 kW 低 2 个数量级。",
+   "level": "L4",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N24"
+   ]
+  }
+ ],
+ "rounds_log": [
+  {
+   "round": 1,
+   "n_new": 9,
+   "n_total": 12,
+   "gain": 0.976,
+   "S_alpha_corr": 10.99,
+   "frontier": 3,
+   "verified": 9,
+   "reworked": 0,
+   "dropped_redundant": 1,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 12
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  },
+  {
+   "round": 2,
+   "n_new": 8,
+   "n_total": 20,
+   "gain": 0.92,
+   "S_alpha_corr": 22.73,
+   "frontier": 9,
+   "verified": 8,
+   "reworked": 2,
+   "dropped_redundant": 4,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 20
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  },
+  {
+   "round": 3,
+   "n_new": 12,
+   "n_total": 32,
+   "gain": 0.882,
+   "S_alpha_corr": 40.85,
+   "frontier": 8,
+   "verified": 11,
+   "reworked": 0,
+   "dropped_redundant": 8,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 25,
+    "quotient": 7
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  }
+ ]
+}

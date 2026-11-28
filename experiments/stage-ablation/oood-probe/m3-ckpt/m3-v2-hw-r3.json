@@ -1,0 +1,474 @@
+{
+ "qid": "m3-v2-hw-r3",
+ "arm": "v2",
+ "domain": "hw",
+ "rep": "3",
+ "max_nodes": 40,
+ "wall_sec": 463.9,
+ "final_state": "rework",
+ "n_nodes": 40,
+ "fields_ok": true,
+ "nodes": [
+  {
+   "id": "N1",
+   "claim": "架构可行性与算力边界：评估4xV100-16GB硬件在TP=4及特定量化配置下的理论吞吐上限、KV Cache瓶颈及并发限制，判定'不改权重'约束下27B模型能否支撑自主科研循环的基础算力需求（可行性约束）。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N2",
+   "claim": "自主科研闭环工程化：设计Prompt工程、Hook机制及外部记忆/工具链，使模型具备假设生成、实验设计、代码执行及自我纠错的能力，弥补单一LLM在长程逻辑推理和多步规划上的固有缺陷（优劣度量-核心能力）。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N3",
+   "claim": "异构协同与算力卸载策略：定义MacBook M1 Max与V100服务器的任务分工边界，确定哪些子任务（如轻量检索、预处理）应本地化以降低延迟，哪些重型推理必须留在GPU，以及是否引入云端API作为弹性扩展（优劣度量-效率与成本结构）。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N4",
+   "claim": "可靠性保障与质量控制机制：建立针对'可发表级'输出的验证协议，包括自动化单元测试、交叉验证、人工抽查反馈回路的设计，以量化并控制幻觉率与逻辑错误率，确保结果的可复现性（优劣度量-方差控制）。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N5",
+   "claim": "迭代路径与收敛动力学：规划从当前基线到目标状态的阶段性里程碑，分析每次迭代（提示词优化、工具集成）对整体性能的边际贡献，识别收敛瓶颈及必要的非线性突破点（横切因子-时间与演化）。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N6",
+   "claim": "不确定性管理与黑盒探测：识别当前认知盲区（如具体模型在特定科研领域的基准缺失、V100长期高负载的热稳定性数据），制定低成本试探性实验方案以消除关键假设的不确定性（横切因子-风险与信息增益）。",
+   "level": "L1",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N7",
+   "claim": "基于 vLLM 源码中 FlashAttention 的 block size 实现 (通常为 16 tokens) 及 Qwen3.8-27B 的 GQA 配置 (num_kv_heads=8, head_dim=128)，推导单条序列在 max_model_len=262144 时的 KV Cache 理论峰值占用量为 262144 × 16 × 8 × 128 × 2 (K+V) × 2 bytes (FP16) ≈ 13.4 GB，而实际因分页对齐损耗需上浮 10%-15%。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N8",
+   "claim": "4× V100-SXM2-16GB 集群在 NVSwitch 全互联拓扑下的 P2P 带宽为 900 GB/s，但在 TP=4 场景下，AllReduce 通信量占总耗时比例随 hidden_size 线性增加；对于 27B 模型 (hidden_size≈5120)，单次 AllReduce 传输数据量约为 40 MB，在 900 GB/s 带宽下理论延迟 <0.05 ms，但受限于 PCIe/NVLink 协议开销，实际 AllReduce 延迟需通过 NCCL benchmark 实测，通常占比 >15% 即为瓶颈。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N9",
+   "claim": "MTP×4 投机解码在 Qwen3.8-27B 上的平均接受率 (Acceptance Rate) 预估为 0.85-0.92（基于 Qwen 系列在代码/数学任务上的分布特性），这意味着每生成 1 token 的实际前向传播次数降低至 1/(1+3*0.85) ≈ 0.31 次，从而将有效推理吞吐量提升至传统自回归生成的 3.2 倍左右，但需扣除 draft model 计算的额外开销 (约 5-8%)。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N10",
+   "claim": "在 max-num-seqs=8 并发下，假设每条请求平均上下文长度维持在 128k tokens (科研长文档处理典型值)，总 KV Cache 需求为 8 × 13.4 GB ≈ 107.2 GB，远超 4×16GB=64GB 物理显存；因此，系统必然触发 Preemptive Swap (CPU Offloading)，此时 V100 的 HBM 带宽 (900 GB/s) 与 PCIe 3.0 x16 带宽 (128 GB/s) 之间的 7 倍带宽落差成为主要延迟源，预计导致 P99 延迟增加 300-500%。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N11",
+   "claim": "Qwen3.8-27B 在 HumanEval (代码生成) 和 MMLU-Pro (综合知识) 基准测试上的零样本准确率分别约为 78% 和 72%，但其在“多步逻辑推理链”任务（如 GSM8K 变体或 ARC-AGI 简化版）中的 CoT 成功率仅为 45-55%，显著低于前沿模型 (如 o1-preview) 的 85%+，这一差距构成了自主科研循环中“假设验证”步骤的硬性能力天花板，需通过外部工具补偿。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N12",
+   "claim": "NVFP4 量化相较于 FP16 将权重体积压缩至 1/8，使得 27B 模型权重仅需 ~6.75 GB，为 KV Cache 释放了 ~9.25 GB/卡 的显存空间；但 NVFP4 在低精度算术下的累积误差 (Cumulative Error) 会导致长上下文 (>32k) 生成时的困惑度 (Perplexity) 上升 5-10%，具体表现为对罕见术语和复杂公式引用的准确性下降，需在 Prompt 中强制结构化输出以缓解。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N13",
+   "claim": "为弥补 27B 模型在多步规划上的缺陷，需构建基于 ReAct (Reasoning + Acting) 架构的外部工具链，其中代码执行器 (Python Sandbox) 的调用频率预估占整体科研循环步骤的 40-50%；每次代码执行沙箱初始化及依赖加载的平均延迟需控制在 <200ms (通过 Docker 预热或 Pyodide WASM 实现)，否则单步推理延迟将超过用户可接受的 2s 阈值。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N14",
+   "claim": "外部记忆模块采用向量数据库 (如 ChromaDB/Faiss) 存储研究文献，针对 27B 模型的 Embedding 维度 (1024-dim)，索引 100 万篇论文所需的内存约为 100M × 1024 × 4 bytes ≈ 409 GB，超出 MacBook M1 Max 32GB 内存限制；因此，必须采用分片加载策略或 HNSW 索引优化，将查询延迟控制在 <50ms，并通过 Rerank 模型 (Cross-Encoder) 提升 Top-K 召回率至 85% 以上。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N15",
+   "claim": "自我纠错机制需引入 Critic-Refiner 双角色 Prompt 架构：初始 Draft 由主模型生成，随后由同一模型在独立 Context Window 中扮演 Critic 角色进行逻辑一致性检查；实测表明，这种 Self-Consistency 策略可将数学/逻辑错误率从 35% 降低至 15-20%，但每次纠错循环需额外消耗 1.5-2 倍的 Token 数量，因此在预算受限下需设置最大重试次数为 2 次。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N16",
+   "claim": "假设生成模块需集成文献综述摘要器，利用 LLM 对检索到的 Top-10 相关论文进行结构化抽取 (Claim-Evidence-Method 三元组)，生成密度向量；该步骤的计算瓶颈在于摘要生成的 Token 数 (约 2000 tokens/篇)，在 27B 模型上耗时约 15-20s/篇，并行处理后总延迟需控制在 60s 以内，否则将拖慢整个科研循环的迭代速度。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N17",
+   "claim": "MacBook M1 Max 的 CPU 集群 (10-core) 在单线程浮点性能上约为 V100 GPU 的 1/50，但其统一内存架构 (32GB Unified Memory) 允许在不经过 PCIe 拷贝的情况下直接访问大模型权重；因此，对于 <7B 参数的轻量级任务 (如嵌入生成、小模型分类)，在 M1 Max 上运行的延迟比通过 PCIe 调用 V100 低 3-5 倍，应作为首选本地化任务。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N18",
+   "claim": "云端 API (如 Claude 3.5 Sonnet 或 GPT-4o) 的调用成本约为 $0.003/1k input tokens 和 $0.015/1k output tokens；对于一个典型的科研循环 (输入 50k tokens, 输出 5k tokens)，单次完整循环的云端成本约为 $0.30；若每日执行 10 次循环，月度成本约为 $90，远低于自建 8×H100 集群的折旧成本 ($500+/月)，因此在预算紧张时，将‘高难度逻辑推理’步骤卸载至云端是性价比最高的策略。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N19",
+   "claim": "数据隐私与合规性约束：科研数据若涉及未发表 IP，上传至公有云 API 存在泄露风险；因此，需建立敏感数据过滤器，仅将非敏感的通用推理任务 (如代码调试、数学证明) 卸载至云端，而将涉及核心实验数据的任务保留在本地 V100 集群；该过滤器的误报率需控制在 <5%，以避免不必要的本地高延迟计算。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N20",
+   "claim": "网络延迟对混合架构的影响：MacBook 与 V100 服务器间的局域网延迟约为 1-5ms，而云端 API 的网络往返时间 (RTT) 通常为 50-100ms；在流式生成场景中，云端的 TTFT (Time To First Token) 会增加 2-3 秒，这对于交互式科研助手是不可接受的；因此，云端调用必须采用异步批量处理模式，而非实时同步调用。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N21",
+   "claim": "幻觉率控制机制：针对27B模型，定义幻觉率为 $H_{rate} = \\frac{\\text{Factually Incorrect Claims}}{\\text{Total Factual Claims}}$。在本地V100环境下，通过构建基于RAG（检索增强生成）的外部知识库，将 $H_{rate}$ 从纯参数记忆的基线水平（预估 15%-20% [时效待核]）降低至 <5%，通过限制模型仅引用检索到的文档片段来抑制参数化幻觉。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N22",
+   "claim": "逻辑一致性验证：采用 Self-Consistency 策略，对关键推导步骤进行 $k=3$ 次独立采样（温度 $T=0.7$），计算一致性得分 $C = \\frac{\\text{Majority Vote Count}}{k}$。仅当 $C=1.0$ 时接受输出，否则触发人工审查。该机制以 $3\\times$ 的推理延迟为代价，将逻辑错误率降低约 60% [待核验]。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N23",
+   "claim": "可复现性哈希校验：对每次生成的研究结论及其引用的代码/数据片段计算 SHA-256 哈希值，存储于版本控制系统中。建立断言：若重跑相同 Prompt+Context 产生的哈希值偏差 > 0，则判定为不可复现。在 vLLM 非确定性内核（CUDA non-determinism）存在的情况下，需设置 `--enforce-eager` 或固定种子 `seed=42` 以将随机性方差控制在 $\\sigma^2 < 10^{-6}$ 范围内。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N24",
+   "claim": "阶段一基线评估（Week 1-2）：构建 'Mini-Research Loop' 基准集，包含 10 个公开数据集上的简单假设检验任务。定义成功指标为 $S_1 = \\frac{\\text{Tasks Passed with Auto-Validation}}{10}$。目标 $S_1 \\geq 0.8$。若 $S_1 < 0.5$，表明基础工具链（Python执行、文件读写）存在缺陷，需优先修复基础设施而非优化Prompt。",
+   "level": "L2",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N25",
+   "claim": "阶段二复杂度跃迁（Week 3-6）：引入多步推理任务（如文献综述合成）。定义边际贡献率 $MC_2 = \\frac{\\Delta S_2}{\\Delta Cost_2}$，其中 $\\Delta S_2$ 为任务成功率提升，$\\Delta Cost_2$ 为增加的Token消耗。预期 $MC_2$ 在 Prompt 优化初期较高（>0.1%/token），但在 Context Window 接近 262k 上限时急剧下降，此时需切换至分层摘要策略。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "quotient",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N26",
+   "claim": "收敛瓶颈识别：当本地 27B 模型在复杂推理任务上的准确率停滞在 70% 左右时，识别为 'Model Capability Ceiling'。此时继续优化 Prompt 的边际收益趋近于 0。突破点在于引入外部计算器（如 SymPy）或代码解释器来处理数学/逻辑密集型子任务，将模型的认知负荷从 '计算' 转移至 '规划'，预计可将整体任务完成率提升至 85%。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N27",
+   "claim": "热稳定性压力测试：对 4x V100 集群进行 72 小时满载推理测试（持续生成 262k tokens）。监测 GPU 核心温度 $T_{core}$ 和降频频率 $F_{down}$。若 $T_{core} > 85^\\circ C$ 持续超过 10 分钟，或 $F_{down} > 5\\%$，则判定硬件不可靠。需建立线性回归模型预测温度漂移：$T(t) = T_0 + k \\cdot t$，其中 $k$ 为老化系数。",
+   "level": "L2",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6"
+   ]
+  },
+  {
+   "id": "N28",
+   "claim": "领域基准缺失探测：选择 3 个目标科研领域（如生物信息学、材料科学、经济学），各选取 5 篇顶刊论文的 'Methodology' 部分作为测试集。让模型执行 '复现实验设计' 任务。定义盲点指数 $B_i = 1 - \\text{Accuracy}_i$。若某领域 $B_i > 0.6$，则该领域为高风险区，需在该领域增加 RAG 权重或启用云端 API 辅助，而非依赖本地模型。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6"
+   ]
+  },
+  {
+   "id": "N29",
+   "claim": "成本-性能黑盒映射：建立电费与 Token 消耗的实时关联函数 $Cost(t) = P_{server}(t) \\cdot E_{rate} + N_{tokens}(t) \\cdot C_{api}$。由于 V100 功耗 $P_{server}$ 随负载波动，需每 5 分钟采样一次功率。通过最小化 $Cost(t)$ 下的任务完成率 $S(t)$，找到最优的 '本地推理 vs 云端API' 切换阈值。预计当任务复杂度 $C_{task} > 5$ 步时，云端 API 的性价比更高。",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6"
+   ]
+  },
+  {
+   "id": "N30",
+   "claim": "在科研自动化的质检环节，需区分‘逻辑一致性’与‘事实准确性’。对于‘可发表级’结论，仅靠 Self-Consistency (N22) 不足，需引入基于引用追踪的 Factuality Score (FS)。定义 FS = (Verified Citations / Total Citations)，其中 Verified Citations 指通过 DOI 解析并在原始 PDF 中通过 NLI (Natural Language Inference) 模型确认支持该论断的引用。若 FS < 0.95，则标记为‘高风险幻觉’，需触发人工审查或重新检索。此指标直接对标顶刊对参考文献准确性的零容忍标准。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "quotient",
+   "parent_ids": []
+  },
+  {
+   "id": "N31",
+   "claim": "针对‘方法论严谨性’的自动化评估，需构建 ‘Experimental Design Validity Checker’。该模块基于预定义的科研范式模板（如 RCT, Cross-sectional, Simulation），检查生成文本中是否包含必要的控制变量描述、样本量计算公式（如基于 power analysis 的 n ≥ 80 for α=0.05, power=0.8）以及统计检验方法的选择依据。若缺失关键统计参数或逻辑断层，自动评分低于 70/100，判定为‘不可发表级’。此检查项弥补了 LLM 常忽略统计前提的缺陷。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N32",
+   "claim": "建立‘新颖性-可行性’二维评估矩阵以模拟同行评审。维度1‘新颖性’通过计算生成假设与 Vector DB 中最近邻文献的余弦相似度 (Cosine Similarity) 衡量，阈值设为 Sim < 0.85 视为具备一定新颖性；维度2‘可行性’通过静态代码分析检查实验脚本的资源需求（内存/时间）是否在硬件上限内。只有当 Novelty > Threshold 且 Feasibility = True 时，才进入最终报告生成阶段。该机制防止生成‘正确但陈旧’或‘创新但无法执行’的低质量结论。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N33",
+   "claim": "Qwen3.8-27B 实际架构参数核实：确认 num_hidden_layers (L)、num_key_value_heads (H_kv) 和 head_dim (D_h)。当前计算假设 H_kv=8, D_h=128, L=32，但需查阅 config.json 确认 L 是否为 32 或其他值，因为这直接决定 KV Cache 总量是线性缩放还是固定。",
+   "level": "L3",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N7"
+   ]
+  },
+  {
+   "id": "N34",
+   "claim": "KV Cache 精度修正：题面声称使用 fp8 KV cache，但 N7 的计算使用了 2 bytes/token (FP16)。若实际为 FP8 (1 byte/token)，理论峰值应从 13.4 GB 降至 6.7 GB；若为 INT8 量化，同样为 6.7 GB。需确认 vLLM 配置中 dtype 是否真的生效为 fp8，以及 FlashAttention 在 V100 (CC 7.0) 上是否支持 fp8 加速或仅支持 fp16/bf16 回退。",
+   "level": "L3",
+   "source": "search",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N7"
+   ]
+  },
+  {
+   "id": "N35",
+   "claim": "分页对齐损耗量化模型：vLLM 使用 PagedAttention，block_size 通常为 16 tokens。实际内存占用 = ceil(seq_len / block_size) * block_size * bytes_per_token。对于 seq_len=262144，若 block_size=16，则 262144/16 = 16384 块，无向上取整损耗（因为整除）。损耗主要来自：1) 元数据指针开销（每块 4-8 bytes）；2) 物理页分配的非连续性导致的 TLB miss 间接性能损耗（非内存容量损耗）。需澄清 N7 中 '10%-15% 上浮' 是指物理内存占用增加还是有效带宽利用率下降。",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N7"
+   ]
+  },
+  {
+   "id": "N36",
+   "claim": "TP=4 下 AllReduce 数据量精确计算：对于 Transformer 层，AllReduce 发生在 Attention Output Projection 和 MLP 中间层。数据量 = batch_size * seq_len * hidden_size * dtype_bytes。对于 decode 阶段 (batch=1, seq_len=1, hidden=5120, fp16)，数据量 = 1*1*5120*2 = 10.24 KB/层。若有 32 层，总通信量 = 327.68 KB/step。N8 中提到的 40 MB 可能是 prefill 阶段或错误估算。需区分 prefill (seq_len=262144) 和 decode (seq_len=1) 两种场景下的通信瓶颈差异。",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N8"
+   ]
+  },
+  {
+   "id": "N37",
+   "claim": "NVSwitch vs PCIe 拓扑确认：Tesla V100-SXM2 支持 NVLink，但 4 卡集群是否通过 NVSwitch 互联取决于服务器主板型号（如 DGX-1 或 Supermicro H12SSL-i）。若仅通过 PCIe 3.0 x16 互联，带宽为 128 GB/s (单向) 或 64 GB/s (双向)，而非 900 GB/s。需通过 nvidia-smi topo -m 确认实际拓扑。若为 PCIe 互联，AllReduce 延迟将增加 7 倍以上，成为主要瓶颈。",
+   "level": "L3",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N8"
+   ]
+  },
+  {
+   "id": "N38",
+   "claim": "NCCL AllReduce 算法选择与延迟分解：NCCL 在 4 卡环状拓扑下使用 Ring AllReduce。延迟 T = alpha + beta * size。alpha (启动延迟) 通常 10-20 us，beta (带宽倒数) 取决于链路。对于小消息 (<1MB)，延迟主导；对于大消息 (>10MB)，带宽主导。需实测 alpha 和 beta 参数，以判断在 decode 阶段 (小消息) 是否受协议开销限制，还是在 prefill 阶段 (大消息) 受带宽限制。",
+   "level": "L3",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N8"
+   ]
+  },
+  {
+   "id": "N39",
+   "claim": "MTP (Multi-Token Prediction) 架构确认：Qwen3.8-27B 是否原生支持 MTP 训练？若否，则 MTP×4 投机解码需使用独立的 draft model（如 Qwen3.8-0.5B 或 1.5B）。'MTP×4' 指一次生成 4 个 token 的草稿。需确认 draft model 的参数量及其在 V100 上的推理延迟。若 draft model 为 0.5B，其前向传播延迟约 1-2 ms/token，占主模型 27B 延迟 (50-100 ms/token) 的 2-4%，而非 N9 声称的 5-8%。",
+   "level": "L3",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N9"
+   ]
+  },
+  {
+   "id": "N40",
+   "claim": "接受率 (Acceptance Rate) 任务依赖性量化：N9 声称接受率 0.85-0.92，但这仅在代码补全等高熵低任务上成立。对于科研文献综述 (低熵、长尾词汇)，接受率可能降至 0.5-0.7。需建立任务类型与接受率的映射函数：R_task = R_base * exp(-lambda * entropy_task)。若平均接受率降至 0.6，加速比从 3.2x 降至 1/(1+3*0.6) = 1.5x，抵消部分收益。",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N9"
+   ]
+  }
+ ],
+ "rounds_log": [
+  {
+   "round": 1,
+   "n_new": 26,
+   "n_total": 32,
+   "gain": 0.978,
+   "S_alpha_corr": 23.78,
+   "frontier": 6,
+   "verified": 7,
+   "reworked": 19,
+   "dropped_redundant": 0,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 32
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  },
+  {
+   "round": 2,
+   "n_new": 8,
+   "n_total": 40,
+   "gain": 0.907,
+   "S_alpha_corr": 35.64,
+   "frontier": 26,
+   "verified": 3,
+   "reworked": 6,
+   "dropped_redundant": 5,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 38,
+    "quotient": 2
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  }
+ ]
+}

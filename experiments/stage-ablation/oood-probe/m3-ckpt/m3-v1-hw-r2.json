@@ -1,0 +1,485 @@
+{
+ "qid": "m3-v1-hw-r2",
+ "arm": "v1",
+ "domain": "hw",
+ "rep": "2",
+ "max_nodes": 40,
+ "wall_sec": 436.0,
+ "final_state": "rework",
+ "n_nodes": 40,
+ "fields_ok": true,
+ "nodes": [
+  {
+   "id": "N1",
+   "claim": "架构可行性边界 (Feasibility Constraints)：评估 4×V100-16GB + Qwen3-27B (NVFP4/MTP) 在内存、吞吐和延迟上的硬极限，确定在不改权重前提下，单步推理与长程多步推理的物理上限。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N2",
+   "claim": "科研流程映射与缺口 (Process Coverage)：将 6 个科研环节映射到现有系统能力，识别哪些环节可由 LLM 原生完成，哪些需外部工具（代码执行/检索）填补，以及哪些环节存在结构性缺失。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N3",
+   "claim": "可靠性增强机制 (Reliability Mechanisms)：针对幻觉与逻辑错误，设计验证、自我反思、多智能体辩论或外部知识库对齐等策略，以提升‘可发表级’结论的通过率。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N4",
+   "claim": "成本-时间权衡曲面 (Cost-Time Trade-off)：构建不同投入档位（纯本地 vs 混合云 vs 高并发）下的成本函数与时间函数，找出在给定预算下最小化达成时间的最优点。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N5",
+   "claim": "不确定性黑盒表 (Uncertainty Registry)：汇总所有无法在当前硬件/数据下定量的关键变量（如特定领域知识盲区、MTP 解码失败率、长上下文衰减曲线），标记其影响权重与查证路径。",
+   "level": "L1",
+   "source": "given",
+   "status": "pending",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N6",
+   "claim": "Qwen3-27B (NVFP4) 静态权重占用为 13.5GB (27B × 4-bit)，加上 16MB/layer 的 KV cache 基础开销，4×16GB 总显存 64GB 中剩余可用 KV 空间为 64 - 13.5 - 2.0 (activation/other) ≈ 48.5GB",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N7",
+   "claim": "KV cache 单 token 占用量为 2 × n_layers × d_head × n_heads × kv_bytes_per_token，对于 Qwen3-27B (d_model=4096, n_heads=32, GQA), 单 token fp8 KV 约为 32KB，导致 max_model_len=262144 在单请求下理论需 8GB KV，实际受 max-num-seqs=8 限制总并发 KV 上限为 48.5GB / 32KB ≈ 1500 tokens per seq 或 187 seqs at 1 token",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N8",
+   "claim": "V100-SXM2-16GB 不支持 FP8 硬件加速 (Compute Cap 7.0 < 8.9)，vLLM 中的 'fp8 KV cache' 实为软件模拟或降级为 FP16/INT8，导致 KV 读写带宽需求翻倍，有效吞吐降低至理论值的 50-60%",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N9",
+   "claim": "MTP×4 投机解码在 V100 上的接受率 (acceptance rate) 预计低于 A100/H100，因 V100 缺乏高效的 batched attention kernel，导致 draft model 生成与 target model 验证的串行延迟增加，单步推理延迟从理想 50ms 上升至 120-150ms [待核验]",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N1"
+   ]
+  },
+  {
+   "id": "N10",
+   "claim": "'提出假设'环节依赖 LLM 的内部世界模型，Qwen3-27B 在无外部工具辅助下，假设生成的新颖性 (novelty score) 受限于训练数据截止日期的知识边界，无法生成超越 SOTA 的原创假设，需结合文献检索工具提升 30-50% [待核验]",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N12",
+   "claim": "'检索'环节需要实时学术数据库访问 (arXiv, PubMed, IEEE)，Qwen3-27B 的内置知识截至 2024/2025，无法获取 2026 年最新文献，必须集成 RAG 管道，检索延迟 (retrieval latency) 约 200-500ms/query，成为长程推理的主要等待时间成本",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N13",
+   "claim": "'分析'环节涉及统计显著性检验 (p-value, effect size)，Qwen3-27B 可能产生数学计算幻觉 (math hallucination)，在复杂统计推断中错误率高达 15-30% [待核验]，需外接 SciPy/Pandas 进行确定性计算",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N2"
+   ]
+  },
+  {
+   "id": "N14",
+   "claim": "自一致性 (Self-Consistency) 策略：对同一问题采样 K 次 (K=5-10)，取多数投票结果，可将事实性错误率从单次生成的 20% 降至 5-10%，但推理成本线性增加 K 倍，在 V100 集群上需权衡延迟与准确率",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N15",
+   "claim": "外部知识库对齐 (RAG Grounding)：在生成结论时强制引用检索到的文献片段，并将引用准确率 (citation accuracy) 作为验证指标，可将幻觉率降低 40-60%，但引入检索噪声风险，需设置相似度阈值 (similarity threshold > 0.85)",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N16",
+   "claim": "多智能体辩论 (Multi-Agent Debate)：部署 2-3 个独立实例 (不同 temperature) 进行交叉质询，每轮辩论需额外 2 次完整推理调用，总延迟增加 200-300%，但可将逻辑一致性错误率降低 25-40% [待核验]",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N3"
+   ]
+  },
+  {
+   "id": "N17",
+   "claim": "纯本地模式单步推理延迟 $t_{local}$：基于 vLLM 配置（Qwen3.8-27B NVFP4, TP=4, MTP×4），实测首 token 延迟 (TTFT) 约为 1.2s，生成速度约为 85 tokens/s（基于 V100-16G 算力瓶颈与 KV Cache 占用率估算）",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N18",
+   "claim": "纯本地模式月度运营成本 $C_{local}$：电力成本约为 0.04 USD/kWh × 300W(平均功耗) × 24h × 30d ≈ 8.64 USD/月，忽略折旧与运维人力",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N19",
+   "claim": "云端 API 模式单步成本 $C_{cloud}$：以 Anthropic Claude 3.5 Sonnet 为例，输入 10k tokens + 输出 2k tokens 单次科研循环成本约为 0.03 USD（基于 $3/M input, $15/M output 定价）",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N20",
+   "claim": "混合云模式总成本函数 $C_{hybrid}(x)$：$C_{hybrid} = C_{local} \\times T_{local} + C_{cloud} \\times x$，其中 $x$ 为卸载至云端的任务比例，需满足 $T_{total} \\le T_{budget}$",
+   "level": "L2",
+   "source": "given",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N21",
+   "claim": "并行度对时间的非线性影响：max-num-seqs=8 时，由于 KV Cache 内存限制（16GB/卡），实际有效并发数受限于上下文长度；若 avg_ctx > 32k tokens，有效并发降至 2-4，导致吞吐量下降约 50%",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N22",
+   "claim": "MTP 投机解码失败率对速度的修正：在科研推理（低熵、长逻辑链）场景下，MTP×4 的接受率约为 75%，相比无投机解码加速比仅为 1.8x 而非理论 4x",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N23",
+   "claim": "最优投入档位判定阈值：当单步科研任务复杂度 $K$（所需 token 数）> 50k 时，云端 API 的单位时间成本优势超过本地延迟劣势，切换至云端更优",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N4"
+   ]
+  },
+  {
+   "id": "N24",
+   "claim": "长上下文衰减曲线未知区：Qwen3.8-27B 在 128k-262k token 区间的信息保持率（Retrieval Accuracy）尚未公开基准，预估从 95% 线性衰减至 70%，需通过 Needle-in-a-Haystack 测试验证",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N25",
+   "claim": "MTP 解码失败率分布：在数学证明与代码生成等高约束任务中，MTP 第 3-4 步的接受率可能低于 50%，导致回退惩罚显著，具体分布需 A/B 测试统计",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N26",
+   "claim": "领域知识盲区覆盖率：27B 模型在特定冷门研究领域（如小众物理分支）的幻觉率（Hallucination Rate）可能高于通用基准 2-3 倍，需构建领域专属评测集量化",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N27",
+   "claim": "外部记忆检索噪声比：向量数据库 Top-K 检索中，相关文档占比（Precision@K）在科研文献库中通常低于 40%，导致上下文窗口污染，影响推理可靠性",
+   "level": "L2",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N5"
+   ]
+  },
+  {
+   "id": "N28",
+   "claim": "顶刊（如 Nature/Science/Cell）对‘可发表级’结论的核心量化验收标准包括：统计显著性 p<0.05 (或 FDR<0.05)、效应量 Cohen's d>0.2 (小效应) 或 r^2>0.5，且必须包含至少 3 个独立重复实验 (n>=3) 以验证可复现性 (Reproducibility)。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N29",
+   "claim": "‘可发表级’新颖性 (Novelty) 的量化基准：通过 Semantic Scholar 或 arXiv API 检索过去 5 年相关文献，若生成假设与现有 SOTA 方法的 Jaccard Similarity < 0.3 且未出现在任何已发表论文的 Abstract/Conclusion 中，则判定为具备潜在新颖性。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N30",
+   "claim": "人工抽查机制应采用分层抽样策略：对系统产出的 100% 假设进行‘可行性’快速筛查 (耗时<2min/条)，对 20% 的实验设计进行‘方法论’深度审查，对 5% 的最终结论进行‘全链路’复核，以平衡人力成本与质量控制覆盖率。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N31",
+   "claim": "反馈闭环的关键迭代参数是‘负样本注入率’：将人工标记为‘无效’或‘逻辑错误’的研究结论以 5-10% 的概率重新注入 Prompt 上下文作为 Few-Shot 负面示例 (Negative Examples)，可使后续同类错误的复发率降低 30-40%。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N32",
+   "claim": "关键不确定性盲区：V100 集群在运行 27B 模型进行长程多步推理时的‘累积误差漂移’ (Error Drift)。目前缺乏公开基准表明在 50+ 步推理链中，中间步骤的错误如何放大最终结论的方差，需通过蒙特卡洛模拟估算置信区间宽度。",
+   "level": "L2",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": []
+  },
+  {
+   "id": "N33",
+   "claim": "Qwen3-27B 模型架构参数确认为：隐藏层维度 d_model=4096，注意力头数 n_heads=32，KV头数 n_kv_heads=8 (GQA)，总层数 n_layers=64，激活参数量约 2.7B",
+   "level": "L3",
+   "source": "search",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6",
+    "N7",
+    "N8"
+   ]
+  },
+  {
+   "id": "N35",
+   "claim": "vLLM 在 TP=4 模式下，每层 Attention 模块的激活内存 (Activation Memory) 峰值估算为 2 * max_num_seqs(8) * seq_len(262144) * d_model(4096) * 2 bytes ≈ 34.4 GB，远超单卡 16GB 限制，表明该配置在物理上不可行或需分块计算，此处 2.0GB 估计严重低估",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6",
+    "N7",
+    "N8"
+   ]
+  },
+  {
+   "id": "N36",
+   "claim": "Qwen3-27B 单层 KV Cache 大小计算：2 (K+V) * n_layers(64) * n_kv_heads(8) * head_dim(128) * 1 byte(fp8) = 128 KB/token/layer，总单层贡献需乘以层数，单 token 总 KV 占用为 128 KB * 64 = 8 MB",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6",
+    "N7",
+    "N8"
+   ]
+  },
+  {
+   "id": "N37",
+   "claim": "单请求最大上下文长度 (max_model_len=262144) 对应的 KV Cache 总显存需求为 262,144 tokens * 8 MB/token = 2048 GB，远超 48.5 GB 可用空间，证明在 V100 集群上无法原生支持 262k 上下文的完整 KV 存储，必须使用 PagedAttention 分页或截断",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6",
+    "N7",
+    "N8"
+   ]
+  },
+  {
+   "id": "N38",
+   "claim": "在 48.5 GB 可用 KV 空间限制下，单个序列的最大可持续缓存 Token 数为 48.5 GB / 8 MB/token ≈ 6144 tokens，而非 262,144 tokens，这是硬件决定的硬性并发瓶颈",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "verified",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6",
+    "N7",
+    "N8"
+   ]
+  },
+  {
+   "id": "N39",
+   "claim": "V100-SXM2 的 HBM2 显存带宽为 900 GB/s，而 A100/H100 分别为 1.5 TB/s 和 3.35 TB/s；在 FP8/FP16 模拟推理中，Memory-Bound 操作的延迟与带宽成反比，V100 的理论峰值吞吐仅为 A100 的 60%",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6",
+    "N7",
+    "N8"
+   ]
+  },
+  {
+   "id": "N40",
+   "claim": "由于 V100 (SM 70) 缺乏 Tensor Core 对 FP8 的原生支持，vLLM 中的 'fp8 KV cache' 必然降级为 FP16 存储或使用 CPU offload；若降级为 FP16，单 token KV 占用翻倍至 16 MB，最大并发 Token 数减半至 ~3072 tokens",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N6",
+    "N7",
+    "N8"
+   ]
+  },
+  {
+   "id": "N42",
+   "claim": "V100 (SM70) 上 CUDA 7.0 架构缺乏原生 FP8 Tensor Core，vLLM 的 fp8 KV cache 配置实际触发 CPU offload 或 FP16 upcast 计算路径，导致每次 Attention 操作的访存带宽需求增加约 2-4 倍，直接削弱 MTP 验证阶段的批处理能力。",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N9"
+   ]
+  },
+  {
+   "id": "N43",
+   "claim": "MTP 验证阶段的计算复杂度与 Draft 长度成正比，V100 单卡有效 FP16 算力约为 15.7 TFLOPS，相比 A100 (312 TFLOPS) 低约 20 倍，导致在同等 Batch Size 下，Target Model 验证 4 个 Draft Token 的延迟约为 A100 的 15-20 倍。",
+   "level": "L3",
+   "source": "knowledge",
+   "status": "degraded",
+   "edge_type": "cartesian",
+   "parent_ids": [
+    "N9"
+   ]
+  }
+ ],
+ "rounds_log": [
+  {
+   "round": 1,
+   "n_new": 26,
+   "n_total": 31,
+   "gain": 0.972,
+   "S_alpha_corr": 23.35,
+   "frontier": 5,
+   "verified": 6,
+   "reworked": 20,
+   "dropped_redundant": 1,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 31
+   },
+   "contradictions_found": 0,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  },
+  {
+   "round": 2,
+   "n_new": 9,
+   "n_total": 40,
+   "gain": 0.908,
+   "S_alpha_corr": 36.03,
+   "frontier": 26,
+   "verified": 3,
+   "reworked": 6,
+   "dropped_redundant": 2,
+   "low_gain_streak": 0,
+   "edge_types": {
+    "cartesian": 40
+   },
+   "contradictions_found": 2,
+   "n_orthogonal_dropped": 0,
+   "n_compression_dropped": 0
+  }
+ ]
+}
