@@ -56,5 +56,6 @@ r2 修正后重跑 (75944f602)。
 | D1b selftest 6 case | D1a | ~60 | ~60 | 1 | sub-27b | ✅ done ce8915edc (ALL 6 PASS, 无检测器 bug) |
 | D2 思考轮 prompt 段+回执 schema | D1a | ~80 | ~40 | 1 | sub-27b | ✅ done 0d123ead7 (18行新节+schema 1行, 4步与设计§2逐条对应) |
 | D3 执行者接入+触发演练 (埋假数字) | D2 | ~60 | ~30+回执 | 1 | sub-27b | ✅ done 323e71328 (每tick 3.5步+drill PASS, steer 修正夹具) |
-| D4a 模拟拍 (触发→模型思考轮服从性) | D3 | ~50 | ~60 | 1 | sub-27b | r1 FAIL=死因 harness 框架错 (模型正确查队列→IDLE, 协议驱动正面证据); r2 在跑 (75944f602) |
+| D4a 模拟拍 (触发→模型思考轮服从性) | D3 | ~50 | ~60 | 1 | sub-27b | r1 FAIL=harness 队列框架错; r2 FAIL=单轮无工具循环 (模型 tool_call 后停); 死因都是 harness 不是模型 |
+| D4b 真实执行者拍 (sub 扮演执行者, 真实工具循环) | D3 | 卡+协议 | 回执 | 1 | sub-27b | 换路: harness 模拟模拟→直接派 sub 跑真实拍 (d65a4f4f6) |
 | D4 验收+§4 按探针结果收口 | D3+probe | 回执 | ~20 | 1 | 判断-Lead | §4 已收口 (74bae9eda); 待 r2 结果做最终验收 |
