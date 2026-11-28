@@ -1,0 +1,94 @@
+这是一个典型的**海量数据流处理与近似计算**问题。在动手设计之前，我们先进行自检：
+
+**(a) 质疑方向：**
+*   **可行性检查：** $10^9 \times 1\text{KB} = 1\text{TB}$ 数据量。内存只有 16GB。显然无法将原始数据全部加载进内存进行精确比对（Exact Match）。必须使用**近似算法**（如 MinHash, SimHash, Bloom Filter, HyperLogLog 变体）或**分片+磁盘索引**策略。
+*   **性能检查：** 吞吐 $10^4$ 条/秒。对于现代硬件，这个吞吐极低（仅 10k QPS）。这意味着我们不需要极致的低延迟优化（如 FPGA 或极致 SIMD），重点在于**存储效率**和**算法复杂度控制**。
+*   **结论：** 方向可行，但核心难点不在“快”，而在“省”和“准”。必须放弃精确去重，采用概率数据结构。
+
+**(b) 查前人：**
+*   **经典方案：**
+    *   **Bloom Filter:** 空间换时间，适合精确匹配（MD5/SHA1 指纹），不支持模糊去重，但本题允许“近似去重”，通常指内容相似度高即视为重复。若仅指完全相同的日志重复，Bloom Filter 是首选；若指语义/格式相似，需 MinHash/SimHash。鉴于日志通常结构固定，**指纹哈希 + LSH (Locality Sensitive Hashing)** 是工业界标准。
+    *   **SimHash/MinHash:** 用于检测近似重复。LSH 可以将高维向量降维到桶中，碰撞概率可控。
+    *   **HyperLogLog:** 用于基数估计，不适合去重存储。
+    *   **Caffeine/Guava Cache:** 本地缓存热点。
+*   **现有工具：** Apache Flink, Spark Streaming 均可实现，但我们需要设计底层机制。
+
+**(c) 找更快：**
+*   **压缩路径：** 既然允许 <1% 漏重（False Negative rate < 1%），我们可以接受一定的误判（False Positive），通过二次校验消除误判。
+*   **最短路径：**
+    1.  计算日志指纹（轻量级哈希，如 MurmurHash3 或 64-bit SimHash）。
+    2.  利用 **LSH (MinHash)** 将指纹映射到多个桶。
+    3.  维护一个基于 **LRU + Bloom Filter** 的内存索引。
+    4.  溢出部分写入磁盘（SSD/NVMe）并定期合并。
+
+---
+
+### 大规模日志近似去重系统设计分解树
+
+本设计基于 **LSH (MinHash) + 分层缓存 (In-Memory Bloom/LRU + Disk Index)** 架构。
+
+#### 1. 数据预处理层 (Pre-processing Layer)
+*   **节点 1.1: 日志规范化 (Normalization)**
+    *   **关键决策：** 去除时间戳、IP、ID 等动态字段，提取静态模板（如 `ERROR: Connection failed to {}`）。
+    *   **理由：** 提高去重精度，避免同一类错误因变量不同而被视为不同日志。使用正则或 N-gram 模板挖掘（Drain3 算法）。
+*   **节点 1.2: 特征向量化 (Feature Extraction)**
+    *   **关键决策：** 对规范化后的日志字符串生成 **MinHash 签名**（例如 128 个 64-bit 整数）。
+    *   **理由：** MinHash 能高效估计 Jaccard 相似度。128 个签名足以在 16GB 内存下支持高精度近似去重。比完整哈希更省空间，比 SimHash 更适合集合相似度。
+
+#### 2. 近似索引核心层 (Approximate Index Core)
+*   **节点 2.1: LSH 分桶策略 (Banding & Hashing)**
+    *   **关键决策：** 采用 **Banding 技术**。将 128 个 MinHash 签名分为 16 个 Band，每个 Band 包含 8 个 Row。对每个 Band 计算一个 64-bit 哈希值作为桶键。
+    *   **理由：** 如果两个日志相似（Jaccard > S），它们在至少一个 Band 上完全匹配的概率极高。16 个桶意味着一次查询最多访问 16 个候选集，平衡了召回率与计算开销。
+*   **节点 2.2: 内存索引结构选择 (In-Memory Structure)**
+    *   **关键决策：** 使用 **ConcurrentHashMap<Long, Set<LogID>>** 或更紧凑的 **Roaring Bitmap** 存储桶 ID 到日志 ID 的映射。同时维护一个全局 **Bloom Filter** 用于快速否定“绝对不重复”的情况。
+    *   **理由：** 16GB 内存足以容纳 $10^9$ 条日志的**摘要索引**（而非原文）。每条日志仅存储：`LogID` (8B) + `MinHash Sig` (1KB -> 压缩后约 100B-1KB，但 LSH 桶只需存储 Band Hash 和 LogID)。实际内存占用估算：$10^9 \times (\text{16 Band Hashes} \times 8\text{B} + \text{Overhead}) \approx 1.5\text{GB}$，远小于 16GB，留有大量余量用于 Bloom Filter 和 LRU 缓存。
+*   **节点 2.3: 漏重率控制参数调优 (Tuning for FN < 1%)**
+    *   **关键决策：** 调整 Band 数量 $B$ 和 Row 数量 $R$。公式 $P(\text{collision}) \approx S^{1/B}$。目标是将 False Negative 控制在 1% 以内。
+    *   **理由：** 通过数学推导确定 $B=16, R=8$ 时的阈值曲线，确保当 Jaccard 相似度 > 0.7 时，被检测为重复的概率 > 99%。
+
+#### 3. 存储与持久化层 (Storage & Persistence)
+*   **节点 3.1: 溢出处理机制 (Spill Strategy)**
+    *   **关键决策：** 当内存中的活跃窗口超过阈值（如 500 万条）时，将冷数据刷入 **LevelDB/RocksDB** 或 **Parquet 文件**。
+    *   **理由：** 防止 OOM。由于日志具有时间局部性，最近的数据最可能重复。旧数据的重复概率降低，可容忍较高的磁盘 I/O 延迟。
+*   **节点 3.2: 磁盘索引结构 (Disk Index Schema)**
+    *   **关键决策：** 按 **LSH Bucket Key** 排序存储。每条记录包含 `[BucketKey, LogID, MinHashSig]`。
+    *   **理由：** 范围扫描优化。查询时只需读取特定 Bucket Key 对应的磁盘块，避免全表扫描。
+
+#### 4. 查询与验证层 (Query & Verification)
+*   **节点 4.1: 候选集生成 (Candidate Generation)**
+    *   **关键决策：** 新日志到来时，计算其 16 个 Band Hash，并行查询内存和磁盘索引，获取所有匹配的 `LogID` 候选集。
+    *   **理由：** 这是 I/O 密集步骤。利用 SSD 并行读取 16 个小范围数据块，延迟可控。
+*   **节点 4.2: 精确/半精确校验 (Verification Step)**
+    *   **关键决策：** 对候选集中的 Top-K（K=5）日志，重新计算 **Jaccard 相似度**（基于原始 MinHash 签名，非 Band）。若相似度 > 阈值（如 0.8），判定为重复。
+    *   **理由：** 消除 LSH 带来的 False Positives。这一步计算量极小（仅向量点积/交集计算），保证最终准确率。
+*   **节点 4.3: 更新与失效策略 (Update & Eviction)**
+    *   **关键决策：** 若判定为新日志，插入索引；若判定为重复，丢弃并计数。采用 **TTL (Time-To-Live)** 或 **LRU** 淘汰旧日志。
+    *   **理由：** 日志去重通常关注近期重复。过老的日志即使重复也不影响业务告警，释放内存给新数据。
+
+#### 5. 并发与吞吐量优化 (Concurrency & Throughput)
+*   **节点 5.1: 无锁化设计 (Lock-free Architecture)**
+    *   **关键决策：** 使用 **ConcurrentSkipListMap** 或 **Disruptor** 模式处理日志流。索引分片（Sharding）按 Bucket Key 哈希取模分为 128 个子分区，避免锁竞争。
+    *   **理由：** 10k QPS 虽低，但为了扩展性和稳定性，必须避免全局锁。分片后每个分区的写冲突概率极低。
+*   **节点 5.2: 批量处理 (Batching)**
+    *   **关键决策：** 每 10ms 或积累 100 条日志进行一次批量索引更新和磁盘刷写。
+    *   **理由：** 减少系统调用和上下文切换开销。提升 I/O 效率。
+
+#### 6. 监控与自适应调节 (Monitoring & Adaptation)
+*   **节点 6.1: 漏重率在线估计 (Online FN Estimation)**
+    *   **关键决策：** 随机采样 1% 的去重结果，与离线精确比对（使用完整哈希集合），实时计算漏重率。
+    *   **理由：** 验证 <1% 约束是否满足。若发现漏重率上升，动态收紧 LSH 阈值或增加 Band 数量。
+*   **节点 6.2: 内存压力自适应 (Memory Pressure Handling)**
+    *   **关键决策：** 监控 JVM/进程内存使用率。若接近 14GB（预留 2GB 缓冲），强制触发更激进的 GC 或提前将温数据移至磁盘。
+    *   **理由：** 防止 OOM Kill，保证系统可用性。
+
+#### 7. 容错与恢复 (Fault Tolerance)
+*   **节点 7.1: 状态快照 (State Snapshotting)**
+    *   **关键决策：** 每 5 分钟将内存索引状态序列化为快照文件。
+    *   **理由：** 系统重启后可从快照恢复，无需重新扫描历史日志。
+*   **节点 7.2: 幂等性保证 (Idempotency)**
+    *   **关键决策：** 每条日志分配唯一 `UUID` 或 `(Timestamp, Source, Seq)` 复合键。
+    *   **理由：** 即使发生网络重试导致同一条日志发送两次，也能通过唯一键识别并去重，不依赖内容相似度。
+
+### 总结
+
+该系统通过 **MinHash + LSH** 实现高效的近似去重，利用 **内存分层** 和 **磁盘索引** 解决 1TB 数据在 16GB 内存下的存储问题。通过 **二次校验** 保证准确率，通过 **分片并行** 保证吞吐。整体架构符合工业界最佳实践，且资源消耗远低于预算上限。

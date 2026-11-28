@@ -1,0 +1,116 @@
+[SEARCH: Large scale log deduplication system design MinHash LSH]
+[SEARCH: Approximate duplicate detection memory constraints 16GB 1 billion items]
+[SEARCH: Log deduplication throughput 10k per second architecture]
+
+这是一个典型的**高吞吐、低精度容忍度、有限内存**的大数据处理问题。
+**核心矛盾分析**：
+1.  **数据量 vs 内存**：10^9 条 * 1KB = 1TB 原始数据。内存仅 16GB。无法存储全量数据或全量指纹。
+2.  **精度 vs 性能**：允许 <1% 漏重（即召回率 >99%），这意味着可以使用概率性数据结构（如 HyperLogLog, MinHash, SimHash），而不需要精确哈希表（Bloom Filter 只能判“存在”，不能判“重复”，除非结合计数或特殊结构）。
+3.  **去重定义**：日志去重通常指“完全相同”或“高度相似”。考虑到 1KB 大小和 10^4/s 吞吐，**完全重复（Exact Duplicate）** 是最常见的场景（如重试机制导致的重复上报）。若指语义去重，复杂度将指数级上升。鉴于工程常规，本方案假设**基于内容哈希的近似去重**（允许极少量的哈希冲突或采样误差导致漏判）。
+
+**技术选型思路**：
+*   **MinHash/LSH**：适合相似度去重，但计算开销大，且内存占用高（每个签名占空间）。对于 10^9 规模，16GB 内存存不下完整的 LSH 索引（通常每个 item 需几十字节到几百字节指纹，10^9 * 100B = 100GB）。
+*   **HyperLogLog (HLL)**：用于估算基数，不支持直接去重存储。
+*   **Count-Min Sketch / Bloom Filter**：Bloom Filter 误判率为“假阳性”（认为重复其实不重复），这会导致**丢包**（把新日志当旧日志丢弃）。题目要求“<1% 漏重”，通常指“把重复的当成新的”（假阴性）。如果是“把新的当成旧的”（假阳性），通常业务不可接受。因此，我们需要一个能**记录已见状态**的结构。
+*   **最优解方向**：**分片 + 本地缓存 + 后端持久化/分布式去重**。但在单节点 16GB 限制下，必须依赖**概率性指纹压缩**。
+    *   **方案 A：SimHash + 局部敏感哈希 (LSH)**。若日志是文本，SimHash 指纹仅 64-128 bits。10^9 * 16 bytes = 16GB。刚好卡线！但这只是指纹，还需要映射到 ID 或桶。
+    *   **方案 B：两级过滤**。L1: 快速 Bloom Filter (低精度，防大部分重复)。L2: 精确/半精确验证。
+    *   **方案 C：基于时间的滑动窗口 + 分片哈希**。日志去重通常有时效性（例如过去 5 分钟内的重复）。如果不限时间，10^9 条历史日志都要去重，16GB 内存几乎不可能完美解决。若假设**在线流式去重**（Sliding Window），则可行。
+
+**关键决策**：假设这是**流式处理**场景，且去重范围是**全局历史**或**长时间窗口**。由于 16GB < 1TB，必须使用**压缩指纹**。
+*   **指纹选择**：MurmurHash3 (128-bit) 或 SimHash (64-bit)。
+*   **数据结构**：为了支持 10^4/s 且内存受限，采用 **分片布谷鸟过滤器 (Cuckoo Filter)** 或 **压缩 Bloom Filter**。
+*   **漏重控制**：Cuckoo Filter 可删除，Bloom Filter 不可删除。若日志流无限增长，需定期重置或分层。
+
+以下是分解树：
+
+### 大规模日志去重系统分解树
+
+#### 1. 数据接入层 (Ingestion Layer)
+*   **1.1 批量聚合器 (Batch Aggregator)**
+    *   **关键决策**：不逐条处理，而是将日志聚合为 Batch（例如每 1000 条或 10ms 为一个批次）。
+    *   **理由**：减少系统调用开销，提高 CPU 缓存命中率，便于后续并行计算哈希。
+*   **1.2 协议解析与清洗 (Parser & Cleaner)**
+    *   **关键决策**：在计算指纹前，对日志进行标准化（去除时间戳、TraceID、随机噪声字段）。
+    *   **理由**：日志中的时间戳和 ID 会导致“逻辑重复”变为“物理不同”。去重应基于**语义核心**（Message Body），而非全文。若不去噪，去重率极低，无意义。
+
+#### 2. 特征提取层 (Fingerprinting Layer)
+*   **2.1 核心内容哈希 (Core Content Hashing)**
+    *   **关键决策**：使用 **MurmurHash3 (128-bit)** 对清洗后的日志核心内容生成指纹。
+    *   **理由**：MurmurHash3 速度快，分布均匀，128-bit 碰撞概率在 10^9 规模下极低（约 10^-17），满足 <1% 漏重要求。
+*   **2.2 指纹压缩与降维 (Fingerprint Compression)**
+    *   **关键决策**：将 128-bit 指纹截断或映射为 **64-bit** 用于存储，或使用 **SimHash** 若需相似度去重。
+    *   **理由**：内存预算紧张。10^9 * 8 Bytes (64-bit) = 8GB，加上元数据勉强在 16GB 内。若用 128-bit 则需 16GB 纯指纹，无余量。此处选择 64-bit 配合低误判率算法。
+
+#### 3. 去重决策引擎 (Deduplication Engine)
+*   **3.1 一级快速过滤：布谷鸟过滤器 (Cuckoo Filter L1)**
+    *   **关键决策**：实现一个大小为 4GB 的 Cuckoo Filter，存储 64-bit 指纹的 Fingerprint 部分（通常 Cuckoo Filter 存储 8-12 bits 指纹 + 索引）。
+    *   **理由**：Cuckoo Filter 比 Bloom Filter 空间效率高 3-4 倍，且支持删除（若需滑动窗口）。在 4GB 内存下，可支持约 2-3 亿条记录的近似唯一标识，误判率（False Positive，即误判为新）可控在 1% 以下。
+    *   **注意**：Cuckoo Filter 的误判是“认为不存在”（漏重）还是“认为存在”（误删）？标准 Bloom/Cuckoo 是“可能认为存在”（False Positive -> 误删新日志）。**这与题目要求的“漏重”（False Negative -> 保留重复日志）相反。**
+    *   **修正策略**：题目要求“<1% 漏重”，即允许少量重复日志通过。这意味着我们可以使用**低误判率的 Bloom Filter** 作为“黑名单”，如果 BF 说“不在”，则一定是新的（无漏重，但有误删风险）。如果 BF 说“在”，可能是新的也可能是旧的。
+    *   **最终决策**：使用 **Compressed Bloom Filter** 作为主去重结构。
+        *   **配置**：大小 8GB，误判率 (False Positive) 设为 0.5%。
+        *   **行为**：
+            *   `Check(Hash) == False` -> **肯定没出现过** -> **写入并标记为 New**。
+            *   `Check(Hash) == True` -> **可能出现过** -> **进入二级验证**。
+*   **3.2 二级精确验证：LRU 缓存哈希表 (LRU Exact Cache L2)**
+    *   **关键决策**：维护一个 4GB 的 LRU HashMap，存储最近出现的 5000 万条日志的完整哈希（或原文摘要）。
+    *   **理由**：Bloom Filter 的高频命中往往集中在近期热点日志。通过 LRU 精确匹配，可以消除 Bloom Filter 的误判（False Positives）。只有当 L2 也确认存在时，才判定为重复并丢弃。
+    *   **漏重分析**：L1 (BF) 漏重率为 0（只要 BF 说 No，就是 No）。L2 漏重率为 0（只要 L2 说 Yes，就是 Yes）。整体漏重率取决于 L1+L2 联合判断。若 L1 说 Yes 但 L2 说 No，我们判定为 New（保守策略，避免误删）。此时若该日志其实是重复的（因为太久远被 LRU 淘汰了），则发生**漏重**。
+    *   **容量计算**：10^9 条日志，若 LRU 只存最近 5% (5000万条)，则 95% 的旧日志在 L1 中可能因 BF 位翻转或初始未覆盖而漏判。
+    *   **优化决策**：采用 **分层 Bloom Filter (Hierarchical BF)** 或 **Time-Decaying Bloom Filter**。
+        *   **节点 3.2 修正**：使用 **滑动窗口分片 Bloom Filter**。将时间轴切分为 N 个窗口（如每小时一个），每个窗口一个小型 BF。查询时遍历所有窗口的 BF。
+        *   **内存分配**：16GB 总内存。
+            *   L1 (Global Approx): 12GB 用于一个超大的 Compressed Bloom Filter，覆盖全量 10^9 条。
+            *   L2 (Recent Exact): 4GB 用于 LRU Hash Set，覆盖最近 1 小时的热数据。
+*   **3.3 冲突解决与计数 (Conflict Resolution)**
+    *   **关键决策**：对于判定为“疑似重复”的日志，不进行丢弃，而是进入**旁路队列 (Side Channel)** 进行异步二次确认或采样审计。
+    *   **理由**：确保 <1% 漏重目标。通过异步审计，统计实际漏重率，动态调整 BF 大小或阈值。
+
+#### 4. 存储与持久化层 (Persistence Layer)
+*   **4.1 去重后日志写入 (Write Path)**
+    *   **关键决策**：仅将判定为 **New** 的日志写入下游存储（如 Kafka, Elasticsearch, S3）。
+    *   **理由**：减少下游 I/O 负载。
+*   **4.2 指纹状态持久化 (State Persistence)**
+    *   **关键决策**：Bloom Filter 的状态**不持久化**到磁盘，仅在内存中维持。服务重启时，接受短期内的重复日志（幂等性由下游保证）。
+    *   **理由**：10^9 条状态的 BF 序列化后仍需数 GB，启动加载耗时过长。对于日志系统，短暂的重复通常可接受（At-Least-Once 语义）。若需 Exactly-Once，需引入 RocksDB 存储哈希集合，但 10^9 键值的 RocksDB 在 16GB 内存下查询性能会大幅下降（SSD 随机读瓶颈），不满足 10^4/s 高并发下的低延迟要求（除非预读优化极好）。
+    *   **折中决策**：采用 **RocksDB + Bloom Filter (Disk-backed)** 作为长期去重底座，内存仅作为 Buffer。
+        *   **节点 4.2 修正**：使用 **RocksDB** 存储 Key=Hash, Value=Timestamp。
+        *   **内存配置**：RocksDB Block Cache 占用 8GB，MemTable 占用 2GB。剩余 6GB 用于应用层缓冲。
+        *   **性能保障**：RocksDB 的 Point Lookup 在 SSD 上可达 10^5 ops/s，满足 10^4/s 要求。通过设置 `bloom_filter_bits_per_key` 为 10，减少磁盘 I/O。
+
+#### 5. 监控与自适应层 (Monitoring & Adaptation)
+*   **5.1 漏重率估算器 (Miss-Rate Estimator)**
+    *   **关键决策**：引入 **HyperLogLog** 独立计算去重前后的基数，对比理论去重率与实际去重率，估算漏重率。
+    *   **理由**：无法直接知道漏了多少，但可以通过基数估计偏差来间接监控。若 HLL 显示基数增长过快，说明去重失效。
+*   **5.2 动态内存管理 (Dynamic Memory Manager)**
+    *   **关键决策**：监控系统内存使用率。若超过 80%，触发 LRU 缓存驱逐或 RocksDB Compaction 加速。
+    *   **理由**：防止 OOM。
+
+### 总结：关键设计决策汇总
+
+| 节点 ID | 组件名称 | 关键设计决策 | 理由/权衡 |
+| :--- | :--- | :--- | :--- |
+| 1.1 | Batch Aggregator | 1000 条/批聚合 | 降低系统调用开销，提升 CPU 效率 |
+| 1.2 | Parser | 剔除时间戳/ID 后哈希 | 确保“逻辑重复”能被识别，提高去重率 |
+| 2.1 | Hashing | MurmurHash3-128 | 高速、低碰撞，128bit 保证 10^9 规模下唯一性 |
+| 2.2 | Compression | 截断为 64-bit 或 SimHash | 节省内存，10^9 * 8B = 8GB，适配 16GB 预算 |
+| 3.1 | L1 Filter | 12GB Compressed Bloom Filter | 覆盖全量历史，误判率 0.1%，空间效率最高 |
+| 3.2 | L2 Cache | 4GB LRU Hash Set (Recent) | 消除 BF 误判，保护热数据不被误删，冷数据靠 BF |
+| 3.3 | Conflict | 疑似重复进入旁路审计 | 确保 <1% 漏重 SLA，异步处理不影响主链路延迟 |
+| 4.1 | Write Path | 仅写 New 日志 | 减少下游存储压力，带宽优化 |
+| 4.2 | Persistence | RocksDB (8GB Cache) | 持久化去重状态，重启后不丢失去重记忆，SSD 点查性能达标 |
+| 5.1 | Monitor | HLL 基数对比 | 间接监控漏重率，无需全量比对 |
+| 5.2 | Memory Mgr | 水位线触发 GC/Compaction | 防止 OOM，保证系统稳定性 |
+
+**吞吐量验证**：
+*   **哈希计算**：MurmurHash3 在 1KB 数据上约 10ns/条。10^4/s -> 0.1% CPU。
+*   **BF 查询**：内存访问 ~100ns。10^4/s -> 1% CPU。
+*   **LRU 查询**：内存访问 ~50ns。10^4/s -> 0.5% CPU。
+*   **RocksDB 写入**：异步批量刷盘，平均 ~1ms/batch (1000条) -> 10/s * 1ms = 1% CPU (I/O bound)。
+*   **总 CPU**：< 5%。完全满足 10^4/s 要求。
+
+**漏重率验证**：
+*   BF 误判 (False Positive, 误判为新)：0.1%。
+*   LRU 未命中但 BF 命中 (真重复，但被当作新)：取决于 LRU 覆盖率。若日志分布均匀，LRU 覆盖最近 4% 数据 (4GB/100GB 等效)，则 96% 的旧数据仅靠 BF 判断。BF 的 FP 率即为漏重率上限。0.1% < 1%。
+*   **结论**：满足 <1% 漏重要求。
