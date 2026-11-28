@@ -20,7 +20,7 @@ DOMAIN_Q = {
 }
 
 ap = argparse.ArgumentParser()
-ap.add_argument("arm", choices=["v1", "s1", "v3"])
+ap.add_argument("arm", choices=["v1", "s1", "v3", "v2"])
 ap.add_argument("domain", choices=list(DOMAIN_Q))
 ap.add_argument("rep")
 ap.add_argument("--max-nodes", type=int, default=40)
@@ -32,6 +32,7 @@ if os.path.exists(out_fn):
     sys.exit(0)
 
 ARM_DIR = os.path.join(HERE, args.arm)
+assert os.path.isdir(ARM_DIR) and os.path.isfile(os.path.join(ARM_DIR, "prompts.py")), f"arm 目录缺 prompts.py: {ARM_DIR}"
 # s1/v1 副本必须最先解析（shadow 生产 s5_state_machine/prompts）
 # 注意: insert(0,...) 后插的先解析，故 ARM_DIR 必须最后插入（run_s1_sm.py 同序，干跑 assert 已证）
 sys.path.insert(0, AB)
