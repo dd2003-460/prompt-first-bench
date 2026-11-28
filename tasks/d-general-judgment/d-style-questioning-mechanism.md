@@ -72,3 +72,9 @@ S5 发现：27b 有能力（D1 可达 2）但缺触发（自发率低）。本�
 - 我不能反驳 = 我认知边界外（"我不知道这个领域的 SOTA 是什么"）→ 真质疑 + 触发检索
 
 第三种是最有价值的——它直接告诉你"该去哪查"。
+
+## 落地：状态机（2026-11-28）
+
+机制怎么被驱动：结构转移 harness 强制，语义判断模型负责。
+6 状态（WORKING→QUESTIONING→REFUTING→GAP→RETRIEVING→INTEGRATING）+ 停止条件 + 缺口注册表 + 与 stage-gate/T1/sub 任务卡的对接：
+`questioning-state-machine.md`（同目录）。
