@@ -35,3 +35,8 @@ M2a 验收发现: **预注册域偏移词表在全部 6 臂 (s0/s1 × cyclone/hw
 2. **触发器链全通** — D1a 检测器 → D1b 自测 → D2 协议思考轮 → D3 接入演练 → D4b 真实拍, 5 环全 PASS。判决: trigger-layer-verdict-20261128.md。
 3. **M 线至此完全收口** — 负面 (prompt 买不到触发, 探针 v2 1/3) + 正面 (机械触发+协议思考轮端到端可靠) 证据链闭合。触发层瓶颈已解决, 后续不需要再做触发机制实验。
 4. **D4a r1/r2 两次 FAIL 是正面证据** — 死因都是 harness 不是模型: r1 模型正确查队列→IDLE (协议驱动成立), r2 模型主动 tool_call (会请求工具)。S2 架构前提 (27b 执行者是协议+工具驱动) 得到实证。
+
+## 2026-11-28 23:5x [QQ→微信]
+- agent-orchestration goal 收口 (05-accept 过, stage-gate status=completed, 6 阶段全过)。验收 5/5: cron 3拍空转 suppressed / T8c 试点 L1→L4 / 8 回执 thinking_log / schema 冻结 / SOP 写回 6/6。
+- S2 缺口④ 双源交叉 (ChatGPT+Gemini): 架构健全, 最弱假设=false negative(语义错误), L4 抽检+retries 上限缓解, 语义抽检机械化列二期。
+- 下一方向: research-agi-budget 子项⑦ OOD 线 (剥离版 S1 kernel 转正, 域味 config 退役)。
