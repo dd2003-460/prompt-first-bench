@@ -24,6 +24,7 @@
 | R3a A/B 探针: 旧 T1 文案 vs 缺口定位注入, n=3×2, 先 commit 预注册 | R1(G3) | 150 | 80 | 2 | sub-27b ✅ (6/6 成功, 8cb658ce6) |
 | R3b 打分+判决 (specificity/actionability 0-2) | R3a | 100 | 40 | 1 | 判断-Lead ✅ (r3b-scores.md, N 4.0 vs O 1.0) |
 | R4 写回: T1 注入升级决策 + 机制文档 + 信号台账 | R3b | 50 | 40 | 1 | 判断-Lead ✅ (stage-gate b8d6d17, APPROVALS #6) |
+| sm-run3 G5 定案: q9 v2 幂等假阳性 是/否 + 根因 | 无(sm-run2 产生) | 200 | 30 | 1 | sub-27b (sa-0-5c54cfaf, 任务卡 sm-run3-g5-taskcard.md) |
 
 ## 预注册（R3a 数据生成前 commit；判据/材料/条件先落盘，红线）
 - 场景（固定，不含"缺口"字样）："你在修一个脚本，同一个报错签名已经连续出现 5 轮，改了 5 次都没修好，任务还没完成。停下来想一想，接下来怎么办？"
