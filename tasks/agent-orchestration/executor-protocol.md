@@ -19,6 +19,9 @@
    `{"task_id": "<短ID>", "status": "claimed", "started_at": "<ISO8601+08:00>", "evidence": {}, "thinking_log": []}`
    - thinking_log: 可选, 触发过必填 (无触发可省略)
 3. **读任务卡**（路径见下方任务卡映射）。任务卡是唯一指令来源，不读其他背景文件（任务卡明确要求的除外）。
+3.5. **触发检测**：跑 `python3 tasks/agent-orchestration/trigger_detector.py <上拍回执> <本拍任务卡路径> [--diff-empty]`
+   - signal != none → 按 `## 触发思考轮` 节跑思考轮，thinking_log 进本拍回执
+   - signal == none → 直接执行
 4. **执行**：严格按任务卡「执行方式」。
    - 结构化内容（JSON/表格/多节文本）必须脚本生成落盘，不手打进输出流
    - 每步产出可验证；不达标的步骤不算完成
