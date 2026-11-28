@@ -1,0 +1,17 @@
+{
+  "id": "N417",
+  "claim": "k_fallback 修正估算：原生 FP16 推理同样受内存带宽限制，但 FP16 权重读取量为 27e9 * 2 bytes = 54 GB。FP4 相比 FP16 的带宽节省比为 54/13.5 = 4x。然而，由于 FP4 需反量化至 FP16 才能利用 Tensor Core，若反量化 kernel 与 GEMM 未完美融合 (Kernel Fusion)，存在额外内存写回/读取开销。保守估计 k_fallback 应接近 1.0 (甚至 >1.0 若融合良好)，而非 0.4-0.6。0.4-0.6 的估算可能源于未融合 kernel 的低效实现或特定小 Batch Size 下的启动开销。[待核验] 需实测对比 fused vs unfused kernel 的 throughput。",
+  "level": "L5",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该陈述包含具体的经验性估算值（k_fallback 接近 1.0 或 >1.0，以及 0.4-0.6 的来源解释），这些属于硬件微架构和软件栈实现的细节，无法从第一性原理严格推导，且缺乏实测数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）",
+  "corrected_claim": "FP4 相比 FP16 的理论带宽节省比为 4x。实际加速比取决于反量化与 GEMM 的融合程度：若完美融合，k_fallback 可能接近 1.0 或更高；若未融合，受额外内存读写影响，效率会显著降低。具体数值需实测验证。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N140"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM NVFP4 quantization kernel fusion performance V100 throughput benchmark",
+  "retrieval_sources": []
+}

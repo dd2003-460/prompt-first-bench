@@ -1,0 +1,24 @@
+# N640: 工作点 C（高成本低性）：V100 在极端高温环境（>35°C）下触发热节流（Thermal Throttling），时钟频率降低 10-15%，实际功耗 P_
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N228
+
+## Claim
+
+工作点 C（高成本低性）：V100 在极端高温环境（>35°C）下触发热节流（Thermal Throttling），时钟频率降低 10-15%，实际功耗 P_throttle ≈ 230W，但计算性能下降 15%，单位计算成本 Cost_per_FLOP 上升 17-25%，月电费 Cost_C ≈ 230W × 720h × $0.35/kWh ≈ $57.8
+
+## Corrected Claim
+
+工作点 C（高成本低性）：V100 在极端高温环境下可能触发热节流，导致时钟频率和计算性能下降，实际功耗可能低于TDP，单位计算成本上升，月电费需根据实际运行功耗和电价计算。
+
+## Evidence
+
+[质询]该陈述包含多个具体的经验参数（V100热节流阈值>35°C、频率降低10-15%、功耗降至230W、性能下降15%、成本上升17-25%），这些均为特定硬件在特定环境下的实测数据，无法从第一性原理推导，且缺乏来源支持其具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持。数学计算部分（230W * 720h * $0.35/kWh = $57.84）正确，但硬件行为参数（如V100在>35°C触发热节流及具体性能/功耗变化幅度）属于经验数据，无外部来源验证，故降级。
+
+## Search Query
+
+V100 thermal throttling performance degradation high temperature

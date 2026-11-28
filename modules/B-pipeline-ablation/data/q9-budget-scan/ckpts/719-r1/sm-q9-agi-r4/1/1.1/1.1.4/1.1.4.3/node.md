@@ -1,0 +1,20 @@
+# N120: 阈值校准公式：及格线 Threshold_pass = Baseline_PassRate × (1 - Safety_Margin)，其中 Safety_Ma
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+阈值校准公式：及格线 Threshold_pass = Baseline_PassRate × (1 - Safety_Margin)，其中 Safety_Margin 取 10% 以覆盖模型版本波动；若 Baseline_PassRate 为 65%，则及格线为 58.5%，向上取整为 60% 符合题面建议
+
+## Corrected Claim
+
+阈值校准公式：及格线 Threshold_pass = Baseline_PassRate × (1 - Safety_Margin)，其中 Safety_Margin 取 10% 以覆盖模型版本波动；若 Baseline_PassRate 为 65%，则及格线为 58.5%，向上取整为 60% 符合题面建议
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别解释了公式中的两个变量（Baseline_PassRate 和 Safety_Margin），彼此正且无冗余。但父节点包含具体的计算逻辑（乘法）和结果处理规则（向上取整至整数百分比），这两个关键步骤在子节点中未被覆盖，导致信息不完备。）

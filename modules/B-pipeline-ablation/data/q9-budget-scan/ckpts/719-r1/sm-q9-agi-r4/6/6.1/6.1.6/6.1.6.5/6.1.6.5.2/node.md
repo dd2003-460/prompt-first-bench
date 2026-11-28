@@ -1,0 +1,24 @@
+# N723: Few-Shot 成功率提升 (Delta_fs=0.35) 的边际收益递减曲线：当 k 从 3 增加到 5 时，Delta_fs 的增量 Δ(k) 通常小于 
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N265
+
+## Claim
+
+Few-Shot 成功率提升 (Delta_fs=0.35) 的边际收益递减曲线：当 k 从 3 增加到 5 时，Delta_fs 的增量 Δ(k) 通常小于 5%（绝对值），因为 Qwen3.8-27B 的上下文注意力窗口在 >4096 tokens 输入时存在稀释效应；需验证 k=5 是否带来显著优于 k=3 的性价比
+
+## Corrected Claim
+
+Few-Shot 成功率提升通常呈现边际收益递减趋势，当 k 从 3 增加到 5 时，Delta_fs 的增量可能较小；需结合具体模型（如 Qwen3.8-27B）的上下文处理能力验证 k=5 是否带来显著优于 k=3 的性价比，避免将通用现象直接归因于特定模型的注意力稀释效应。
+
+## Evidence
+
+[质询]将‘Few-Shot成功率提升的边际收益递减’这一通用现象，强行归因于‘Qwen3.8-27B在>4096 tokens时的注意力稀释效应’，属于因果机制臆断；且‘Delta_fs=0.35’及‘增量<5%’的具体数值缺乏实证数据支撑，属于未经证实的经验参数。 | 先验知识/题面给定，逻辑校验通过（边际收益递减符合一般规律，但具体归因和数值缺乏来源支持，故降级）
+
+## Search Query
+
+few-shot learning diminishing returns large language models k samples

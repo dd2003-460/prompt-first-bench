@@ -1,0 +1,19 @@
+{
+  "id": "N531",
+  "claim": "工作点1 (High-Concurrency) 吞吐量损失 50% 的量化推导：吞吐量 Tput = (Num_Seqs × Tokens_per_Second_Per_Seq) / Avg_Latency，当 max-num-seqs 从 8 降至 4，且 Seq_Len 加倍，若计算密集度不变，理论吞吐应持平，但受限于 KV Cache 带宽瓶颈，实际吞吐下降系数 k ≈ 0.5-0.6",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]吞吐量公式定义存在量纲和逻辑错误：标准吞吐量（Throughput）通常定义为总生成Token数除以总时间，即 Tput = Num_Seqs * Tokens_per_Second_Per_Seq。若 Avg_Latency 指单序列延迟，则公式中不应再除以 Avg_Latency，否则量纲变为 1/Time^2 或类似非吞吐量单位；若 Avg_Latency 指系统总处理时间，则分子不应包含 Tokens_per_Second。此外，'KV Cache 带宽瓶颈导致吞吐下降系数 k≈0.5-0.6' 是一个具体的经验数值断言，缺乏通用物理定律支持，高度依赖特定硬件架构和软件实现细节，无法从第一性原理严格推导。 | source=knowledge，但公式逻辑不自洽（量纲错误），且具体衰减系数 k 为经验事实，缺乏通用理论支撑，无法验证其普适性。",
+  "corrected_claim": "工作点1 (High-Concurrency) 吞吐量损失约 50% 的定性分析：当 max-num-seqs 减半且 Seq_Len 加倍时，虽然计算密集度理论上可能持平，但由于 KV Cache 访问模式变化及带宽瓶颈，实际吞吐量通常会显著下降，具体下降幅度取决于硬件带宽与计算比，经验上可能在 50%-60% 左右，但需具体基准测试确认。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N187",
+    "N188",
+    "N189"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM throughput impact of max_num_seqs and context length V100",
+  "retrieval_sources": []
+}

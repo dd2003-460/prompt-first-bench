@@ -1,0 +1,24 @@
+# N277: V100 NVLink 链路的热节流（Thermal Throttling）触发阈值通常为 93°C，当环境温度或机箱风道不佳导致芯片结温超过此值时，NVLin
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88
+
+## Claim
+
+V100 NVLink 链路的热节流（Thermal Throttling）触发阈值通常为 93°C，当环境温度或机箱风道不佳导致芯片结温超过此值时，NVLink 频率会动态降低 20%-50%，直接导致有效带宽衰减；需通过 nvidia-smi -q -d TEMPERATURE 监控 72h 内的最高温度与降频事件计数，以量化“5%-10% 衰减”是否由热节流引起。
+
+## Corrected Claim
+
+V100 NVLink 链路的热节流（Thermal Throttling）触发阈值通常为 93°C，当环境温度或机箱风道不佳导致芯片结温超过此值时，NVLink 频率会动态降低 20%-50%，直接导致有效带宽衰减；需通过 nvidia-smi -q -d TEMPERATURE 监控 72h 内的最高温度与降频事件计数，以量化“5%-10% 衰减”是否由热节流引起。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+V100 thermal throttling threshold NVLink frequency reduction temperature

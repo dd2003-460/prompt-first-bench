@@ -1,0 +1,20 @@
+# N493: NVLink P2P 延迟 (Latency) 典型值为 1-2μs，对于小消息 (32KB)，总通信时间由延迟主导而非带宽，即 T_comm ≈ 1-2μs 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N176
+
+## Claim
+
+NVLink P2P 延迟 (Latency) 典型值为 1-2μs，对于小消息 (32KB)，总通信时间由延迟主导而非带宽，即 T_comm ≈ 1-2μs + 32KB/300GB/s ≈ 1.1-2.1μs，与原 claim 中的 1-2ms 相差三个数量级
+
+## Corrected Claim
+
+NVLink P2P 延迟 (Latency) 典型值为 1-2μs，对于小消息 (32KB)，总通信时间由延迟主导而非带宽，即 T_comm ≈ 1-2μs + 32KB/300GB/s ≈ 1.1-2.1μs，与原 claim 中的 1-2ms 相差三个数量级
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVLink P2P 延迟通常在微秒级（~1-2μs），带宽极高（~300GB/s+），小消息传输时间由延迟主导，计算结果 1.1-2.1μs 符合物理直觉与工程常识，且明确指出原 claim 的 ms 级误差。

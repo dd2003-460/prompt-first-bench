@@ -1,0 +1,20 @@
+# N729: 在 4x V100 TP=4 配置下，KV Cache 显存分布在 4 张卡上，单卡 KV Cache 占用为总占用的 1/4。若总 KV Cache 为 17
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N267
+
+## Claim
+
+在 4x V100 TP=4 配置下，KV Cache 显存分布在 4 张卡上，单卡 KV Cache 占用为总占用的 1/4。若总 KV Cache 为 17.4MB (N267 假设)，单卡仅 4.35MB，远低于 16GB 限制，显存瓶颈不在 KV Cache 而在模型权重本身 (27B NVFP4 约 13.5GB 权重 + 激活值)。需计算单卡权重占用 W_card = (27e9 * 0.5 bytes) / 4 ≈ 3.375GB，加上激活值和 KV Cache，总显存占用需 < 16GB * 0.9 (安全阈值)。
+
+## Corrected Claim
+
+在 4x V100 TP=4 配置下，KV Cache 显存分布在 4 张卡上，单卡 KV Cache 占用为总占用的 1/4。若总 KV Cache 为 17.4MB (N267 假设)，单卡仅 4.35MB，远低于 16GB 限制，显存瓶颈不在 KV Cache 而在模型权重本身 (27B NVFP4 约 13.5GB 权重 + 激活值)。需计算单卡权重占用 W_card = (27e9 * 0.5 bytes) / 4 ≈ 3.375GB，加上激活值和 KV Cache，总显存占用需 < 16GB * 0.9 (安全阈值)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TP=4下KV Cache均分符合Tensor Parallelism原理；27B参数NVFP4(4bit)权重约13.5GB，单卡3.375GB计算正确；总显存估算逻辑自洽。

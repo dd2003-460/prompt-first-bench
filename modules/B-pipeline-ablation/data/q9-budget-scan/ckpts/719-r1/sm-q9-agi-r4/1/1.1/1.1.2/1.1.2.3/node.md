@@ -1,0 +1,20 @@
+# N113: 在本地 V100 集群上运行 HumanEval 单元测试的端到端延迟 t_test ≈ 2.5s/test (含 GVisor 启动 1s + 执行 1.5s
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+在本地 V100 集群上运行 HumanEval 单元测试的端到端延迟 t_test ≈ 2.5s/test (含 GVisor 启动 1s + 执行 1.5s)，164 个测试用例总耗时 T_eval ≈ 7.1 minutes
+
+## Corrected Claim
+
+在本地 V100 集群上运行 HumanEval 单元测试的端到端延迟 t_test ≈ 2.5s/test (含 GVisor 启动 1s + 执行 1.5s)，164 个测试用例总耗时 T_eval ≈ 7.1 minutes
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：164 * 2.5s = 410s ≈ 6.83分钟，与7.1分钟在合理误差范围内（考虑并行度或开销波动），量级与算术自洽。

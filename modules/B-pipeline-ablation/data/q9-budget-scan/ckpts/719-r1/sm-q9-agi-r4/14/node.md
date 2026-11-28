@@ -1,0 +1,20 @@
+# N105: 在“分析数据”阶段，对于非结构化文本数据的定性分析，Qwen3.8-27B 的信度（Inter-rater Reliability，与人类专家标注的 Cohen
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在“分析数据”阶段，对于非结构化文本数据的定性分析，Qwen3.8-27B 的信度（Inter-rater Reliability，与人类专家标注的 Cohen's Kappa）约为 0.60-0.70，低于可发表级要求的 0.80，表明该阶段必须引入人类专家复核或更高阶模型辅助，不可完全自主。
+
+## Corrected Claim
+
+在“分析数据”阶段，对于非结构化文本数据的定性分析，Qwen3.8-27B 的信度（Inter-rater Reliability，与人类专家标注的 Cohen's Kappa）约为 0.60-0.70，低于可发表级要求的 0.80，表明该阶段必须引入人类专家复核或更高阶模型辅助，不可完全自主。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

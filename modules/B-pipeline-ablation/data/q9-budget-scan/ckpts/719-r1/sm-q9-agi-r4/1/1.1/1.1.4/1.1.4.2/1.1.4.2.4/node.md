@@ -1,0 +1,24 @@
+# N374: Qwen3.8-27B 在 LiveCodeBench 科研编程子集 (N314 定义) 上的 Pass@1 通过率为 28.3%，显著低于纯算法题的 45.1
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N119
+
+## Claim
+
+Qwen3.8-27B 在 LiveCodeBench 科研编程子集 (N314 定义) 上的 Pass@1 通过率为 28.3%，显著低于纯算法题的 45.1%，差异为 16.8 个百分点 [待核验]
+
+## Corrected Claim
+
+Qwen系列模型在LiveCodeBench科研编程子集上的表现通常低于纯算法题，但具体数值需以官方最新技术报告为准。
+
+## Evidence
+
+[质询]Qwen3.8-27B 并非当前已知的公开稳定版本（截至2024年主流为Qwen2.5系列），且LiveCodeBench科研编程子集的具体Pass@1数值（28.3% vs 45.1%）属于高度具体的经验数据，缺乏权威基准测试报告支持，极可能是虚构或混淆了不同模型/数据集的结果。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且模型版本号存疑）
+
+## Search Query
+
+Qwen3 27B LiveCodeBench scientific computing pass rate vs algorithm

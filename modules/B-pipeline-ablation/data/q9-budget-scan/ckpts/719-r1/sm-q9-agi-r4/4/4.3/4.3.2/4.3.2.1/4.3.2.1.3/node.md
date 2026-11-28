@@ -1,0 +1,20 @@
+# N630: 100 状态/秒时 CPU 占用率 Utilization = (100 * T_hash_ms) / 1000ms * 100%；若 T_hash=0.83m
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N224
+
+## Claim
+
+100 状态/秒时 CPU 占用率 Utilization = (100 * T_hash_ms) / 1000ms * 100%；若 T_hash=0.83ms，则 Utilization ≈ 8.3%；若 T_hash=0.56ms，则 Utilization ≈ 5.6%；两者均低于 10% 阈值，但 8.3% 已接近警戒线，需考虑 CPU 频率波动（如 Turbo Boost 关闭）导致的吞吐量下降至 0.8GB/s，此时 Utilization 升至 12.5%，可能触发性能降级。
+
+## Corrected Claim
+
+100 状态/秒时 CPU 占用率 Utilization = (100 * T_hash_ms) / 1000ms * 100%；若 T_hash=0.83ms，则 Utilization ≈ 8.3%；若 T_hash=0.56ms，则 Utilization ≈ 5.6%；两者均低于 10% 阈值，但 8.3% 已接近警戒线，需考虑 CPU 频率波动（如 Turbo Boost 关闭）导致的吞吐量下降至 0.8GB/s，此时 Utilization 升至 12.5%，可能触发性能降级。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（100*0.83/1000=8.3%, 100*0.56/1000=5.6%），且基于吞吐量下降导致单任务耗时增加进而提升CPU占用的逻辑推导自洽。

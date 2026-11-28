@@ -1,0 +1,24 @@
+# N386: 高成本低性工作点（High-Cost/High-Fidelity）：在 128K 上下文的 0-128K 全范围内，每隔 10K tokens 放置一个测试点，
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N125
+
+## Claim
+
+高成本低性工作点（High-Cost/High-Fidelity）：在 128K 上下文的 0-128K 全范围内，每隔 10K tokens 放置一个测试点，共 13 个点，每个点重复 10 次以计算置信区间。此方案提供完整的位置-Recall 曲线，总测试耗时约 5-10 分钟，成本 < $0.50，仅当需要精确量化位置偏差对科研结论可信度的影响时才值得采用
+
+## Corrected Claim
+
+高成本低性工作点（High-Cost/High-Fidelity）：在 128K 上下文的 0-128K 全范围内，每隔 10K tokens 放置一个测试点，共 13 个点，每个点重复 10 次以计算置信区间。此方案提供完整的位置-Recall 曲线，总测试耗时约 5-10 分钟，成本 < $0.50，仅当需要精确量化位置偏差对科研结论可信度的影响时才值得采用
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：128K范围每10K一点共13点（0,10,...,120及128或类似分布，数量级合理），13*10=130次调用，现代LLM推理速度下耗时与成本估算符合工程直觉。
+
+## Search Query
+
+full range needle haystack position sweep 13 points confidence interval

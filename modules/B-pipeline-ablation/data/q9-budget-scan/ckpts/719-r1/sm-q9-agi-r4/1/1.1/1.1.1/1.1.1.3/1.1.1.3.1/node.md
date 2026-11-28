@@ -1,0 +1,28 @@
+# N348: 在 4x V100 TP=4 环境下，MMLU-Pro 单样本推理耗时 t_infer ≈ 0.8s 的估算基于 5-shot context (~2k tok
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N110
+
+## Claim
+
+在 4x V100 TP=4 环境下，MMLU-Pro 单样本推理耗时 t_infer ≈ 0.8s 的估算基于 5-shot context (~2k tokens) 的 Prefill 阶段为主要瓶颈，需验证 Qwen3-27B 在 V100 上的 Prefill 吞吐率（tokens/s）是否足以支撑该耗时，若 Prefill 速度仅为 500 tokens/s，则 2k tokens 耗时约 4s，远超 0.8s 假设。
+
+## Corrected Claim
+
+在 4x V100 TP=4 环境下，MMLU-Pro 单样本推理耗时受 Prefill 阶段显著影响。若 Qwen3-27B 在 V100 上的 Prefill 吞吐率为 500 tokens/s，则 ~2k tokens 的上下文将导致约 4s 的延迟，这与 0.8s 的假设存在显著差异，需根据实际硬件基准测试验证具体吞吐率。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能估算（V100上Qwen3-27B的Prefill吞吐率及耗时），属于经验事实。参考来源仅涉及MMLU-Pro数据集介绍，完全未涵盖模型推理性能、硬件配置或耗时估算，无法提供外部支持。此外，0.8s的耗时假设对于27B模型在4x V100上处理2k tokens的Prefill阶段而言，通常过于乐观（除非有极致的量化或优化，否则纯Prefill往往需要数秒），存在数值量级不合理的可能。 | 逻辑上自洽（指出了Prefill瓶颈和耗时计算的线性关系），但作为经验事实，缺乏来源支持（来源[1]无关），且具体数值（0.8s vs 4s）依赖于未提供的具体硬件实测数据，故降级。
+
+## Search Query
+
+Qwen3-27B V100 prefill throughput tokens per second 2k context
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/TIGER-AI-Lab/MMLU-Pro&rut=6c3ce32e758ecc38c8e20cb0a84206f3841a5edee7b29bc501ced4b7569e1b4a', 'type': 'ddg', 'title': 'GitHub - TIGER-AI-Lab/MMLU-Pro: The code and data for "MMLU-Pro: A More ...'}

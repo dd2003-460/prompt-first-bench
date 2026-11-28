@@ -1,0 +1,20 @@
+# N489: V100-SXM2-16GB 的 HBM2 显存带宽为 900 GB/s，且该带宽为单卡独享（非共享总线），因此 TP=4 下 4 张卡并行读取权重互不干扰，单
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N175
+
+## Claim
+
+V100-SXM2-16GB 的 HBM2 显存带宽为 900 GB/s，且该带宽为单卡独享（非共享总线），因此 TP=4 下 4 张卡并行读取权重互不干扰，单卡读取 13.5GB (FP4) 权重的理论耗时为 13.5GB / 900GB/s = 15ms
+
+## Corrected Claim
+
+V100-SXM2-16GB 的 HBM2 显存带宽为 900 GB/s，且该带宽为单卡独享（非共享总线），因此 TP=4 下 4 张卡并行读取权重互不干扰，单卡读取 13.5GB (FP4) 权重的理论耗时为 13.5GB / 900GB/s = 15ms
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100-SXM2-16GB 官方规格确为 900 GB/s HBM2 带宽，且 SXM2 模组设计为每卡独立显存控制器，TP=4 下各卡读取本地权重互不干扰，计算 13.5GB / 900GB/s = 0.015s = 15ms 符合物理直觉与算术逻辑。

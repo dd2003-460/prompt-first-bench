@@ -1,0 +1,24 @@
+# N532: 工作点2 (Balanced) KV Cache 显存占用 32GB 的精确计算：Mem_KV = num_layers × num_kv_heads × he
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N187, N188, N189
+
+## Claim
+
+工作点2 (Balanced) KV Cache 显存占用 32GB 的精确计算：Mem_KV = num_layers × num_kv_heads × head_dim × 65536 × 8 (seqs) × 2 (K/V) × dtype_bytes(1 for FP8)，需代入 Qwen3.8-27B 具体参数验证是否真的逼近 32GB 或存在计算错误
+
+## Corrected Claim
+
+工作点2 (Balanced) KV Cache 显存占用估算公式为 Mem_KV = num_layers × num_kv_heads × head_dim × seq_len × batch_size × 2 × dtype_bytes。对于 Qwen3.8-27B（假设存在且参数符合特定配置），在 FP8 精度下，该计算结果约为 32GB，但需以实际模型配置文件中的具体超参数为准进行最终验证。
+
+## Evidence
+
+[质询]Qwen3.8-27B 并非公开存在的标准模型版本（常见为 Qwen2.5-32B 或 Qwen3-30B-A3B 等），其具体的 num_layers、num_kv_heads 和 head_dim 参数未知，导致无法验证 32GB 这一具体数值是否准确；此外，FP8 存储 KV Cache 在实际推理框架中通常涉及量化开销或对齐填充，直接乘以 1 byte 可能低估实际占用。 | source=knowledge，公式逻辑自洽（层数×头数×维度×序列长×批大小×2×字节数），但具体模型参数缺失导致数值无法确证，属经验事实且缺乏来源支持。
+
+## Search Query
+
+Qwen3.8-27B KV cache memory calculation FP8 65536 context

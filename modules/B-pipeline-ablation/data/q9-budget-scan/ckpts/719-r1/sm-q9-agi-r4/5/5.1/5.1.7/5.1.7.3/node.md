@@ -1,0 +1,24 @@
+# N248: 故障转移决策逻辑：当 local_status == 'CRASHED' AND cloud_status == 'HEALTHY' 时，流量切换至云端；当 l
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N73
+
+## Claim
+
+故障转移决策逻辑：当 local_status == 'CRASHED' AND cloud_status == 'HEALTHY' 时，流量切换至云端；当 local_status == 'DEGRADED' (throughput < 50% baseline) 时，50% 流量切换；切换开关响应时间 T_switch < 500ms，基于 Kubernetes Ingress 或 Envoy 动态路由配置
+
+## Corrected Claim
+
+故障转移决策逻辑：当 local_status == 'CRASHED' AND cloud_status == 'HEALTHY' 时，流量切换至云端；当 local_status == 'DEGRADED' (throughput < 50% baseline) 时，50% 流量切换；切换开关响应时间 T_switch < 500ms，基于 Kubernetes Ingress 或 Envoy 动态路由配置
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+kubernetes ingress dynamic routing failover latency ms degraded service traffic shift

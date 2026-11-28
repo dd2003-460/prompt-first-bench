@@ -1,0 +1,24 @@
+# N251: 长上下文准确率衰减拟合函数：Acc(L) = Acc_base - k * log(L/L_0)，其中 Acc_base=Acc_32k, L_0=32k, k
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N78
+
+## Claim
+
+长上下文准确率衰减拟合函数：Acc(L) = Acc_base - k * log(L/L_0)，其中 Acc_base=Acc_32k, L_0=32k, k 为衰减系数；需在 L={64k, 128k, 262k} 三点测量 Acc，通过最小二乘法拟合 k 值；若 k > 0.05，则表明存在显著的 lost-in-the-middle 效应，需引入滑动窗口注意力或分段摘要预处理
+
+## Corrected Claim
+
+长上下文准确率衰减拟合函数：Acc(L) = Acc_base - k * log(L/L_0)，其中 Acc_base=Acc_32k, L_0=32k, k 为衰减系数；需在 L={64k, 128k, 262k} 三点测量 Acc，通过最小二乘法拟合 k 值；若 k > 0.05，则表明存在显著的 lost-in-the-middle 效应，需引入滑动窗口注意力或分段摘要预处理
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点存在严重冗余和逻辑错误。1. 冗余性：三个子节点本质上是同一决策树（基于k值阈值）的不同分支，属于‘一个参数的不同取值’，应合并为单个决策流程或表格，而非拆分为三个独立的工作点。2. 逻辑矛盾/不完整：父节点明确指出需‘在L={64k, 128k, 262k}三点测量...通过最小二乘法拟合k’，这是一个全局拟合过程。但子节点描述为‘在L=64k处测量...若k<0.02’，这在逻辑上是不成立的，因为单点测量无法拟合出k值（k是斜率，需要多点数据）。此外，父节点定义的阈值仅有一个显著性界限(k>0.05)，而子节点引入了新的阈值(0.02)，这超出了父节点的原始定义范围，导致分解偏离了父节点的核心方法论。）
+
+## Search Query
+
+long context accuracy decay curve fitting log-linear model LLM benchmark 64k 128k 262k

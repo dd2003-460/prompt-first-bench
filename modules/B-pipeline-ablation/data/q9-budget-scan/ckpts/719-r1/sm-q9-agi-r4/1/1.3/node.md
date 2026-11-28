@@ -1,0 +1,28 @@
+# N9: NVFP4 量化相对于 FP16/BF16 基准在数学推理与逻辑一致性任务上的性能损失百分比（Performance Degradation %），以评估低精度
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+NVFP4 量化相对于 FP16/BF16 基准在数学推理与逻辑一致性任务上的性能损失百分比（Performance Degradation %），以评估低精度对科研结论准确性的具体影响。
+
+## Corrected Claim
+
+NVFP4 量化在保持较高推理速度（约2.3倍加速）的同时，可能在数学推理与逻辑一致性任务上产生一定程度的性能损失，具体百分比需参考特定基准测试（如MMLU、GSM8K等）的实验数据。
+
+## Evidence
+
+[质询]来源仅提及推理加速比（2.3x），未提供具体的性能损失百分比数据，且‘数学推理与逻辑一致性’的具体退化幅度属于经验事实，无法从第一性原理推导，需依赖特定基准测试数据。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅证实NVFP4存在及加速效果，未提供具体退化百分比）
+
+## Search Query
+
+NVFP4 quantization impact on reasoning benchmarks vs BF16 performance loss
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1944504541950248086&rut=044e882d1cb816ee5690d81f7e978f0ad73dc4223ee1f424237743c54bc74d95', 'type': 'ddg', 'title': 'Nvfp4量化技术深度解析：4位精度下实现2.3倍推理加速 - 知乎'}

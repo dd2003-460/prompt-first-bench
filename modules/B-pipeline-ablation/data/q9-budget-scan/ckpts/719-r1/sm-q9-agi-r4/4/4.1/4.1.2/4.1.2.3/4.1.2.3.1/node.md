@@ -1,0 +1,20 @@
+# N571: Cohen's d 的 95% CI 宽度近似公式 CI_width ≈ 3.92 * sqrt(2/n) 仅在 d≈0 时成立；当 d=0.5 时，实际 CI
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N204
+
+## Claim
+
+Cohen's d 的 95% CI 宽度近似公式 CI_width ≈ 3.92 * sqrt(2/n) 仅在 d≈0 时成立；当 d=0.5 时，实际 CI 宽度比近似值宽约 10%，需使用非中心 t 分布精确计算，公式为 CI = d ± t_{α/2, df} * sqrt(2/n + d²/(4n))，df=n1+n2-2。
+
+## Corrected Claim
+
+Cohen's d 的 95% CI 宽度近似公式 CI_width ≈ 3.92 * sqrt(2/n) 仅在 d≈0 时成立；当 d=0.5 时，实际 CI 宽度比近似值宽约 10%，需使用非中心 t 分布精确计算，公式为 CI = d ± t_{α/2, df} * sqrt(2/n + d²/(4n))，df=n1+n2-2。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

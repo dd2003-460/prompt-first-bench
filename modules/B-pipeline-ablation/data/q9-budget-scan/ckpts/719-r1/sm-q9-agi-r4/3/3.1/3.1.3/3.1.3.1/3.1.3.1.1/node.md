@@ -1,0 +1,20 @@
+# N492: V100-SXM2 NVLink 理论双向带宽为 300 GB/s，但在 AllReduce 操作中，Ring 算法的有效带宽利用率通常为 60-70%，即有效
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N176
+
+## Claim
+
+V100-SXM2 NVLink 理论双向带宽为 300 GB/s，但在 AllReduce 操作中，Ring 算法的有效带宽利用率通常为 60-70%，即有效带宽为 180-210 GB/s；对于 32KB 数据量，传输时间为 32KB / 180GB/s ≈ 0.18μs，远低于 Kernel Launch 开销
+
+## Corrected Claim
+
+V100-SXM2 NVLink 理论双向带宽为 300 GB/s，但在 AllReduce 操作中，Ring 算法的有效带宽利用率通常为 60-70%，即有效带宽为 180-210 GB/s；对于 32KB 数据量，传输时间为 32KB / 180GB/s ≈ 0.18μs，远低于 Kernel Launch 开销
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 NVLink 300GB/s 为官方规格，Ring AllReduce 效率 60-70% 符合通信理论常识，32KB/180GB/s≈0.18μs 计算正确且远小于 Kernel Launch 微秒级开销。

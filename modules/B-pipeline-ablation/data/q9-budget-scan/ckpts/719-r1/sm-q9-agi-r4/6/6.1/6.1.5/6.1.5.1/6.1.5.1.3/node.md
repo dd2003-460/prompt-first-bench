@@ -1,0 +1,24 @@
+# N709: 工作点 C（高成本低性）：数据中心托管服务，综合费率 $0.50/kWh（含托管费、带宽、PUE=1.3 优化），实际成本 $0.65/kWh，虽单位成本高，但
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N260
+
+## Claim
+
+工作点 C（高成本低性）：数据中心托管服务，综合费率 $0.50/kWh（含托管费、带宽、PUE=1.3 优化），实际成本 $0.65/kWh，虽单位成本高，但可获得更高的 SLA 保障（99.9% 可用性）和更快的故障响应，适合关键生产环境。
+
+## Corrected Claim
+
+工作点 C（高成本低性）：数据中心托管服务，综合费率 $0.50/kWh（含托管费、带宽、PUE=1.3 优化），实际成本 $0.65/kWh，虽单位成本高，但可获得更高的 SLA 保障（99.9% 可用性）和更快的故障响应，适合关键生产环境。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：$0.50/kWh 的综合费率高于典型自建或基础云成本，符合“高成本”定位；PUE=1.3 处于现代数据中心合理范围；99.9% SLA 对应标准企业级保障，逻辑自洽且无内部矛盾。
+
+## Search Query
+
+data center colocation cost per kWh including PUE and service fee

@@ -1,0 +1,20 @@
+# N562: Holm-Bonferroni 校正步骤化阈值序列 p_(i) ≤ α/(k-i+1) 在 k=10 且 ρ>0.8 场景下的具体阈值列表：[0.005, 0.
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N201
+
+## Claim
+
+Holm-Bonferroni 校正步骤化阈值序列 p_(i) ≤ α/(k-i+1) 在 k=10 且 ρ>0.8 场景下的具体阈值列表：[0.005, 0.0056, 0.0063, ..., 0.05]，相比 Bonferroni 的恒定阈值 0.005，Holm 在前 5 个最小 p-value 上的接受概率提升量化为 [待核验]
+
+## Corrected Claim
+
+Holm-Bonferroni 校正步骤化阈值序列 p_(i) ≤ α/(k-i+1) 在 k=10 且 ρ>0.8 场景下的具体阈值列表：[0.005, 0.0056, 0.0063, ..., 0.05]，相比 Bonferroni 的恒定阈值 0.005，Holm 在前 5 个最小 p-value 上的接受概率提升量化为 [待核验]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Holm-Bonferroni 校正的阈值序列定义为 α/(k-i+1)，当 k=10, α=0.05 时，前几个阈值为 0.05/10=0.005, 0.05/9≈0.0056, 0.05/8=0.00625≈0.0063，与陈述中的数值序列一致；相比 Bonferroni 恒定阈值 0.005，Holm 方法在后续步骤中阈值逐渐放宽，确实提高了接受概率，逻辑自洽。

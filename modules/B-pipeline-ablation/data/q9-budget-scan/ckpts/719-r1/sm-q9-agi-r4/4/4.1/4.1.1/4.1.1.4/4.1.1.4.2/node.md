@@ -1,0 +1,24 @@
+# N563: 在 ρ>0.8 的高相关检验集中，Bonferroni 导致的 Type II 错误率（假阴性率）上升幅度的精确量化：β_Bonferroni - β_Unad
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N201
+
+## Claim
+
+在 ρ>0.8 的高相关检验集中，Bonferroni 导致的 Type II 错误率（假阴性率）上升幅度的精确量化：β_Bonferroni - β_Unadjusted = ∫_{α/k}^{∞} Φ(Φ^{-1}(u) - √ρ δ) φ(u) du，其中 δ 为效应量，需代入典型科研效应量 δ=0.2 和 ρ=0.8 计算具体百分点增量 [待核验]
+
+## Corrected Claim
+
+在 ρ>0.8 的高相关检验集中，Bonferroni 校正通过降低每个比较的显著性水平（α/k）增加了 Type II 错误率（假阴性率）。其具体增量取决于效应量 δ、样本量 n 以及相关性结构，通常需通过模拟或基于非中心 t 分布的数值计算得出，而非由单一通用积分公式直接解析给出。
+
+## Evidence
+
+[质询]该陈述试图给出一个具体的积分公式来量化 Bonferroni 校正下的 Type II 错误率增量，但该公式在统计学上是不严谨甚至错误的。Type II 错误率（β）取决于备择假设下的分布，而不仅仅是原假设下的临界值调整。对于相关检验，效应量的分布本身会随 ρ 变化，简单的积分形式 ∫_{α/k}^{∞} Φ(Φ^{-1}(u) - √ρ δ) φ(u) du 缺乏明确的统计推导背景（例如未指明是单侧还是双侧，未定义 u 的具体分布含义，且通常 β 的计算涉及非中心 t 分布或正态分布的均值偏移，而非这种嵌套的 Φ 积分形式）。此外，'精确量化'这一说法过于绝对，因为实际中 β 还受样本量 n 影响，而公式中未体现 n。 | 无可用外部证据。逻辑校验发现公式推导存疑：Type II 错误率的计算通常依赖于非中心参数（如 δ√n），且 Bonferroni 校正主要改变显著性水平 α，进而影响临界值，但 β 的变化并非通过该特定积分式简单得出，且公式缺少样本量 n 这一关键变量，导致量纲和逻辑不自洽。
+
+## Search Query
+
+Bonferroni type II error inflation correlated hypotheses effect size calculation

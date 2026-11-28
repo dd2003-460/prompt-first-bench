@@ -1,0 +1,20 @@
+# N425: 最优参数 k1=1.2, b=0.6 对应的 Recall@5 置信区间：基于 100 次 Bootstrap 重采样，Recall@5 均值 0.73，95%
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N143
+
+## Claim
+
+最优参数 k1=1.2, b=0.6 对应的 Recall@5 置信区间：基于 100 次 Bootstrap 重采样，Recall@5 均值 0.73，95% CI [0.71, 0.75]，标准误 SE = 0.01
+
+## Corrected Claim
+
+最优参数 k1=1.2, b=0.6 对应的 Recall@5 置信区间：基于 100 次 Bootstrap 重采样，Recall@5 均值 0.73，95% CI [0.71, 0.75]，标准误 SE = 0.01
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Bootstrap 置信区间通常由均值加减约 1.96 倍标准误构成，此处 0.73 ± 1.96*0.01 ≈ [0.7104, 0.7496]，与给出的 [0.71, 0.75] 在四舍五入误差范围内完全一致，数值量级与统计逻辑自洽。

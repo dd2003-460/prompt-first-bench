@@ -1,0 +1,20 @@
+# N494: 在 Decode 阶段，Batch Size=1 时，单 Token 生成的计算时间 T_compute 主要由权重读取决定，若 FP4 权重为 3.375GB
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N177
+
+## Claim
+
+在 Decode 阶段，Batch Size=1 时，单 Token 生成的计算时间 T_compute 主要由权重读取决定，若 FP4 权重为 3.375GB/卡，T_compute = 3.375GB / 900GB/s = 3.75ms；通信时间 T_comm = 48 * 2μs = 0.096ms，T_comm/T_total ≈ 0.096/(3.75+0.096) ≈ 2.5%
+
+## Corrected Claim
+
+在 Decode 阶段，Batch Size=1 时，单 Token 生成的计算时间 T_compute 主要由权重读取决定，若 FP4 权重为 3.375GB/卡，T_compute = 3.375GB / 900GB/s = 3.75ms；通信时间 T_comm = 48 * 2μs = 0.096ms，T_comm/T_total ≈ 0.096/(3.75+0.096) ≈ 2.5%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（3.375/900=0.00375s=3.75ms; 48*2=96us=0.096ms; 0.096/3.846≈2.5%），符合Decode阶段Memory-bound特性及FP4量化下的带宽瓶颈逻辑。

@@ -1,0 +1,29 @@
+# N336: 单次人工修复成本 C_Human 的量化基准：基于科研论文同行评审数据，修改一个实质性逻辑错误的平均人工耗时为 45 分钟，按 $50/hour 计酬，则 C_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107
+
+## Claim
+
+单次人工修复成本 C_Human 的量化基准：基于科研论文同行评审数据，修改一个实质性逻辑错误的平均人工耗时为 45 分钟，按 $50/hour 计酬，则 C_Human ≈ $37.5/次；自动生成成本 C_Auto 约为 $0.01/次（基于 N71 云API成本折算），比值 Ratio = C_Human / C_Auto ≈ 3750，远高于题面假设的 10 倍，需重新校准阈值
+
+## Corrected Claim
+
+单次人工修复成本 C_Human 的量化基准：基于特定假设（修改实质性逻辑错误平均耗时45分钟，时薪$50），C_Human ≈ $37.5/次；自动生成成本 C_Auto 约为 $0.01/次，比值 Ratio ≈ 3750。注：该耗时与薪资为经验估算值，非通用行业标准，需根据具体项目上下文校准。
+
+## Evidence
+
+[质询]核心参数缺乏权威来源支持：'修改实质性逻辑错误平均耗时45分钟'及'$50/hour'均为特定假设或经验估算，并非通用科学共识或标准基准；且参考来源[1]讨论的是SCI论文语言润色返修成本（800元/篇），与代码/逻辑错误修复的人工成本在领域、任务性质和量级上均不匹配，无法作为该事实的外部证据。 | 逻辑计算自洽（45/60 * 50 = 37.5; 37.5/0.01 = 3750），但参考来源[1]主题为SCI语言润色，与代码逻辑修复成本无关，来源[2]无效，故无有效外部支持，属经验事实缺来源。
+
+## Search Query
+
+average time cost to fix scientific paper logical error peer review hours
+
+## Retrieval Sources
+
+- {'url': 'https://www.toutiao.com/article/7684093094765085190/&rut=839a8874655973630c97d9760820f6115f5798ee74e339f4be5d4e4efbcec6f5', 'type': 'ddg', 'title': '返修成本大数据：无售后润色人均多花800元，全周期服务更省钱'}
+- {'url': 'https://xueshu.baidu.com/&rut=3d7814365ee25d2089713a99f8f49271900dbe836f94a0e7881e3f489b5ab707', 'type': 'ddg', 'title': '百度学术 - 保持学习的态度'}

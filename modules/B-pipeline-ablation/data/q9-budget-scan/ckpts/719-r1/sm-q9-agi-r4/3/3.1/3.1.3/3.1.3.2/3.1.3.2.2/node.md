@@ -1,0 +1,20 @@
+# N495: 若 Batch Size 增加到 8 (max-num-seqs=8)，T_compute 保持 3.75ms (Memory Bound 不变)，但 T_co
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N177
+
+## Claim
+
+若 Batch Size 增加到 8 (max-num-seqs=8)，T_compute 保持 3.75ms (Memory Bound 不变)，但 T_comm 增加为 48 * (8 * 32KB / 300GB/s + 2μs) ≈ 48 * (0.85μs + 2μs) ≈ 137μs，T_comm/T_total ≈ 137μs/(3750μs+137μs) ≈ 3.5%，仍远低于 100%，通信不是瓶颈
+
+## Corrected Claim
+
+若 Batch Size 增加到 8 (max-num-seqs=8)，T_compute 保持 3.75ms (Memory Bound 不变)，但 T_comm 增加为 48 * (8 * 32KB / 300GB/s + 2μs) ≈ 48 * (0.85μs + 2μs) ≈ 137μs，T_comm/T_total ≈ 137μs/(3750μs+137μs) ≈ 3.5%，仍远低于 100%，通信不是瓶颈
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程自洽（48 * (0.85μs + 2μs) ≈ 136.8μs ≈ 137μs），占比计算正确（137/3887 ≈ 3.5%），符合通信开销随Batch Size线性增长但相对于计算时间仍较小的物理直觉。

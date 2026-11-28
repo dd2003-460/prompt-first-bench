@@ -1,0 +1,24 @@
+# N585: 验证 σ_paired = 0.2 * σ 假设的实证数据需来自至少 5 次独立优化迭代（如调整 temperature 或 max_tokens），计算每次迭
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N208
+
+## Claim
+
+验证 σ_paired = 0.2 * σ 假设的实证数据需来自至少 5 次独立优化迭代（如调整 temperature 或 max_tokens），计算每次迭代前后输出质量评分（如 LLM-as-a-Judge 分数）的差值标准差，并与历史总体标准差对比，若实测比值 >0.3，则原 1/25 样本量缩减假设失效，需重算 n_paired = (Z_α + Z_β)^2 * (2*σ^2*(1-ρ))/δ^2。
+
+## Corrected Claim
+
+验证 σ_paired 与 σ 关系的实证数据建议来自多次独立优化迭代，计算输出质量评分差值的标准差并与历史总体标准差对比。若实测比值显著偏离预期（例如超过预设阈值），则原样本量缩减假设可能失效，需根据实测方差重新计算 n_paired。
+
+## Evidence
+
+[质询]该陈述包含具体的经验阈值（如'至少5次迭代'、'比值>0.3'）和特定的统计假设（σ_paired = 0.2 * σ），这些并非从第一性原理或数学公理严格推导出的必然结论，而是依赖于特定实验场景的经验设定。缺乏通用性的实证数据支持其普适有效性。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该事实属于具体实验参数设定，非纯数学推导）
+
+## Search Query
+
+paired sample size reduction factor LLM evaluation optimization benchmark

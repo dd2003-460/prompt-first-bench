@@ -1,0 +1,24 @@
+# N37: Qwen3-27B 从 BF16 量化至 NVFP4 后，在 GSM8K 基准上的准确率绝对值下降点数（ΔAccuracy，单位：%），用于量化数学推理损失
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+Qwen3-27B 从 BF16 量化至 NVFP4 后，在 GSM8K 基准上的准确率绝对值下降点数（ΔAccuracy，单位：%），用于量化数学推理损失
+
+## Corrected Claim
+
+Qwen3-27B 从 BF16 量化至 NVFP4 后，在 GSM8K 基准上的准确率通常会有一定程度的下降，具体下降点数需查阅官方技术报告或基准测试数据。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点提出的分解公式存在严重的逻辑和定义缺陷。首先，'Syntax_Error_Rate'（代码/公式解析失败）与 'Logic_Error_Rate'（推导错误）虽然概念上大致正交，但该分解忽略了量化导致的数值精度丢失（Numerical Error）这一核心因素，导致不完备。其次，GSM8K是自然语言数学题，并非代码生成任务，使用'代码/公式解析'来定义Syntax Error在语境上不准确且难以量化，这使得该分解方案在实际操作中不可行，无法准确反映BF16到NVFP4的量化损失。）
+
+## Search Query
+
+Qwen3-27B NVFP4 vs BF16 GSM8K accuracy drop

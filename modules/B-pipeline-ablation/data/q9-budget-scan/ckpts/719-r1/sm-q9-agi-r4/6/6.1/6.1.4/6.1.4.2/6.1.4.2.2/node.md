@@ -1,0 +1,24 @@
+# N705: 显存访问异常 (CUDA Error) 的中断频率与 MTTR 关联：CUDA Error 通常由硬件故障或驱动 Bug 引起，频率低于 SDC，平均发生间隔 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N258
+
+## Claim
+
+显存访问异常 (CUDA Error) 的中断频率与 MTTR 关联：CUDA Error 通常由硬件故障或驱动 Bug 引起，频率低于 SDC，平均发生间隔 > 1000 小时，但一旦触发，需重启 vLLM 进程并重新加载模型权重，耗时约 2-5 分钟，符合 N63 定义的 MTTR < 30 分钟约束。
+
+## Corrected Claim
+
+显存访问异常 (CUDA Error) 的中断频率与 MTTR 关联：CUDA Error 通常由硬件故障或驱动 Bug 引起，频率低于 SDC，平均发生间隔 > 1000 小时，但一旦触发，需重启 vLLM 进程并重新加载模型权重，耗时约 2-5 分钟，符合 N63 定义的 MTTR < 30 分钟约束。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：CUDA Error 作为硬件/驱动级故障，其发生频率确实远低于静默数据损坏（SDC），且重启 vLLM 进程并重新加载权重的耗时通常在分钟级，符合 MTTR < 30 分钟的约束。
+
+## Search Query
+
+CUDA error recovery time vLLM restart model loading latency

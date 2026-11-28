@@ -1,0 +1,24 @@
+# N712: 在 vLLM 推理场景中，由于 Decode 阶段主要为 Memory-Bound，时钟频率从 1530MHz 降至 1350MHz 对 Token/s 吞吐量
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N261
+
+## Claim
+
+在 vLLM 推理场景中，由于 Decode 阶段主要为 Memory-Bound，时钟频率从 1530MHz 降至 1350MHz 对 Token/s 吞吐量的实际影响远低于 11.75%，主要受限于 HBM2 带宽（~900GB/s）不变，需实测降频前后的 Tokens/sec 比率以量化真实性能损耗
+
+## Corrected Claim
+
+在 vLLM 推理场景中，由于 Decode 阶段主要为 Memory-Bound，时钟频率从 1530MHz 降至 1350MHz 对 Token/s 吞吐量的实际影响远低于 11.75%，主要受限于 HBM2 带宽（~900GB/s）不变，需实测降频前后的 Tokens/sec 比率以量化真实性能损耗
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Decode阶段为Memory-Bound，性能瓶颈在于HBM带宽而非计算单元频率，因此降频对吞吐量的影响远小于频率降幅（11.75%），符合计算机体系结构基本原理。
+
+## Search Query
+
+LLM inference decode phase memory bound vs compute bound GPU clock frequency impact throughput

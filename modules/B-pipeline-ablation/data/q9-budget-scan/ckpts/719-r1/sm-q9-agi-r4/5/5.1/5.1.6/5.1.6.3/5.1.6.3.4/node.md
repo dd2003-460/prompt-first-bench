@@ -1,0 +1,20 @@
+# N676: FCR vs Complexity_Score 曲线的拟合方法：使用二次多项式回归 FCR = a×Score² + b×Score + c 拟合本地和云端数据
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N245
+
+## Claim
+
+FCR vs Complexity_Score 曲线的拟合方法：使用二次多项式回归 FCR = a×Score² + b×Score + c 拟合本地和云端数据，通过求解方程 a_l×S²+b_l×S+c_l = a_c×S²+b_c×S+c_c 得到交点 S*，该 S* 即为 T_threshold 的实证值
+
+## Corrected Claim
+
+FCR vs Complexity_Score 曲线的拟合方法：使用二次多项式回归 FCR = a×Score² + b×Score + c 拟合本地和云端数据，通过求解方程 a_l×S²+b_l×S+c_l = a_c×S²+b_c×S+c_c 得到交点 S*，该 S* 即为 T_threshold 的实证值
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：二次多项式回归是拟合非线性关系的常用方法，求解两个二次方程相等得到的交点在数学上定义明确，符合从数据中推导阈值的逻辑流程。

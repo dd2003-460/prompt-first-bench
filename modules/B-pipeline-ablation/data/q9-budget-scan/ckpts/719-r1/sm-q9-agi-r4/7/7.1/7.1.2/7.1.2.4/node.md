@@ -1,0 +1,24 @@
+# N737: Decode 阶段实际通信量修正：由于 vLLM 采用 Continuous Batching，单次 step 的 batch_size 通常为 1 或极小值（
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N272
+
+## Claim
+
+Decode 阶段实际通信量修正：由于 vLLM 采用 Continuous Batching，单次 step 的 batch_size 通常为 1 或极小值（取决于并发请求数），且 seq_len 为累积长度。若 batch_size=1, seq_len=1 (增量解码)，Size_Att = 32*128*1*1*2 = 8KB，Size_FFN = 5120*1*1*1*2 = 10KB。总通信量 ≈ 18KB/step，远小于 Prefill 阶段。
+
+## Corrected Claim
+
+Decode 阶段实际通信量修正：由于 vLLM 采用 Continuous Batching，单次 step 的 batch_size 通常为 1 或极小值（取决于并发请求数），且 seq_len 为累积长度。若 batch_size=1, seq_len=1 (增量解码)，Size_Att = 32*128*1*1*2 = 8KB，Size_FFN = 5120*1*1*1*2 = 10KB。总通信量 ≈ 18KB/step，远小于 Prefill 阶段。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：vLLM Decode阶段通常batch_size=1，seq_len=1（增量解码），计算得出的通信量（~18KB）符合KV Cache及激活值传输的量级预期，远小于Prefill阶段。
+
+## Search Query
+
+vLLM continuous batching allreduce size decode step

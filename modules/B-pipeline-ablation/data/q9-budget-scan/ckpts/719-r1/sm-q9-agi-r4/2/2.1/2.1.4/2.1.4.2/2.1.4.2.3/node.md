@@ -1,0 +1,20 @@
+# N446: PyTorch 2.x 在 V100 主机上的首次导入耗时 T_import_torch ≈ 1500-2500ms，显著高于 JAX，主要因 CUDA 扩展（
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N152
+
+## Claim
+
+PyTorch 2.x 在 V100 主机上的首次导入耗时 T_import_torch ≈ 1500-2500ms，显著高于 JAX，主要因 CUDA 扩展（torch._C）加载及 cuDNN/cuBLAS 版本检查；若仅用于 CPU 侧数据处理，可通过 torch.set_num_threads(1) 减少 200ms 的线程池初始化开销
+
+## Corrected Claim
+
+PyTorch 2.x 在 V100 主机上的首次导入耗时通常显著高于 JAX，主要因 CUDA 扩展加载及依赖库检查；CPU 侧优化措施可能减少部分初始化开销，但具体数值依环境而异。
+
+## Evidence
+
+[质询]具体数值范围（1500-2500ms）和特定优化收益（200ms）属于高度依赖硬件配置、驱动版本及系统环境的经验数据，缺乏通用性，且 `torch.set_num_threads(1)` 对导入耗时的影响机制描述可能存在归因偏差（通常导入耗时主要受动态库加载影响，线程池初始化占比视具体实现而定）。 | 先验知识/题面给定，逻辑校验通过；但具体毫秒级数值为经验事实，无外部来源支持，故降级。

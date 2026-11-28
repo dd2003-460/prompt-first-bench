@@ -1,0 +1,24 @@
+# N411: vLLM 检测 V100 不支持 NVFP4 的逻辑分支：在 model_loader.py 中检查 device_capability，若 major_ver
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N139
+
+## Claim
+
+vLLM 检测 V100 不支持 NVFP4 的逻辑分支：在 model_loader.py 中检查 device_capability，若 major_version < 8，则禁用 NVFP4 专用 kernel，强制回退至 FP16 加载路径
+
+## Corrected Claim
+
+vLLM 在 model_loader.py 中检查 device_capability，若 GPU 计算能力不支持 NVFP4（通常需 Blackwell 架构或特定新硬件，如 major_version >= 10 或特定 minor 版本），则禁用 NVFP4 专用 kernel，并回退至支持的精度（如 FP16/BF16/FP8，视具体实现而定）。
+
+## Evidence
+
+[质询]V100 的计算能力（Compute Capability）为 7.0，其 major_version 为 7，确实小于 8。然而，NVFP4（通常指 NVIDIA 的 FP4 格式，如 FP4-E2M1）主要依赖 Blackwell 架构（CC 10.0+）或特定新硬件特性，V100 (CC 7.0) 和 Ampere (CC 8.0) 均不支持原生 FP4 硬件加速。虽然 major_version < 8 会排除 Ampere 及更新架构，但将 'major_version < 8' 作为禁用 NVFP4 的唯一或主要逻辑分支在技术描述上不够精确，因为 CC 8.x (Ampere) 也不支持 NVFP4，而该条件并未涵盖 CC 8.x 到 9.x 的情况（如果代码逻辑是 if major < 8 then disable，那么 CC 8.0 会进入 else 分支，这可能是一个逻辑漏洞或描述错误，除非代码中有其他检查）。更可能的情况是，vLLM 检查的是具体的 kernel 可用性或更严格的版本限制，或者该陈述混淆了 FP8 (CC 8.0+) 和 FP4 (CC 10.0+) 的支持边界。此外，'强制回退至 FP16' 也是简化描述，通常可能回退到 BF16 或 FP16，取决于模型配置。 | 先验知识/题面给定，逻辑校验通过但存在技术细节模糊性（NVFP4 支持通常要求更高计算能力，且 major<8 的判断逻辑可能不完整或描述不准确），故降级。
+
+## Search Query
+
+vLLM source code device capability check NVFP4 fallback

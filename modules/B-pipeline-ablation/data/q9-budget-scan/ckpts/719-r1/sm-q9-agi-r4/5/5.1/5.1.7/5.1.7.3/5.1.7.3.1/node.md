@@ -1,0 +1,24 @@
+# N683: Kubernetes Ingress 控制器（如 NGINX Ingress Controller）动态路由切换的 T_switch 主要取决于配置重载（rel
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N248
+
+## Claim
+
+Kubernetes Ingress 控制器（如 NGINX Ingress Controller）动态路由切换的 T_switch 主要取决于配置重载（reload）机制，默认情况下配置变更需等待 reload 周期（通常 0-30s 不等，取决于 worker_connections 和配置复杂度），若使用 Envoy 的 xDS API 进行热更新，T_switch 可降至 <100ms（基于 gRPC 推送 + 内核态路由表更新），需实测具体环境的 P99 延迟
+
+## Corrected Claim
+
+Kubernetes Ingress 控制器（如 NGINX Ingress Controller）动态路由切换的 T_switch 主要取决于配置重载（reload）机制，默认情况下配置变更需等待 reload 周期（通常 0-30s 不等，取决于配置复杂度和系统负载），若使用 Envoy 的 xDS API 进行热更新，T_switch 可降至 <100ms（基于 gRPC 推送 + 用户态连接池更新），需实测具体环境的 P99 延迟
+
+## Evidence
+
+[质询]将 T_switch 归因于 'worker_connections' 存在技术概念混淆，worker_connections 主要影响并发处理能力而非配置重载周期；此外，'内核态路由表更新' 描述不准确，Envoy 用户态处理 xDS 更新，不涉及内核态路由表修改。 | 经验事实，逻辑自洽但缺来源支持；部分技术细节（如 worker_connections 影响 reload 周期、内核态路由表更新）存在概念偏差，需修正表述。
+
+## Search Query
+
+Envoy xDS API dynamic routing update latency vs NGINX Ingress controller reload time

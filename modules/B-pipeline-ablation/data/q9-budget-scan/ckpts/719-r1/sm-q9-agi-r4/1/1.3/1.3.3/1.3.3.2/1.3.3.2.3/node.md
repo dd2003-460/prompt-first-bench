@@ -1,0 +1,24 @@
+# N413: 回退机制对端到端延迟的影响：相比原生 FP16 推理，NVFP4 回退方案在 V100 上的实际吞吐量损失约为 15%-25%，主要源于 dequantize 
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N139
+
+## Claim
+
+回退机制对端到端延迟的影响：相比原生 FP16 推理，NVFP4 回退方案在 V100 上的实际吞吐量损失约为 15%-25%，主要源于 dequantize 开销和内存带宽竞争，而非计算本身
+
+## Corrected Claim
+
+相比原生 FP16 推理，NVFP4 回退方案在 V100 上会因 dequantize 开销和内存带宽竞争导致显著吞吐量损失，具体幅度取决于实现细节与负载特征，通常在两位数百分比范围内。
+
+## Evidence
+
+[质询]具体数值区间（15%-25%）缺乏通用基准测试支持，不同模型架构、序列长度及硬件配置下波动极大，且V100不支持原生FP4指令集，所谓'NVFP4回退'通常指软件模拟或混合精度，其开销占比难以精确锁定在该窄区间内。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+quantized LLM inference latency overhead on older GPUs without native support

@@ -1,0 +1,24 @@
+# N639: 工作点 B（中性价比最优）：V100 在混合负载（间歇性高并发+空闲期）下平均功耗 P_avg ≈ 150W，因动态频率调节（DVFS）降低时钟频率，能效比 η
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N228
+
+## Claim
+
+工作点 B（中性价比最优）：V100 在混合负载（间歇性高并发+空闲期）下平均功耗 P_avg ≈ 150W，因动态频率调节（DVFS）降低时钟频率，能效比 η_B ≈ 0.90，月电费 Cost_B ≈ 150W × 720h × $0.35/kWh ≈ $37.8，但吞吐量下降 20-30%，需权衡吞吐与成本
+
+## Corrected Claim
+
+工作点 B（中性价比最优）：V100 在混合负载（间歇性高并发+空闲期）下平均功耗 P_avg 约为 150W（基于典型 DVFS 行为估算），能效比 η_B 约为 0.90，月电费 Cost_B 约为 $37.8（按 720h 和 $0.35/kWh 计算），但吞吐量可能下降 20-30%，需权衡吞吐与成本。
+
+## Evidence
+
+[质询]V100 TDP为250W，在混合负载下平均功耗150W及能效比0.90属于特定场景下的经验估算值，缺乏通用标准或第一性原理支持，且吞吐量下降幅度与功耗降低幅度的线性关系假设过于简化。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+V100 dynamic voltage frequency scaling power efficiency mixed workload

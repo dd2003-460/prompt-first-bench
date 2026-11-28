@@ -1,0 +1,24 @@
+# N286: GVisor 沙箱冷启动 2.5s 的耗时分解：内核初始化 (Kernel Init) 耗时 1.5s，用户空间加载 (User-space Load) 耗时 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N91
+
+## Claim
+
+GVisor 沙箱冷启动 2.5s 的耗时分解：内核初始化 (Kernel Init) 耗时 1.5s，用户空间加载 (User-space Load) 耗时 0.7s，网络命名空间配置 (Network Namespace Setup) 耗时 0.3s；其中内核初始化耗时可通过预加载常用模块 (Pre-loading Modules) 缩短至 1.0s
+
+## Corrected Claim
+
+GVisor 沙箱冷启动通常在毫秒级（例如 10-50ms），主要耗时在于用户态内核初始化及少量系统调用拦截设置，而非秒级的内核模块加载。
+
+## Evidence
+
+[质询]GVisor 的核心设计目标是轻量级快速启动，其冷启动时间通常在毫秒级（~10-50ms），而非秒级。2.5s 的总耗时及 1.5s 的内核初始化耗时严重违背 GVisor 作为用户态内核（User-space Kernel）的基本性能特征和工程常识，极可能是将传统 Linux 容器或虚拟机启动时间与 GVisor 混淆，或数据量级错误。 | 先验知识/题面给定，逻辑校验未通过：GVisor 启动速度是其核心优势，典型冷启动时间在毫秒级，2.5s 的耗时分解不符合其技术特性，存在严重的量级错误嫌疑。
+
+## Search Query
+
+GVisor sandbox cold start time breakdown kernel initialization user space load

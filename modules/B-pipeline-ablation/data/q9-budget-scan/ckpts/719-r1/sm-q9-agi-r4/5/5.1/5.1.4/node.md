@@ -1,0 +1,20 @@
+# N70: 工作点B（混合架构）的成本构成公式为 Cost_B = Cost_Local_80% + Cost_Cloud_20%，其中 Cost_Local_80% 为本
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+工作点B（混合架构）的成本构成公式为 Cost_B = Cost_Local_80% + Cost_Cloud_20%，其中 Cost_Local_80% 为本地处理 80% 任务的能耗成本（基于 N31 公式乘以 0.8），Cost_Cloud_20% 为云端 API 处理 20% 复杂推理任务的费用，需根据所选云端模型（如 GPT-4o）的 token 单价和输入输出长度估算
+
+## Corrected Claim
+
+工作点B（混合架构）的成本构成公式为 Cost_B = Cost_Local_80% + Cost_Cloud_20%，其中 Cost_Local_80% 为本地处理 80% 任务的能耗成本（基于 N31 公式乘以 0.8），Cost_Cloud_20% 为云端 API 处理 20% 复杂推理任务的费用，需根据所选云端模型（如 GPT-4o）的 token 单价和输入输出长度估算
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上正交且无冗余，分别对应显式本地成本、显式云端成本及隐性成本。但完备性不足：父节点定义的公式 Cost_B = Cost_Local_80% + Cost_Cloud_20% 仅包含两项，而第三个子节点引入了未在父公式中定义的 'Hidden_Cost'，导致子节点覆盖的范围超出了父节点定义的数学边界，未形成严密的逻辑闭环（即子节点之和不等于父节点定义）。）

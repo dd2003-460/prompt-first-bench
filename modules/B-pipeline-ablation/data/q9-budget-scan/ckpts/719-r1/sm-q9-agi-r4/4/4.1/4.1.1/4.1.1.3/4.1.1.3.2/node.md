@@ -1,0 +1,24 @@
+# N561: 检验间相关系数 ρ 对 BH-FDR 增益的边际效应曲线：当 ρ 从 0 增加到 0.9 时，BH 相对于 Bonferroni 的 Power 增益从 ~25
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N200
+
+## Claim
+
+检验间相关系数 ρ 对 BH-FDR 增益的边际效应曲线：当 ρ 从 0 增加到 0.9 时，BH 相对于 Bonferroni 的 Power 增益从 ~25% 单调递减至 ~5%，临界点 ρ_crit 约为 0.7，超过该值后 Bonferroni 的保守性惩罚小于 BH 的控制松紧度差异 [待核验]
+
+## Corrected Claim
+
+检验间相关系数 ρ 对 BH-FDR 增益具有负向边际效应：随着 ρ 增加，BH 相对于 Bonferroni 的 Power 增益通常呈递减趋势。存在一个临界相关系数 ρ_crit，超过该值后 Bonferroni 的保守性惩罚相对较小，使得其性能接近或优于 BH。具体数值（如增益百分比和临界点位置）取决于样本量、效应大小及检验总数。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（ρ=0时增益~25%，ρ=0.9时~5%，临界点ρ≈0.7），这些数值高度依赖于具体的样本量(n)、效应大小(effect size)和检验数量(m)。在没有指定这些参数的情况下，断言固定的百分比增益和精确的临界点是缺乏依据的；例如，在大样本量下，Bonferroni的保守性惩罚会显著降低，可能导致临界点右移或增益幅度改变。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值无法从第一性原理唯一推出，受实验设计参数影响）
+
+## Search Query
+
+Benjamini Hochberg power gain versus correlation coefficient threshold

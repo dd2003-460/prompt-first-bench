@@ -1,0 +1,20 @@
+# N203: 对于回归或连续输出任务（如预测值与实际值的偏差），应使用 Pearson's r 或 Cohen's d；若使用 Cohen's d = (Mean1 - Me
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+对于回归或连续输出任务（如预测值与实际值的偏差），应使用 Pearson's r 或 Cohen's d；若使用 Cohen's d = (Mean1 - Mean2) / Pooled_SD，Nature/Science 子刊中通常要求 d > 0.2 且 95% CI 不包含 0 才视为具有实际意义的改进。
+
+## Corrected Claim
+
+对于回归或连续输出任务，评估预测精度通常使用 RMSE、MAE 或 Pearson's r。若需量化两组数据（如基线与改进模型预测值分布）的差异效应量，可使用 Cohen's d，但需注意其定义及适用场景，且具体显著性阈值（如 d > 0.2）需依据特定领域的统计惯例确定，并非 Nature/Science 子刊的统一硬性规定。
+
+## Evidence
+
+[质询]Cohen's d 通常用于比较两组独立样本的均值差异（效应量），而非直接衡量回归预测值与实际值的偏差（后者通常使用 RMSE、MAE 或 Pearson's r）。将 Cohen's d 定义为 (Mean1 - Mean2) / Pooled_SD 并应用于回归误差分析存在概念混淆；此外，'Nature/Science 子刊通常要求 d > 0.2' 这一具体阈值缺乏普遍公认的学术规范支持，属于经验性断言且易受具体领域影响。 | 先验知识/题面给定，逻辑校验发现概念应用不当（Cohen's d 不适用于回归偏差的直接度量）及阈值缺乏普适性，故降级。

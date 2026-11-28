@@ -1,0 +1,24 @@
+# N201: 在 AI 模型评估中，若多个基线模型来自同一架构家族（如不同大小的 LLM），检验间存在高正相关（ρ > 0.8），此时 Bonferroni 校正会过度保守，
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N57
+
+## Claim
+
+在 AI 模型评估中，若多个基线模型来自同一架构家族（如不同大小的 LLM），检验间存在高正相关（ρ > 0.8），此时 Bonferroni 校正会过度保守，导致假阴性率（Type II Error）上升约 10%-20%，建议改用 Holm-Bonferroni 或 FDR 方法。
+
+## Corrected Claim
+
+在 AI 模型评估中，若多个基线模型来自同一架构家族（如不同大小的 LLM），检验间存在高正相关（ρ > 0.8），此时 Bonferroni 校正会过度保守，导致统计功效降低（假阴性率上升），建议改用 Holm-Bonferroni 或 FDR 方法以提高检测灵敏度。
+
+## Evidence
+
+[质询]声称Bonferroni校正导致假阴性率上升“约10%-20%”是一个缺乏普遍适用性的具体数值断言。多重比较校正带来的统计功效损失（即假阴性率增加）高度依赖于具体的效应量、样本量、显著性水平以及基线模型间的相关系数具体值，并非一个固定的10%-20%区间。将这种情境依赖的统计现象概括为固定百分比属于过度简化，且该具体数值范围难以从第一性原理直接推导得出，属于经验性断言。 | 先验知识/题面给定，逻辑校验通过：Bonferroni校正确实比Holm-Bonferroni更保守，且在变量高度相关时会导致统计功效下降（假阴性率上升），定性逻辑自洽；但“10%-20%”的具体量化缺乏通用理论支撑，属于经验事实且无来源支持，故降级。
+
+## Search Query
+
+correlated hypotheses Bonferroni conservative Type II error rate machine learning benchmarks

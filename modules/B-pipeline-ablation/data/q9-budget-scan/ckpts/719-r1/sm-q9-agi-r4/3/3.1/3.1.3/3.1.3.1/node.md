@@ -1,0 +1,28 @@
+# N176: V100-SXM2 NVLink P2P 带宽实测基准：SXM2 卡间 NVLink 理论带宽为 300 GB/s (双向)，但实际 AllReduce 效率受
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N50
+
+## Claim
+
+V100-SXM2 NVLink P2P 带宽实测基准：SXM2 卡间 NVLink 理论带宽为 300 GB/s (双向)，但实际 AllReduce 效率受 Ring AllReduce 算法影响，有效带宽通常为理论值的 60-70%，即 ~180-210 GB/s。对于 27B 模型，每层 Attention 输出的 AllReduce 数据量约为 2 * batch_size * seq_len * hidden_dim * 2 bytes，需计算具体单次通信时间 [待核验]
+
+## Corrected Claim
+
+V100-SXM2 NVLink P2P 带宽实测基准：SXM2 卡间 NVLink 理论带宽通常在 160-300 GB/s 范围内（视具体链路数和方向定义而定），实际 AllReduce 效率受 Ring AllReduce 算法影响，有效带宽通常为理论值的 60-70%。对于 27B 模型，每层 Attention 输出的 AllReduce 数据量约为 2 * batch_size * seq_len * hidden_dim * 2 bytes，需结合具体硬件规格计算单次通信时间。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（1. 正交性/矛盾：子节点1指出32KB传输时间约0.18μs且远低于Kernel Launch开销，暗示瓶颈不在纯传输带宽；子节点2明确指出总通信时间由延迟主导（1-2μs），两者在‘瓶颈归因’上存在逻辑冲突（一个强调带宽足够快以至于忽略，另一个强调延迟是主要成本）。更严重的是，子节点2引用了‘原claim中的1-2ms’，这超出了父节点定义的‘实测基准/理论计算’范围，引入了外部未定义的参照物。2. 完备性缺失：父节点核心任务是‘对于27B模型...需计算具体单次通信时间[待核验]’。子节点完全忽略了父节点中关于‘27B模型’、‘batch_size’、‘seq_len’、‘hidden_dim’的具体变量，转而使用了一个硬编码的‘32KB’假设，未能完成父节点要求的针对特定模型参数的推导或计算框架建立。）
+
+## Search Query
+
+V100 SXM2 NVLink P2P bandwidth measured ring allreduce efficiency 27B model communication volume
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1913952163614418680&rut=13958452da72ebbe0bbff8c553b38a0857817ca5858d249045a307e72ea20de2', 'type': 'ddg', 'title': 'V100-SXM2-NVLink 双卡算力盒子 - 知乎'}

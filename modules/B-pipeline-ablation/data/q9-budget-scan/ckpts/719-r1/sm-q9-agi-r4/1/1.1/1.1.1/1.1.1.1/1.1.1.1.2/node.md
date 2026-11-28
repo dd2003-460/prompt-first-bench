@@ -1,0 +1,30 @@
+# N345: MMLU-Pro 5-shot 评测中，Qwen3-27B 在各学科子集（如 Physics, Chemistry, Biology, Computer Sci
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N108
+
+## Claim
+
+MMLU-Pro 5-shot 评测中，Qwen3-27B 在各学科子集（如 Physics, Chemistry, Biology, Computer Science 等）的具体得分分布，用于验证整体 74.2% 是否由某些高分科目拉动，以及是否存在显著低于均值的短板科目（如低于 60% 的科目数量）。
+
+## Corrected Claim
+
+现有参考来源未提供 Qwen3-27B 在 MMLU-Pro 各学科子集的具体得分分布，无法确认其整体 74.2% 分数是否由特定高分科目拉动或存在显著低于 60% 的短板科目。
+
+## Evidence
+
+[质询]参考来源中未包含 Qwen3-27B 在 MMLU-Pro 各学科子集（Physics, Chemistry 等）的具体得分分布数据，无法验证是否存在低于 60% 的短板科目或高分科目拉动效应。 | 来源 [1] 介绍了 MMLU-Pro 基准，来源 [2] 和 [3] 分别提到了不同变体（Qwopus3.8-27B-Flash, Qwen3.5-27B）的整体分数，但均未提供 Qwen3-27B 的分学科详细得分分布，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B MMLU-Pro subject-wise scores breakdown
+
+## Retrieval Sources
+
+- {'url': 'https://www.datalearner.com/benchmarks/mmlu-pro&rut=930b591a12bbe74b40108767d7e5e7e0891ce9454c921bf2d62a2d5f38616f48', 'type': 'ddg', 'title': 'MMLU-Pro评测基准：大模型排名与测试结果 | DataLearnerAI'}
+- {'url': 'https://blog.csdn.net/gitblog_00965/article/details/168436283&rut=091d4a62522da73cf02a5b26fb3b58bf0dfe768cf691cccab96a9f3e9a0cc4bf', 'type': 'ddg', 'title': 'Qwopus3.8-27B-Flash基准测试深度解读：MMLU-Pro 91.28%与Agent编程93%通过率'}
+- {'url': 'https://www.datalearner.com/ai-models/pretrained-models/qwen3-5-27b-dense/analysis&rut=23f3cd73e272936e409b57187987bb39eeb8995195748e0e0a9f66e06f76679e', 'type': 'ddg', 'title': 'Qwen3.5-27B 评测分析：29 项基准得分与模型对比 | DataLearnerAI'}

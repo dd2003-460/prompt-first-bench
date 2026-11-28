@@ -1,0 +1,24 @@
+# N593: Wikidata 在 AI/CS 领域实体覆盖率量化：通过 SPARQL 查询统计 Wikidata 中带有 'field of study = compute
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N212
+
+## Claim
+
+Wikidata 在 AI/CS 领域实体覆盖率量化：通过 SPARQL 查询统计 Wikidata 中带有 'field of study = computer science' 或 'occupation = AI researcher' 的实体数量，除以 Google Scholar 中同领域活跃研究者总数（假设10万人），计算覆盖率百分比
+
+## Corrected Claim
+
+提出一种量化Wikidata在AI/CS领域实体覆盖率的潜在方法：通过SPARQL查询统计相关实体数量，并除以估计的活跃研究者总数（如假设10万人）来计算覆盖率，但该具体数值及查询结果需实际执行验证。
+
+## Evidence
+
+[质询]该陈述描述的是一个方法论假设（分母假设为10万），而非已验证的客观事实；且Wikidata中'AI researcher'作为occupation的标签使用并不统一，直接统计可能导致严重低估或高估，缺乏实际查询数据支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该陈述包含未经证实的具体数值假设和特定查询口径，无法从第一性原理推出）。
+
+## Search Query
+
+Wikidata coverage AI computer science entities SPARQL statistics

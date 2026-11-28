@@ -1,0 +1,24 @@
+# N435: 混合检索中向量部分 Recall 对总 Recall 的加权贡献量化：在 α=0.7 权重下，若向量 Recall 从 0.85 降至 0.75（因 efSea
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N146, N147, N150
+
+## Claim
+
+混合检索中向量部分 Recall 对总 Recall 的加权贡献量化：在 α=0.7 权重下，若向量 Recall 从 0.85 降至 0.75（因 efSearch 降低），总 Recall 下降量 ΔR_total = α * ΔR_vector = 0.7 * 0.10 = 0.07，导致最终结果集 Top-5 中平均丢失 0.35 个相关文档，显著影响科研假设生成的证据覆盖率
+
+## Corrected Claim
+
+在混合检索中，向量部分 Recall 的下降通常会显著降低整体 Recall，具体影响程度取决于融合算法（如 RRF 或加权分数）及两种检索模式的互补性；在 α=0.7 的高权重设置下，向量 Recall 从 0.85 降至 0.75 预计会导致总 Recall 出现显著下降，进而可能减少 Top-5 结果中相关文档的数量，具体丢失数量需结合具体数据集和融合策略评估。
+
+## Evidence
+
+[质询]线性叠加假设过于简化：混合检索的最终 Recall 并非简单的加权平均（α*R_vec + (1-α)*R_kw），而是取决于融合策略（如 RRF、加权分数归一化等）以及向量与关键词检索结果的交集/并集关系。此外，Top-5 中丢失 0.35 个文档的推导隐含了‘召回率下降直接线性映射到固定大小 Top-K 列表中的期望损失’这一强假设，忽略了排名变化导致的非均匀分布效应。 | source=knowledge，逻辑自洽但缺乏对混合检索融合机制复杂性的严谨论证，且无外部来源支持具体的线性贡献系数及 Top-K 损失换算，故降级为定性表述。
+
+## Search Query
+
+hybrid retrieval weight alpha impact on total recall@5 vector component degradation

@@ -1,0 +1,28 @@
+# N311: P_model 分布构建方法：Qwen3.8-27B 生成 100 个假设样本，提取其语义嵌入并同样映射至 128 维空间，使用核密度估计 (KDE) 拟合 P
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N97
+
+## Claim
+
+P_model 分布构建方法：Qwen3.8-27B 生成 100 个假设样本，提取其语义嵌入并同样映射至 128 维空间，使用核密度估计 (KDE) 拟合 P_model(x)，带宽参数 h 需通过交叉验证确定，以平衡偏差与方差
+
+## Corrected Claim
+
+P_model 分布构建方法：Qwen3.8-27B 生成 100 个假设样本，提取其语义嵌入并映射至 128 维空间，使用核密度估计 (KDE) 拟合 P_model(x)，带宽参数 h 通常需通过交叉验证确定以平衡偏差与方差（注：具体实现细节缺乏直接来源支持，属通用统计方法推断）。
+
+## Evidence
+
+[质询]参考来源仅涉及Qwen3.8-27B的本地部署与隐私安全，完全未提及P_model分布构建、KDE拟合或带宽参数h的具体技术细节，属于典型的‘来源无关’情况，无法提供外部证据支持该特定算法流程。 | 逻辑上，使用KDE拟合高维语义嵌入分布并通过交叉验证确定带宽是统计学中处理非参数密度估计的标准且自洽的方法，量纲和步骤合理；但参考来源[1]与该具体技术实现无关，无法提供直接支持，故依据经验事实排除条款降级。
+
+## Search Query
+
+LLM output distribution KDE bandwidth selection hypothesis space modeling
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2092362184642803539&rut=fae211a1231dab7c84a9c0dcbd7b437ff8994df30a8d56b5cafa8169d995e3da', 'type': 'ddg', 'title': 'Qwen3.8-27B 本地 Agent 部署：从隐私安全到能力跃升的完整指南'}

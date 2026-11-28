@@ -1,0 +1,24 @@
+# N524: 激活值显存占用估算：对于 27B 模型，激活值大小与 batch_size × seq_len × hidden_dim × num_layers 成正比，在 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N186
+
+## Claim
+
+激活值显存占用估算：对于 27B 模型，激活值大小与 batch_size × seq_len × hidden_dim × num_layers 成正比，在 Batch_Size=4, Seq_Len=64K 时，激活值占用约 2-4GB/卡，需实测验证
+
+## Corrected Claim
+
+激活值显存占用估算：对于 27B 模型，激活值大小与 batch_size × seq_len × hidden_dim × num_layers 成正比，在 Batch_Size=4, Seq_Len=64K 时，若不采用激进的显存优化技术（如完整的梯度检查点+序列并行），激活值占用通常在数十至数百GB级别，2-4GB/卡的估算仅在极端优化或特定切分策略下可能成立，需结合具体并行策略实测验证。
+
+## Evidence
+
+[质询]数值量级严重低估：对于27B模型，仅Transformer层（不含MLP中间维度）的激活值在Batch=4, Seq=64K时，单层占用约为 4 * 65536 * 4096 * 2bytes * 32layers ≈ 100GB+，加上MLP中间层（通常4x hidden dim）会更大，总激活值远超2-4GB/卡，除非使用了极端的梯度检查点或序列并行切分，否则该估算与常规全精度/半精度训练直觉不符。 | 无可用外部证据；逻辑校验发现数值量级与基本内存计算公式（Batch*Seq*Hidden*Layers*Precision）严重不符，2-4GB对于64K长序列的27B模型激活值而言过小，疑似混淆了单步梯度或特定优化后的残留显存，而非完整激活值占用。
+
+## Search Query
+
+large language model activation memory usage batch size sequence length

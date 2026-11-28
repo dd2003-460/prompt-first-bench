@@ -1,0 +1,28 @@
+{
+  "id": "N184",
+  "claim": "N52的KV Cache精确计算：KV_Per_Token = 2 × n_kv_heads × head_dim × bytes_per_element，Qwen3.8-27B的n_kv_heads和head_dim需从config.json提取（如n_kv_heads=32, head_dim=128, FP8=1byte，则KV_Per_Token=8KB），此值是N53显存规划的基础参数",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]陈述中关于 Qwen3.8-27B 的具体配置参数（n_kv_heads=32, head_dim=128）属于特定模型的经验事实，且 'Qwen3.8-27B' 这一型号名称及对应参数在公开资料中缺乏直接佐证，存在参数臆测或型号混淆的风险。 | 公式逻辑自洽（KV_Per_Token = 2 * n_layers * n_kv_heads * head_dim * bytes，注：原陈述漏乘 n_layers 导致量级错误，但此处主要考察参数提取逻辑，若按单层计算则公式结构正确，但通常KV Cache总量需乘层数。然而，题目核心在于'从config提取'这一方法论及示例数值。来源[1][2]仅解释KV Cache原理，未提供Qwen3.8-27B的具体config参数，故无法验证具体数值，仅能确认方法论合理。根据经验事实排除条款，具体参数值无来源支持应降级。",
+  "corrected_claim": "KV Cache每Token显存占用计算公式为 2 × n_layers × n_kv_heads × head_dim × bytes_per_element。Qwen系列模型的具体n_kv_heads和head_dim需查阅其官方config.json文件获取，不同版本（如Qwen2, Qwen2.5等）参数各异，不能直接套用示例数值。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N52"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "Qwen3.8-27B model config n_kv_heads head_dim parameters",
+  "retrieval_sources": [
+    {
+      "url": "https://zhuanlan.zhihu.com/p/2016843212178882587&rut=320a6741e361058404ef664c708c65acdd9b5df3269cfca9c6c506d690854ce7",
+      "type": "ddg",
+      "title": "KV Cache 深度解析：从原理到工程优化的完整指南 - 知乎"
+    },
+    {
+      "url": "https://zhuanlan.zhihu.com/p/1984939680643452933&rut=8f7f41e10e6bccd7bbcaa702b39b42bdb7d0b0dd68e1697a3ee89efab63af159",
+      "type": "ddg",
+      "title": "模型推理时KV Cache显存如何计算，和用户并发有什么关系？"
+    }
+  ]
+}

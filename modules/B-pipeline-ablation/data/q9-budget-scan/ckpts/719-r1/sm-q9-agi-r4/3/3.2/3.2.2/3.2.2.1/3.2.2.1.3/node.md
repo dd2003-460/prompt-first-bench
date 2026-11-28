@@ -1,0 +1,24 @@
+# N520: PagedAttention 碎片率在 Block_Size=16 时，理论碎片率 = (Block_Size - 1) / Block_Size = 15/1
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N185
+
+## Claim
+
+PagedAttention 碎片率在 Block_Size=16 时，理论碎片率 = (Block_Size - 1) / Block_Size = 15/16 = 93.75% 浪费，但实际由于块复用，有效碎片率约为 3-7%，需实测验证
+
+## Corrected Claim
+
+PagedAttention 在 Block_Size=16 时的理论最大内部碎片率为 93.75%（(16-1)/16），但由于 KV Cache 块的复用机制，实际平均碎片率通常远低于此理论上限，具体数值（如 3-7%）高度依赖于工作负载特征，需通过实测验证。
+
+## Evidence
+
+[质询]将理论最大内部碎片（Internal Fragmentation）直接等同于“浪费率”在概念上存在混淆，且“3-7%”这一具体经验数值缺乏通用基准支持，不同负载和序列长度下波动极大，属于特定场景下的经验观测值而非普适常数。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体百分比数值无法从第一性原理严格推导，属于依赖实测的经验数据）
+
+## Search Query
+
+vLLM PagedAttention fragmentation rate block size 16

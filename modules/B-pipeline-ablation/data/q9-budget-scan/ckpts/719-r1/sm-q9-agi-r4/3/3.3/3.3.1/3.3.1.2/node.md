@@ -1,0 +1,28 @@
+# N193: 草稿模型耗时比 β 的量化：在 V100 上测量 Qwen3.8-27B 草稿模型（若为同架构小模型）生成 4 tokens 的耗时与主模型生成 1 token
+
+- **status**: pending
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N55
+
+## Claim
+
+草稿模型耗时比 β 的量化：在 V100 上测量 Qwen3.8-27B 草稿模型（若为同架构小模型）生成 4 tokens 的耗时与主模型生成 1 token 的耗时之比，预期 β = 0.3 ± 0.1，用于计算 Speedup 公式中的分子项。
+
+## Corrected Claim
+
+在 V100 上使用 Qwen3.8-27B 作为主模型进行推测解码时，若选用同架构的小模型作为草稿模型，生成 4 tokens 的耗时与主模型生成 1 token 的耗时之比（β）预计显著小于 1（具体数值需根据草稿模型规模实测确定，参考值可能在 0.2-0.5 区间），用于计算加速比。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（子节点存在严重冗余和逻辑错误。1. 冗余：三个子节点本质上是同一组参数（不同模型规模下的T_draft和T_MTP）的实例化，应合并为一个包含变量关系的节点或表格，而非拆分为三个独立节点。2. 逻辑矛盾：父节点明确指定主模型为 Qwen3.8-27B，但子节点中 T_MTP_1tok 随草稿模型大小变化而剧烈波动（35ms->50ms），这违背了物理常识（主模型固定，其推理耗时不应因草稿模型不同而改变）。3. 不完备：未涵盖父节点要求的“V100硬件约束”及“±0.1误差范围”的验证逻辑，仅罗列了单一理想值。）
+
+## Search Query
+
+Qwen3.8-27B draft model inference latency ratio V100
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2072074634476909289&rut=d97b6d9efd23719ef153d2ef7ccd044b4627c803640d57d09052962666bf48ca', 'type': 'ddg', 'title': 'Qwen3.8-27B 实测：V100 上的部署要点与 Q4/Q8 全量基准'}

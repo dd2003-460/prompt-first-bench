@@ -1,0 +1,20 @@
+# N572: 为使 Cohen's d 的 95% CI 半宽 ≤ 0.1，最小样本量 n 的精确计算需解方程 1.96 * sqrt(2/n + d_hat²/(4n)) 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N204
+
+## Claim
+
+为使 Cohen's d 的 95% CI 半宽 ≤ 0.1，最小样本量 n 的精确计算需解方程 1.96 * sqrt(2/n + d_hat²/(4n)) ≤ 0.1，代入 d_hat=0.5 得 n ≥ 2 * (1.96/0.1)² / (1 - 0.25) ≈ 446，而非近似值 368，差异源于 d² 项的修正。
+
+## Corrected Claim
+
+为使 Cohen's d 的 95% CI 半宽 ≤ 0.1，最小样本量 n 的精确计算需解方程 1.96 * sqrt(2/n + d_hat²/(4n)) ≤ 0.1，代入 d_hat=0.5 得 n ≥ 2 * (1.96/0.1)² / (1 - 0.25) ≈ 446，而非近似值 368，差异源于 d² 项的修正。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Cohen's d 的方差近似为 2/n + d^2/(4n)，代入 d=0.5 解不等式 1.96*sqrt(2/n + 0.25/(4n)) <= 0.1 可得 n >= 446.4，取整为 447 或约 446，与陈述一致。

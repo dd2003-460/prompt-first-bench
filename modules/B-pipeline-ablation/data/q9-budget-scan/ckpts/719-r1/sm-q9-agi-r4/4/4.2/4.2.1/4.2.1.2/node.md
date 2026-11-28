@@ -1,0 +1,20 @@
+# N211: 三元组转自然语言问句的模板化转换规则：采用'What is the [Predicate] of [Subject]?'句式，需通过GPT-4o或Qwen3.8
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N60
+
+## Claim
+
+三元组转自然语言问句的模板化转换规则：采用'What is the [Predicate] of [Subject]?'句式，需通过GPT-4o或Qwen3.8-27B自一致性检查（Self-consistency, k=5）验证无歧义性，若5次采样中答案不一致率>20%则丢弃该三元组。
+
+## Corrected Claim
+
+三元组转自然语言问句可采用模板化转换（如 'What is the [Predicate] of [Subject]?'），并通过大语言模型的自一致性检查（Self-consistency）验证无歧义性，若多次采样答案不一致率超过设定阈值则丢弃该三元组。
+
+## Evidence
+
+[质询]该陈述包含具体的工程实现细节（特定模型名称 GPT-4o/Qwen3.8-27B、特定的阈值 20%、特定的采样次数 k=5），这些属于经验性参数或特定项目的配置，并非通用的第一性原理或标准学术定义，且缺乏来源支持其唯一性或正确性。 | source=knowledge，逻辑自洽（模板化转换和自一致性检查是合理的NLP处理流程），但具体参数（模型版本、阈值）属于经验事实，无来源直接支持，故降级。

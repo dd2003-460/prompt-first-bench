@@ -1,0 +1,24 @@
+# N625: 4x V100 TP=4 配置的 NCCL 初始化耗时 T_nccl_init 主要受 CPU-GPU 握手与拓扑探测影响，实测范围通常为 10-25s；若启用
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N223
+
+## Claim
+
+4x V100 TP=4 配置的 NCCL 初始化耗时 T_nccl_init 主要受 CPU-GPU 握手与拓扑探测影响，实测范围通常为 10-25s；若启用 NCCL_SHM_DISABLE=0 共享内存优化，耗时可缩短至 5-10s，需通过 nsys profile 捕获 ncclCommInitRank 耗时以精确量化。
+
+## Corrected Claim
+
+4x V100 TP=4 配置的 NCCL 初始化耗时 T_nccl_init 受 CPU-GPU 握手与拓扑探测影响，具体耗时取决于系统环境；启用共享内存优化通常能降低通信开销，建议通过 nsys profile 捕获 ncclCommInitRank 耗时以进行精确量化。
+
+## Evidence
+
+[质询]具体数值范围（10-25s 和 5-10s）及环境变量行为（NCCL_SHM_DISABLE=0 的效果）属于高度依赖硬件拓扑、驱动版本和网络配置的经验事实，缺乏通用性，且不同环境下波动极大，无法作为固定标准。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源），具体耗时数值无法从第一性原理推导，故降级。
+
+## Search Query
+
+NCCL initialization latency benchmark 4x V100 TP4 nsys profile

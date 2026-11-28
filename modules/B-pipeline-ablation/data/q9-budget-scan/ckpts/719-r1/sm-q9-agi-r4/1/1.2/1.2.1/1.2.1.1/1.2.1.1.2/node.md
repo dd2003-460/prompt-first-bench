@@ -1,0 +1,24 @@
+# N379: Qwen3.8-27B (NVFP4) 在 RULER Multi-needle K=4 任务（128K 上下文）上的 Recall@1 基线值，由于多针召回需
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N121
+
+## Claim
+
+Qwen3.8-27B (NVFP4) 在 RULER Multi-needle K=4 任务（128K 上下文）上的 Recall@1 基线值，由于多针召回需并行注意力，性能显著低于 K=1，预期范围 60%-75%（基于注意力分散效应，每增加一根针，Recall 下降约 10-15 个百分点） [时效待核]
+
+## Corrected Claim
+
+Qwen3.8-27B (NVFP4) 在 RULER Multi-needle K=4 任务（128K 上下文）上的 Recall@1 基线值，由于多针召回需并行注意力，性能通常低于 K=1，具体数值需实测确认。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值范围（60%-75%）和线性衰减假设（每增加一根针下降10-15个百分点），这属于特定模型在特定硬件精度下的经验性能指标，无法从第一性原理严格推导，且缺乏来源支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+LLM long context multi-needle retrieval performance degradation K=4 128k

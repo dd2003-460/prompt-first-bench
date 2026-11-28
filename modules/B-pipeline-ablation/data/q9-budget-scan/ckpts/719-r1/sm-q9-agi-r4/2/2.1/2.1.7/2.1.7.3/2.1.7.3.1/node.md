@@ -1,0 +1,24 @@
+# N470: 工作点 A (最小对照/低成本)：基线组 n=5，实验组 n=5，总计算成本 C_Total ≈ 10 * T_cycle * P_electricity + 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N166
+
+## Claim
+
+工作点 A (最小对照/低成本)：基线组 n=5，实验组 n=5，总计算成本 C_Total ≈ 10 * T_cycle * P_electricity + 0 * C_cloud，统计功效 Power (α=0.05, β=0.2) 极低 (<0.1) [待核验]，仅用于定性验证流程可行性，无法得出显著性结论
+
+## Corrected Claim
+
+工作点 A (最小对照/低成本)：基线组 n=5，实验组 n=5，总计算成本 C_Total ≈ 10 * T_cycle * P_electricity + 0 * C_cloud，统计功效 Power (α=0.05, β=0.2) 极低 (<0.1) [待核验]，仅用于定性验证流程可行性，无法得出显著性结论
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：小样本(n=5)在常规效应量下统计功效确实极低，符合统计学基本原理
+
+## Search Query
+
+statistical power analysis small sample size A/B test AI agent performance comparison minimum detectable effect

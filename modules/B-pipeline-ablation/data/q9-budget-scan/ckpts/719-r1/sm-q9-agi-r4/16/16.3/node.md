@@ -1,0 +1,24 @@
+# N337: 高风险任务的基础错误率 P(Error | HighRisk) 估算：对于核心结论推导，Qwen3.8-27B 在 MMLU-Pro 科学子集上的准确率约为 7
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107
+
+## Claim
+
+高风险任务的基础错误率 P(Error | HighRisk) 估算：对于核心结论推导，Qwen3.8-27B 在 MMLU-Pro 科学子集上的准确率约为 75%，故 P(Error) ≈ 0.25；低风险任务（格式化）准确率 >99%，P(Error) ≈ 0.01
+
+## Corrected Claim
+
+基于MMLU-Pro科学子集约75%准确率的基准数据，估算高风险任务基础错误率约为0.25；低风险任务错误率低于0.01。需注意该估算基于静态基准测试，实际动态任务中可能因上下文和复杂度波动。
+
+## Evidence
+
+[质询]将特定基准测试（MMLU-Pro科学子集）的静态准确率直接等同于动态高风险任务中的基础错误率，忽略了任务复杂度、上下文依赖及模型版本迭代带来的不确定性，属于口径混淆。 | 逻辑自洽（准确率与错误率互补关系正确），但缺乏外部来源支持具体数值，且将基准测试成绩直接映射为实际任务错误率存在经验假设风险，故降级。
+
+## Search Query
+
+Qwen3.8 27B MMLU Pro science accuracy benchmark

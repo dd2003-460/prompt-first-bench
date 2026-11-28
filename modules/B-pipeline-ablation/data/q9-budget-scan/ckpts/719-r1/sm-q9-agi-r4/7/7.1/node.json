@@ -1,0 +1,19 @@
+{
+  "id": "N86",
+  "claim": "Qwen3.8-27B (NVFP4) 在 4x V100 (TP=4) 上的单步 AllReduce 通信开销时间为 12ms，占单步推理总时间 80ms 的 15%（计算依据：V100 NVLink 理论带宽 300GB/s，27B模型激活参数同步量估算为 30MB，双向通信耗时 2*30MB/300GB/s ≈ 0.2ms，加上序列化与同步锁开销，实测通常在 10-15ms 区间，需通过 vLLM profiling 工具 nsight systems 验证实际值）",
+  "level": "L3",
+  "source": "search",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：不完备（子节点在物理层带宽（Node 1）、逻辑层数据量（Node 2）和协议层延迟/模型（Node 3）上保持了良好的正交性，无重复或矛盾。然而，完备性存在严重缺陷：父节点声称该配置下通信开销为12ms，但子节点仅讨论了影响因素，未指出核心逻辑错误——根据子节点修正后的真实带宽（~170GB/s）和数据量估算，30MB的双向通信理论耗时仅为0.35ms左右，即使加上微秒级延迟也远小于12ms。子节点未能解释为何‘实测’会高达12ms（如：是否混淆了单次AllReduce与整个Step中所有Layer的累积通信？还是包含了GPU-CPU同步阻塞？），导致无法支撑父节点的结论。此外，未覆盖‘为何需要Nsight验证’的具体技术痛点（如锁竞争或异步流水线停顿）。）",
+  "corrected_claim": "Qwen3.8-27B (NVFP4) 在 4x V100 (TP=4) 上的单步 AllReduce 通信开销时间远低于 12ms（理论估算 <1ms），占单步推理总时间的比例极低；具体实测值需通过 vLLM profiling 工具 nsight systems 验证，且需确认模型版本及量化格式在 V100 上的兼容性。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N25",
+    "N26",
+    "N27"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM TP4 V100 AllReduce latency profile Qwen27B NVFP4",
+  "retrieval_sources": []
+}

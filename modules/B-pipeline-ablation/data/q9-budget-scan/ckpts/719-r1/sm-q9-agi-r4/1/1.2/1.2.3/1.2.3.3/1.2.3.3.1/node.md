@@ -1,0 +1,24 @@
+# N397: GPT-4o 作为裁判模型时的 FP8 量化伪影基线噪声率：在 FP16 原始输出上运行 GPT-4o 裁判，计算误报率 FP_rate_FP16 和漏报率 F
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N131, N134, N135
+
+## Claim
+
+GPT-4o 作为裁判模型时的 FP8 量化伪影基线噪声率：在 FP16 原始输出上运行 GPT-4o 裁判，计算误报率 FP_rate_FP16 和漏报率 FN_rate_FP16，作为量化误差控制的基准；若 FP_rate_FP16 > 0.05，则 GPT-4o 裁判本身不稳定，需更换裁判或调整 Prompt
+
+## Corrected Claim
+
+GPT-4o 作为裁判模型时，建议在 FP16 原始输出上运行以建立基线噪声率（包括误报率和漏报率），用于评估量化误差的影响；若基线误报率显著高于预期（例如超过 5%），则表明裁判模型本身可能存在不稳定性，需考虑更换裁判或优化 Prompt。
+
+## Evidence
+
+[质询]该陈述包含具体的经验阈值（FP_rate_FP16 > 0.05）和特定的工程实践流程（GPT-4o作为裁判的基线噪声率定义），这些属于经验事实而非第一性原理可推导内容，且缺乏外部来源支持其阈值的合理性或行业通用性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+GPT-4o judge model false positive rate coherence evaluation benchmark

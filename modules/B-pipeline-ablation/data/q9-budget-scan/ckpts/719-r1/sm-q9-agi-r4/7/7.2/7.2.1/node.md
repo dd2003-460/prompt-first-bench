@@ -1,0 +1,28 @@
+# N274: Qwen3.8-27B 的单 token KV Cache 精确大小为 2 * num_layers * num_kv_heads * head_dim * d
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N87
+
+## Claim
+
+Qwen3.8-27B 的单 token KV Cache 精确大小为 2 * num_layers * num_kv_heads * head_dim * dtype_size；若 Qwen3 采用 GQA (Grouped Query Attention) 且 num_kv_heads < num_heads，则每 token 占用远小于 17.4MB（例如若 num_kv_heads=8, head_dim=128, layers=28, fp16，则约为 2*28*8*128*2 bytes ≈ 114KB/token），需核实模型具体配置参数以修正 36TB 的错误估算。
+
+## Corrected Claim
+
+Qwen3.8-27B 的单 token KV Cache 大小取决于其具体架构参数（如层数、KV头数、头维度等）。若采用 GQA 机制，其占用空间通常远小于 MHA 架构下的估算值。需查阅该模型的具体 config.json 文件以获取精确数值，从而修正基于错误假设得出的 36TB 估算。
+
+## Evidence
+
+[质询]陈述中引用的具体配置参数（num_kv_heads=8, head_dim=128, layers=28）及计算出的114KB/token数值属于经验事实，且参考来源未提供这些具体的架构细节，无法验证其准确性；此外，'Qwen3.8-27B'这一型号名称在公开资料中极为罕见（通常为Qwen2.5或Qwen3系列），可能存在型号混淆或虚构风险。 | KV Cache计算公式逻辑正确，但具体参数值（如层数、头数）缺乏来源支持，属于经验事实且无法从第一性原理推出，故降级。
+
+## Search Query
+
+Qwen3 27B model config num_kv_heads hidden size GQA parameters
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/AlibabaCloud-Official/Qwen3.8-27B&rut=fd6d2fe7ffe1fd1fd45ce13aecda798bbf282980094ddeb529a29aa64d5c4099', 'type': 'ddg', 'title': 'GitHub - AlibabaCloud-Official/Qwen3.8-27B: Native multimodal dense LLM ...'}

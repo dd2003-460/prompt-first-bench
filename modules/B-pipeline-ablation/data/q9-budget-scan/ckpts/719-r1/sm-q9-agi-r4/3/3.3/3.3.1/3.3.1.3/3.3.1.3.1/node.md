@@ -1,0 +1,24 @@
+# N545: 工作点A（高性低成）：1024-token 生成任务，MTPx4 开启时总耗时 32s (32 tok/s)，MTPx4 关闭时总耗时 45s (22.75 t
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N194
+
+## Claim
+
+工作点A（高性低成）：1024-token 生成任务，MTPx4 开启时总耗时 32s (32 tok/s)，MTPx4 关闭时总耗时 45s (22.75 tok/s)，Speedup = 45/32 = 1.41；此工作点下 MTP 接受率需 > 0.85 才能维持 1.41 加速比。
+
+## Corrected Claim
+
+工作点A（高性低成）：1024-token 生成任务，MTPx4 开启时总耗时 32s (32 tok/s)，MTPx4 关闭时总耗时 45s (22.75 tok/s)，Speedup = 45/32 = 1.41；此工作点下 MTP 接受率需 > 0.85 才能维持 1.41 加速比。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：速度提升比计算正确（45/32=1.40625≈1.41），吞吐量计算正确（1024/32=32, 1024/45≈22.75），MTP接受率阈值与加速比的逻辑关系符合多token预测机制的基本原理。
+
+## Search Query
+
+Qwen3.8-27B V100 MTP speculative decoding 1024 tokens speedup

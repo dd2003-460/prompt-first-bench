@@ -1,0 +1,20 @@
+# N225: GPU 显存同步的实际带宽受限于 PCIe Gen3 x16 单向带宽 12.5GB/s（非双向 16GB/s），1GB 数据从 V100 HBM 复制到 CP
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+GPU 显存同步的实际带宽受限于 PCIe Gen3 x16 单向带宽 12.5GB/s（非双向 16GB/s），1GB 数据从 V100 HBM 复制到 CPU RAM 的单向耗时 = 1GB / 12.5GB/s = 80ms；若需双向同步（读+写），总耗时 160ms，比原估 62ms 高 2.6 倍，需修正成本模型
+
+## Corrected Claim
+
+GPU 显存同步的实际带宽受限于 PCIe Gen3 x16 单向带宽 12.5GB/s（非双向 16GB/s），1GB 数据从 V100 HBM 复制到 CPU RAM 的单向耗时 = 1GB / 12.5GB/s = 80ms；若需双向同步（读+写），总耗时 160ms，比原估 62ms 高 2.6 倍，需修正成本模型
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：PCIe Gen3 x16 单向带宽确为 12.5GB/s，1GB/12.5GB/s=80ms 计算正确，双向 160ms 亦符合逻辑。

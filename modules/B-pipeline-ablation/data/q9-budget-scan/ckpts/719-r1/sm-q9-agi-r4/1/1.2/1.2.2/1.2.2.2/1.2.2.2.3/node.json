@@ -1,0 +1,17 @@
+{
+  "id": "N389",
+  "claim": "KV Cache 显存占用对长上下文精度的间接约束：Mem_KV = L * d_model * n_layers * 2 (Q,K) * 4bytes (FP16) 或 2bytes (FP8)；在 L=262144 下，FP8 KV 占用约为 FP16 的 50%，但精度损失率 ΔAcc_FP8/ΔAcc_FP16 需通过对照实验确定，预计 FP8 额外引入 2-5% 的额外衰减。",
+  "level": "L5",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式中 '2 (Q,K)' 的表述存在歧义，通常 KV Cache 仅存储 Key 和 Value，不包含 Query，且系数 2 可能指代 Q/K/V 中的两个或仅 K/V，需明确是否包含 Query 或仅为 K/V 的总和；此外，'2-5% 的额外衰减' 是经验估计值，缺乏通用理论支撑，高度依赖具体模型架构和数据分布。 | 先验知识/题面给定，逻辑校验通过：KV Cache 显存计算公式量纲正确，FP8 相比 FP16 显存减半符合位宽比例关系；但精度损失率为经验估计，非第一性原理可严格推导，故降级。",
+  "corrected_claim": "KV Cache 显存占用公式为 Mem_KV = L * d_model * n_layers * n_kv_heads * 2 (K,V) * bytes_per_element；在 L=262144 下，FP8 KV 占用约为 FP16 的 50%。FP8 量化带来的精度损失（ΔAcc）因模型而异，通常需通过对照实验确定，一般认为会引入少量额外衰减，具体幅度（如 2-5%）需视具体任务而定。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N128"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "FP8 KV cache accuracy loss long context transformer",
+  "retrieval_sources": []
+}

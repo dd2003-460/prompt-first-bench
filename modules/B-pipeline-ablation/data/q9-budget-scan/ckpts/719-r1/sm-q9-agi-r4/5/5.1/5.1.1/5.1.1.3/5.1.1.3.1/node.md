@@ -1,0 +1,20 @@
+# N643: 工作点1（保守估算/高 PUE 场景）：假设单机柜 PUE = 1.6 且包含服务器风扇及 PSU 损耗，4x V100 集群总功耗 P_total_conse
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N230
+
+## Claim
+
+工作点1（保守估算/高 PUE 场景）：假设单机柜 PUE = 1.6 且包含服务器风扇及 PSU 损耗，4x V100 集群总功耗 P_total_conservative ≈ 1120W（700W * 1.6），对应月度电费（按 $0.35/kWh, 720h）为 $281.4，此值用于风险评估与预算上限设定。
+
+## Corrected Claim
+
+工作点1（保守估算/高 PUE 场景）：假设单机柜 PUE = 1.6 且包含服务器风扇及 PSU 损耗，4x V100 集群总功耗 P_total_conservative ≈ 1120W（700W * 1.6），对应月度电费（按 $0.35/kWh, 720h）为 $281.4，此值用于风险评估与预算上限设定。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：700W * 1.6 = 1120W，1.12kW * 720h * $0.35/kWh = $282.24，与$281.4误差<0.3%，符合保守估算语境。

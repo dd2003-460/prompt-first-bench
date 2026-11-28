@@ -1,0 +1,20 @@
+# N217: Temperature=0.7下的FCR测量协议：相同50个三元组问句，设置max_tokens=128，temperature=0.7，top_p=0.9，运
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+Temperature=0.7下的FCR测量协议：相同50个三元组问句，设置max_tokens=128，temperature=0.7，top_p=0.9，运行10次独立实验，记录每次的False Claim数量，计算均值FCR_0.7及95%置信区间，用于与FCR_0.1进行配对t检验。
+
+## Corrected Claim
+
+Temperature=0.7下的FCR测量协议：相同50个三元组问句，设置max_tokens=128，temperature=0.7，top_p=0.9，运行10次独立实验，记录每次的False Claim数量，计算均值FCR_0.7及95%置信区间，用于与FCR_0.1进行配对t检验。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间正交性良好，分别涵盖了数据构建、指标定义、随机性控制和统计推断四个不同维度。但在完备性上存在缺失：父节点明确提到‘用于与FCR_0.1进行配对t检验’，但子节点中未包含关于FCR_0.1的具体测量协议（如对应的temperature=0.1设置、是否使用相同50个问句等基准条件），也未包含配对t检验的具体执行步骤或假设检验前提（如正态性检验）。此外，父节点提到的'max_tokens=128'和'top_p=0.9'作为核心超参数，虽隐含在实验设置中，但未在子节点中显式确认为固定参数（例如在随机种子控制或实验流程中明确列出所有固定超参）。）

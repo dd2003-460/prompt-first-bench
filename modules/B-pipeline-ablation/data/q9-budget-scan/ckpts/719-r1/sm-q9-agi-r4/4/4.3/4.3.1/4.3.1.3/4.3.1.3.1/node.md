@@ -1,0 +1,20 @@
+# N623: vLLM 容器冷启动耗时分解：CUDA Context 初始化 T_cuda ≈ 2-4s（依赖驱动版本与内核模块加载状态）；Python 环境导入 T_pyt
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N222
+
+## Claim
+
+vLLM 容器冷启动耗时分解：CUDA Context 初始化 T_cuda ≈ 2-4s（依赖驱动版本与内核模块加载状态）；Python 环境导入 T_python ≈ 1-2s；模型权重加载 T_load = Weight_Size / PCIe_Bandwidth = 16GB / 16GB/s ≈ 1s（若从本地 NVMe 加载），总冷启动 4-7s，低于 8-12s 估算，主要变异性来自 CUDA 初始化
+
+## Corrected Claim
+
+vLLM 容器冷启动耗时分解：CUDA Context 初始化 T_cuda ≈ 2-4s（依赖驱动版本与内核模块加载状态）；Python 环境导入 T_python ≈ 1-2s；模型权重加载 T_load = Weight_Size / PCIe_Bandwidth = 16GB / 16GB/s ≈ 1s（若从本地 NVMe 加载），总冷启动 4-7s，低于 8-12s 估算，主要变异性来自 CUDA 初始化
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：各分项耗时量级符合工程常识，总和计算正确（2-4+1-2+1=4-7s），且结论与前提一致。

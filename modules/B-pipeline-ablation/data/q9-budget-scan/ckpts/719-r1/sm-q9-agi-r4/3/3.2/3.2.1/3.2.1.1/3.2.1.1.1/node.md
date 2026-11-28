@@ -1,0 +1,24 @@
+# N504: 工作点1 (BS=8, L=4096) 下 4×V100 TP=4 的 KV Cache 总显存占用量计算：Mem_KV = num_layers × num_
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N181
+
+## Claim
+
+工作点1 (BS=8, L=4096) 下 4×V100 TP=4 的 KV Cache 总显存占用量计算：Mem_KV = num_layers × num_kv_heads × head_dim × 4096 × 8 × 2 (fp8 bytes)，需代入 Qwen3.8-27B 具体参数验证是否低于 16GB 单卡限制
+
+## Corrected Claim
+
+工作点1 (BS=8, L=4096) 下 4×V100 TP=4 的 KV Cache 总显存占用量计算公式为 Mem_KV = num_layers × num_kv_heads × head_dim × 4096 × 8 × 2 (fp8 bytes)。由于 Qwen3.8-27B 的具体架构参数未提供，无法直接验证其是否低于 16GB 单卡限制，需代入实际参数进行计算。
+
+## Evidence
+
+[质询]Qwen3.8-27B 并非公开存在的标准模型版本（常见为 Qwen2.5-32B 或 Qwen3-32B 等），且其具体架构参数（num_layers, num_kv_heads, head_dim）未在题面或来源中给出，导致无法完成具体的数值验证以确认是否低于 16GB。 | 经验事实，逻辑自洽但缺来源支持。公式结构符合 KV Cache 显存计算的基本原理（层数×头数×维度×序列长×批大小×字节数），但因缺乏具体模型参数及外部来源验证，无法确证最终数值结论。
+
+## Search Query
+
+Qwen3.8-27B model config num_layers num_kv_heads head_dim vllm kv cache memory calculation fp8

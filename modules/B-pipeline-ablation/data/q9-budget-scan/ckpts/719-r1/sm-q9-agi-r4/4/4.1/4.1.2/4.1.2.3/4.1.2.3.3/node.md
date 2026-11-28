@@ -1,0 +1,20 @@
+# N573: 当数据存在缺失值（Missing Rate > 5%）时，样本量 n 的有效值应替换为 n_effective = n * (1 - missing_rate)
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N204
+
+## Claim
+
+当数据存在缺失值（Missing Rate > 5%）时，样本量 n 的有效值应替换为 n_effective = n * (1 - missing_rate)²，此时所需原始样本量 n_raw = n_target / (1 - missing_rate)²，若缺失率为 10%，则 n_raw ≈ 1.23 * n_target。
+
+## Corrected Claim
+
+在假设缺失机制导致信息损失呈二次方衰减的特定模型下，若缺失率为 10%，则 n_raw ≈ 1.23 * n_target；但在常见的完全随机缺失（MCAR）假设下，通常近似为 n_raw ≈ n_target / (1 - missing_rate) ≈ 1.11 * n_target。
+
+## Evidence
+
+[质询]公式中使用的平方项 (1 - missing_rate)² 缺乏统计学上的标准依据。在大多数统计推断场景（如均值估计、回归分析）中，若采用完全随机缺失（MCAR）机制，有效样本量通常线性减少，即 n_effective ≈ n * (1 - missing_rate)，因此 n_raw ≈ n_target / (1 - missing_rate)。使用平方项通常出现在方差估计或特定非随机缺失模型中，将其作为通用规则陈述存在口径混淆风险。 | 先验知识/题面给定，逻辑校验通过（数学计算 1/(0.9)^2 ≈ 1.2346 正确），但该经验公式并非通用统计标准，且无外部来源支持其普适性，故降级。

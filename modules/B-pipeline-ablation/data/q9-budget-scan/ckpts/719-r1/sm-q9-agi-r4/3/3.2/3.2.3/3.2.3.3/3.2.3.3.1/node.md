@@ -1,0 +1,24 @@
+# N535: Qwen3.8-27B 在 262144 序列长度下的单请求 KV Cache 显存占用精确值：Mem_KV_single = num_layers(48) ×
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N190
+
+## Claim
+
+Qwen3.8-27B 在 262144 序列长度下的单请求 KV Cache 显存占用精确值：Mem_KV_single = num_layers(48) × num_kv_heads(8) × head_dim(128) × seq_len(262144) × 2(K+V) × dtype_bytes(1 for FP8) ≈ 25.2 GB 理论值对比实测 32GB 存在 7.8GB 差异，需拆解为 Attention Head 对齐填充 (Padding to 128 bytes boundary) 与 CUDA Context 预留开销
+
+## Corrected Claim
+
+Qwen3.8-27B 在 262144 序列长度下，基于 FP8 精度的理论 KV Cache 显存占用约为 25.2 GB。实测占用 32 GB，约 7.8 GB 的差异主要归因于推理框架的内存池预分配、内存对齐及运行时上下文开销，而非单纯的 Attention Head 字节对齐填充。
+
+## Evidence
+
+[质询]将 7.8GB 的差异完全归因于 'Attention Head 对齐填充' 和 'CUDA Context 预留' 缺乏严谨性。通常 KV Cache 的对齐填充开销极小（KB 级别），而 7.8GB 的巨大差异更可能源于框架层面的内存池预分配（Memory Pool Pre-allocation）、非连续内存碎片、或实际使用的精度并非纯 FP8（如部分层为 BF16/FP16），或者 'CUDA Context' 的表述不准确（Context 开销通常为几百 MB 至 1-2GB，难以单独解释 7.8GB 缺口）。 | source=knowledge，理论计算值 25.2GB 与实测 32GB 的量级关系符合 GPU 显存管理的一般规律（存在额外开销），但具体差异归因（Padding + CUDA Context）属于经验性推测，缺乏直接来源支持且归因逻辑存在漏洞，故降级。
+
+## Search Query
+
+Qwen3 27B model config num_layers num_kv_heads head_dim fp8 kv cache size calculation

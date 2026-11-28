@@ -1,0 +1,24 @@
+# N419: GPTQ/AWQ INT4 在 V100 上的理论吞吐优势来源：INT4 权重体积为 FP16 的 1/4 (2 bits vs 16 bits? No, 4 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N141
+
+## Claim
+
+GPTQ/AWQ INT4 在 V100 上的理论吞吐优势来源：INT4 权重体积为 FP16 的 1/4 (2 bits vs 16 bits? No, 4 bits vs 16 bits is 1/4). 读取量从 54GB 降至 13.5GB。若 Dequantize 开销可忽略，理论吞吐提升 4x。但实际提升受限于 Dequantize 指令的 ALU 开销。AWQ 通常比 GPTQ 有更快的 Dequantize kernel 实现。
+
+## Corrected Claim
+
+GPTQ/AWQ INT4 在 V100 上的理论吞吐优势来源：INT4 权重体积为 FP16 的 1/4 (2 bits vs 16 bits? No, 4 bits vs 16 bits is 1/4). 读取量从 54GB 降至 13.5GB。若 Dequantize 开销可忽略，理论吞吐提升 4x。但实际提升受限于 Dequantize 指令的 ALU 开销。AWQ 通常比 GPTQ 有更快的 Dequantize kernel 实现。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：INT4 (4 bits) 确实是 FP16 (16 bits) 的 1/4 体积，54GB * 0.25 = 13.5GB 计算正确；在内存带宽受限场景下，数据读取量减少 4 倍理论上对应吞吐提升 4 倍，且 AWQ/GPTQ 的量化原理及 Dequantize 开销特性符合工程常识。
+
+## Search Query
+
+AWQ GPTQ V100 inference speedup factor memory bound analysis

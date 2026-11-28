@@ -1,0 +1,24 @@
+# N451: 科学计算脚本（Pandas/NumPy）在 I/O 密集阶段的系统调用次数分布：Pandas CSV 读取平均触发 10-20 次 read() syscall
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N154
+
+## Claim
+
+科学计算脚本（Pandas/NumPy）在 I/O 密集阶段的系统调用次数分布：Pandas CSV 读取平均触发 10-20 次 read() syscall，NumPy tofile 触发 1-5 次 write() syscall；若使用内存映射文件 (mmap)，syscall 次数可降低至 1-2 次，单次 mmap 开销约 10μs
+
+## Corrected Claim
+
+科学计算脚本在 I/O 密集阶段，使用内存映射文件 (mmap) 通常能显著减少系统调用次数（相比传统读写），其单次映射开销通常在微秒级，但具体 syscall 次数和耗时随文件大小和环境波动较大。
+
+## Evidence
+
+[质询]具体数值（如10-20次read、10μs开销）高度依赖文件大小、操作系统实现及缓冲策略，缺乏通用性，属于特定场景下的经验数据而非普适规律。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+strace pandas csv read syscall count numpy tofile

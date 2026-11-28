@@ -1,0 +1,20 @@
+# N116: GSM8K 评测中 Chain-of-Thought (CoT) 推理链的平均长度 L_cot ≈ 150 tokens，5-shot 提示占用上下文 800 
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N32
+
+## Claim
+
+GSM8K 评测中 Chain-of-Thought (CoT) 推理链的平均长度 L_cot ≈ 150 tokens，5-shot 提示占用上下文 800 tokens，单样本总上下文长度 ≈ 1000 tokens，远低于 262k 限制，无截断风险
+
+## Corrected Claim
+
+GSM8K 评测中 Chain-of-Thought (CoT) 推理链的平均长度 L_cot ≈ 150 tokens，5-shot 提示占用上下文 800 tokens，单样本总上下文长度 ≈ 1000 tokens，远低于 262k 限制，无截断风险
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别关注CoT长度分布、静态安全边际/外部知识干扰、以及多轮动态累积风险，维度互斥（正交）。但父节点核心结论是'单样本...无截断风险'，子节点却将重点引向'多轮对话'和'外部知识库'，这超出了父节点定义的'单样本/GSM8K评测'范围，导致对父节点本身'单样本为何无风险'的直接逻辑支撑（如显存占用、注意力机制效率等）缺失，且引入了父节点未提及的外部变量，完备性不足。）

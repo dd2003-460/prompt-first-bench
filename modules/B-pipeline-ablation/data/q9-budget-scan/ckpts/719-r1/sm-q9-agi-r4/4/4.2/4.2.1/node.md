@@ -1,0 +1,20 @@
+# N60: 幻觉检测基线的具体实现需定义'已知事实性陈述'的数据源：从 Wikidata 或 DBpedia 提取 50 个三元组（Subject-Predicate-Ob
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+幻觉检测基线的具体实现需定义'已知事实性陈述'的数据源：从 Wikidata 或 DBpedia 提取 50 个三元组（Subject-Predicate-Object），并转换为自然语言问句，确保无歧义且模型训练数据中大概率包含该事实。
+
+## Corrected Claim
+
+幻觉检测基线的具体实现需定义'已知事实性陈述'的数据源：从 Wikidata 或 DBpedia 提取 50 个三元组（Subject-Predicate-Object），并转换为自然语言问句，确保无歧义且模型训练数据中大概率包含该事实。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

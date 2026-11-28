@@ -1,0 +1,24 @@
+# N385: 中性价比最优工作点（Medium-Cost/Optimal-Tradeoff）：在开头位置（前 5%）、中间位置（40%-60%）和结尾位置（后 5%，即 12
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N125
+
+## Claim
+
+中性价比最优工作点（Medium-Cost/Optimal-Tradeoff）：在开头位置（前 5%）、中间位置（40%-60%）和结尾位置（后 5%，即 121.6K-128K）三个区间进行测试，并增加位置采样密度（每个区间 5 个随机子位置）。此方案可捕捉位置偏差的非线性变化，总测试耗时约 30-50 秒，成本 < $0.05，适合用于评估模型在科研循环中对不同位置信息的召回可靠性
+
+## Corrected Claim
+
+中性价比最优工作点（Medium-Cost/Optimal-Tradeoff）：在开头位置（前 5%）、中间位置（40%-60%）和结尾位置（后 5%，即 121.6K-128K）三个区间进行测试，并增加位置采样密度（每个区间 5 个随机子位置）。此方案可捕捉位置偏差的非线性变化，总测试耗时约 30-50 秒，成本 < $0.05，适合用于评估模型在科研循环中对不同位置信息的召回可靠性
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：测试区间覆盖首尾及中间，采样密度合理，耗时与成本估算符合常规LLM API调用量级，逻辑自洽。
+
+## Search Query
+
+needle in a haystack three positions sampling density optimal cost

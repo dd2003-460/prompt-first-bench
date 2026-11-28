@@ -1,0 +1,20 @@
+# N484: Prefill 阶段 MFU 修正公式：MFU_actual = (Effective_FLOPs_executed) / (Theoretical_Peak_
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N172
+
+## Claim
+
+Prefill 阶段 MFU 修正公式：MFU_actual = (Effective_FLOPs_executed) / (Theoretical_Peak_FP16_TensorCore * Time)，其中 Effective_FLOPs_executed 需扣除 Dequantization 开销和 TP=4 AllReduce 通信死区时间，预估 MFU 上限从 40% 降至 35-38%
+
+## Corrected Claim
+
+Prefill 阶段 MFU 修正公式：MFU_actual = (Effective_FLOPs_executed) / (Theoretical_Peak_FP16_TensorCore * Time)，其中 Effective_FLOPs_executed 需扣除 Dequantization 开销和 TP=4 AllReduce 通信死区时间，预估 MFU 上限从 40% 降至 35-38%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：MFU定义符合标准，扣除Dequant和通信死区导致有效计算占比下降，从而降低MFU上限的逻辑自洽，数值量级（40%降至35-38%）在工程实践中合理。

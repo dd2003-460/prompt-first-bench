@@ -1,0 +1,24 @@
+# N728: Qwen3.8-27B (NVFP4) 的 KV Cache 每 token 字节数 B_token 计算：B_token = 2 (K+V) * num_la
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N267
+
+## Claim
+
+Qwen3.8-27B (NVFP4) 的 KV Cache 每 token 字节数 B_token 计算：B_token = 2 (K+V) * num_layers * num_kv_heads * head_dim * 2 (fp8 bytes)。假设 Qwen3.8-27B 架构为 48 layers, 8 kv heads, 128 head_dim，则 B_token = 2 * 48 * 8 * 128 * 2 = 196,608 bytes ≈ 192 KB/token。这与 N267 中的 17.4KB/token 严重不符，需核实模型具体架构参数或量化精度（是否为 FP4 KV cache 而非 FP8）。若为 FP4 KV cache，则 B_token ≈ 96 KB/token。
+
+## Corrected Claim
+
+Qwen3.8-27B的KV Cache每token字节数需基于实际架构参数（层数、KV头数、head_dim）和KV Cache量化精度（通常为FP8）计算，当前假设下的192KB/token或96KB/token仅为估算值，需核实具体配置。
+
+## Evidence
+
+[质询]该陈述基于假设的架构参数（48层、8 KV头、128维）进行计算，但Qwen3.8-27B的具体架构参数（如层数、KV头数）未经证实，且NVFP4通常指权重量化而非KV Cache量化，KV Cache通常保持FP8或FP16，因此‘FP4 KV cache’的假设缺乏依据，导致计算结果（192KB或96KB）可能与实际不符。 | 无可用外部证据，逻辑推导自洽但依赖未验证的架构假设和量化精度假设，属经验事实且缺来源支持。
+
+## Search Query
+
+Qwen3 27B model config num_layers num_kv_heads head_dim fp8 kv cache size per token

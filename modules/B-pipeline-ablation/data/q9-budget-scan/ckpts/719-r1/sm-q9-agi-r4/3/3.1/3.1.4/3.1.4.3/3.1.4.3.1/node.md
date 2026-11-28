@@ -1,0 +1,24 @@
+# N502: 工作点A（理想FP8量化）：若vLLM支持V100 FP8 KV Cache，T_memory减半至~2ms/token（长序列工作点A），但需验证CUDA K
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N180
+
+## Claim
+
+工作点A（理想FP8量化）：若vLLM支持V100 FP8 KV Cache，T_memory减半至~2ms/token（长序列工作点A），但需验证CUDA Kernel兼容性；当前V100不支持原生FP4，FP8支持状态[待核验]
+
+## Corrected Claim
+
+工作点A（理想FP8量化）：若vLLM支持V100 FP8 KV Cache，理论上T_memory可能显著降低（具体数值待验证），但需验证CUDA Kernel兼容性；当前V100不支持原生FP4，FP8支持状态[待核验]
+
+## Evidence
+
+[质询]该陈述包含具体的性能预测数值（~2ms/token）和硬件支持状态（V100 FP8支持情况），属于经验事实。由于缺乏外部来源支持，无法确认V100是否实际支持FP8 KV Cache以及具体的延迟数值是否准确。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+vLLM V100 FP8 KV cache support kernel compatibility

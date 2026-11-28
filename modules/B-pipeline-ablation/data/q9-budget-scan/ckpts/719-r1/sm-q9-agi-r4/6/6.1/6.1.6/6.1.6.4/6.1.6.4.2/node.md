@@ -1,0 +1,20 @@
+# N720: CoT 提示模板对 Qwen3.8-27B 的输出长度膨胀因子 L_ratio = len(output_cot) / len(output_zero_shot
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N264
+
+## Claim
+
+CoT 提示模板对 Qwen3.8-27B 的输出长度膨胀因子 L_ratio = len(output_cot) / len(output_zero_shot) 的量化：在 V100 集群 20 tok/s 吞吐下，若 L_ratio=2.5，则单轮推理耗时从 T_base 增加至 2.5*T_base，需评估此时间成本是否抵消成功率提升带来的迭代节省
+
+## Corrected Claim
+
+CoT 提示模板对 Qwen3.8-27B 的输出长度膨胀因子 L_ratio = len(output_cot) / len(output_zero_shot) 的量化：在 V100 集群 20 tok/s 吞吐下，若 L_ratio=2.5，则单轮推理耗时从 T_base 增加至 2.5*T_base，需评估此时间成本是否抵消成功率提升带来的迭代节省
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：耗时与输出长度成正比是线性关系的基本推论，L_ratio=2.5 导致耗时变为 2.5 倍符合物理/计算直觉，无内部矛盾。

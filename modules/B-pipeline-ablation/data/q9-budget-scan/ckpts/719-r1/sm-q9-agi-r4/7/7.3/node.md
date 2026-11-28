@@ -1,0 +1,24 @@
+# N88: V100 SXM2 间 NVLink 链路在持续高负载（>72h）下的有效带宽衰减率通常为 5%-10%，导致 AllReduce 时间从初始 12ms 增加至
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+V100 SXM2 间 NVLink 链路在持续高负载（>72h）下的有效带宽衰减率通常为 5%-10%，导致 AllReduce 时间从初始 12ms 增加至 13.2-13.8ms，若单步推理时间因量化精度降低而缩短至 70ms，则 AllReduce 占比将上升至 19%-19.7%，超出 15% 阈值，需监控 NVLink 温度并设置动态降级策略
+
+## Corrected Claim
+
+V100 SXM2 间 NVLink 链路在持续高负载下可能出现有效带宽衰减，导致 AllReduce 通信时间增加。若单步推理时间因量化等原因显著缩短，AllReduce 在总耗时中的占比可能上升并超过预设阈值（如15%），建议监控 NVLink 温度并实施动态降级策略以保障性能稳定性。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1和2分别针对热节流和信号完整性进行归因分析，两者正且不重叠。但是，父节点明确提出的核心量化指标（AllReduce占比从初始值上升至19%-19.7%，以及单步推理时间缩短至70ms对占比的影响计算）未在子节点中体现。子节点3虽然提到了监控阈值（1.2倍基线），但未覆盖父节点中关于‘量化精度降低导致推理时间变化’这一前提条件及其对通信占比的具体影响逻辑，导致对‘为何占比超阈值’的完整解释缺失。）
+
+## Search Query
+
+Tesla V100 NVLink bandwidth degradation long term load thermal throttling

@@ -1,0 +1,20 @@
+# N112: HumanEval 中不同编程语言 (Python, Java, JS) 的通过率差异 Δ_lang ≈ 8% (Python 最高)，且 Python 子集通
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+HumanEval 中不同编程语言 (Python, Java, JS) 的通过率差异 Δ_lang ≈ 8% (Python 最高)，且 Python 子集通过率 (72%) 与整体通过率 (68.5%) 的偏差源于测试集分布不均
+
+## Corrected Claim
+
+HumanEval 中不同编程语言的通过率存在显著差异，通常 Python 表现优于其他语言，且子集通过率与整体通过率的偏差受测试集分布影响。
+
+## Evidence
+
+[质询]具体数值（Δ_lang ≈ 8%, Python 72%, Overall 68.5%）缺乏公开权威基准数据的直接支持，且不同模型版本和评测协议下这些数值波动较大，存在将特定实验结果泛化为通用事实的风险。 | 先验知识/题面给定，逻辑校验通过；但作为经验事实，具体数值缺乏来源直接支持，故降级。

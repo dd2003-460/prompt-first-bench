@@ -1,0 +1,24 @@
+# N339: Qwen3-27B 在 V100 集群上运行 1 个完整科研循环（假设-实验-分析，约 20k tokens 输出）的总耗时 T_cycle ≈ 1000-15
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Qwen3-27B 在 V100 集群上运行 1 个完整科研循环（假设-实验-分析，约 20k tokens 输出）的总耗时 T_cycle ≈ 1000-1500 秒（基于 Decode 速度 20-30 tok/s 估算），日均最大循环次数 N_max = 86400 / T_cycle ≈ 57-86 次/天，此为硬件决定的绝对产能上限。
+
+## Corrected Claim
+
+Qwen3-27B（或同系列 27B 模型）在 V100 集群上运行 1 个完整科研循环（约 20k tokens 输出）的总耗时 T_cycle 估算为 1000-1500 秒（基于 Decode 速度 20-30 tok/s 的假设），日均最大循环次数 N_max 约为 57-86 次/天。
+
+## Evidence
+
+[质询]来源标题及摘要中提到的模型版本为 'Qwen3.8-27B' 或 'Qwen3.8-Flash-Next'，与待核验事实中的 'Qwen3-27B' 存在版本命名差异（可能是笔误或不同迭代版本），且来源摘要主要描述部署要点和日志统计，未直接提供 '20-30 tok/s' 这一具体解码速度数值，也未直接给出 '1000-1500秒' 的完整循环耗时数据，属于间接推断。 | 逻辑推导自洽（20k tokens / 20-30 tok/s ≈ 666-1000s，加上预填充和系统开销，1000-1500s 量级合理；86400/1000-1500 ≈ 57-86 次/天计算正确）。来源 [1] 涉及 V100 集群上类似规模模型的部署，提供了背景相关性，但未直接证实具体的 tok/s 数值，故判为 degraded。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2072074634476909289&rut=d97b6d9efd23719ef153d2ef7ccd044b4627c803640d57d09052962666bf48ca', 'type': 'ddg', 'title': 'Qwen3.8-27B 实测：V100 上的部署要点与 Q4/Q8 全量基准'}

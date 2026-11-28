@@ -1,0 +1,20 @@
+# N670: 云端边际成本 Cloud_Cost 的计算公式：Cloud_Cost = Input_Tokens × Price_Input + Output_Tokens 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N244
+
+## Claim
+
+云端边际成本 Cloud_Cost 的计算公式：Cloud_Cost = Input_Tokens × Price_Input + Output_Tokens × Price_Output；以 GPT-4o 为例，Input_Price=$0.005/1k tokens, Output_Price=$0.015/1k tokens，若单次任务消耗 10k input + 2k output，则 Cloud_Cost = 10×0.005 + 2×0.015 = $0.08
+
+## Corrected Claim
+
+云端边际成本 Cloud_Cost 的计算公式：Cloud_Cost = Input_Tokens × Price_Input + Output_Tokens × Price_Output；以 GPT-4o 为例，Input_Price=$0.005/1k tokens, Output_Price=$0.015/1k tokens，若单次任务消耗 10k input + 2k output，则 Cloud_Cost = 10×0.005 + 2×0.015 = $0.08
+
+## Evidence
+
+[质询]GPT-4o 的价格随时间波动，且不同地区/渠道可能有差异，此处引用的 $0.005/$0.015 是特定时间点（2024年5月发布后）的标准定价，若视为永恒真理则不准确。 | 先验知识/题面给定，逻辑校验通过。公式结构正确，数值计算无误（10*0.005 + 2*0.015 = 0.05 + 0.03 = 0.08），且 GPT-4o 的初始公开定价确为此数值，符合 knowledge 节点判定规则。

@@ -1,0 +1,24 @@
+# N436: 混合检索权重 α 的网格搜索优化目标函数定义：Maximize F1_score(α) = 2 * Precision(α) * Recall(α) / (Pr
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N146, N147, N150
+
+## Claim
+
+混合检索权重 α 的网格搜索优化目标函数定义：Maximize F1_score(α) = 2 * Precision(α) * Recall(α) / (Precision(α) + Recall(α))，其中 Precision 基于人工标注的 500 个科研查询金标准集，Recall 基于 Top-5 命中数；搜索空间 α∈[0.1, 0.9] 步长 0.1，共 9 个点，计算成本可忽略（<1s）
+
+## Corrected Claim
+
+混合检索权重 α 的网格搜索优化目标函数定义：Maximize F1_score(α) = 2 * Precision(α) * Recall(α) / (Precision(α) + Recall(α))，其中 Precision 基于人工标注的 500 个科研查询金标准集，Recall 基于 Top-5 命中数；搜索空间 α∈[0.1, 0.9] 步长 0.1，共 9 个点，计算成本可忽略（<1s）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：F1分数公式定义正确，网格搜索空间[0.1, 0.9]步长0.1确实包含9个点，离线评估500个查询的计算成本极低符合常理。
+
+## Search Query
+
+hybrid search weight alpha optimization F1 score grid search benchmark

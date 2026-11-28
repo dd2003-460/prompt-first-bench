@@ -1,0 +1,20 @@
+# N58: 针对 Nature/Science 子刊 AI 论文中 Effect Size 阈值，需指定效应量类型（Cohen's d, r, or η²），对于相关性分析
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+针对 Nature/Science 子刊 AI 论文中 Effect Size 阈值，需指定效应量类型（Cohen's d, r, or η²），对于相关性分析，r > 0.2 通常被视为小效应，但需结合置信区间宽度（CI ± 0.1）来判断稳健性。
+
+## Corrected Claim
+
+针对 Nature/Science 子刊 AI 论文中 Effect Size 阈值，需指定效应量类型（Cohen's d, r, or η²），对于相关性分析，r > 0.2 通常被视为小效应，但需结合置信区间宽度（CI ± 0.1）来判断稳健性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,24 @@
+# N721: GSM8K 基准与科研假设生成任务的能力迁移偏差量化：GSM8K 侧重算术逻辑链，科研假设侧重因果推理与文献关联；定义迁移系数 α = Δ_cot_scient
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N264
+
+## Claim
+
+GSM8K 基准与科研假设生成任务的能力迁移偏差量化：GSM8K 侧重算术逻辑链，科研假设侧重因果推理与文献关联；定义迁移系数 α = Δ_cot_scientific / Δ_cot_gsm8k，基于 LLM 领域适应文献，α 通常介于 0.5-0.7，即实际科研任务提升幅度约为 GSM8K 基准值的 50%-70%
+
+## Corrected Claim
+
+GSM8K 侧重算术逻辑链，科研假设侧重因果推理与文献关联；通常认为 LLM 在 GSM8K 上的性能提升向科研假设生成任务的迁移存在显著衰减，实际提升幅度低于 GSM8K 基准值，具体迁移系数取决于模型能力与任务复杂度，一般估计在 50%-70% 左右。
+
+## Evidence
+
+[质询]迁移系数 α 的具体数值范围（0.5-0.7）缺乏普适性的实证支持，不同模型架构、微调策略及具体科研子任务下的迁移效率差异巨大，将其固化为固定区间属于过度概括的经验断言。 | source=knowledge，逻辑自洽（定义清晰，量纲合理），但该具体数值区间属于经验事实，缺乏通用文献直接支持，故降级为定性表述。
+
+## Search Query
+
+chain of thought transferability from math to scientific reasoning LLM

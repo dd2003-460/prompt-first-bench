@@ -1,0 +1,20 @@
+# N603: 布尔逻辑真值表完备性：当Cosine_Similarity < Threshold_CAL且Fact_Checker为Neutral时，当前逻辑判定为非Fals
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N214, N215, N216
+
+## Claim
+
+布尔逻辑真值表完备性：当Cosine_Similarity < Threshold_CAL且Fact_Checker为Neutral时，当前逻辑判定为非False Claim，存在漏检风险；需增加规则：若Sim < Threshold_CAL AND Fact_Checker == 'Neutral' AND Confidence < 0.7，则标记为'Uncertain'进入人工队列。
+
+## Corrected Claim
+
+布尔逻辑真值表完备性：当Cosine_Similarity < Threshold_CAL且Fact_Checker为Neutral时，当前逻辑判定为非False Claim，存在漏检风险；需增加规则：若Sim < Threshold_CAL AND Fact_Checker == 'Neutral' AND Confidence < 0.7，则标记为'Uncertain'进入人工队列。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：布尔逻辑中，若原判定规则未覆盖特定组合导致漏检，增加包含该组合的新规则并导向人工队列在逻辑上是自洽且合理的补救措施。

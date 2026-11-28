@@ -1,0 +1,24 @@
+# N380: RULER 测试中'针'的标准化定义：针内容通常为随机生成的 UUID 或特定字符串（如 'needle_content'），长度为 10-20 tokens；
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N121
+
+## Claim
+
+RULER 测试中'针'的标准化定义：针内容通常为随机生成的 UUID 或特定字符串（如 'needle_content'），长度为 10-20 tokens；在 128K 上下文中，针的插入位置需均匀分布于 0-128K 区间，避免聚集在首尾 5% 区域以排除位置偏差
+
+## Corrected Claim
+
+RULER 测试中，'针'通常为简单的固定字符串或重复字符，长度较短；测试时会在上下文的特定位置（如开头、中间、结尾）插入针以评估不同位置的检索能力，而非强制要求在整个区间内均匀分布。
+
+## Evidence
+
+[质询]RULER 测试的核心机制是通过改变上下文长度和干扰项数量来评估长文本能力，其‘针’（needle）通常是简单的重复字符或固定短语，而非随机 UUID；且 RULER 官方实现中并未强制要求‘均匀分布’或‘排除首尾 5%’，而是通过控制 needle 的位置索引（如 0%, 50%, 100% 等特定比例）来测试不同位置的召回率，‘均匀分布’这一描述与 RULER 的标准实验设计（通常测试特定位置点而非连续均匀采样）存在偏差。 | 先验知识/题面给定，逻辑校验通过，但具体实现细节（如 UUID 生成、均匀分布策略）与 RULER 标准基准的常见实现（固定位置点测试、简单字符串）存在出入，缺乏来源支持以确认该特定变体为标准定义。
+
+## Search Query
+
+RULER benchmark needle definition UUID random string length

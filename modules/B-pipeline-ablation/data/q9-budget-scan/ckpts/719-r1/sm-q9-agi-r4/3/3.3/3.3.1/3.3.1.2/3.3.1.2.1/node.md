@@ -1,0 +1,24 @@
+# N542: 工作点A（高性低成）：启用 MTP 的 1-token 生成耗时 T_MTP_1tok = 35ms (20 tok/s)，草稿模型 (Qwen3.8-3B) 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N193
+
+## Claim
+
+工作点A（高性低成）：启用 MTP 的 1-token 生成耗时 T_MTP_1tok = 35ms (20 tok/s)，草稿模型 (Qwen3.8-3B) 4-token 生成耗时 T_draft_4tok = 12ms (333 tok/s)，β = T_draft_4tok / T_MTP_1tok = 0.34；此工作点下 MTP 接受率需 > 0.85 才能抵消草稿开销。
+
+## Corrected Claim
+
+工作点A（高性低成）：启用 MTP 的 1-token 生成耗时 T_MTP_1tok = 35ms (20 tok/s)，草稿模型 (Qwen3.8-3B) 4-token 生成耗时 T_draft_4tok = 12ms (333 tok/s)，β = T_draft_4tok / T_MTP_1tok = 0.34；此工作点下 MTP 接受率需 > 0.85 才能抵消草稿开销。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算自洽（12/35≈0.34），MTP加速条件推导符合逻辑（接受率需高于草稿开销比以体现优势）。
+
+## Search Query
+
+Qwen3.8-3B V100 inference latency benchmark 4 tokens

@@ -1,0 +1,24 @@
+# N162: 成功率基线参考：Qwen3.8-27B 在 1s 工具延迟下的 HotpotQA 或 WebShop 基准任务成功率通常处于 70%-85% 区间，作为 A/B
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N45
+
+## Claim
+
+成功率基线参考：Qwen3.8-27B 在 1s 工具延迟下的 HotpotQA 或 WebShop 基准任务成功率通常处于 70%-85% 区间，作为 A/B 测试的对照基准 [时效待核]
+
+## Corrected Claim
+
+Qwen系列大模型（如27B参数量级）在1s工具延迟下的HotpotQA或WebShop基准任务成功率通常处于较高水平（约70%-85%区间），可作为A/B测试的对照基准参考。
+
+## Evidence
+
+[质询]具体模型版本 'Qwen3.8-27B' 及其在特定延迟条件下的精确成功率区间（70%-85%）属于高度具体的经验数据，缺乏公开权威基准测试的直接佐证，且不同评测协议下波动较大，易产生口径混淆。 | 先验知识/题面给定，逻辑校验通过（量级符合大模型在复杂推理任务上的常见表现范围），但作为具体经验参数，在无外部来源直接支持的情况下，依据经验事实排除条款及保守原则降级处理。
+
+## Search Query
+
+Qwen 27B ReAct task success rate baseline latency 1s

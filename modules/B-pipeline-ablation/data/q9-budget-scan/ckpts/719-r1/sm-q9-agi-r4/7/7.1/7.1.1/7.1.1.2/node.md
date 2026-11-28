@@ -1,0 +1,24 @@
+# N733: NCCL AllReduce 实测有效带宽与消息大小的关系：在 V100-SXM2 4 卡系统中，小消息 (< 1MB) 时 AllReduce 带宽受启动延迟
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N271
+
+## Claim
+
+NCCL AllReduce 实测有效带宽与消息大小的关系：在 V100-SXM2 4 卡系统中，小消息 (< 1MB) 时 AllReduce 带宽受启动延迟主导，有效带宽 < 50 GB/s；大消息 (> 64MB) 时趋近于 140-160 GB/s。vLLM TP=4 的 AllReduce 发生在每层 Attention 输出后，消息大小 ≈ batch_size * seq_len * hidden_dim * 2 bytes。若 batch=8, seq=262144, hidden=4096，则消息 ≈ 8 * 262144 * 4096 * 2 = 17.1 GB。此尺寸下，AllReduce 耗时 ≈ 17.1e9 / 150e9 ≈ 114 ms/layer。48 层总计 5.46s，远超生成时间，表明 TP=4 在此 batch 和 seq 下通信瓶颈严重。
+
+## Corrected Claim
+
+在 V100-SXM2 4 卡系统中，NCCL AllReduce 的大消息有效带宽通常可达数百 GB/s（具体取决于拓扑和配置，此处假设约 150 GB/s）。对于 batch=8, seq=262144, hidden=4096 的场景，单层 AllReduce 消息大小约为 17.1 GB，若按 150 GB/s 带宽估算，单层耗时约 114 ms，48 层总计约 5.46 s，表明在此极端长序列和大 Batch 下，TP=4 的通信开销巨大，可能成为主要瓶颈。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件性能参数（V100-SXM2 4卡 AllReduce 带宽 140-160 GB/s）和特定场景下的延迟估算，属于经验事实。虽然计算逻辑自洽，但缺乏外部来源直接支持这些具体的带宽数值和延迟结论，且不同拓扑/驱动版本下实际带宽可能有显著差异。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）。
+
+## Search Query
+
+NCCL allreduce benchmark V100 SXM2 message size bandwidth latency vLLM tensor parallelism overhead

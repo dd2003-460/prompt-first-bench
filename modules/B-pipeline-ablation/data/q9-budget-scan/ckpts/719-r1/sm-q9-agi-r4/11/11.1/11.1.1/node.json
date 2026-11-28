@@ -1,0 +1,28 @@
+{
+  "id": "N317",
+  "claim": "纯 Python 循环在 10^6 元素一维数组上的 dot product 耗时分解：T_loop = N_ops * T_op，其中 N_ops = 10^6 次乘法 + 10^6 次加法，T_op ≈ 1-2ns（受 CPU 时钟周期限制，3GHz 下 1 cycle ≈ 0.33ns，含分支预测失败惩罚），T_loop ≈ 10^6 * 1.5ns = 1.5ms，与 N99 中 0.75s-1.5s 矛盾，需确认 N99 数据是否包含 Python 解释器开销（如 list 索引查找、对象创建），若包含，T_interp ≈ 100ns/op，T_loop ≈ 10^6 * 100ns = 0.1s，仍低于 0.75s，需实测验证",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]陈述中关于纯硬件操作耗时（1.5ms）与Python解释器开销（0.1s）的估算均严重偏离实际经验值，且未能解释为何即使加上解释器开销仍远低于N99引用的0.75s-1.5s范围，导致其‘需实测验证’的结论缺乏基于正确基准的支撑。 | 来源[2]显示100万次迭代耗时约646ms（0.646s），这与N99的0.75s-1.5s范围在数量级上一致（考虑到不同操作和机器差异），但直接反驳了节点中‘T_interp ≈ 100ns/op -> 0.1s’的估算（实际约为600ns/op），证明节点内部的耗时分解逻辑虽自洽但参数错误，故降级。",
+  "corrected_claim": "纯 Python 循环在 10^6 元素一维数组上的 dot product 耗时主要受 Python 解释器开销主导。根据基准测试（如来源[2]），100万次简单迭代耗时通常在 0.5s-1s 之间，这与 N99 中 0.75s-1.5s 的范围相符，并非矛盾。节点中关于 100ns/op 的解释器开销估算偏低，实际单次操作开销约为 500-1000ns。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N99"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Python loop overhead numpy dot product performance comparison 1 million elements",
+  "retrieval_sources": [
+    {
+      "url": "https://github.com/manyan-chan/numpy-vs-python&rut=1ca524027bc78383bb6366bb80a15ed573c6399fb99335fafa355324bc4932d1",
+      "type": "ddg",
+      "title": "Vanilla Python vs. NumPy Performance Comparison - GitHub"
+    },
+    {
+      "url": "https://stackoverflow.com/questions/51549363/for-loop-vs-numpy-vectorization-computation-time&rut=8f8fc90adc2896eb241f978e35475eacfcbe690022f9dac369d09605ecba182c",
+      "type": "ddg",
+      "title": "python - For loop vs Numpy vectorization computation time - Stack Overflow"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+# N606: Top_p=0.9的干扰控制：在Temperature=0.1下，Top_p=0.9可能导致长尾词汇被截断，从而影响特定专业术语的生成一致性；建议对比Top_p
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N214, N215, N216
+
+## Claim
+
+Top_p=0.9的干扰控制：在Temperature=0.1下，Top_p=0.9可能导致长尾词汇被截断，从而影响特定专业术语的生成一致性；建议对比Top_p=1.0（纯温度采样）与Top_p=0.9的FCR差异，若ΔFCR>2%，则需将Top_p设为1.0以隔离温度单一变量的影响。
+
+## Corrected Claim
+
+在Temperature=0.1下，Top_p=0.9可能截断长尾词汇，影响专业术语生成一致性；建议对比Top_p=1.0与0.9的FCR差异以评估影响，若差异显著则需调整Top_p以隔离温度变量。
+
+## Evidence
+
+[质询]该陈述包含具体的经验阈值（ΔFCR>2%）和特定的工程建议（Top_p=1.0隔离变量），属于经验事实而非第一性原理可推导内容；且‘Top_p=0.9导致长尾截断’在低温度下虽逻辑通顺，但具体对FCR的影响幅度缺乏通用理论支撑，高度依赖具体模型和数据集。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+LLM sampling temperature top_p interaction effect on factual consistency

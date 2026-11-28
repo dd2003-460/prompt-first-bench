@@ -1,0 +1,29 @@
+# N321: Qwen3.8-27B (NVFP4) 在 4x V100 TP=4 配置下，KV Cache 占用显存的精确公式为 Mem_KV = num_layers ×
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N101
+
+## Claim
+
+Qwen3.8-27B (NVFP4) 在 4x V100 TP=4 配置下，KV Cache 占用显存的精确公式为 Mem_KV = num_layers × num_kv_heads × head_dim × seq_len × batch_size × dtype_bytes，需代入具体架构参数（如 L=64, H_kv=8, D=128, fp8=1 byte）计算单 token 占用，以验证 85% 阈值是否触发过早
+
+## Corrected Claim
+
+Qwen3.8-27B (NVFP4) 在 4x V100 TP=4 配置下，KV Cache 占用显存的通用公式为 Mem_KV = num_layers × num_kv_heads × head_dim × seq_len × batch_size × dtype_bytes。需查阅 Qwen3.8-27B 的具体模型配置文件以获取准确的 num_layers, num_kv_heads, head_dim 等参数进行计算，以验证 85% 阈值是否触发过早。
+
+## Evidence
+
+[质询]陈述中给出的具体架构参数（L=64, H_kv=8, D=128）属于经验事实，且与主流大模型（如Qwen系列通常层数更多或KV头数不同）的典型配置可能存在偏差，若无确切来源证实Qwen3.8-27B的具体结构参数，这些数值可能是错误的或基于假设的。 | KV Cache显存计算公式在逻辑上是正确的（标准Transformer架构通用公式），但参考来源[1][2]仅提及了模型部署和性能指标，未提供具体的架构参数（层数、KV头数等）来验证公式中代入的具体数值（L=64, H_kv=8等），因此具体参数部分缺乏直接来源支持，属于经验事实且缺来源佐证。
+
+## Search Query
+
+Qwen3.8-27B architecture parameters num_layers num_kv_heads head_dim
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/andreasknopke/V100-Qwen3.8-27b-NVFP4/blob/main/README.md&rut=718d966f11e67327dc084c3d085ff5493b630285fd6337c222f156956546c70b', 'type': 'ddg', 'title': 'V100-Qwen3.8-27b-NVFP4/README.md at main - GitHub'}
+- {'url': 'https://github.com/huangserva/ninfer-v100-tpx&rut=5b471a83032e21eca29a01451b214668f11aeea424a5fbe51b2886a228a9c30f', 'type': 'ddg', 'title': 'GitHub - huangserva/ninfer-v100-tpx: 两张 V100 跑 Qwen3.8-27B 到 100 tok/s ...'}

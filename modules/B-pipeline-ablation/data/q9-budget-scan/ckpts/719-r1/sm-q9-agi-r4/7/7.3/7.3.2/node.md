@@ -1,0 +1,24 @@
+# N278: NVLink 链路的信号完整性（Signal Integrity）在长期运行中可能因电容充放电效应或连接器氧化导致误码率（BER）上升，进而触发重传机制；若 B
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N88
+
+## Claim
+
+NVLink 链路的信号完整性（Signal Integrity）在长期运行中可能因电容充放电效应或连接器氧化导致误码率（BER）上升，进而触发重传机制；若 BER 从 10^-12 上升至 10^-9，重传开销将导致有效带宽非线性下降；需检查 dmesg 或 nvlink status 日志中是否有 link error 或 recovery 记录，以排除硬件物理层故障。
+
+## Corrected Claim
+
+NVLink 链路的信号完整性（Signal Integrity）在长期运行中可能因电容充放电效应或连接器氧化导致误码率（BER）上升，进而触发重传机制；若 BER 从 10^-12 上升至 10^-9，重传开销将导致有效带宽非线性下降；需检查 dmesg 或 nvlink status 日志中是否有 link error 或 recovery 记录，以排除硬件物理层故障。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVLink作为高速串行链路，其物理层受电容充放电和连接器氧化影响导致BER上升符合电子工程基本原理；BER从10^-12升至10^-9意味着误码概率增加三个数量级，根据纠错编码和重传机制原理，有效带宽必然显著下降；检查dmesg/nvlink status日志是标准的硬件故障排查手段，逻辑自洽且无内部矛盾。
+
+## Search Query
+
+NVLink bit error rate long term degradation signal integrity retry overhead

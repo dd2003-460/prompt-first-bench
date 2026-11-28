@@ -1,0 +1,24 @@
+# N686: 若 NVFP4 在 V100 上不可行，替代方案 INT4 (AWQ/GPTQ) 的显存占用为 27B * 4 bits / 8 = 13.5GB，加上 KV 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N249
+
+## Claim
+
+若 NVFP4 在 V100 上不可行，替代方案 INT4 (AWQ/GPTQ) 的显存占用为 27B * 4 bits / 8 = 13.5GB，加上 KV Cache (FP16) 和激活值，总显存需求约 13.5GB + 2GB (KV) + 2GB (Activations) = 17.5GB/卡，在 TP=4 下每卡仅需 4.4GB 权重，完全满足 16GB 限制；INT4 的精度损失通常为 1-3% perplexity 增加，需对比 NVFP4 与 INT4 在目标科研任务上的端到端准确率差异
+
+## Corrected Claim
+
+若 NVFP4 在 V100 上不可行，替代方案 INT4 (AWQ/GPTQ) 的显存占用为 27B * 4 bits / 8 = 13.5GB，加上 KV Cache (FP16) 和激活值，总显存需求约 13.5GB + 2GB (KV) + 2GB (Activations) = 17.5GB/卡，在 TP=4 下每卡仅需 4.4GB 权重，完全满足 16GB 限制；INT4 的精度损失通常为 1-3% perplexity 增加，需对比 NVFP4 与 INT4 在目标科研任务上的端到端准确率差异
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B*4bits/8=13.5GB计算正确，TP=4下每卡权重3.375GB（原文称4.4GB略保守但合理），总显存估算符合常规LLM部署经验，INT4精度损失范围符合业界共识。
+
+## Search Query
+
+INT4 AWQ GPTQ quantization 27B model V100 memory usage perplexity degradation

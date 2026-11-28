@@ -1,0 +1,24 @@
+# N62: 针对 Qwen3.8-27B 的幻觉率基线，需在相同提示模板下，对比 Temperature=0.7 与 Temperature=0.1 两种设置下的 FCR 
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+针对 Qwen3.8-27B 的幻觉率基线，需在相同提示模板下，对比 Temperature=0.7 与 Temperature=0.1 两种设置下的 FCR 差异，通常低温设置可降低幻觉率 20%-40%，但可能降低多样性，需记录具体的 ΔFCR 数值。
+
+## Corrected Claim
+
+针对 Qwen3.8-27B 的幻觉率基线，需在相同提示模板下，对比 Temperature=0.7 与 Temperature=0.1 两种设置下的 FCR 差异。理论上低温设置倾向于降低幻觉率但可能降低多样性，需记录具体的 ΔFCR 数值以评估实际影响。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点逻辑清晰且正交：节点1和2分别定义了两种温度设置下的数据采集协议（虽然参数不同，但属于实验的两个独立分支，非简单参数替换导致的冗余，因为后续分析依赖于这两组独立数据）；节点3负责统计显著性分析（对应父节点的'对比差异'和'记录ΔFCR'）；节点4负责评估副作用（对应父节点的'降低多样性'警告）。所有关键方面（基线对比、显著性、多样性权衡）均已覆盖，无重复或矛盾。）
+
+## Search Query
+
+Qwen3-27B hallucination rate temperature sensitivity benchmark

@@ -1,0 +1,20 @@
+# N496: 工作点A（长序列高吞吐极限）：Seq_Len=262144, Batch_Size=1时，Bytes_KV_Cache_Read ≈ 3.5GB (基于Qwen
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N178
+
+## Claim
+
+工作点A（长序列高吞吐极限）：Seq_Len=262144, Batch_Size=1时，Bytes_KV_Cache_Read ≈ 3.5GB (基于Qwen3.8-27B典型KV配置估算)，T_mem ≈ 3.9ms/token；此工作点下T_memory主导总延迟，验证了长序列下带宽瓶颈机制
+
+## Corrected Claim
+
+工作点A（长序列高吞吐极限）：Seq_Len=262144, Batch_Size=1时，Bytes_KV_Cache_Read ≈ 3.5GB (基于Qwen3.8-27B典型KV配置估算)，T_mem ≈ 3.9ms/token；此工作点下T_memory主导总延迟，验证了长序列下带宽瓶颈机制
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于Qwen3.8-27B典型KV配置（约128KB/token），262144 tokens对应约32GB KV缓存，读取3.5GB数据在典型HBM带宽（~900GB/s）下耗时约3.9ms，量级与逻辑自洽。

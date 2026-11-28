@@ -1,0 +1,24 @@
+# N575: 审稿人对'统计显著但实际无关'结论的判定阈值不仅取决于 r 值，还取决于效应量的置信区间宽度 CI_width；若 CI_width > 0.1，即使 r < 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N205
+
+## Claim
+
+审稿人对'统计显著但实际无关'结论的判定阈值不仅取决于 r 值，还取决于效应量的置信区间宽度 CI_width；若 CI_width > 0.1，即使 r < 0.1，若 CI 不包含 0，拒稿风险 P_Reject 较宽 CI 情况降低约 30%，公式为 P_Reject_adj = P_Reject_Base * (1 - 0.3 * I(CI_excludes_0))
+
+## Corrected Claim
+
+审稿人对'统计显著但实际无关'结论的判定阈值不仅取决于 r 值，还取决于效应量的置信区间宽度 CI_width；通常认为较窄的置信区间（表明估计更精确）会降低因效应量不确定导致的拒稿风险，但具体的量化关系（如降低比例）需依赖特定领域的实证研究或审稿指南，无法从第一性原理直接得出固定公式。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（CI_width > 0.1, 降低约 30%）和特定的调整公式，这些并非统计学第一性原理或数学公理的直接推论，而是依赖于特定审稿行为模型或实证研究的经验数据。在没有来源支持的情况下，无法验证这些具体数值（如30%的降幅）的准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+peer review confidence interval width small effect size rejection risk statistical power

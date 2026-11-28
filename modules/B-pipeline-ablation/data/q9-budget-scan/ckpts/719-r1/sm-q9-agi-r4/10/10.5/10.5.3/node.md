@@ -1,0 +1,30 @@
+# N316: BM25 索引在 10 万篇文献上的倒排表大小 S_inv 与磁盘 I/O 延迟 L_io 关系：S_inv ≈ N_docs * avg_terms_per_
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N98
+
+## Claim
+
+BM25 索引在 10 万篇文献上的倒排表大小 S_inv 与磁盘 I/O 延迟 L_io 关系：S_inv ≈ N_docs * avg_terms_per_doc * 4bytes，假设 avg_terms=15000，S_inv ≈ 6TB；L_io 受 NVMe SSD 顺序读带宽限制（~3GB/s），随机读延迟 ~0.1ms，但 Top-5 召回需扫描 ~1000 个文档块，L_io ≈ 1000 * 0.1ms = 100ms，与 N89 中 50ms 延迟矛盾，需确认 N89 数据是否基于更小规模语料（10k 篇）
+
+## Corrected Claim
+
+BM25 索引大小与 I/O 延迟高度依赖于平均词项数和查询策略。若 avg_terms 高达 15000，索引体积可达 TB 级；在无有效剪枝的情况下，随机 I/O 延迟可能显著高于 50ms，具体数值需根据实际语料统计和硬件基准测试确定。
+
+## Evidence
+
+[质询]avg_terms=15000 对于普通文献而言量级过大（通常学术文献去重后词项数在几百到几千之间），导致 S_inv 估算为 6TB 缺乏典型场景支持；此外，Top-5 召回扫描 1000 个文档块的假设过于简化，未考虑倒排索引的剪枝机制（如 WAND），实际 I/O 模式并非简单的线性累加。 | 来源 [2] 提及大规模 BM25 实现需要压缩和剪枝以避免全扫描，间接支持了原始陈述中关于 I/O 复杂性的担忧，但未提供具体的 6TB 或 100ms 数值支持；来源 [1] 和 [3] 仅介绍算法原理，与性能估算无关。该节点包含大量经验性参数（avg_terms, 扫描块数），属于经验事实，逻辑自洽但缺乏直接来源支持具体数值。
+
+## Search Query
+
+BM25 index size calculation 100k documents random read latency NVMe
+
+## Retrieval Sources
+
+- {'url': 'https://www.geeksforgeeks.org/nlp/what-is-bm25-best-matching-25-algorithm/&rut=720c3e00988aaf0dde3f30bed617817aefa0e90f31c2c422a228d370a56305c5', 'type': 'ddg', 'title': 'What is BM25 (Best Matching 25) Algorithm - GeeksforGeeks'}
+- {'url': 'https://www.systemoverflow.com/learn/search-ranking/ranking-algorithms/bm25-implementation-inverted-index-and-dynamic-pruning-at-scale&rut=0c28f149e001652d8ec999003ac0e6f33ce4d92a58cc932244d62bb8bb42e1a0', 'type': 'ddg', 'title': 'BM25 Implementation: Inverted Index and Dynamic Pruning at Scale'}
+- {'url': 'https://www.humyze.com/bm25/&rut=f8798d5c3f0117afdc43a34c7e55342b824eb55e10f8d59734905efb4707fac1', 'type': 'ddg', 'title': 'BM25 calculator - Humyze'}
