@@ -44,7 +44,7 @@ trigger-probe-v2 判 FAIL (A 臂 1/3 动手前搜, 预注册判据 3/3 未满足
 | 任务 | 依赖 | 读(行) | 写(行) | commits | 载体 |
 |---|---|---|---|---|---|
 | D1a 检测器核心 | 无 | ~50 | ~80 | 1 | sub-27b | ✅ done 3ff59cb7b (79行, 三信号+负例+计数验证过) |
-| D1b selftest 6 case | D1a | ~60 | ~60 | 1 | sub-27b | 在跑 (deleg_e4bbe7d9) |
-| D2 思考轮 prompt 段+回执 schema | D1a | ~80 | ~40 | 1 | sub-27b | 在跑 (deleg_528871f8) |
+| D1b selftest 6 case | D1a | ~60 | ~60 | 1 | sub-27b | ✅ done ce8915edc (ALL 6 PASS, 无检测器 bug) |
+| D2 思考轮 prompt 段+回执 schema | D1a | ~80 | ~40 | 1 | sub-27b | ✅ done 0d123ead7 (18行新节+schema 1行, 4步与设计§2逐条对应) |
 | D3 执行者接入+触发演练 (埋假数字) | D2 | ~60 | ~30+回执 | 1 | sub-27b |
 | D4 验收+§4 按探针结果收口 | D3+probe | 回执 | ~20 | 1 | 判断-Lead |
