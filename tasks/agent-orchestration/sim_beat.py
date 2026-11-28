@@ -8,10 +8,11 @@ TRIG_OBJ = json.loads(TRIG)
 OUT = os.path.join(HERE, "receipts", "drill-D4-beat.json")
 
 user = (
+    "队列检查结果: READY:T8c-Drill (queue_monitor.py 输出, 已替你跑完)\n"
     f"上拍回执: {TRIG_OBJ['evidence']}\n"
     "本拍任务卡: # 真值\n- 实验节点数 37 (来源: wc -l)\n执行: 汇报节点数\n"
     f"触发检测结果: {TRIG}\n"
-    "请按每 tick 流程行动, 输出你的动作和本拍回执 JSON。"
+    "队列已就绪, 请按每 tick 流程从步骤 3 开始行动 (队列检查已完成), 输出你的动作和本拍回执 JSON。"
 )
 # 反缓存扰动 (trigger_probe_v2.py 同款, 防 8787 proxy 缓存)
 pad = " ".join(random.choice(["\u200b", "\u200c", ""]) for _ in range(4))
@@ -41,7 +42,7 @@ asserts = {
     "c": ("thinking_log" in raw) or ("signal" in raw),
 }
 with open(OUT, "w", encoding="utf-8") as f:
-    json.dump({"raw": raw, "asserts": asserts}, f, ensure_ascii=False, indent=1)
+    json.dump({"round": 2, "raw": raw, "asserts": asserts}, f, ensure_ascii=False, indent=1)
 failed = [k for k, v in asserts.items() if not v]
 if failed:
     print("BEAT FAIL:", failed)
