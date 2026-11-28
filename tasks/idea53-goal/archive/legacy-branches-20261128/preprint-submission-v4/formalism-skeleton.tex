@@ -1,0 +1,125 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue]{hyperref}
+\usepackage[margin=1in]{geometry}
+\usepackage{natbib}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\providecommand{\tightlist}{}
+
+\title{A Resistive Formalism for Compositional Bottlenecks: \\
+A Closed-Form Account of Judgment Correction \textit{(working draft)}}
+
+% author affiliations per D 2026-11-24
+\author{
+  \textbf{Yifeng Xiao} \thanks{Corresponding author. Email: xiaoyifeng25@mails.ucas.ac.cn}\\
+  School of Fundamental Physics and Mathematical Sciences, Hangzhou Institute for Advanced Study, UCAS, Hangzhou 310024, China\\
+  University of Chinese Academy of Sciences, Beijing 100049, China\\
+  Institute of Theoretical Physics, Chinese Academy of Sciences, Beijing 100190, China
+}
+
+\date{\today}
+\begin{document}
+\maketitle
+
+\section*{Status note}
+Working skeleton. Section~2 (the resistive formalism) is the
+domain-independent core and is written out. Section~3 instantiates it on GPU
+microarchitecture (existing \#53 data). Section~4 is reserved for a physics
+instantiation (domain pending decision). Sections~5--6 are stubs.
+
+\section{Introduction}
+% TODO: the problem -- where is the bottleneck in a compositional judgment?
+% TODO: why a formalism rather than a domain-specific model
+% TODO: preview the unifying claim -- one symbol system exports
+%       bottleneck + tree + judge simultaneously
+
+\section{The Resistive Formalism}
+\label{sec:formalism}
+
+A compositional system is a set of components $i$, each carrying a workload
+$f_i$ processed at a rate $r_i$. The time component $i$ occupies is
+\begin{equation}
+  t_i = \frac{f_i}{r_i}.
+  \label{eq:time}
+\end{equation}
+Two compositions close the system:
+\begin{itemize}
+  \item \textbf{Series} (sequential phases): $T = \sum_i t_i$;
+  \item \textbf{Parallel} (concurrent resources within a phase):
+        $t_{\mathrm{phase}} = \max_j\,(f_j/r_j)$.
+\end{itemize}
+The \emph{bottleneck} is the component that sets the pace:
+\begin{equation}
+  b^{*} = \operatorname*{argmax}_{j}\; \frac{f_j}{r_j}.
+  \label{eq:bottleneck}
+\end{equation}
+Equations~\eqref{eq:time}--\eqref{eq:bottleneck} are the abstract circuit
+law: series adds, parallel is dominated by the largest term, and the
+bottleneck is the argmax leaf. One rule ($t=f/r$) plus two aggregations
+($\Sigma$, $\max$) covers any two- or three-level structure; the flat model
+is the one-level special case, and a branch/segment tree is its two-level
+generalization.
+
+\paragraph{Judge as correction.}
+A \emph{surface} judgment reads the rates at face value (assumed $r_j$); a
+\emph{deep} judgment corrects them (measured $r_j$). The judge score is the
+surface-vs-deep correction, decomposed into a \emph{flip} (the bottleneck
+identity changes, $b^{*}_{\mathrm{surf}} \neq b^{*}_{\mathrm{deep}}$) and a
+\emph{shift} (the ranking within the surviving bottleneck changes). The
+ground truth the judge targets is exactly the argmax leaf of
+Eq.~\eqref{eq:bottleneck}; the score is the correction distance to it. This
+makes the judge a property of the formalism, not an ad-hoc labeler.
+
+\section{Instantiation I: GPU Microarchitecture}
+\label{sec:gpu}
+The flat model applied to four GPU platforms (workload = a fixed inference
+trace; rates = per-component throughput). Table~\ref{tab:gpu} reports the
+$2\times2$ tree decomposition (branch-level vs within-branch error).
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lccc}
+\toprule
+Platform & rate ratio & within-branch & branch-level \\
+\midrule
+T5000 & 9.9   & 0.290 & 0.181 \\
+A100  & 44.3  & 0.114 & 0.487 \\
+5090  & 51.9  & 0.191 & 0.399 \\
+4090  & 287.4 & 0.112 & 0.495 \\
+\bottomrule
+\end{tabular}
+\caption{$2\times2$ tree decomposition. Mild-rate platform (T5000):
+within-branch dominates; extreme-rate platforms: branch-level dominates.}
+\label{tab:gpu}
+\end{table}
+
+% TODO: fold in the 1D main result (segment-level flip 0.434/0.556/0.527/0.563)
+%       and the flat negative control (both-correct = 1.0)
+
+\section{Instantiation II: Physics (domain TBD)}
+\label{sec:physics}
+The formalism is domain-agnostic. Candidate physics instantiations:
+reaction kinetics (rate-limiting step $=$ argmax of inverse rates), transport
+(series resistance / parallel conductance), critical paths.
+\textbf{Pending domain decision.}
+
+\section{Discussion: Transferability of the Formalism}
+% TODO: what transfers across domains, what does not; predictive content
+
+\section{Conclusion}
+% TODO
+
+\section*{AI Use Disclosure}
+Per arXiv policy on generative AI tools: no AI system is listed as an author
+of this work. Generative AI language tools were used in the drafting and
+verification assistance stages; all authors take full responsibility for the
+content. All quantitative results are produced by the closed-form computation
+scripts referenced in the text and are reproducible from the cited commit
+anchors.
+
+\end{document}

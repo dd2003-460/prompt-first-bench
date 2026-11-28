@@ -1,0 +1,39 @@
+% Figure 1: 评分协议三合一结构图（arena Q4 必做①）
+% 用法：在 paper-en.tex / paper-zh 对应 LaTeX 版的 §1 末尾 \input{fig1-scoring-protocol}
+% 依赖：\usepackage{tikz}, \usetikzlibrary{positioning,arrows.meta,calc}
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  node distance=0.9cm and 1.1cm,
+  box/.style={draw, rounded corners, align=center, minimum height=0.9cm, font=\small},
+  lbl/.style={font=\scriptsize},
+  arr/.style={->, >=Latex, thick, gray!70}
+]
+% 左列：分解树
+\node[box, draw=blue!60, fill=blue!8] (root) {分解树\\(toy: 2-level)};
+\node[box, below=of root] (s) {浅层判断 \(S\)\\(等速率·占比枚举)};
+\node[box, below=of s] (d) {深层判断 \(D\)\\(真实速率 \(t_i=f_i/r_i\))};
+
+% 中列：量
+\node[box, right=1.9cm of s, draw=red!60, fill=red!8] (inc) {增量信息\\\(H(D|S)=H(D)-I(S;D)\)};
+\node[box, below=of inc] (score) {可解释分数\\flip \(=P(S\neq D)\) · shift};
+
+% 右列：对照
+\node[box, right=2.0cm of inc, draw=green!60, fill=green!8] (flat) {平坦速率对照\\all \(r_i=1\)};
+\node[box, below=of flat, draw=green!40, fill=green!5] (zero) {结果：\\\(H(D|S)=0\) 精确};
+\node[box, right=1.9cm of score, draw=orange!60, fill=orange!8] (perm) {24 参数—深度置换\\(多重集固定)};
+\node[box, below=of perm, draw=orange!40, fill=orange!5] (inv) {结果：增量不变\\(去深度化\)};
+
+\draw[arr] (root) -- (s);
+\draw[arr] (s) -- (d);
+\draw[arr] (s.east) -- node[lbl, above] {条件化} (inc.west);
+\draw[arr] (d.east) -- (inc.west);
+\draw[arr] (inc) -- (score);
+\draw[arr] (inc.east) -- node[lbl, above] {施于同一量} (flat.west);
+\draw[arr] (flat) -- (zero);
+\draw[arr] (score.east) -- (perm.west);
+\draw[arr] (perm) -- (inv);
+\end{tikzpicture}
+\caption{评分协议：分解树 \(\rightarrow\) 条件信息增量 \(\rightarrow\) 两个负控制。左列给出 toy 结构；中列是闭式可算的评分量；右列两个臂分别排除``深层只是转发浅层''（平坦对照精确归零）与``深层因定义占优''（24 置换不变）。全部判据先于数据生成提交（预注册）。}
+\label{fig:scoring-protocol}
+\end{figure}
