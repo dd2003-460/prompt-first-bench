@@ -20,7 +20,7 @@ DOMAIN_Q = {
 }
 
 ap = argparse.ArgumentParser()
-ap.add_argument("arm", choices=["v1", "s1"])
+ap.add_argument("arm", choices=["v1", "s1", "v3"])
 ap.add_argument("domain", choices=list(DOMAIN_Q))
 ap.add_argument("rep")
 ap.add_argument("--max-nodes", type=int, default=40)

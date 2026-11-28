@@ -278,6 +278,7 @@
 | M2a 方差探针: 已有 6 臂 rep 间三指标 cv → 定 M3 reps 功效 | 无 | 脚本 | 脚本+json | 1 | sub-27b (✅ done 11-28 01:2x @ 3003978bb, 零 GPU; variance-report.json; 注: 6臂各1rep, 报的是跨臂方差非rep间方差, rep间方差由M3 3reps 自带) |
 | M2b V1 实现: s1/→v1/ 复制 + T1+T2 注入 + 冒烟 | M2 | ~100 | 复制+diff | 1 | sub-27b (done 11-28 00:59 @ d03c9423d, 冒烟 ok 3 节点 JSON 契约不破) |
 | M3 对照实验: V1×3域(cyclone/mining/hw) 各3reps + V0(s1)cyclone 2reps = 11reps, 40节点, 无检索口径 | M2 | - | - | 1/rep | sub-27b(✅ prep @ 54eb4e5a7: run_v1_sm.py 按参数切arm + raw-llm落盘 + launch_m3.sh 幂等串行; 🔄 夜间批在跑 PID 11234 起 01:20, log=m3-queue.log, 预计 4-6h) |
+| M3b V3 臂（实验上下文注入）: v3/ = v1 注入 + 【你在为什么工作】块（目标/设计/判据 ~200字, 不泄题面答案）; 域=cyclone+hw（埋雷域剔除: 题面含埋雷数据, 注入"质疑题面"泄雷测不干净）; 6 reps 串行 8787 | M3 批完（对照臂已有） | ~50 | 复制+diff+脚本 | 1 | Lead 直接执行（2026-11-28 D 指令"把设计过程/要求目标也给他, 包括具体实验设计"; 冒烟 ok 5 节点 5.7s; 队列 PID 59476 log=v3-queue.log; 判决双轨同 M4, V3 vs V1 vs V0 三臂对比） |
 | M4 记分+判决: 机械指标(机制覆盖/量化claim/域偏移率) + 预注册判据 | M3 | ~100 | ~60 | 1 | sub-27b + 判断-Lead |
 | M5 论文化+review: claim 强度/对抗核验 | M4 判决为正 | - | - | - | arena + 判断-Lead (后置) |
 
