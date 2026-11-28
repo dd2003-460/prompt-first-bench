@@ -17,6 +17,7 @@
    - `REVIEW:<短ID>` → 已有 done/failed 回执待监督者核，执行者不碰，最终回复 = `REVIEW_PENDING <短ID>`
 2. **认领**：写回执 `tasks/agent-orchestration/receipts/<任务短ID>.json`：
    `{"task_id": "<短ID>", "status": "claimed", "started_at": "<ISO8601+08:00>", "evidence": {}, "thinking_log": []}`
+   - thinking_log: 可选, 触发过必填 (无触发可省略)
 3. **读任务卡**（路径见下方任务卡映射）。任务卡是唯一指令来源，不读其他背景文件（任务卡明确要求的除外）。
 4. **执行**：严格按任务卡「执行方式」。
    - 结构化内容（JSON/表格/多节文本）必须脚本生成落盘，不手打进输出流
@@ -51,3 +52,20 @@
 - **起长任务前查 receipts/ 当锁（2026-11-27 00:37 协调事故）**：Lead 与 cron 执行者是两个独立会话，monitor 的 WORKING 状态只挡执行者互抢，不挡 Lead 直接起进程。事故：CapFix-Verify 已由微信执行者 00:29 完成（回执 DONE），Lead 00:37 未查 receipts/ 直接起重复进程 25725，跑完 stage 01 后覆盖了执行者的 sidecar B1_01/B1_02（固定文件名），靠 git 恢复。**硬规则：任何会话（Lead/执行者）起长任务前，先 `ls receipts/<任务短ID>.json`——存在且 status∈{claimed,working,done} → 不重复起，改探活/验收/接力**。判别信号：发现 sidecar/产物 mtime 早于自己启动时刻 = 别人先跑过，立即停手核回执。**kill 验证（2026-11-27 00:40 二次覆盖实证）**：`kill <pid>` 打在 setsid 包装层不杀 worker——25725 被 kill 后 python worker 继续跑到 00:40:57，二次覆盖 B1_04/04.5。杀进程后必须 `pgrep -f <脚本名>` 确认 worker 真死（或 `kill -- -<pgid>` 杀整组），不能只看 kill 返回 0
 - 任务短 ID（任务表第一列冒号前）不得含 `/`（receipt 文件名直接拼接短 ID，含 `/` 则文件名不可创建——2026-11-26 smoke 实证：「n=3/臂」炸 ENOENT，被迫子目录镜像 workaround；发现违规短 ID 不自行改名，回执报 T-失配 由监督者修表）
 - 同一任务同一死法 2 次 = 换路，禁止第 3 次原样重试
+
+## 触发思考轮
+- 何时触发：trigger.json signal != none（检测器 trigger_detector.py 每拍输出）→ 停当前动作，跑以下固定模板（非自由发挥）：
+  1. 复述触发的信号和证据 (哪个数字/哪个 diff/哪个无出处值)
+  2. 回答: 我的下一步动作依赖这个未验证事实吗? 依赖=先验证再动; 不依赖=标 [待核验] 继续
+  3. 验证动作 (按信号类型): 矛盾→核磁盘一手; 卡住→换路 (换工具/拆小步/降级, 按 flexible-execution); 缺口→跑出来或找第二来源
+  4. 写 thinking_log 进本拍回执: {signal, evidence, action, result}
+- 边界: 思考轮本身限 1 轮 (防思考轮里再卡住); 同信号同证据 2 次触发 = 升级回执 (报监督者, 不自己硬磨)
+- thinking_log 字段定义:
+  - signal: 矛盾 | 卡住 | 缺口
+  - evidence: str, 触发证据 (哪个数字/哪个 diff/哪个无出处值)
+  - action: str, 采取的验证动作 (核磁盘一手/换路/找第二来源)
+  - result: str, 验证结果与处置 (验证通过/标 [待核验]/升级)
+- 示例:
+  ```json
+  {"signal": "矛盾", "evidence": "任务卡真值 40 与磁盘实数 37 不一致", "action": "核磁盘一手 (wc -l)", "result": "确认 37, 回执报失配后续做"}
+  ```
