@@ -78,3 +78,6 @@ S5 发现：27b 有能力（D1 可达 2）但缺触发（自发率低）。本�
 机制怎么被驱动：结构转移 harness 强制，语义判断模型负责。
 6 状态（WORKING→QUESTIONING→REFUTING→GAP→RETRIEVING→INTEGRATING）+ 停止条件 + 缺口注册表 + 与 stage-gate/T1/sub 任务卡的对接：
 `questioning-state-machine.md`（同目录）。
+
+**结构修正（D 2026-11-28 run #2 观察）**：质疑跑在分解**前面**，不是旁边——方向/前人这类前提层快刀，一刀能砍掉整个目标的分解工作（快结论，分解覆盖不了）。机制不宣称 general，限定本系统。
+运行实例：`tasks/rsi-pilot/sm-run2-pfb-goal.md`（对象=pfb 目标：快刀→一手事实核验→最短路径；推翻了 11-27 快照两处过时结论，重启了死掉的 q9 队列）。
