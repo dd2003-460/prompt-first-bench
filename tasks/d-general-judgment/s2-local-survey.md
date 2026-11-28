@@ -30,7 +30,7 @@
 1. **4 维 rubric 未定义**：方向/前人/更快/性价比 各维 0/1/2 分档、判据、可测量指标全部空缺（decomposition S1 待办）。没有 rubric 就没有命中率可言。
 2. **"先验质疑"的触发信号未知**：M11 触发器依赖模型自己说出的防御性语言；D 式质疑发生在缺口表述之前。本地没有"何时该质疑"的上游信号研究（比如：任何新方向/新实验设计出现即触发 4 维检查？还是某种输出特征？）——这是本 goal 与 M 线的核心分界，本地零覆盖。
 3. **"查前人"无自发行为基准**：M12 证明了不查，但没有"给检索工具的 27b 在 agent 循环里会不会自发先搜前人"的正向测量（redteam verdict 路线 A 未执行）。本地缺一个最小可复现的自发检索率 baseline。
-4. **"找更快/性价比"两维本地完全空白**：M0 七个机制 + T 系列全部围绕"想得深/想得对"，没有一条覆盖成本感知推理（何时该换更便宜的路径、产投比判断）。M13 的 budget 轴只测 accuracy-under-budget，不测"模型会不会主动选更便宜的解法"。
+4. **"找更快/性价比"两维：机制层空白，但有 2 个相邻锚点**：M0 七个机制 + T 系列全部围绕"想得深/想得对"，没有一条覆盖"让 LLM 自发做成本感知推理"（何时该换更便宜的路径、产投比判断）。M13 的 budget 轴只测 accuracy-under-budget，不测"模型会不会主动选更便宜的解法"。已核相邻锚点（2026-11-28 宽 grep 补查）：① `stage-ablation/decomposition-research-agi-budget.md`（Pareto 预算控制 goal，D 原话"性价比+最快路径"）= 实验设计层，非 LLM 自发判断机制；② `idea53-goal/idea53-study-note-20261125.md` L96 cost-aware 级联分类器 3 篇文献（1008.3742/2110.14256/1710.03368）= "找更快"维的前人方案线索，可作外查起点。
 5. **ground truth 标注方案未设计**：4 维判断命中率需要 D 的纠正信号或 LLM-judge 标注（decomposition S3 待办）；本地没有标注协议，也没有 D 纠正信号的结构化台账对接（qanda-ledger 存在但未对齐 4 维口径）。
 6. **strategic 层评测无 benchmark**：M0 gap-2 已声明（ARC-AGI 测抽象、知识冲突探针测选择行为，无单一 benchmark 测"strategic 判断成熟度"）；本地 OOD 探针（oood-general-probe）测的是核迁移，不测 4 维判断。
 
@@ -47,4 +47,5 @@
 
 ## 4. 检索记录
 - 本地 grep：pfb-thinkmech/tasks/（think-trigger、d-general-judgment、metacog skeleton）、D1-persona-align/memory/（objfunc-signal-log、general-thinking-template、d-thinking-mechanism-first-principles、research-thinking-vs-style）、pfb/experiments/stage-ablation/lit-survey/（仅 t24-receipt.md；decomp-prerequisite-survey.jsonl 在 arena agent workspace，本地无副本）。
+- 补查（gap-4 修正）：cost-aware/性价比/产投比/Pareto 宽关键词全量 grep 两目录 md，逐一核命中文件性质 → 机制层确无覆盖，但发现 2 个相邻锚点（research-agi-budget goal + idea53 cost-aware 级联文献），已写入 gap-4。
 - 注：`pfb/lit-survey/`（任务书所指路径）不存在，实为 `pfb/experiments/stage-ablation/lit-survey/`；65 篇 JSONL 原件不在本地，只有 t24-receipt 摘要可用。
