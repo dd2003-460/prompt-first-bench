@@ -71,6 +71,9 @@ REPS = [
     ("v1", "hw", 3),
     ("s1", "cyclone", 1),
     ("s1", "cyclone", 2),
+    ("s1", "mining", 1),
+    ("s1", "mining", 2),
+    ("s1", "mining", 3),
 ]
 
 
