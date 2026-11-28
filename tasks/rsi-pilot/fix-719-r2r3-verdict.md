@@ -1,0 +1,6 @@
+# fix-719-r2r3 verdict (2026-11-28 16:02 CST)
+
+r2/r3 现状: 未落盘(仅残留 22:19 旧 RESUME 阶段的 import 错误 stdout), 但**队列 v2 (pid 20729, 存活) 仍持有 r2/r3 的执行权** —— 脚本 q9_budget_scan_queue_v2.sh 串行循环含 "719 2"/"719 3"(带 1 次重试), 当前正阻塞等待 r1 (pid 31825, 存活, 16:01 仍在正常 LLM 调用, 约 2021 次 LLM 调用已完成) 结束后自行拉起 r2/r3; 且 v2 脚本第 11 行已 export 正确 PYTHONPATH(含 modules/D-decomp-state-machine/scripts, prompts.py 所在目录, 已验证 import 可解析), r1 由该队列以同环境成功启动即为佐证 —— 旧 r2/r3 失败是 22:19 v1 RESUME 脚本(cwd/env 不对)所致, 非 v2 的环境问题。我做了什么: **未手动补起**(若现在手动起 r2/r3, 会与队列稍后的执行双写同一 stdout 文件并竞争 SM 固定输出名 runs-s5-sm-q9-agi.json, 造成 300-r3 假文件类事故)。进程: 队列 20729 (PPID=1, 存活) / r1 31825 (队列子进程, 存活) / r2 r3 暂无(待 r1 完成后由队列拉起)。输出文件路径: r1 → modules/B-pipeline-ablation/data/q9-budget-scan/q9-719-r1-<ts>.json (队列 r1 完成后按 runs-s5-sm-q9-agi.json mtime 校验复制) / r2 r3 → 同目录 q9-719-r2-<ts>.json、q9-719-r3-<ts>.json。是否正常起跑: r1 正常; r2/r3 未起跑但将由队列自动接力(无需人工干预), 监控点 = /tmp/q9-budget-scan-queue.log 出现 "budget=719 rep=2 rc=0" 行。
+
+## 进度快照 (16:03 补)
+r1 进度: 最新观测节点 N456/719 (~63%), 14:25 启动, N1→N456 历时 ~1.4h (≈318 nodes/h, 节点号非严格单调, 此速率为上界估计, conf 中)。按此速率 r1 预计 16:40±30min 跑完; 之后队列自动接 r2 (预计 ~1.5-2h) → r3。全程无人工干预。webllm 端点 14:26 起全部 broken 被跳过 (r1 无检索态, 与 S0 伪影记录一致, 属已知行为非故障)。
