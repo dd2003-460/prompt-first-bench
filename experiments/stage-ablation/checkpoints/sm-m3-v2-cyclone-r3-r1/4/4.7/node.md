@@ -1,0 +1,24 @@
+# N22: 主导项论证结论：在大多数开阔海岸登陆场景中，‘能量切断+摩擦’的耦合效应占总衰减速率的 70-80%，其中能量切断是热力学驱动的主因（弹性系数 ∂V_max/∂
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+主导项论证结论：在大多数开阔海岸登陆场景中，‘能量切断+摩擦’的耦合效应占总衰减速率的 70-80%，其中能量切断是热力学驱动的主因（弹性系数 ∂V_max/∂Q_net ≈ 1.2 m/s per W/m²），而风切变仅为次要调制因子（贡献 < 20%），除非遭遇极端切变（>20 kt/3km）。
+
+## Corrected Claim
+
+在开阔海岸登陆场景中，‘能量切断+摩擦’的耦合效应通常主导总衰减速率，其中能量切断是主要驱动因素，风切变通常为次要调制因子，除非遭遇极端切变。
+
+## Evidence
+
+[质询]具体数值（70-80%占比、1.2 m/s per W/m²弹性系数）缺乏通用物理定律支持，属于特定研究或经验拟合结果，易受具体海况、台风结构及定义口径影响，存在将局部统计规律泛化为普遍结论的风险。 | 先验知识/题面给定，逻辑校验通过；但作为经验事实，缺乏外部来源直接支持具体数值，故降级。
+
+## Search Query
+
+dominant mechanism tropical cyclone landfill decay elastic coefficient friction vs energy cut off

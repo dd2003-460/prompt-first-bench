@@ -1,0 +1,20 @@
+# N78: 在长上下文 (>32k) 场景中，定义性能下降指标为 ΔAccuracy = (Acc_32k - Acc_L) / Acc_32k，其中 L ∈ {64k, 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22, N23, N24
+
+## Claim
+
+在长上下文 (>32k) 场景中，定义性能下降指标为 ΔAccuracy = (Acc_32k - Acc_L) / Acc_32k，其中 L ∈ {64k, 128k, 262k}，需在 GSM8K-CoT 或 MMLU-Pro 长文变体上分别测量三个长度点的准确率以拟合衰减曲线
+
+## Corrected Claim
+
+在长上下文 (>32k) 场景中，定义性能下降指标为 ΔAccuracy = (Acc_32k - Acc_L) / Acc_32k，其中 L ∈ {64k, 128k, 262k}，需在 GSM8K-CoT 或 MMLU-Pro 长文变体上分别测量三个长度点的准确率以拟合衰减曲线
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（1. 定义冲突（非正交）：父节点明确定义 ΔAccuracy = (Acc_32k - Acc_L) / Acc_32k，而子节点2将 ΔAcc 重新定义为 (Acc_noisy - Acc_clean) / Acc_clean，两者物理意义和计算基准完全不同，导致概念混淆。2. 覆盖缺失（不完备）：父节点要求“GSM8K-CoT 或 MMLU-Pro”两个数据集，但子节点仅详细描述了 GSM8K 的构造与测量，完全遗漏了 MMLU-Pro 长文变体的处理逻辑。3. 逻辑断层：子节点1提出的对数衰减模型 Acc(L) = ... 依赖于 Acc_32k 作为基准，但子节点2测量的 Acc_noisy 并未明确等同于子节点1中的 Acc(L)，且未说明如何从子节点2的具体实验数据映射到子节点1的拟合过程。）

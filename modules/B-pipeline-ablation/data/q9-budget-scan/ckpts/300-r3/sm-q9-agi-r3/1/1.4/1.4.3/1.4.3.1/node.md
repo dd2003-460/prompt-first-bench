@@ -1,0 +1,24 @@
+# N160: V100-SXM2 的 HBM2 带宽标称值为 900 GB/s per card，但在 vLLM 的 TP=4 推理过程中，实际有效带宽利用率 (Effect
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N46
+
+## Claim
+
+V100-SXM2 的 HBM2 带宽标称值为 900 GB/s per card，但在 vLLM 的 TP=4 推理过程中，实际有效带宽利用率 (Effective Bandwidth Utilization, EBU) 通常仅为 60-70%，原因包括：1) AllReduce 通信占用部分带宽；2) DRAM 预取效率损失；3) PCIe/NVLink 同步等待。因此，实际单卡有效带宽 ≈ 900 * 0.65 ≈ 585 GB/s。4 卡聚合有效带宽 ≈ 2340 GB/s。
+
+## Corrected Claim
+
+V100-SXM2 的 HBM2 带宽标称值为 900 GB/s per card。在 vLLM 的 TP=4 推理过程中，受 AllReduce 通信、内存访问模式等因素影响，实际有效带宽利用率通常低于 100%，具体数值依负载而定，一般估计在 60-80% 区间。
+
+## Evidence
+
+[质询]EBU 60-70% 的具体数值范围及归因（如将 PCIe 同步等待列为主要瓶颈之一）缺乏通用基准测试支持，属于特定场景下的经验估计，不同负载和实现下波动较大，且 NVLink 环境下 PCIe 等待通常不是主要带宽损失源。 | 先验知识/题面给定，逻辑校验通过；但 EBU 具体数值为经验事实，无来源直接支持，故降级。
+
+## Search Query
+
+V100 SXM2 effective HBM bandwidth utilization vLLM tensor parallelism benchmark

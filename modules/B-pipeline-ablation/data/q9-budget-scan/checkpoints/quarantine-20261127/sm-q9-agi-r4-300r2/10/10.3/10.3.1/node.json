@@ -1,0 +1,17 @@
+{
+  "id": "N222",
+  "claim": "并发优化的端到端时间改善率公式：ΔT_parallel = 1 - (1/N_eff)，其中 N_eff = min(max_num_seqs, L_batch / avg_tokens_per_req)；在 V100 TP=4 下，当 max_num_seqs=8 且请求长度 L_batch 导致 KV Cache 占用超过 12GB/卡时，N_eff 受限于显存而非序列数，此时若 L_batch < 8 * avg_tokens，N_eff = 1，改善率为 0%。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]公式 ΔT_parallel = 1 - (1/N_eff) 隐含了理想线性加速比假设，忽略了通信开销和计算重叠，且在 N_eff=1 时改善率为 0% 的结论过于绝对（实际可能有微小波动或负优化）；此外，N_eff 的定义将显存限制简化为 min 操作，忽略了动态批处理中显存压力对吞吐率的非线性影响。 | 先验知识/题面给定，逻辑校验通过，但缺乏外部来源支持具体阈值（12GB）及理想化公式的适用边界",
+  "corrected_claim": "并发优化的端到端时间改善率近似公式：ΔT_parallel ≈ 1 - (1/N_eff)，其中 N_eff 受限于 max_num_seqs 和显存容量决定的最大有效批大小；在 V100 TP=4 下，当显存成为瓶颈时，N_eff 显著降低，若有效并发度降至 1，则并行优化带来的理论加速比趋近于 1（即改善率趋近于 0%）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N87"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "vllm max_num_seqs kv cache memory limit throughput saturation",
+  "retrieval_sources": []
+}

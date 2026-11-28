@@ -1,0 +1,20 @@
+# N81: Qwen3-27B BF16 在单张 RTX 4090 上运行时的理论瓶颈为显存不足（需62-66GB vs 24GB），因此无法直接测量 BF16 单卡吞吐；
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+Qwen3-27B BF16 在单张 RTX 4090 上运行时的理论瓶颈为显存不足（需62-66GB vs 24GB），因此无法直接测量 BF16 单卡吞吐；实测数据应标记为 [不可行]，替代指标为 INT8/FP8 或 CPU Offload 混合模式下的 tokens/sec，误差范围 ±20% [待核验]。
+
+## Corrected Claim
+
+Qwen3-27B BF16 在单张 RTX 4090 上运行时的理论瓶颈为显存不足（需62-66GB vs 24GB），因此无法直接测量 BF16 单卡吞吐；实测数据应标记为 [不可行]，替代指标为 INT8/FP8 或 CPU Offload 混合模式下的 tokens/sec，误差范围 ±20% [待核验]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B参数量约270亿，BF16精度下权重占用约54GB，加上KV Cache及激活值，总显存需求远超RTX 4090的24GB，故无法直接运行，结论符合硬件与模型规模的基本物理限制。

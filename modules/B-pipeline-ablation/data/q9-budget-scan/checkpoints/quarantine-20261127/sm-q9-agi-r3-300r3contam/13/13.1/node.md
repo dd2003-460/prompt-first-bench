@@ -1,0 +1,24 @@
+# N228: FAISS 在 Apple M1 Max (16GB RAM) 上，针对 N=1000 条、维度 D=768 的浮点向量索引，执行单次 ANN 搜索（Top-K
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N90, N91
+
+## Claim
+
+FAISS 在 Apple M1 Max (16GB RAM) 上，针对 N=1000 条、维度 D=768 的浮点向量索引，执行单次 ANN 搜索（Top-K=10）的实测延迟约为 5-15ms，主要瓶颈在于内存带宽而非计算单元；该数值可通过 `faiss.IndexFlatIP` 基准测试脚本直接复现。
+
+## Corrected Claim
+
+FAISS 在 Apple M1 Max 上针对 N=1000, D=768 的浮点向量索引执行 Top-10 ANN 搜索的延迟通常在毫秒级（具体数值取决于系统负载与配置），主要开销通常与内存访问相关，但需通过实际基准测试确认具体延迟范围及瓶颈。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性能数据（5-15ms）和硬件特定结论（M1 Max 内存带宽瓶颈），属于经验事实。在无外部来源支持的情况下，无法验证具体数值量级及瓶颈归因的准确性，且不同实现细节（如线程数、预热状态）可能导致显著差异。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+FAISS IndexFlatIP latency benchmark Apple M1 Max 16GB vector dimension 768

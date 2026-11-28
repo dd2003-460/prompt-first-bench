@@ -1,0 +1,20 @@
+# N29: 黑盒变量2：边界层参数化的不确定性——当前数值模式（如 WRF-Hydro 或 HWRF）中，陆面边界层混合长度（Blending Length）的设定误差可达
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+黑盒变量2：边界层参数化的不确定性——当前数值模式（如 WRF-Hydro 或 HWRF）中，陆面边界层混合长度（Blending Length）的设定误差可达 ±20-40%，导致模拟的登陆后风速衰减率在 24 小时尺度上偏差高达 15-25 kt。
+
+## Corrected Claim
+
+黑盒变量2：边界层参数化的不确定性——当前数值模式（如 WRF-Hydro 或 HWRF）中，陆面边界层混合长度（Blending Length）的设定误差可达 ±20-40%，导致模拟的登陆后风速衰减率在 24 小时尺度上偏差高达 15-25 kt。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

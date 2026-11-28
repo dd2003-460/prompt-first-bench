@@ -1,0 +1,30 @@
+# N16: 环境水汽条件的影响：当环境 850 hPa 比湿 q850 < 10 g/kg 时，外流环流中的对流活动被抑制，眼墙替换过程失败，导致强度维持时间缩短 50%；
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+环境水汽条件的影响：当环境 850 hPa 比湿 q850 < 10 g/kg 时，外流环流中的对流活动被抑制，眼墙替换过程失败，导致强度维持时间缩短 50%；q850 每降低 1 g/kg，衰减速率增加 0.3-0.5 kt/h。
+
+## Corrected Claim
+
+环境低层水汽条件（如850 hPa比湿）对台风眼墙替换过程有显著影响，较低的环境比湿通常与更强的环境风切变和干燥空气侵入相关，可能导致眼墙替换失败并加速台风衰减，但具体阈值和衰减速率需结合特定案例或统计研究确定。
+
+## Evidence
+
+[质询]具体数值阈值（q850 < 10 g/kg）及量化影响（强度维持时间缩短50%、衰减速率增加0.3-0.5 kt/h）缺乏来源直接支持，且不同研究中对环境湿度影响台风强度的具体量化指标可能存在差异，属于经验事实而非第一性原理可推导内容。 | 参考来源[1][2][3]主要关注850hPa比湿的气候特征、CMIP5模拟或异常分析，未提供关于眼墙替换过程失败的具体阈值及衰减速率的定量关系，属于间接相关但无直接数据支持。
+
+## Search Query
+
+environmental moisture 850hPa specific humidity tropical cyclone weakening
+
+## Retrieval Sources
+
+- {'url': 'https://journals.ametsoc.org/view/journals/clim/26/17/jcli-d-12-00532.1.pdf&rut=5b4ed9b89bec9f54edad61b4617936a28df8304677b02f19f48b4f933ebab19f', 'type': 'ddg', 'title': 'PDF jcliD1200532 6257..6286'}
+- {'url': 'https://journals.ametsoc.org/view/journals/clim/26/17/jcli-d-12-00532.1.xml&rut=e339c0b24db03b0cd40a4f49ae2f481e2583d386d462cdc9db8818d98fb7693e', 'type': 'ddg', 'title': 'CMIP5 Simulations of Low-Level Tropospheric Temperature and Moisture ...'}
+- {'url': 'https://www.researchgate.net/figure/The-a-original-850-hPa-wind-vector-and-700-hPa-specific-humidity-anomalies-shaded-g_fig1_323863110&rut=6f8d351c6cc30672f86eae7a82bc953b1df84bc73d538c44ad4d01d59ab9c207', 'type': 'ddg', 'title': 'The (a) original 850-hPa wind (vector) and 700-hPa specific humidity ...'}

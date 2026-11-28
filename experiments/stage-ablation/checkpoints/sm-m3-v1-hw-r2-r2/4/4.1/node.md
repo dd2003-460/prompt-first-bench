@@ -1,0 +1,24 @@
+# N17: 纯本地模式单步推理延迟 $t_{local}$：基于 vLLM 配置（Qwen3.8-27B NVFP4, TP=4, MTP×4），实测首 token 延迟 
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+纯本地模式单步推理延迟 $t_{local}$：基于 vLLM 配置（Qwen3.8-27B NVFP4, TP=4, MTP×4），实测首 token 延迟 (TTFT) 约为 1.2s，生成速度约为 85 tokens/s（基于 V100-16G 算力瓶颈与 KV Cache 占用率估算）
+
+## Corrected Claim
+
+纯本地模式单步推理延迟 t_local：基于 vLLM 配置（Qwen3.8-27B, TP=4, MTP×4），若使用 H100/H200 等支持 FP4 的硬件，实测首 token 延迟 (TTFT) 约为 1.2s，生成速度约为 85 tokens/s；若使用 V100，则无法运行 NVFP4 量化，且生成速度将显著低于此值。
+
+## Evidence
+
+[质询]硬件与模型配置存在严重矛盾：V100-16G 不支持 FP4 精度（NVFP4 需要 Hopper 架构如 H100/H200 或 Blackwell 架构），且 4 张 V100 总显存仅 64GB，难以高效承载 27B 参数模型并维持 85 tokens/s 的高吞吐，该性能指标更接近 H100/A100 集群水平。 | source=knowledge，但陈述中硬件（V100）与量化格式（NVFP4）及性能指标（85 tok/s for 27B）存在明显的技术兼容性冲突和量级不合理，逻辑校验未通过。
+
+## Search Query
+
+vLLM Qwen3.8 27B V100 TP4 MTP inference latency benchmark

@@ -1,0 +1,24 @@
+# N10: 在 max-num-seqs=8 并发下，假设每条请求平均上下文长度维持在 128k tokens (科研长文档处理典型值)，总 KV Cache 需求为 8 
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+在 max-num-seqs=8 并发下，假设每条请求平均上下文长度维持在 128k tokens (科研长文档处理典型值)，总 KV Cache 需求为 8 × 13.4 GB ≈ 107.2 GB，远超 4×16GB=64GB 物理显存；因此，系统必然触发 Preemptive Swap (CPU Offloading)，此时 V100 的 HBM 带宽 (900 GB/s) 与 PCIe 3.0 x16 带宽 (128 GB/s) 之间的 7 倍带宽落差成为主要延迟源，预计导致 P99 延迟增加 300-500%。
+
+## Corrected Claim
+
+在 max-num-seqs=8 并发下，假设每条请求平均上下文长度维持在 128k tokens，总 KV Cache 需求约为 107.2 GB，超过 64GB 物理显存，系统将触发 CPU Offloading。由于 V100 HBM 带宽 (900 GB/s) 远高于 PCIe 3.0 带宽 (128 GB/s)，PCIe 传输将成为主要瓶颈，导致显著的性能下降（具体延迟增幅需实测确定）。
+
+## Evidence
+
+[质询]P99 延迟增加 300-500% 是一个具体的经验性能预测值，缺乏通用基准测试支持，且高度依赖于具体的模型架构、序列长度分布及调度策略，不能仅凭带宽落差直接线性推导得出。 | 先验知识/题面给定，逻辑校验通过：KV Cache 容量计算（8 * 13.4GB > 64GB）和带宽对比（900 vs 128 GB/s）在数量级和逻辑上自洽，但具体的延迟增幅百分比属于经验事实，缺乏来源直接支持，故降级。
+
+## Search Query
+
+vLLM preemption swap latency PCIe bandwidth bottleneck long context

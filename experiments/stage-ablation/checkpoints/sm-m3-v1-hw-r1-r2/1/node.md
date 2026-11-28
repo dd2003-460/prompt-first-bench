@@ -1,0 +1,16 @@
+# N1: 硬件能力边界与瓶颈分析：评估 4x V100-16GB 集群在 TP=4 下运行 Qwen3-27B (NVFP4) 的理论算力上限、显存瓶颈位置（KV Cac
+
+- **status**: pending
+- **level**: L1
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+硬件能力边界与瓶颈分析：评估 4x V100-16GB 集群在 TP=4 下运行 Qwen3-27B (NVFP4) 的理论算力上限、显存瓶颈位置（KV Cache vs Weights）、以及 MTP 投机解码带来的实际加速比，确定本地推理的物理天花板。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（子节点严重偏离父节点主题。父节点聚焦于'硬件能力边界与瓶颈分析'（算力、显存、MTP加速），但子节点6、7、8涉及Agent架构设计、Prompt工程及跨设备调度策略，属于软件架构与系统部署范畴，与硬件物理天花板分析无关，导致正交性破坏和完备性偏差（引入了无关维度）。此外，子节点2中KV Cache计算逻辑存在技术错误（未正确体现TP对KV Head的切分或全局KV总量混淆），且子节点5的吞吐量估算缺乏对Prefill阶段（Compute-bound）与Decode阶段（Memory-bound）的区分，分析不够严谨。）

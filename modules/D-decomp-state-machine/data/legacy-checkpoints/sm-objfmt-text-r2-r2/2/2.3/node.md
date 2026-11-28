@@ -1,0 +1,24 @@
+# N14: 非典型/边缘方案包括 Apple M2/M3 Max/Ultra (统一内存 64-128GB), Mac Studio 集群，以及基于 CPU+大内存 (如 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+非典型/边缘方案包括 Apple M2/M3 Max/Ultra (统一内存 64-128GB), Mac Studio 集群，以及基于 CPU+大内存 (如 256GB DDR5) 的 llama.cpp 纯 CPU 推理方案，需评估其内存带宽限制导致的延迟瓶颈
+
+## Corrected Claim
+
+非典型/边缘方案包括 Apple M2/M3 Max/Ultra (统一内存 64-128GB), Mac Studio 集群，以及基于 CPU+大内存 (如 256GB DDR5) 的 llama.cpp 纯 CPU 推理方案，需评估其内存带宽限制导致的延迟瓶颈
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Apple M系列芯片确实采用统一内存架构且最高可达128GB，Mac Studio支持多节点集群，llama.cpp支持纯CPU推理且受限于DDR5内存带宽，这些均为已知的硬件特性与软件行为，符合物理与经济直觉。
+
+## Search Query
+
+Mac M3 Ultra unified memory LLM inference performance

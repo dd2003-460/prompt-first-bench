@@ -1,0 +1,28 @@
+# N24: 人工抽查的‘可发表级’判定量化指标体系：定义基于BLEU-4（用于摘要/结论）和ROUGE-L（用于引用匹配）的自动初筛分数阈值，以及专家盲评中‘逻辑谬误’和‘
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N4, N5
+
+## Claim
+
+人工抽查的‘可发表级’判定量化指标体系：定义基于BLEU-4（用于摘要/结论）和ROUGE-L（用于引用匹配）的自动初筛分数阈值，以及专家盲评中‘逻辑谬误’和‘数据捏造’的二元判定矩阵，将主观评价转化为可计算的通过概率 $P_{pass} > 0.9$。
+
+## Corrected Claim
+
+提出了一种基于BLEU-4和ROUGE-L自动初筛结合专家盲评（逻辑谬误/数据捏造二元判定）的量化指标体系，旨在将主观评价转化为可计算的通过概率（如设定P_pass > 0.9为通过标准）。
+
+## Evidence
+
+[质询]该陈述描述了一套特定的、非通用的内部评估协议（包含具体的阈值设定、二元判定矩阵及概率公式），这属于经验性/操作性定义，而非从第一性原理可推导的客观事实。此外，参考来源仅涉及BLEU的基础原理，完全未提及ROUGE-L、专家盲评矩阵或P_pass>0.9的具体阈值，无法提供外部支持。 | 逻辑上自洽（将主观评价量化为概率是合理的评估方法论），但作为经验事实（具体参数和流程定义），缺乏来源直接支持（来源[1]仅解释BLEU基础，未覆盖该特定协议细节），故降级。
+
+## Search Query
+
+quantitative metrics for peer review quality assessment AI-generated scientific papers BLEU ROUGE
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/338488036&rut=ea757ab216f202d1f8997cf13bd164df5e82de786db851510552ce97b9049b12', 'type': 'ddg', 'title': 'BLEU score评估模型 - 知乎'}

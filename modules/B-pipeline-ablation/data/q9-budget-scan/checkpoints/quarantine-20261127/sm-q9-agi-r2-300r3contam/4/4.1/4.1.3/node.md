@@ -1,0 +1,28 @@
+# N64: 投机解码拒绝率 p_reject 与任务复杂度的关系：p_reject = 1 - η，η 随输入熵增加而降低；在数学证明任务中 η≈0.5 (p_reject
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+投机解码拒绝率 p_reject 与任务复杂度的关系：p_reject = 1 - η，η 随输入熵增加而降低；在数学证明任务中 η≈0.5 (p_reject=0.5)，在代码补全中 η≈0.8 (p_reject=0.2)；调度边界 L_switch = (C_api_per_token * L / (1-p_reject) + T_overhead) / (1/Throughput_local - 1/Throughput_api)
+
+## Corrected Claim
+
+投机解码拒绝率 p_reject 通常随任务复杂度（输入熵）增加而升高（即接受率 η 降低）；在数学证明等高熵任务中接受率通常低于代码补全等低熵任务；调度边界 L_switch 取决于 API 与本地推理的成本及延迟权衡，具体数值需根据实际系统参数计算。
+
+## Evidence
+
+[质询]具体数值（η≈0.5, η≈0.8）和调度边界公式属于特定实验条件下的经验数据或特定论文结论，并非通用物理定律或第一性原理可推导的普适常数；不同模型、数据集和硬件配置下这些数值会有显著差异，直接断言为固定值缺乏普遍性依据。 | 来源[1]仅介绍投机解码的基本原理，未提供具体的拒绝率数值或调度边界公式，属于间接相关但无直接数据支持；该陈述包含具体经验参数，符合经验事实排除条款，故降级。
+
+## Search Query
+
+speculative decoding rejection rate task complexity entropy relationship scheduling boundary
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/15575453436&rut=0dcfa8bca0908c95a25cdefddd8f1275db7522db2bff14b0882ee7a8f4af0ba5', 'type': 'ddg', 'title': '投机解码（Speculative Decoding）详解 - 知乎'}

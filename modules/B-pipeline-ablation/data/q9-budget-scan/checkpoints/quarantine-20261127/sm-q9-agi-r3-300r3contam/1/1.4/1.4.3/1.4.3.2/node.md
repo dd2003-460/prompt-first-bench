@@ -1,0 +1,20 @@
+# N116: Self-Critique 闭环后的存活率计算：Survival Rate = N_survived_hypotheses / N_initial_hypoth
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+Self-Critique 闭环后的存活率计算：Survival Rate = N_survived_hypotheses / N_initial_hypotheses，其中 N_survived 为通过逻辑一致性检查和文献冲突检查的假设数；27B 模型单次生成的假设中，约 30%-40% 存在逻辑漏洞或与已知事实矛盾，经 Self-Critique 后存活率通常为 15%-25%；若存活率 < 20%，表明模型内部知识图谱稀疏，需增加生成数量 N_initial 或使用更强模型进行交叉验证。
+
+## Corrected Claim
+
+Self-Critique 闭环后的存活率计算：Survival Rate = N_survived_hypotheses / N_initial_hypotheses，其中 N_survived 为通过逻辑一致性检查和文献冲突检查的假设数；27B 模型单次生成的假设中，约 30%-40% 存在逻辑漏洞或与已知事实矛盾，经 Self-Critique 后存活率通常为 15%-25%；若存活率 < 20%，表明模型内部知识图谱稀疏，需增加生成数量 N_initial 或使用更强模型进行交叉验证。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性统计数据（27B模型假设存活率15%-25%、初始缺陷率30%-40%），这些数值并非从第一性原理或数学公理推导出的必然结论，而是依赖于特定实验设置、提示词工程和评估标准的经验观测值，缺乏通用性和确定性。 | 逻辑自洽（定义清晰，阈值设定符合工程直觉），但作为knowledge节点，其核心支撑在于具体的经验数值。虽然source=knowledge允许逻辑自洽即verified，但鉴于这些具体百分比属于高度依赖上下文的经验事实而非稳定工程常数（如LRU命中率量级），且无外部来源佐证其普适性，依据审慎原则及经验事实排除条款的精神（尽管条款主要限制search，但knowledge中非稳定参数亦应谨慎），将其降级为定性描述更为严谨。然而，根据题目硬性约束：'source=given/knowledge 的节点：逻辑自洽即判 verified... 禁止对 given/knowledge 节点引用本条款降级'。因此，必须重新评估。题目明确指出：'若 source 为 given 或 knowledge：核验重点变为「逻辑自洽 + 数值量级合理」，无需外部来源支持即可判 verified... 经验事实排除条款对 given/knowledge 节点不适用'。既然逻辑自洽且数值量级（30-40%错误率，15-25%存活率）在LLM幻觉和推理错误的一般认知范围内是合理的，且无来源矛盾，应判 verified。之前的degraded判断违反了硬性约束。修正：status应为verified。

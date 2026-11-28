@@ -1,0 +1,30 @@
+# N24: 缺乏共识的物理过程：登陆后对流调整时间尺度τ_c在数值模式中差异巨大（WRF: 2-4hr, GFS: 6-8hr），导致对弱风暴（对流主导）的强度维持预测偏差
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+缺乏共识的物理过程：登陆后对流调整时间尺度τ_c在数值模式中差异巨大（WRF: 2-4hr, GFS: 6-8hr），导致对弱风暴（对流主导）的强度维持预测偏差可达±20%。
+
+## Corrected Claim
+
+登陆后对流调整时间尺度τ_c在数值模式中因参数化方案不同而存在显著差异，这种不确定性会导致对弱风暴（对流主导）的强度维持预测产生较大偏差。
+
+## Evidence
+
+[质询]具体数值（WRF 2-4hr, GFS 6-8hr, ±20%偏差）属于特定研究或配置下的经验数据，缺乏通用性，且参考来源中未包含这些具体数值，存在将局部实验结果泛化为普遍共识风险。 | 来源[1][2]证实了‘对流响应非瞬时’及‘时间尺度存在不确定性’这一核心物理机制，支持了‘缺乏共识’的定性描述，但未提供具体的模式时间尺度数值或预测偏差百分比，故降级为定性表述。
+
+## Search Query
+
+convection adjustment timescale differences in WRF and GFS models for tropical cyclones
+
+## Retrieval Sources
+
+- {'url': 'https://as.nju.edu.cn/e4/88/c11320a582792/page.htm&rut=07ef507310b1f39781832a69bfc33dca22c550e87f71ff3b7f3c0572fe9aa49d', 'type': 'ddg', 'title': '我院谈哲敏院士团队最新研究揭示热带对流响应的时间尺度及物理过程'}
+- {'url': 'https://meso.nju.edu.cn/fzlm/kyjz/20220606/i223364.html&rut=3d0ba9565151d217f1c2ac17aff228cb297f33a27703c9319a8ac1988297270d', 'type': 'ddg', 'title': '南京大学中尺度动力学与台风研究团队 | Mesoscale ... - NJU'}
+- {'url': 'https://cloud.tencent.com/developer/article/2674426&rut=68af58bdccc6043373a6a5dced08052627a59f4a48314b5e4df215b972657561', 'type': 'ddg', 'title': '数值模式 | Wrf 对流参数化方案怎么选-腾讯云开发者社区-腾讯云'}

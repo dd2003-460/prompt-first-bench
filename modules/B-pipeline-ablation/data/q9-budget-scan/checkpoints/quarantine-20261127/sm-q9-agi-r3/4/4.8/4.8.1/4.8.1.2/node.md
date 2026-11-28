@@ -1,0 +1,24 @@
+# N248: Logit 熵 H = -Σ P(t) * log(P(t)) 在生成过程中动态变化；当 H > 1.5 nats 时，通常预示模型处于高不确定性状态，此时触发
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N86
+
+## Claim
+
+Logit 熵 H = -Σ P(t) * log(P(t)) 在生成过程中动态变化；当 H > 1.5 nats 时，通常预示模型处于高不确定性状态，此时触发 HR 检测的假阳性率显著高于 H < 0.5 时。
+
+## Corrected Claim
+
+Logit 熵 H = -Σ P(t) * log(P(t)) 在生成过程中动态变化；通常 H 较高时预示模型处于高不确定性状态，此时触发 HR 检测的假阳性率往往高于 H 较低时，但具体阈值（如 1.5 nats vs 0.5 nats）需根据具体模型和数据集校准。
+
+## Evidence
+
+[质询]阈值 1.5 nats 和 0.5 nats 以及‘假阳性率显著高于’的具体量化关系缺乏通用标准支持，属于特定实验设定下的经验观察，而非普适的物理或数学定律；不同模型架构和数据分布下，熵与HR检测假阳性率的关联强度及阈值可能完全不同。 | 先验知识/题面给定，逻辑校验通过（熵高对应不确定性高符合信息论直觉），但具体阈值及统计显著性为经验事实，无外部来源支持，故降级。
+
+## Search Query
+
+LLM logit entropy threshold uncertainty detection hallucination rate

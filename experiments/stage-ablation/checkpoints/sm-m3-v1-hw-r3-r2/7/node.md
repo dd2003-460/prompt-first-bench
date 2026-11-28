@@ -1,0 +1,20 @@
+# N34: 在4×V100-16GB硬件约束下，实现'执行'模块的计算密集型任务（如大规模矩阵运算或仿真）需依赖CPU卸载或轻量级本地GPU加速，V100不支持INT8推理
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在4×V100-16GB硬件约束下，实现'执行'模块的计算密集型任务（如大规模矩阵运算或仿真）需依赖CPU卸载或轻量级本地GPU加速，V100不支持INT8推理加速（相比A100/T4），导致计算密集型步骤的耗时占比预计超过总循环时间的40%，成为'执行'模块的主要延迟源。
+
+## Corrected Claim
+
+在4×V100-16GB硬件约束下，实现'执行'模块的计算密集型任务（如大规模矩阵运算或仿真）需依赖CPU卸载或轻量级本地GPU加速，V100不支持INT8推理加速（相比A100/T4），导致计算密集型步骤的耗时占比预计超过总循环时间的40%，成为'执行'模块的主要延迟源。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

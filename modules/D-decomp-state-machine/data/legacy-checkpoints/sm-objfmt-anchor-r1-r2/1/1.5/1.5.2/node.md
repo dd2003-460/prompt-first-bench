@@ -1,0 +1,24 @@
+# N48: 二手 Tesla P40 (24GB GDDR5) 的显存带宽为 384 GB/s，TDP 250W，无视频输出接口，二手市场价格约 $400-$600 (20
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+二手 Tesla P40 (24GB GDDR5) 的显存带宽为 384 GB/s，TDP 250W，无视频输出接口，二手市场价格约 $400-$600 (2024 Q4 均价)，驱动支持上限为 CUDA 12.x，不支持 FP8 指令集。
+
+## Corrected Claim
+
+二手 Tesla P40 (24GB GDDR5) 的显存带宽为 384 GB/s，TDP 250W，无视频输出接口，不支持 FP8 指令集。二手市场价格及最新驱动支持情况需查询实时市场数据。
+
+## Evidence
+
+[质询]该陈述包含多个具体的经验性参数（显存带宽、TDP、价格区间、驱动版本上限、指令集支持情况），这些均属于特定硬件的市场和工程规格，无法从第一性原理推导。由于缺乏外部来源支持，且二手市场价格随时间波动大，具体数值（如$400-$600）和驱动上限（CUDA 12.x）可能存在时效性或准确性偏差。 | 经验事实，逻辑自洽但缺来源支持。Tesla P40 确为无视频输出的计算卡，GDDR5 显存带宽 384 GB/s 和 TDP 250W 符合其公开规格常识，但具体二手价格和驱动细节需实时数据验证。
+
+## Search Query
+
+Tesla P40 24GB used price CUDA support FP8 limitations 2024

@@ -1,0 +1,20 @@
+# N86: 后期（>1个月）并发优化边际效用量化：将max-num-seqs从8提升至16，KV cache显存需求翻倍（从8.6GB/卡至17.2GB/卡，见N7），超出
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+后期（>1个月）并发优化边际效用量化：将max-num-seqs从8提升至16，KV cache显存需求翻倍（从8.6GB/卡至17.2GB/卡，见N7），超出V100 16GB限制，需牺牲max_model_len或放弃FP8 KV，导致吞吐仅提升~20%（而非线性100%），ROI < 1.5x
+
+## Corrected Claim
+
+后期（>1个月）并发优化边际效用量化：将max-num-seqs从8提升至16，KV cache显存需求翻倍（从8.6GB/卡至17.2GB/卡，见N7），超出V100 16GB限制，需牺牲max_model_len或放弃FP8 KV，导致吞吐仅提升~20%（而非线性100%），ROI < 1.5x
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache显存与序列数成正比（8->16翻倍符合线性关系），受限于V100 16GB显存导致无法线性扩展吞吐，符合LLM推理资源瓶颈的基本原理。

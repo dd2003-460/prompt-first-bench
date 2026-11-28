@@ -1,0 +1,20 @@
+# N71: Qwen3-27B 在 W4A8 量化下，权重文件大小精确为 13.5 GB (27B * 0.5 bytes)，加上 KV Cache (BF16) 约 4-
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+Qwen3-27B 在 W4A8 量化下，权重文件大小精确为 13.5 GB (27B * 0.5 bytes)，加上 KV Cache (BF16) 约 4-6 GB，总显存需求约 17.5-19.5 GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 W4A8 量化下，权重文件大小精确为 13.5 GB (27B * 0.5 bytes)，加上 KV Cache (BF16) 约 4-6 GB，总显存需求约 17.5-19.5 GB。
+
+## Evidence
+
+[质询]KV Cache 的大小高度依赖于序列长度（context length）和批处理大小（batch size），并非固定值。若序列极长或并发高，KV Cache 远超 4-6 GB；若序列短，则可能小于此值。因此“约 4-6 GB”是一个特定场景下的估算，而非绝对常数。 | 先验知识/题面给定，逻辑校验通过。权重计算正确：27B 参数 * 0.5 bytes/param (W4) = 13.5 GB。KV Cache 估算在常见中等上下文长度（如 4k-8k tokens）下量级合理。总显存需求符合线性叠加逻辑。

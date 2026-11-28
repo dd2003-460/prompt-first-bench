@@ -1,0 +1,24 @@
+# N10: MTP投机解码接受率：MTP×4配置下，Qwen3.8-27b的token接受率随任务复杂度（科研文献分析vs代码生成）变化，需实测不同任务类型的接受率分布（预
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+MTP投机解码接受率：MTP×4配置下，Qwen3.8-27b的token接受率随任务复杂度（科研文献分析vs代码生成）变化，需实测不同任务类型的接受率分布（预期接受率<60%时MTP收益为负）
+
+## Corrected Claim
+
+MTP投机解码的收益取决于token接受率，通常认为接受率低于一定阈值（如50%-60%区间，具体需视硬件开销而定）时MTP可能带来负收益；Qwen3.8-27b在不同任务下的具体接受率分布需通过实测确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（接受率<60%时收益为负）和特定模型（Qwen3.8-27b）的性能预期，属于经验事实，无法从第一性原理严格推导，且缺乏实测数据支持。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+Multi-Token Prediction speculative decoding acceptance rate Qwen3 27b task complexity distribution vLLM

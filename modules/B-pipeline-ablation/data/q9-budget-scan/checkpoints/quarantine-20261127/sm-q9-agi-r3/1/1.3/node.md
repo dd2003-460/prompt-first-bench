@@ -1,0 +1,20 @@
+# N9: TP=4 切分下，每张 V100 承载约 3.375 GB 模型权重，剩余 ~12.6 GB 用于 KV cache 和激活值；在 max_model_len=
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+TP=4 切分下，每张 V100 承载约 3.375 GB 模型权重，剩余 ~12.6 GB 用于 KV cache 和激活值；在 max_model_len=262144 下，KV cache 占用将迅速逼近显存上限，限制并发数 (max-num-seqs=8) 的实际有效 batch size。
+
+## Corrected Claim
+
+TP=4 切分下，每张 V100 承载约 3.375 GB 模型权重，剩余 ~12.6 GB 用于 KV cache 和激活值；在 max_model_len=262144 下，KV cache 占用将迅速逼近显存上限，限制并发数 (max-num-seqs=8) 的实际有效 batch size。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 32GB 显存减去 4 卡 TP 分摊的 3.375GB 权重（总权重约 13.5GB，符合 7B 模型 FP16 量级），剩余约 28.6GB 用于 KV Cache 和激活值；在 262k 长上下文下，KV Cache 占用极大，限制并发数为 8 符合工程常识。

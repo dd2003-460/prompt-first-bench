@@ -1,0 +1,20 @@
+# N7: 将科研循环中的'提出假设'操作化为生成N个候选假设，其中N受限于上下文窗口长度与生成时间，具体公式为 N = floor(max_model_len / avg
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+将科研循环中的'提出假设'操作化为生成N个候选假设，其中N受限于上下文窗口长度与生成时间，具体公式为 N = floor(max_model_len / avg_token_per_hypothesis) - system_prompt_tokens
+
+## Corrected Claim
+
+将科研循环中的'提出假设'操作化为生成N个候选假设，其中N受限于上下文窗口长度与生成时间，具体公式为 N = floor(max_model_len / avg_token_per_hypothesis) - system_prompt_tokens
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

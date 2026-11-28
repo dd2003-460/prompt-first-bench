@@ -1,0 +1,24 @@
+# N32: 陆地替代潜热输入的感热通量 $F_s$ 补偿能力评估：陆地感热通量通常为 50-100 W/m²（白天），仅为原潜热输入的 30-50%，且无法提供凝结潜热，无
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+陆地替代潜热输入的感热通量 $F_s$ 补偿能力评估：陆地感热通量通常为 50-100 W/m²（白天），仅为原潜热输入的 30-50%，且无法提供凝结潜热，无法弥补对流能量缺口。
+
+## Corrected Claim
+
+陆地替代潜热输入的感热通量 $F_s$ 补偿能力评估：陆地感热通量通常为 50-100 W/m²（白天），仅为原潜热输入的 30-50%，且无法提供凝结潜热，无法弥补对流能量缺口。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：陆地感热通量典型值（50-100 W/m²）与海洋潜热通量（~100-200 W/m²）的量级对比符合气候学常识，且陆地缺乏水分蒸发导致无法提供凝结潜热的物理机制正确。
+
+## Search Query
+
+sensible heat flux compensation for latent heat loss over land tropical cyclone energetics

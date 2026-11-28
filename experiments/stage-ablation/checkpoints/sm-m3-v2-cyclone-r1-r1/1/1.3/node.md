@@ -1,0 +1,29 @@
+# N9: 能量收支失衡导致的总能量耗散率：登陆后热带气旋内部总动能的衰减速率 dE/dt ≈ -P_friction - P_adiabatic + P_heat_inp
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+能量收支失衡导致的总能量耗散率：登陆后热带气旋内部总动能的衰减速率 dE/dt ≈ -P_friction - P_adiabatic + P_heat_input，其中 P_heat_input 在陆地上趋近于 0，而 P_friction 占主导；典型强台风登陆后首小时能量损失约 10^18 J，相当于最大风速降低 10-15 kt。
+
+## Corrected Claim
+
+登陆后热带气旋内部总动能的衰减速率 dE/dt ≈ -P_friction - P_adiabatic + P_heat_input，其中 P_heat_input 在陆地上趋近于 0，而 P_friction 占主导；典型强台风登陆后首小时能量损失显著，导致最大风速明显降低（具体数值依台风强度而异）。
+
+## Evidence
+
+[质询]具体数值（10^18 J/h 和 10-15 kt）缺乏来源直接支持，且不同强度台风的能量尺度差异巨大，该数值可能仅适用于特定案例而非普遍规律；此外，10^18 J 对应的风速降低幅度需结合具体台风半径和质量估算，不同假设下结果可能偏差较大。 | 来源[1]和[2]支持了能量收支框架及摩擦主导的定性结论，但未提供具体的能量损失数值（10^18 J）或对应风速降低量（10-15 kt），属于经验事实缺来源支持。
+
+## Search Query
+
+tropical cyclone energy budget landfall dissipation rate
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/4ac00d199cc3d5bbfd0a79563c1ec5da51e2d6f4&rut=0635d28039b975dccbfee1143e1b3841759a8c3410a3626141a5747bc2ec5554', 'type': 'ddg', 'title': '【doc】两类不同路径热带气旋登陆前后的总能量对比分析'}
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=4cbffb008054fb80a390463c80495c5a&rut=3eda66e9371ff20308f6c95bc3a4d3c95fb3d9fb95c24aa3af5a8e1dc10691d7', 'type': 'ddg', 'title': '热带气旋登陆维持和迅速消亡的诊断研究 - 百度学术'}

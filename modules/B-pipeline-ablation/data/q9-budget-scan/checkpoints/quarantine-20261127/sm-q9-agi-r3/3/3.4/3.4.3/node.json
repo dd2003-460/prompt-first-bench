@@ -1,0 +1,28 @@
+{
+  "id": "N59",
+  "claim": "PP=2 对 KV Cache 显存分布的影响：PP 将模型层切分到不同卡，但 KV Cache 通常只存在于最后一层 (或每层独立缓存取决于实现)。若 KV Cache 集中在 Stage 2，则 Stage 2 的 V100 显存压力为 KV_size_total，而 Stage 1 几乎无 KV 压力。需验证 vLLM PP 模式下 KV Cache 是否均匀分布或集中，以确定瓶颈卡显存占用是否仍受限于单卡 16GB。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]陈述中关于KV Cache在PP模式下分布情况的描述存在不确定性（'通常只存在于最后一层...或每层独立缓存'），且未明确vLLM的具体实现细节，可能导致对显存瓶颈的判断偏差。 | 来源[1]和[2]讨论了多卡并行下KV Cache的策略，但未直接提供vLLM PP模式下KV Cache分布的具体实证数据，属于间接支持。",
+  "corrected_claim": "PP=2 对 KV Cache 显存分布的影响取决于具体实现：若 KV Cache 集中在 Stage 2，则 Stage 2 的 V100 显存压力显著增加；若均匀分布，则压力分散。需查阅 vLLM 文档或源码确认其 PP 模式下 KV Cache 的具体分配策略，以准确评估单卡 16GB 显存的瓶颈情况。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N19"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM pipeline parallelism KV cache memory distribution per stage",
+  "retrieval_sources": [
+    {
+      "url": "https://zhuanlan.zhihu.com/p/2055312961711891555&rut=cebdb6847a1ddfe9335152e7ccbfae75edb0078c831a10093fb3f13d9fbbc758",
+      "type": "ddg",
+      "title": "KV Cache 从入门到精通 · 第7章：多卡并行与分布式 KV Cache——TP/PP/EP 下的缓存策略"
+    },
+    {
+      "url": "https://zhuanlan.zhihu.com/p/2016843212178882587&rut=8e803a820f33848ed771468062d9d238107325445a03b2b31896193e1fb2b70f",
+      "type": "ddg",
+      "title": "KV Cache 深度解析：从原理到工程优化的完整指南 - 知乎"
+    }
+  ]
+}

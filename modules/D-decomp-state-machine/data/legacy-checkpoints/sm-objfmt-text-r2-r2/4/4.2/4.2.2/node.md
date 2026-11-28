@@ -1,0 +1,30 @@
+# N78: RTX 5090 作为新一代候选，其 MSRP 预计维持在 $1,999 左右，但首发溢价可能导致初期实际成交价在 $2,200 以上，需将其作为 RTX 40
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+RTX 5090 作为新一代候选，其 MSRP 预计维持在 $1,999 左右，但首发溢价可能导致初期实际成交价在 $2,200 以上，需将其作为 RTX 4090 的高成本替代项纳入对比。
+
+## Corrected Claim
+
+RTX 5090 作为新一代候选，其 MSRP 预计维持在 $1,999 左右，但首发溢价可能导致初期实际成交价在 $2,200 以上，需将其作为 RTX 4090 的高成本替代项纳入对比。
+
+## Evidence
+
+来源[1]和[2]明确确认RTX 5090的MSRP为$1,999，且来源[1]指出因供应短缺导致实际价格远高于此，支持了关于MSRP及首发溢价导致高成本的陈述。
+
+## Search Query
+
+NVIDIA RTX 5090 launch price MSRP actual street price
+
+## Retrieval Sources
+
+- {'url': 'https://thedroidguy.com/rtx-5090-price-vs-msrp-1296170&rut=0604f075a999169672535d125443a087afaecf46d597ffe74ba66f499dd45636', 'type': 'ddg', 'title': 'Why Is The RTX 5090 So Expensive, And Will It Drop To $1,999?'}
+- {'url': 'https://videocardz.com/newz/nvidia-geforce-rtx-5090-finally-drops-to-1999-in-us-rtx-5080-dips-7-below-msrp&rut=e2b5973ccf6133ffaeac5c7a525d1c05f347894efe2003c48c8f031e1bf672d8', 'type': 'ddg', 'title': 'NVIDIA GeForce RTX 5090 finally drops to $1999 in US, RTX 5080 dips 7% ...'}
+- {'url': 'https://dasroot.net/posts/2025/06/rtx-5090-pricing/&rut=dc0139cb3bb382a646cfb03b465345cdb32754f598efa04118af0b3275bb281f', 'type': 'ddg', 'title': 'RTX 5090 Current Pricing: High Prices, Scalping & Alternatives'}

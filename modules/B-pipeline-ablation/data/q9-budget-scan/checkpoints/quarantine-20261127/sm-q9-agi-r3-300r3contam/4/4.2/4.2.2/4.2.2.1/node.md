@@ -1,0 +1,20 @@
+# N162: 针对N56的N=5投票，错误独立性假设的失效量化：引入错误相关系数ρ_corr后，联合错误概率P_joint_error = P_single^5 * (1 +
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N56
+
+## Claim
+
+针对N56的N=5投票，错误独立性假设的失效量化：引入错误相关系数ρ_corr后，联合错误概率P_joint_error = P_single^5 * (1 + 4*ρ_corr)，需实测27b模型在N=5并发采样下的错误重合率，以修正理想二项分布计算的1.84%错误率，确定实际所需的更高N值。
+
+## Corrected Claim
+
+针对N56的N=5投票，错误独立性假设的失效量化：引入错误相关系数ρ_corr后，联合错误概率P_joint_error = P_single^5 * (1 + 4*ρ_corr)，需实测27b模型在N=5并发采样下的错误重合率，以修正理想二项分布计算的1.84%错误率，确定实际所需的更高N值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

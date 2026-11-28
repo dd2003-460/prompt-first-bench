@@ -1,0 +1,28 @@
+# N30: 基于 $z_0$ 跃升的摩擦系数 $C_d$ 变化幅度估算：由海洋上的 $C_d \approx 0.011$ 增加至陆地上的 $C_d \approx 0.0
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+基于 $z_0$ 跃升的摩擦系数 $C_d$ 变化幅度估算：由海洋上的 $C_d \approx 0.011$ 增加至陆地上的 $C_d \approx 0.018\text{-}0.025$，增幅约 60%-130%，直接决定了摩擦耗散功率的倍增效应。
+
+## Corrected Claim
+
+基于地表粗糙度差异，海洋上的摩擦系数 $C_d$ 通常小于陆地，陆地上的 $C_d$ 约为海洋的 1.5-2 倍，这一差异显著增加了陆地表面的摩擦耗散功率。
+
+## Evidence
+
+[质询]参考来源讨论的是海底摩擦系数（Cb），与陈述中的大气边界层摩擦系数（Cd）及海陆差异完全无关，属于主题不匹配；且陈述中的具体数值范围（0.011 vs 0.018-0.025）属于经验事实，缺乏直接来源支持。 | 来源[1]主题为海底摩擦，与大气摩擦系数无关，无法提供外部支持；但陈述中关于海陆表面粗糙度导致摩擦系数增大的物理机制及量级变化（约1-2倍）符合大气边界层理论常识，逻辑自洽。
+
+## Search Query
+
+friction drag coefficient increase over land versus ocean tropical cyclone intensity decay
+
+## Retrieval Sources
+
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=a1f88cfaee0afc6df1cd29ae3ac6cf06&site=xueshu_se&rut=eb2f96e2e39f1d78cbb2cd920ec90a5f0ca7c90eb75031e085993c05f9e2f360', 'type': 'ddg', 'title': '三维数值模式用于海底摩擦系数的研究 - 百度学术'}

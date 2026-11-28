@@ -1,0 +1,24 @@
+# N83: 科研循环单次调用的Token消耗量分解：Input_Tokens = System_Prompt(约1500) + RAG_Context(平均5000, 受限
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22, N23, N24
+
+## Claim
+
+科研循环单次调用的Token消耗量分解：Input_Tokens = System_Prompt(约1500) + RAG_Context(平均5000, 受限于N15检索权重) + History_Turns(线性增长，假设平均5轮对话约3000)，Output_Tokens = Reasoning_Trace(约800) + Final_Answer(约500)，总Tokens ≈ 10800/循环
+
+## Corrected Claim
+
+科研循环单次调用的Token消耗量分解：Input_Tokens = System_Prompt(约1500) + RAG_Context(平均5000, 受限于N15检索权重) + History_Turns(线性增长，假设平均5轮对话约3000)，Output_Tokens = Reasoning_Trace(约800) + Final_Answer(约500)，总Tokens ≈ 10800/循环
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：各分项数值相加（1500+5000+3000+800+500=10800）与总量一致，量级符合大语言模型科研场景的典型Token消耗范围。
+
+## Search Query
+
+vLLM typical token usage per turn scientific reasoning benchmark

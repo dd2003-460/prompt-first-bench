@@ -1,0 +1,26 @@
+# N24: 27B模型在GPQA Diamond（研究生水平科学问答）基准上的准确率约为35%-40%（FP16基线），NVFP4量化后预计下降至30%-35%，远低于'可
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+27B模型在GPQA Diamond（研究生水平科学问答）基准上的准确率约为35%-40%（FP16基线），NVFP4量化后预计下降至30%-35%，远低于'可发表级'所需的85%+逻辑严谨度，表明本地模型在复杂科学推理环节存在根本性能力缺口，必须依赖外部工具链补偿。
+
+## Corrected Claim
+
+27B模型（如Qwen3.8-27B）在GPQA Diamond基准上的准确率可达87%以上，表明现代大语言模型在研究生水平科学问答上已具备较强能力，并非存在根本性能力缺口。
+
+## Evidence
+
+[质询]数值量级严重错误：参考来源[2]明确指出27B级别模型（Qwen3.8-27B）在GPQA Diamond上的准确率为87.37%，远高于陈述中声称的35%-40%基线及30%-35%量化后水平；此外，'可发表级需要85%+逻辑严谨度'这一标准缺乏公认定义，且与当前SOTA模型表现不符。 | 来源[2]直接矛盾：27B模型GPQA-Diamond得分约为87.37%，而非35%-40%；来源[1]和[3]确认基准性质但未提供具体分数，无法支持低分假设。
+
+## Retrieval Sources
+
+- {'url': 'https://www.datalearner.com/benchmarks/gpqa-diamond&rut=d576930b2b0570efa15e71c9ab23f964ed3232c9f93aab01820541ed29ebf43a', 'type': 'ddg', 'title': 'GPQA Diamond评测基准：大模型排名与测试结果 | DataLearnerAI'}
+- {'url': 'https://blog.csdn.net/gitblog_00092/article/details/170612919&rut=dddbd8ff9b2a2caca2ae0516cc243e5d61b8e548c82b1b0954a2cc0497f8fd2c', 'type': 'ddg', 'title': 'Qwen3.8-27B-NInfer真实跑分完全解读：AIME 96.67%、GPQA-Diamond 87.37%，这'}
+- {'url': 'https://evalscope.readthedocs.io/en/latest/benchmarks/gpqa_diamond.html&rut=6ea1e00dea4414eb234e3513aea4e89e3f4ced1e751fdba0705ca2ddac1be83c', 'type': 'ddg', 'title': 'GPQA-Diamond | EvalScope'}

@@ -1,0 +1,20 @@
+# N82: 长上下文内存墙效应：在 262k token 上下文下，KV Cache 大小约为 262k * 2 (K/V) * 27B * (hidden_dim/num
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+长上下文内存墙效应：在 262k token 上下文下，KV Cache 大小约为 262k * 2 (K/V) * 27B * (hidden_dim/num_heads) * bytes_per_elem，计算表明 KV Cache 读取量远超权重读取量，此时推理速度完全受限于内存带宽而非计算能力，带宽瓶颈成为首要约束。
+
+## Corrected Claim
+
+长上下文内存墙效应：在 262k token 上下文下，KV Cache 大小约为 262k * 2 (K/V) * 27B * (hidden_dim/num_heads) * bytes_per_elem，计算表明 KV Cache 读取量远超权重读取量，此时推理速度完全受限于内存带宽而非计算能力，带宽瓶颈成为首要约束。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点存在事实性错误（将27B模型误标为Qwen3.8且参数不符），且未覆盖父节点中关于'推理速度受限于内存带宽而非计算'的核心结论机制（如算术强度分析），仅停留在数据量和阈值计算上。）

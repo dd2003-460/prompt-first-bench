@@ -1,0 +1,24 @@
+# N226: 核心实体不一致判定规则：若模型回答中的主语或宾语实体与 Ground_Truth 中的实体在 UMLS 本体或 WordNet 同义词表中无直接映射关系，则判定
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N75
+
+## Claim
+
+核心实体不一致判定规则：若模型回答中的主语或宾语实体与 Ground_Truth 中的实体在 UMLS 本体或 WordNet 同义词表中无直接映射关系，则判定为核心实体不一致；例如 'BRCA1' 与 'breast cancer gene 1' 视为一致，'BRCA1' 与 'p53' 视为不一致。
+
+## Corrected Claim
+
+核心实体不一致判定规则：若模型回答中的主语或宾语实体与 Ground_Truth 中的实体在 UMLS 本体或 WordNet 同义词表中无直接映射关系，则判定为核心实体不一致；例如 'BRCA1' 与 'breast cancer gene 1' 视为一致，'BRCA1' 与 'p53' 视为不一致。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+UMLS WordNet entity equivalence mapping for biomedical NLP evaluation

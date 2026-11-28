@@ -1,0 +1,28 @@
+# N42: KV Cache 读取带宽 $BW_{KV}$ 的实测校准值：理论 HBM2 带宽为 900GB/s，但在 V100-SXM2 上受 ECC 校验、PCIe 延
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+KV Cache 读取带宽 $BW_{KV}$ 的实测校准值：理论 HBM2 带宽为 900GB/s，但在 V100-SXM2 上受 ECC 校验、PCIe 延迟及驱动开销影响，有效随机读取带宽 $BW_{eff}$ 约为理论值的 60-70%（约 540-630 GB/s）；需通过 `nvbandwidth` 或自定义 CUDA kernel 测量实际 `memcopy_async` 速率以替换 N11 中的理论带宽参数。
+
+## Corrected Claim
+
+KV Cache 读取带宽 BW_KV 的实测校准值：理论 HBM2 带宽为 900GB/s，但在 V100-SXM2 上受 ECC 校验及驱动开销影响，有效随机读取带宽通常低于理论峰值，建议通过 nvbandwidth 或自定义 CUDA kernel 测量实际 memcopy_async 速率以替换理论带宽参数，具体有效带宽需根据实际负载模式测定。
+
+## Evidence
+
+[质询]V100-SXM2 的 HBM2 理论带宽通常为 900 GB/s，但将其有效随机读取带宽简单估算为理论值的 60-70%（540-630 GB/s）缺乏严谨的实验数据支持，且将 PCIe 延迟列为主要影响因素在 SXM2（NVLink 互联）场景下存在技术归因偏差；此外，该具体百分比范围属于经验性工程估计，非通用物理常数。 | 来源 [1] 仅涉及 KV Cache 原理概述，未提供 V100 具体带宽校准数值或 nvbandwidth 测试细节，属于间接/无关支持；该陈述为经验事实，逻辑自洽但缺直接来源支持。
+
+## Search Query
+
+Tesla V100 SXM2 effective memory bandwidth random access benchmark nvbandwidth
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2016843212178882587&rut=8e803a820f33848ed771468062d9d238107325445a03b2b31896193e1fb2b70f', 'type': 'ddg', 'title': 'KV Cache 深度解析：从原理到工程优化的完整指南 - 知乎'}

@@ -1,0 +1,20 @@
+# N72: Qwen3-27B 在 32K 上下文长度下，KV Cache 计算产生的额外浮点运算量约为 0.1 TFLOPs，占 Prefill 总 FLOPs 的 5%
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+Qwen3-27B 在 32K 上下文长度下，KV Cache 计算产生的额外浮点运算量约为 0.1 TFLOPs，占 Prefill 总 FLOPs 的 5%-10%，主要源于 Attention 矩阵乘法。
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文长度下，KV Cache 相关的 Attention 计算产生的额外浮点运算量显著高于 0.1 TFLOPs，且占 Prefill 总 FLOPs 的比例通常远高于 5%-10%（具体数值需根据模型架构参数精确计算）。
+
+## Evidence
+
+[质询]数值量级存疑：对于 27B 参数量的模型，在 32K 上下文长度下，Prefill 阶段的 Attention 计算量（QK^T 和 V 加权求和）通常占总 FLOPs 的显著比例（往往超过 10% 甚至接近 50%，取决于层数和头数配置），且绝对 FLOPs 值远超 0.1 TFLOPs（通常为数 TFLOPs 至数十 TFLOPs 级别）。0.1 TFLOPs 的数值可能混淆了单次推理的增量计算与总计算量，或者严重低估了 Attention 矩阵乘法的复杂度。 | source=knowledge，但数值量级与 Transformer 架构的基本计算复杂度直觉不符（Attention 计算量随序列长度平方增长，32K 长度下占比不可能低至 5-10% 且绝对值仅 0.1 TFLOPs），存在硬逻辑/量级错误风险，且无外部来源支持。

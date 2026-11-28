@@ -1,0 +1,30 @@
+# N9: 候选硬件清单：消费级显卡（RTX 3090/4090, RX 7900 XTX 等）的单卡显存容量（GB）及当前市场均价（USD）。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+候选硬件清单：消费级显卡（RTX 3090/4090, RX 7900 XTX 等）的单卡显存容量（GB）及当前市场均价（USD）。
+
+## Corrected Claim
+
+候选硬件清单：消费级显卡（RTX 3090/4090, RX 7900 XTX 等）的单卡显存容量均为24GB；其当前市场均价需另行查询实时市场数据。
+
+## Evidence
+
+[质询]陈述要求提供“当前市场均价（USD）”，但参考来源仅涉及显存容量（24GB）及适用性分析，完全缺失价格数据；且“当前”价格随时间波动，静态来源难以确证实时市场均价。 | 来源[1][2][3]直接支持了RTX 3090/4090/RX 7900 XTX的单卡显存容量为24GB这一事实，但所有来源均未包含任何关于市场均价（USD）的信息，导致该部分事实缺乏外部证据支持。
+
+## Search Query
+
+RTX 4090 VRAM price 2024 RTX 3090 VRAM price RX 7900 XTX VRAM price
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_42518874/article/details/156485860&rut=39b3b78251e24499369576d49119edd64fdbcc14071dcc722373d0ac0e7a4a88', 'type': 'ddg', 'title': '消费级显卡适用性分析：3090/4090能否胜任？ - Csdn博客'}
+- {'url': 'https://quantized.uk/zh/cookbook/24gb-gpu-what-to-run/&rut=b86a5e99df8d57cc0126e3331a1ee4bb3b0465036682d21ee8d1edf941cd27ae', 'type': 'ddg', 'title': '24gb 显卡能跑什么（Rtx 4090、3090、Rx 7900 Xtx）'}
+- {'url': 'https://news.qq.com/rain/a/20260421A07JZN00&rut=a74741d87be065b9058b4a685de8c71d8f5804340110f9428486645e1b702b62', 'type': 'ddg', 'title': '24gb 显存专属!消费级硬件也能跑的顶尖 Ai 模型清单'}

@@ -1,0 +1,24 @@
+# N19: 逻辑一致性得分：论文草稿的逻辑一致性需通过自动评分器（如CritiqueLLM）打分，得分需>4.5/5.0才能进入人工审核（预期初稿得分约3.0-3.5，需2
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+逻辑一致性得分：论文草稿的逻辑一致性需通过自动评分器（如CritiqueLLM）打分，得分需>4.5/5.0才能进入人工审核（预期初稿得分约3.0-3.5，需2-3轮迭代）
+
+## Corrected Claim
+
+论文草稿的逻辑一致性需通过自动评分器打分，设定特定的分数阈值（如>4.5/5.0）作为进入人工审核的标准，并预估需要多轮迭代以达到该标准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（>4.5/5.0）、特定工具名称（CritiqueLLM）及预测性能指标（初稿3.0-3.5，2-3轮迭代），这些属于经验事实或特定项目设定，无法从第一性原理推导，且缺乏通用标准支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且非第一性原理可推导内容）
+
+## Search Query
+
+LLM generated paper logical consistency automatic scoring CritiqueLLM threshold publishable standard

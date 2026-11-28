@@ -1,0 +1,24 @@
+# N102: Qwen3-27B 在 32K 上下文、Batch Size=1 时的 BF16 KV Cache 总字节数计算式为 Bytes_KV = 2 * Num_La
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N29
+
+## Claim
+
+Qwen3-27B 在 32K 上下文、Batch Size=1 时的 BF16 KV Cache 总字节数计算式为 Bytes_KV = 2 * Num_Layers * Num_KV_Heads * Head_Dim * Seq_Len * 2_bytes，其中 Num_Layers=64, Num_KV_Heaps=4 (GQA), Head_Dim=128, 计算结果为 2*64*4*128*32768*2 = 5.37 GB (若为 MHA 则为 86.5 GB，需根据实际 GQA 配置核验 [待核验])。
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文、Batch Size=1 时的 BF16 KV Cache 总字节数计算式为 Bytes_KV = 2 * Num_Layers * Num_KV_Heads * Head_Dim * Seq_Len * 2_bytes，具体数值需根据实际模型配置核验。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构参数（Num_Layers, Num_KV_Heads, Head_Dim）属于经验事实，且当前检索无可用来源支持这些具体数值，无法确认其准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3-27B config.json num_key_value_heads num_hidden_layers head_dim

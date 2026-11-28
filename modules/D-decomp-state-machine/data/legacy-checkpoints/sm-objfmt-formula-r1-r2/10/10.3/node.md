@@ -1,0 +1,24 @@
+# N118: SGLang 对 Qwen3-27B 的兼容性：SGLang 作为较新的推理引擎，其对 Qwen3 系列的支持依赖于底层 PyTorch 和 CUDA 版本，通
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+SGLang 对 Qwen3-27B 的兼容性：SGLang 作为较新的推理引擎，其对 Qwen3 系列的支持依赖于底层 PyTorch 和 CUDA 版本，通常要求 CUDA >= 12.4 以启用最新的 FlashAttention-2/3 内核；需检查 SGLang 最新 Release Notes 确认是否已添加 Qwen3-27B 的特定配置模板（Config Template）。
+
+## Corrected Claim
+
+SGLang 对 Qwen3-27B 的兼容性依赖于底层 PyTorch 和 CUDA 版本及 FlashAttention 内核支持；具体所需的最低 CUDA 版本及是否已内置 Qwen3-27B 配置模板，需查阅 SGLang 官方最新文档或 Release Notes 进行确认。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性技术参数（CUDA >= 12.4）和特定的软件配置细节（Qwen3-27B Config Template），这些属于经验事实，无法从第一性原理推导，且缺乏来源支持其准确性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+SGLang Qwen3-27B support CUDA version release notes

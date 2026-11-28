@@ -1,0 +1,20 @@
+# N91: 在 INT4 量化下，RTX 4090 的理论解码上限约为 (1.008 TB/s / 14GB) ≈ 72 tokens/s，考虑 70% 效率后约为 50 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N28
+
+## Claim
+
+在 INT4 量化下，RTX 4090 的理论解码上限约为 (1.008 TB/s / 14GB) ≈ 72 tokens/s，考虑 70% 效率后约为 50 tokens/s，这与 '40 tokens/s' 的预估处于同一数量级但偏高，需结合具体量化实现修正。
+
+## Corrected Claim
+
+在 INT4 量化下，RTX 4090 的理论解码上限约为 (1.008 TB/s / 14GB) ≈ 72 tokens/s，考虑 70% 效率后约为 50 tokens/s，这与 '40 tokens/s' 的预估处于同一数量级但偏高，需结合具体量化实现修正。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090显存带宽约1TB/s，INT4下每token权重读取量约14GB（对应7B模型），理论上限~72 tok/s，70%效率后~50 tok/s，与40 tok/s同数量级，计算自洽。

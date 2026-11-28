@@ -1,0 +1,24 @@
+# N23: 次网格尺度摩擦系数（SGS friction coefficient）在数值模式中通常设为常数 0.01-0.03，但实际观测显示其在登陆瞬间可能瞬时增大至 0
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+次网格尺度摩擦系数（SGS friction coefficient）在数值模式中通常设为常数 0.01-0.03，但实际观测显示其在登陆瞬间可能瞬时增大至 0.1-0.2，导致模式模拟的衰减速率比观测低估 20-40%，这是当前模式预报登陆后路径和强度不确定性的主要来源之一。
+
+## Corrected Claim
+
+次网格尺度摩擦系数（SGS friction coefficient）在数值模式中通常设为常数，但实际观测显示其在登陆瞬间可能显著增大，导致模式模拟的衰减速率低于观测值，这是当前模式预报登陆后路径和强度不确定性的来源之一。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（摩擦系数范围0.01-0.03 vs 0.1-0.2）和具体的误差量化（低估20-40%），这些属于经验事实而非第一性原理可推导内容。由于检索无可用来源，无法验证这些具体数值的准确性及‘主要来源之一’这一归因的普遍共识程度。 | 经验事实，逻辑自洽但缺来源支持。虽然SGS摩擦系数在数值模式中常设为常数且登陆时实际摩擦增大的物理机制符合直觉，但具体数值范围和误差百分比缺乏外部证据佐证。
+
+## Search Query
+
+subgrid scale friction coefficient variability tropical cyclone landfall model bias underestimation decay rate

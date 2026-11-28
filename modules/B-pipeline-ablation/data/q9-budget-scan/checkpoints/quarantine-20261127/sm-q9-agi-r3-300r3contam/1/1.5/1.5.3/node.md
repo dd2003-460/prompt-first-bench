@@ -1,0 +1,20 @@
+# N44: Roofline模型估算：V100 HBM2带宽≈900GB/s，FP16峰值≈15.7 TFLOPS。Ridge Point(AI_ridge) ≈ 17.4
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+Roofline模型估算：V100 HBM2带宽≈900GB/s，FP16峰值≈15.7 TFLOPS。Ridge Point(AI_ridge) ≈ 17.4 FLOP/Byte。当AI < 17.4时，最大吞吐受限于带宽：Throughput_max ≈ Bandwidth / Bytes_per_token
+
+## Corrected Claim
+
+Roofline模型估算：V100 HBM2带宽≈900GB/s，FP16峰值≈15.7 TFLOPS。Ridge Point(AI_ridge) ≈ 17.4 FLOP/Byte。当AI < 17.4时，最大吞吐受限于带宽：Throughput_max ≈ Bandwidth / Bytes_per_token
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 FP16峰值约15.7 TFLOPS，HBM2带宽约900 GB/s，计算Ridge Point = 15.7e12 / 900e9 ≈ 17.4 FLOP/Byte，数值量级与逻辑自洽。

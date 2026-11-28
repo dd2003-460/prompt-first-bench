@@ -1,0 +1,24 @@
+# N48: 端到端科研循环的时间加权模型：T_total = w_hypothesis * T_hypothesis + w_retrieval * T_retrieval
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+端到端科研循环的时间加权模型：T_total = w_hypothesis * T_hypothesis + w_retrieval * T_retrieval + w_execution * T_execution + w_analysis * T_analysis。其中 T_hypothesis 和 T_retrieval 主要由云端 API 决定（延迟 2-5s/req，受网络限制），T_execution 由本地代码执行器决定（2-5s/req，N15 已确认），T_analysis 由本地 27B 推理决定。本地推理仅占 T_total 的 30% 意味着 T_local_inference ≈ 0.3 * T_total，其余 70% 为 I/O 等待或云端计算。
+
+## Corrected Claim
+
+端到端科研循环的时间加权模型：T_total = w_hypothesis * T_hypothesis + w_retrieval * T_retrieval + w_execution * T_execution + w_analysis * T_analysis。其中 T_hypothesis 和 T_retrieval 主要由云端 API 决定（延迟 2-5s/req，受网络限制），T_execution 由本地代码执行器决定（2-5s/req，N15 已确认），T_analysis 由本地 27B 推理决定。本地推理仅占 T_total 的 30% 意味着 T_local_inference ≈ 0.3 * T_total，其余 70% 为 I/O 等待或云端计算。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：时间加权模型定义清晰，各组件延迟量级（2-5s）符合常规API及本地执行经验，占比计算逻辑自洽。
+
+## Search Query
+
+autonomous agent end-to-end latency breakdown cloud vs local inference bottleneck analysis

@@ -1,0 +1,20 @@
+# N38: Qwen3-27B 的隐藏层维度为 4096，处于题目所述 '>4096' 阈值的边界；在 TP=4 切分下，单次 AllReduce 传输的数据量为 4096
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+Qwen3-27B 的隐藏层维度为 4096，处于题目所述 '>4096' 阈值的边界；在 TP=4 切分下，单次 AllReduce 传输的数据量为 4096 * 2 bytes (FP16) = 8KB/layer，64 层总计 512KB，在 300GB/s NVLink 下理论通信时间为 1.7μs/step，占比极低，表明瓶颈不在通信而在计算/访存。
+
+## Corrected Claim
+
+假设 Qwen3-27B 的隐藏层维度为 4096 且层数为 64，在 TP=4 切分下，单次 AllReduce 传输的数据量为 4096 * 2 bytes (FP16) = 8KB/layer，64 层总计 512KB，在 300GB/s NVLink 下理论通信时间为 1.7μs/step，占比极低，表明瓶颈不在通信而在计算/访存。
+
+## Evidence
+
+[质询]Qwen3-27B 的具体架构参数（如隐藏层维度是否为 4096、层数是否为 64）属于经验事实，且不同版本或配置可能存在差异，仅凭逻辑自洽无法确认具体数值参数的准确性。 | 经验事实，逻辑自洽但缺来源支持

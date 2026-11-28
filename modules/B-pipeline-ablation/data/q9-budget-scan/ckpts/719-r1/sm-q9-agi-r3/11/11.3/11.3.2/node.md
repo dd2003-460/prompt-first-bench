@@ -1,0 +1,30 @@
+# N322: V100-SXM2-16GB 在显存利用率 >90% 时，ECC 纠错导致的计算停顿率（Stall Rate）具体数值需参考 NVIDIA V100 datas
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N101
+
+## Claim
+
+V100-SXM2-16GB 在显存利用率 >90% 时，ECC 纠错导致的计算停顿率（Stall Rate）具体数值需参考 NVIDIA V100 datasheet 或实测 perf counter，通常表现为 AllReduce 通信延迟增加 20%-50%，而非简单的 '3x 延迟' 定性描述
+
+## Corrected Claim
+
+V100-SXM2-16GB 在显存利用率 >90% 时，ECC 纠错可能引入额外的计算停顿，具体性能损耗（如通信延迟增加比例）需参考 NVIDIA V100 datasheet 或实测 perf counter，不同负载下表现各异，不宜简单定性为固定倍数或固定百分比。
+
+## Evidence
+
+[质询]陈述中关于'ECC纠错导致AllReduce通信延迟增加20%-50%'的具体数值缺乏公开权威来源支持，且将显存ECC纠错停顿直接关联到AllReduce通信延迟（通常受NVLink/PCIe带宽影响）存在因果链过长、归因模糊的风险，该具体百分比极可能是经验估算或特定场景下的非通用结论。 | 参考来源[1][2]仅涉及ECC错误查询与诊断，未提供性能损耗数据；来源[3]涉及硬件架构但未提及性能影响。该事实属于经验性能指标，逻辑上ECC纠错确实会引入额外开销，但具体数值（20%-50%）及与AllReduce的特定关联缺乏直接来源支持，故降级。
+
+## Search Query
+
+NVIDIA V100 ECC error rate high memory utilization performance impact stall rate
+
+## Retrieval Sources
+
+- {'url': 'https://www.cnblogs.com/peakgrin/p/19021052&rut=6f551485675896ec8a3dd76ce95b55b009a3a9f5551df75b0fcab32b755c9e13', 'type': 'ddg', 'title': '查看V100显卡是否有ECC错误 - peakgrin - 博客园'}
+- {'url': 'https://blog.csdn.net/weixin_33851429/article/details/90072906&rut=8a9cf4fb24c5d5e6cf4e7f332601b9a720f2204d59221fadccffd33a409d83d3', 'type': 'ddg', 'title': 'V100/A100显存ECC报错不求人：从nvidia-smi到pynvml的完整诊断与修复指南-CSDN博客'}
+- {'url': 'https://ask.csdn.net/questions/9267937&rut=a34eec220c43fd659040fd02c3002da61d0a3f5fb0383bb145406aed8e94eb4b', 'type': 'ddg', 'title': 'V100 Sxm2定制款16g/32g显存如何正确识别与启用？ - Csdn问答'}

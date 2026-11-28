@@ -1,0 +1,20 @@
+# N63: NVLink 900 GB/s 带宽使得 TP=2 的通信开销降至可忽略 (<2%)，因此 H100/H200 双卡在 27B 模型上的加速比接近 1.9x，而
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14, N15, N16
+
+## Claim
+
+NVLink 900 GB/s 带宽使得 TP=2 的通信开销降至可忽略 (<2%)，因此 H100/H200 双卡在 27B 模型上的加速比接近 1.9x，而 PCIe 方案加速比通常仅为 1.2-1.4x，这一差距在长上下文 (32K) 解码阶段因 KV Cache 同步频率增加而进一步拉大
+
+## Corrected Claim
+
+NVLink 的高带宽（如 900 GB/s）显著降低了 TP=2 的通信开销，使得 H100/H200 双卡在 27B 模型上的加速比通常优于 PCIe 方案（后者常受限于带宽瓶颈，加速比较低），且在长上下文解码阶段因 KV Cache 同步需求增加，NVLink 的优势更为明显。
+
+## Evidence
+
+[质询]NVLink 900 GB/s 带宽下 TP=2 通信开销 <2% 的断言过于绝对，忽略了 AllReduce 中 Reduce-Scatter 和 All-Gather 的实际数据量及启动延迟；此外，H100/H200 双卡在 27B 模型上达到 1.9x 加速比缺乏特定硬件配置（如显存容量、Batch Size）的支持，PCIe 方案 1.2-1.4x 的区间也受具体拓扑和驱动优化影响较大，属于经验性估计而非普适真理。 | 先验知识/题面给定，逻辑校验通过：NVLink 带宽远高于 PCIe，理论上能显著降低 TP 通信瓶颈，从而提升加速比；但具体数值（<2%, 1.9x, 1.2-1.4x）为经验估算，无外部来源直接支持，故降级。

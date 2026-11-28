@@ -1,0 +1,20 @@
+# N56: 在27b模型特定领域单智能体错误率E_single=15%时，N=5多数投票的实际错误率E_consensus = P(X≥3|n=5,p=0.15) = C(
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N20
+
+## Claim
+
+在27b模型特定领域单智能体错误率E_single=15%时，N=5多数投票的实际错误率E_consensus = P(X≥3|n=5,p=0.15) = C(5,3)*(0.15)^3*(0.85)^2 + C(5,4)*(0.15)^4*(0.85) + (0.15)^5 ≈ 1.84%；当E_single=20%时，E_consensus ≈ 4.10%。
+
+## Corrected Claim
+
+在27b模型特定领域单智能体错误率E_single=15%时，N=5多数投票的实际错误率E_consensus = P(X≥3|n=5,p=0.15) = C(5,3)*(0.15)^3*(0.85)^2 + C(5,4)*(0.15)^4*(0.85) + (0.15)^5 ≈ 1.84%；当E_single=20%时，E_consensus ≈ 4.10%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算过程符合二项分布公式，数值量级合理（15%单错率经5次投票降至~1.8%，20%降至~4.1%），无外部来源冲突。

@@ -1,0 +1,28 @@
+# N7: 消费级硬件候选集：RTX 4090 (24GB VRAM, ~1.0 TB/s bandwidth, $1600-$2000), RTX 3090/4090D 
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+消费级硬件候选集：RTX 4090 (24GB VRAM, ~1.0 TB/s bandwidth, $1600-$2000), RTX 3090/4090D (24GB VRAM, ~936 GB/s bandwidth, $1000-$1500), RTX 3060 12GB (12GB VRAM, ~360 GB/s bandwidth, $300-$400) 作为下限参考。
+
+## Corrected Claim
+
+消费级硬件候选集：RTX 4090 (24GB VRAM, ~1.0 TB/s bandwidth, $1600-$2000), RTX 3090 (24GB VRAM, ~936 GB/s bandwidth, $1000-$1500) 或 RTX 4090D (24GB VRAM, ~1.0 TB/s bandwidth, $1400-$1800), RTX 3060 12GB (12GB VRAM, ~360 GB/s bandwidth, $300-$400) 作为下限参考。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1聚焦于硬件规格修正（RTX 4090带宽），子节点2聚焦于性能瓶颈分析与计算，两者主题不同且无冲突，正交性良好。然而，父节点明确列出了三个硬件候选（RTX 4090, RTX 3090/4090D, RTX 3060），但子节点仅详细讨论了RTX 4090，完全缺失了对RTX 3090/4090D和RTX 3060的类似分析或对比，导致未覆盖父节点的所有关键方面。）
+
+## Search Query
+
+NVIDIA RTX 4090 3090 specs VRAM bandwidth price 2024
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/1081112431_122471764&rut=41bac332439b30d7dd56e81f6dd9d226aedf05c948b8d559cc0392842543e07b', 'type': 'ddg', 'title': '2026年rtx 4090显卡选购指南：24g与48g版本实测对比，助你做出明智选择'}

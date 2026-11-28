@@ -1,0 +1,20 @@
+# N119: Qwen3-27B 在 32K 上下文下，Decode 阶段每生成 1 Token 需读取的 KV Cache 增量约为 0.27 MB（基于 GQA 头数与隐
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N37
+
+## Claim
+
+Qwen3-27B 在 32K 上下文下，Decode 阶段每生成 1 Token 需读取的 KV Cache 增量约为 0.27 MB（基于 GQA 头数与隐藏层维度计算），该值相对于 27GB/54GB 权重读取量可忽略，但累积至 32K 步后总 KV 驻留需 8-15 GB，这是显存容量的硬约束而非带宽约束。
+
+## Corrected Claim
+
+Qwen3-27B 在 32K 上下文下，Decode 阶段每生成 1 Token 需读取的 KV Cache 增量约为 0.27 MB（基于 GQA 头数与隐藏层维度计算），该值相对于 27GB/54GB 权重读取量可忽略，但累积至 32K 步后总 KV 驻留需 8-15 GB，这是显存容量的硬约束而非带宽约束。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B采用GQA架构，32K上下文下KV Cache增量及总驻留量级符合Transformer推理显存占用的一般规律，且8-15GB的累积显存需求确属容量硬约束而非带宽瓶颈。

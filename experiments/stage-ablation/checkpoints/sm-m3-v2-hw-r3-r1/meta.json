@@ -1,0 +1,159 @@
+{
+  "qid": "m3-v2-hw-r3",
+  "question": "目标：在我的硬件条件下，以性价比最高、速度最快且可靠的方式，达到 research-AGI。\n\n**research-AGI 的操作化定义**（待 D 确认，v0 用 D 的 autoresearch 系统作锚）：\n一个 AI 系统能在我指定的研究方向上，独立完成\"提出假设 → 设计实验 → 执行（含检索/计算）→ 分析 → 得出可验证结论 → 更新自身知识\"的完整科研循环，且产出的研究结论经人工抽查达到\"可发表级\"（对标顶刊同题材论文的标准），无需人类逐步指导。\n\n**我的硬件条件**（v0，2026-11-22 服务器实测，待 D 确认精确边界）：\n- 推理平台：一台固定服务器，4× Tesla V100-SXM2-16GB（compute cap 7.0），不可更换\n- 当前部署：vLLM 服务 qwen3.8-27b（NVFP4 量化，TP=4，MTP×4 投机解码，fp8 KV cache，max_model_len=262144，max-num-seqs=8，端口 8787 代理）\n- 开发机：MacBook Pro（Apple M1 Max），跑编排/检索/分析，不跑 27b 推理\n- 约束：不改模型权重（prompt + hook + 外部记忆/工具）\n- 预算约束：时间 + 电费 + （可选）云端 API 费用\n\n任务：给出达到上述目标的最优路径分解。要求：\n1. 自行识别并完整覆盖所有影响\"最快可靠达到\"的贡献因子，不遗漏（因子清单由模型识别，题面不预列——预列=泄露 gold 骨架）\n2. 每个因子给出量化依据（数值/公式/可检索事实），标 conf\n3. 指出当前硬件条件下的能力上限（27b 本地模型能到哪一层，瓶颈在哪）\n4. 给出预算-质量权衡：不同投入档位下能达到的能力边界\n5. 把\"不确定、需要进一步查证\"的点收进黑盒表",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "F1_Reachability (可达性): 方案在给定硬件(4xV100)和约束(不改权重)下，是否能闭环执行'假设->实验->结论'全流程。二值变量，0/1。若为0，后续指标无意义。",
+      "F2_CapabilityGap (能力缺口覆盖率): 系统实际产出结论与'可发表级'标准之间的差距缩小比例。定义为 (Baseline_Human_Effort - System_Autonomy_Effort) / Baseline_Human_Effort。需覆盖科研循环的所有环节（检索、计算、写作）。",
+      "F3_Reliability (可靠性/方差): 连续运行N次科研循环中，结果一致性高于阈值（如95%置信区间内）的比例。低可靠性意味着需要大量人工重试，抵消速度优势。",
+      "F4_TimeToGoal (达成时间): 从当前状态到首次稳定产出可发表级结论所需的日历时间（天/周）。包含系统搭建、调优、试运行周期。",
+      "F5_TotalCost (总拥有成本): 达到F2_F3标准所需的累计资源消耗。包括电费（函数于GPU占用时长）、云端API费用（函数于Token消耗）、以及隐性的人力监督成本（小时数）。"
+    ],
+    "composition": "Valid = F1_Reachability; Score = (F2_CapabilityGap * F3_Reliability) / (w_t * F4_TimeToGoal + w_c * F5_TotalCost)",
+    "rationale": "该函数将'不可行'作为硬门槛（乘法项），将'质量'（能力与可靠性）作为分子最大化目标，将'速度与成本'作为分母最小化目标，精准对应'性价比最高、速度最快且可靠'的多目标优化需求。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N7",
+      "claim": "基于 vLLM 源码中 FlashAttention 的 block size 实现 (通常为 16 tokens) 及",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]Qwen3.8-27B 的具体 GQA 配置（num_kv_heads=8, head_dim=128）属于特定模型版本的经验参数，参考来源未提供该模型"
+    },
+    {
+      "node_id": "N8",
+      "claim": "4× V100-SXM2-16GB 集群在 NVSwitch 全互联拓扑下的 P2P 带宽为 900 GB/s，但在 T",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于'AllReduce 通信量随 hidden_size 线性增加'及'27B 模型单次 AllReduce 传输约 40MB'的具体数值和比例"
+    },
+    {
+      "node_id": "N9",
+      "claim": "MTP×4 投机解码在 Qwen3.8-27B 上的平均接受率 (Acceptance Rate) 预估为 0.85-0",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与模型规模不匹配：Qwen3.8-27B 并非标准公开型号（通常 Qwen 系列有 7B/14B/32B/72B 等，27B 可能是笔误或特定微"
+    },
+    {
+      "node_id": "N10",
+      "claim": "在 max-num-seqs=8 并发下，假设每条请求平均上下文长度维持在 128k tokens (科研长文档处理典型",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]P99 延迟增加 300-500% 是一个具体的经验性能预测值，缺乏通用基准测试支持，且高度依赖于具体的模型架构、序列长度分布及调度策略，不能仅凭带宽落"
+    },
+    {
+      "node_id": "N11",
+      "claim": "Qwen3.8-27B 在 HumanEval (代码生成) 和 MMLU-Pro (综合知识) 基准测试上的零样本准确",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值严重不符：参考来源显示 Qwen3.8-27B 系列模型在 HumanEval 上的得分约为 92.1%，MMLU 约为 84.1%，远高于陈述中的"
+    },
+    {
+      "node_id": "N12",
+      "claim": "NVFP4 量化相较于 FP16 将权重体积压缩至 1/8，使得 27B 模型权重仅需 ~6.75 GB，为 KV Ca",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]NVFP4 通常指 4-bit 浮点格式，理论上相对于 FP16 (16-bit) 的压缩比应为 1/4 (即 27B 模型约 13.5GB)，而非 1"
+    },
+    {
+      "node_id": "N13",
+      "claim": "为弥补 27B 模型在多步规划上的缺陷，需构建基于 ReAct (Reasoning + Acting) 架构的外部工具",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]「代码执行器调用频率占整体科研循环步骤的 40-50%」是一个高度依赖具体任务分布的经验性统计假设，缺乏普适性理论支撑，不同科研场景（如纯文献综述 vs"
+    },
+    {
+      "node_id": "N14",
+      "claim": "外部记忆模块采用向量数据库 (如 ChromaDB/Faiss) 存储研究文献，针对 27B 模型的 Embedding",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“Top-K 召回率提升至 85% 以上”的具体数值缺乏通用基准支持，召回率高度依赖于数据集分布、K 值大小及具体任务定义，并非 Cross-"
+    },
+    {
+      "node_id": "N15",
+      "claim": "自我纠错机制需引入 Critic-Refiner 双角色 Prompt 架构：初始 Draft 由主模型生成，随后由同一",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（35%降至15-20%、1.5-2倍Token消耗）缺乏通用基准，高度依赖特定任务难度、模型版本及Prompt设计，将其作为普适性‘实测’结论"
+    },
+    {
+      "node_id": "N17",
+      "claim": "MacBook M1 Max 的 CPU 集群 (10-core) 在单线程浮点性能上约为 V100 GPU 的 1/5",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]将CPU单线程浮点性能与GPU整体吞吐进行直接倍数对比（1/50）缺乏严谨的基准测试支撑，且忽略了M1 Max CPU在内存带宽和延迟上的优势可能部分抵"
+    },
+    {
+      "node_id": "N18",
+      "claim": "云端 API (如 Claude 3.5 Sonnet 或 GPT-4o) 的调用成本约为 $0.003/1k inpu",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于 GPT-4o 的价格（$0.003/$0.015）与当前主流公开定价（通常约为 $2.50/$10.00 per 1M tokens，即 $"
+    },
+    {
+      "node_id": "N20",
+      "claim": "网络延迟对混合架构的影响：MacBook 与 V100 服务器间的局域网延迟约为 1-5ms，而云端 API 的网络往返",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]TTFT增加2-3秒的数值过于绝对且缺乏上下文（如模型大小、并发负载、具体云服务商），不同场景下波动极大，可能高估了延迟影响或低估了优化手段的效果。 |"
+    },
+    {
+      "node_id": "N21",
+      "claim": "幻觉率控制机制：针对27B模型，定义幻觉率为 $H_{rate} = \\frac{\\text{Factually Inc",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]基线幻觉率15%-20%及降低至<5%的具体数值缺乏通用标准或特定实验数据支持，属于高度依赖具体数据集和评估方法的经验性指标，不同基准测试下波动极大，直"
+    },
+    {
+      "node_id": "N22",
+      "claim": "逻辑一致性验证：采用 Self-Consistency 策略，对关键推导步骤进行 $k=3$ 次独立采样（温度 $T=0",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]声称将逻辑错误率降低约60%是一个具体的经验性能指标，缺乏通用基准测试支持，不同任务和数据集下Self-Consistency的效果差异巨大，该数值可能"
+    },
+    {
+      "node_id": "N23",
+      "claim": "可复现性哈希校验：对每次生成的研究结论及其引用的代码/数据片段计算 SHA-256 哈希值，存储于版本控制系统中。建立断",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]声称通过设置 --enforce-eager 或 seed=42 能将随机性方差控制在 σ² < 10⁻⁶ 这一具体数值阈值缺乏普遍成立的理论或实证支持"
+    },
+    {
+      "node_id": "N26",
+      "claim": "收敛瓶颈识别：当本地 27B 模型在复杂推理任务上的准确率停滞在 70% 左右时，识别为 'Model Capabili",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中包含具体的经验性数值预测（如准确率停滞在70%、提升至85%），这些具体数值并非第一性原理可推导的必然结果，而是依赖于特定数据集、模型版本和任务分"
+    },
+    {
+      "node_id": "N30",
+      "claim": "在科研自动化的质检环节，需区分‘逻辑一致性’与‘事实准确性’。对于‘可发表级’结论，仅靠 Self-Consistenc",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的工程参数（FS阈值0.95）和特定的技术实现路径（DOI解析+NLI），属于经验事实/特定系统设计，无法从第一性原理推导，且参考来源均未"
+    },
+    {
+      "node_id": "N31",
+      "claim": "针对‘方法论严谨性’的自动化评估，需构建 ‘Experimental Design Validity Checker’。",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的工程实现细节（如“自动评分低于 70/100”、“判定为‘不可发表级’”的具体阈值和标签），这些属于特定系统的设计参数或经验性规定，并非"
+    },
+    {
+      "node_id": "N32",
+      "claim": "建立‘新颖性-可行性’二维评估矩阵以模拟同行评审。维度1‘新颖性’通过计算生成假设与 Vector DB 中最近邻文献的",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的工程实现细节（如余弦相似度阈值 0.85、静态代码分析作为可行性唯一指标），这些属于特定系统的经验性设计参数，并非通用科学事实或第一性原"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 32
+}

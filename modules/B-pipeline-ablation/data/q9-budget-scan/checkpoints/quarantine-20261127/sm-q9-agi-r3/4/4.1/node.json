@@ -1,0 +1,30 @@
+{
+  "id": "N21",
+  "claim": "本地V100集群运行Qwen3-27B (NVFP4) 在 max_model_len=262144 时的有效上下文吞吐瓶颈为 KV Cache 内存占用，计算公式为 KV_size = 2 * n_layers * n_kv_heads * head_dim * seq_len * bytes_per_token，需计算单 token 增量内存并确定 max_num_seqs=8 并发下的最大安全序列长度。",
+  "level": "L2",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]来源[1]讨论的是Qwen3.8-Flash-Next模型，来源[2]讨论的是Qwen3.8-27B AWQ量化，均未直接提及Qwen3-27B NVFP4在max_model_len=262144下的具体KV Cache瓶颈计算及max_num_seqs=8的特定配置，存在模型版本和量化方式的不匹配风险。 | 逻辑上KV Cache公式正确且长上下文下内存确实是主要瓶颈，但参考来源未直接支持Qwen3-27B NVFP4在该特定参数下的结论，属于经验事实且缺乏直接来源支持。",
+  "corrected_claim": "本地V100集群运行Qwen3-27B (NVFP4) 在长上下文场景下，KV Cache内存占用通常是主要瓶颈，其大小可通过公式 KV_size = 2 * n_layers * n_kv_heads * head_dim * seq_len * bytes_per_token 估算，需根据显存限制确定最大安全序列长度和并发数。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N4",
+    "N5",
+    "N6"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Qwen3 27B architecture parameters n_layers n_kv_heads head_dim vllm kv cache memory calculation formula",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/weixin_29061821/article/details/171266830&rut=56a86898b076f850191174c784d2ec245ae3280ae15668e79db687a8e407b258",
+      "type": "ddg",
+      "title": "Qwen3.8在V100上实现1Cat吞吐的NVFP4+TP4工程实践 - CSDN博客"
+    },
+    {
+      "url": "https://juejin.cn/post/7675595046833799177&rut=b6d0fbb0c77121bfc4959e53c3a8c422170468b932ed99c4df507b9763193922",
+      "type": "ddg",
+      "title": "V100 单卡部署 Qwen3.8-27B（AWQ）到 vLLM 完整实战 - 掘金"
+    }
+  ]
+}

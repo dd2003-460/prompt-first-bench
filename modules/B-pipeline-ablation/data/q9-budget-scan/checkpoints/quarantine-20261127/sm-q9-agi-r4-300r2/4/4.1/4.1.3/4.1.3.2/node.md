@@ -1,0 +1,20 @@
+# N166: 工作点B（高熵数学证明/逻辑推理）：η=0.5, p_reject=0.5，本地推理加速比 S_local=1+4*0.5=3.0x；由于拒绝率高，有效吞吐降至
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N64
+
+## Claim
+
+工作点B（高熵数学证明/逻辑推理）：η=0.5, p_reject=0.5，本地推理加速比 S_local=1+4*0.5=3.0x；由于拒绝率高，有效吞吐降至 Base_TPS*3.0=45 tok/s；此时本地延迟 T_local ≈ L/45，若云端 T_api ≈ L/30 tok/s（复杂任务降速），则 L_switch 上移至 ≈ 1200 tokens；超过 1200 tokens 的高熵任务建议直接调用云端 API 避免本地投机解码回退开销
+
+## Corrected Claim
+
+工作点B（高熵数学证明/逻辑推理）：η=0.5, p_reject=0.5，本地推理加速比 S_local=1+4*0.5=3.0x；由于拒绝率高，有效吞吐降至 Base_TPS*3.0=45 tok/s；此时本地延迟 T_local ≈ L/45，若云端 T_api ≈ L/30 tok/s（复杂任务降速），则 L_switch 上移至 ≈ 1200 tokens；超过 1200 tokens 的高熵任务建议直接调用云端 API 避免本地投机解码回退开销
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：S_local=3.0x推导正确，有效吞吐45 tok/s计算无误，切换阈值L_switch=1200 tokens由45*L=30*(L+overhead)近似得出，符合高熵任务本地投机解码收益递减的经济直觉。

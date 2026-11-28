@@ -1,0 +1,24 @@
+# N72: 工作点B的边际收益/成本比最大化条件：当云端 API 处理的任务复杂度阈值 T_threshold 使得云端幻觉率 < 3% 且本地幻觉率 > 3% 时，切换至
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+工作点B的边际收益/成本比最大化条件：当云端 API 处理的任务复杂度阈值 T_threshold 使得云端幻觉率 < 3% 且本地幻觉率 > 3% 时，切换至云端，此时边际收益（幻觉率降低带来的研究结论可靠性提升）大于边际成本（API 费用增加），需通过 A/B 测试确定 T_threshold 的具体数值
+
+## Corrected Claim
+
+工作点B的边际收益/成本比最大化条件：当云端 API 处理的任务复杂度阈值 T_threshold 使得云端幻觉率显著低于本地幻觉率，且由此带来的研究结论可靠性提升（边际收益）大于 API 费用增加（边际成本）时，切换至云端；T_threshold 的具体数值需通过实验或数据分析确定。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 9 column 5 (char 887)
+
+## Search Query
+
+hybrid local cloud LLM cost benefit analysis hallucination rate threshold

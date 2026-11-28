@@ -1,0 +1,20 @@
+# N179: 前沿工作点1（极致低成本-长文容忍）：选用 DeepSeek-V3 或同级开源模型 API，C_input=$0.14/M, C_output=$0.42/M，
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+前沿工作点1（极致低成本-长文容忍）：选用 DeepSeek-V3 或同级开源模型 API，C_input=$0.14/M, C_output=$0.42/M，加权单价 C_unit=$0.28/M tokens；适用场景为 L>100k 的低频长文本生成，总成本仅为 Qwen Turbo 的 56%。
+
+## Corrected Claim
+
+前沿工作点1（极致低成本-长文容忍）：选用 DeepSeek-V3 或同级开源模型 API，其单位 token 成本显著低于主流闭源模型；在长文本生成场景下，总成本预计远低于 Qwen Turbo（具体比例取决于实时 API 定价及输入输出比）。
+
+## Evidence
+
+[质询]DeepSeek-V3 的官方定价（输入 $0.27/M, 输出 $1.10/M）与陈述中的数值（$0.14/$0.42）存在显著差异，且加权单价 $0.28/M 的计算逻辑（通常需基于特定输入输出比例，如 1:1 时为 $0.28，但 DeepSeek 实际比例下会更高）及与 Qwen Turbo 的成本对比缺乏实时市场数据支撑，属于易变动的经验事实。 | 经验事实，逻辑自洽但缺来源支持（来源不可用，且模型定价随时间波动，无法从第一性原理推导具体数值）

@@ -1,0 +1,24 @@
+# N32: Qwen3-27B 在 4x V100 TP=4 架构下，每生成一个 Token 需要从显存读取的有效权重字节数 W_read_eff 等于单卡分片权重大小（3
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+Qwen3-27B 在 4x V100 TP=4 架构下，每生成一个 Token 需要从显存读取的有效权重字节数 W_read_eff 等于单卡分片权重大小（3.375GB）加上注意力头投影矩阵的局部缓存，估算 W_read_eff ≈ 3.4 GB/token。
+
+## Corrected Claim
+
+Qwen3-27B 在 4x V100 TP=4 架构下（假设 FP16 精度），每生成一个 Token 需要从显存读取的有效权重字节数 W_read_eff 约为单卡分片权重大小 13.5GB（不含激活值缓存），若采用 INT4 量化则约为 6.75GB。
+
+## Evidence
+
+[质询]数值量级与计算逻辑存在严重偏差：Qwen3-27B 参数量约为 27B，FP16 下总权重约 54GB，TP=4 时每卡分片权重应为 54/4 = 13.5GB，而非陈述中的 3.375GB（3.375GB 对应的是 6.75B 参数的 FP16 权重，或 27B 参数的 INT4 量化权重，但题目未提及量化）。此外，'每生成一个 Token 需要从显存读取的有效权重字节数'通常指整个模型权重的读取量（即每卡分片大小），而非'分片权重+局部缓存'的简单相加，且 3.4GB 的估算值远低于 27B 模型在 TP=4 下的实际单卡权重占用，导致推理带宽需求被低估约 4 倍。 | 逻辑校验失败：27B 模型 FP16 总权重 54GB，TP=4 单卡应为 13.5GB，陈述中 3.375GB 与模型规模不符，且 W_read_eff 的定义与数值估算存在内部矛盾。
+
+## Search Query
+
+tensor parallelism weight sharding bytes per token inference vllm

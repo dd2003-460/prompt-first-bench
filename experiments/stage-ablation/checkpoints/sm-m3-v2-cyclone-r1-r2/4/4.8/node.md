@@ -1,0 +1,30 @@
+# N24: 地表粗糙度长度 z₀ 从海面 0.002 m 增至陆地 0.1-1 m（植被/建筑），导致边界层高度 h_BL 降低 30-50%，直接减少动量传输效率
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+地表粗糙度长度 z₀ 从海面 0.002 m 增至陆地 0.1-1 m（植被/建筑），导致边界层高度 h_BL 降低 30-50%，直接减少动量传输效率
+
+## Corrected Claim
+
+地表粗糙度长度 z₀ 从海面（约 0.002 m）显著增至陆地（可达 0.1-1 m），这会改变近地面动量传输特性并影响边界层结构，但边界层高度具体降低幅度取决于大气稳定度等条件，并非固定的 30-50%。
+
+## Evidence
+
+[质询]陈述中关于边界层高度降低30-50%的具体数值缺乏普遍适用的物理基础，且不同气象条件下该比例波动极大，属于过度简化的经验断言；此外，z0增加主要影响近地面风速廓线（对数律），对边界层整体高度的影响机制复杂，不能简单线性对应。 | 来源[1][3]确认了海洋粗糙度长度z0的概念及其在动量交换中的作用，但未提供陆地z0具体数值范围及边界层高度降低30-50%的直接数据支持；该部分具体数值属于经验事实，逻辑上虽大致合理（粗糙度增加通常抑制湍流混合从而可能降低有效边界层高度或改变其结构），但缺乏来源直接支持，故降级。
+
+## Search Query
+
+surface roughness length ocean land comparison boundary layer height reduction
+
+## Retrieval Sources
+
+- {'url': 'https://www.sciencedirect.com/science/article/pii/S0167610519306105&rut=78e373227d1291008951b017ed82971963a6113eedd4d868f05fbcb539974864', 'type': 'ddg', 'title': 'A comparison of micrometeorological methods for marine roughness ...'}
+- {'url': 'https://www.researchgate.net/publication/277796988_Anatomy_of_the_Ocean_Surface_Roughness&rut=9238fe9c6a8a51671739000fd93cd24f82137782ab402852f6f719f7b9a9a168', 'type': 'ddg', 'title': '(PDF) Anatomy of the Ocean Surface Roughness - ResearchGate'}
+- {'url': 'https://journals.ametsoc.org/view/journals/phoc/40/9/2010jpo4340.1.xml&rut=a5fddb049d5aa34ba8acc5ee98c673d1ac73e739a3da0037035f6785e0c2ccfd', 'type': 'ddg', 'title': 'Evaluation of a Roughness Length Model and Sea Surface ... - AMETSOC'}

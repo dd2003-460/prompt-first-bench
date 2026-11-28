@@ -1,0 +1,24 @@
+# N83: A100 对 INT8 (W8A16) 精度的原生计算支持：SM 8.0 支持 INT8 Tensor Cores，标称 INT8 稀疏算力为 624 TOPS
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+A100 对 INT8 (W8A16) 精度的原生计算支持：SM 8.0 支持 INT8 Tensor Cores，标称 INT8 稀疏算力为 624 TOPS，密集算力约为 312 TOPS，支持 vLLM 的 INT8 量化推理内核。
+
+## Corrected Claim
+
+A100 对 INT8 (W8A16) 精度的原生计算支持：SM 8.0 支持 INT8 Tensor Cores，标称 INT8 稀疏算力为 624 TOPS，密集算力约为 312 TOPS，支持 vLLM 的 INT8 量化推理内核。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 (SM 8.0) 确实支持 INT8 Tensor Cores，其标称稀疏算力 624 TOPS 和密集算力 312 TOPS 符合 NVIDIA 官方规格及第一性原理推导（FP16 312 TFLOPS * 2 = 624 TOPS 稀疏），vLLM 亦支持该硬件的 INT8 量化内核。
+
+## Search Query
+
+A100 INT8 tensor core performance TOPS dense sparse

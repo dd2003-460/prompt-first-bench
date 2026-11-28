@@ -1,0 +1,30 @@
+# N66: 科研长文本生成场景下，由于分布偏移（OOD），MTP 草稿接受率 η 相比代码补全场景降低约 15-30%；若基线代码场景 η_code ≈ 0.9，则科研场景
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+科研长文本生成场景下，由于分布偏移（OOD），MTP 草稿接受率 η 相比代码补全场景降低约 15-30%；若基线代码场景 η_code ≈ 0.9，则科研场景 η_research ≈ 0.63-0.77，需实测校准
+
+## Corrected Claim
+
+科研长文本生成场景下，由于分布偏移（OOD），MTP草稿接受率 η 通常低于代码补全场景，具体降幅取决于模型与数据分布，需实测校准。
+
+## Evidence
+
+[质询]具体数值区间（15-30%降幅，η_code≈0.9）缺乏通用实证支持，属于特定实验条件下的经验数据，不同模型、数据集及MTP实现下波动极大，不能视为普适常数。 | 来源[1][2][3]仅讨论OOD泛化的一般性挑战与评测方法，未提供MTP草稿接受率的具体数值对比或代码/科研场景的量化差异，属经验事实且缺直接来源支持。
+
+## Search Query
+
+speculative decoding acceptance rate drop long context scientific reasoning vs code completion
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29041767/article/details/171263836&rut=2ae3a0a0db890719103cb0affd8716d9b57e1b2d6bb9608fb0d76cc177a1a68b', 'type': 'ddg', 'title': 'OOD泛化与生成式AI评测：两大Tutorial的方法体系与落地-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29051245/article/details/167677216&rut=839efa7452c1409d8ef84663984a421be23482546f51aa2ac33f46a7bda0d268', 'type': 'ddg', 'title': 'OoD泛化工程落地指南：破解分布偏移导致的线上性能崩塌-CSDN博客'}
+- {'url': 'https://m0rtzz.github.io/paper-notes/ICCV2025/llm_evaluation/odp-bench_benchmarking_out-of-distribution_performance_prediction/&rut=a41948aef52898f6dda76d081d8e0dbbf0d970e9a7193e42cee397da334f4df1', 'type': 'ddg', 'title': 'ODP-Bench: Benchmarking Out-of-Distribution Performance Prediction'}

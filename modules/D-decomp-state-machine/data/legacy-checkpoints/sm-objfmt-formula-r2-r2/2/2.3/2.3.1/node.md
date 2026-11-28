@@ -1,0 +1,24 @@
+# N73: FP8 KV Cache 在 RTX 4090 (Ada Lovelace, SM 8.9) 上的原生硬件加速支持状态：SM 8.9 不支持 FP8 Tenso
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+FP8 KV Cache 在 RTX 4090 (Ada Lovelace, SM 8.9) 上的原生硬件加速支持状态：SM 8.9 不支持 FP8 Tensor Cores，导致 FP8 KV Cache 必须通过软件模拟或回退至 BF16/INT8 路径执行，有效带宽利用率预计低于 100%。
+
+## Corrected Claim
+
+FP8 KV Cache 在 RTX 4090 (Ada Lovelace, SM 8.9) 上的原生硬件加速支持状态：SM 8.9 不支持 FP8 Tensor Cores，导致 FP8 KV Cache 必须通过软件模拟或回退至 BF16/INT8 路径执行，有效带宽利用率预计低于 100%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 (Ada Lovelace, SM 8.9) 架构确实不支持原生 FP8 Tensor Core 运算（FP8 硬件加速始于 Hopper SM 9.0），因此在该硬件上执行 FP8 KV Cache 必然依赖软件模拟或格式转换，导致效率低于原生 FP8 硬件路径。
+
+## Search Query
+
+RTX 4090 SM 8.9 FP8 tensor core support hardware acceleration

@@ -1,0 +1,24 @@
+# N146: arXiv API 速率限制的并发队列模型：假设到达率为 λ (req/s)，服务率为 μ=1/s (受限于 1 req/s 限制)，当 λ > μ 时，平均等
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+arXiv API 速率限制的并发队列模型：假设到达率为 λ (req/s)，服务率为 μ=1/s (受限于 1 req/s 限制)，当 λ > μ 时，平均等待时间 W_q 遵循 M/M/1 队列公式 W_q = λ / (μ(μ-λ))；若 λ=0.5 req/s，W_q ≈ 1s；若 λ=0.9 req/s，W_q ≈ 9s，超过 5s 阈值需降级。
+
+## Corrected Claim
+
+arXiv API 速率限制的并发队列模型：假设到达率为 λ (req/s)，服务率为 μ=1/s (受限于 1 req/s 限制)，当 λ > μ 时，平均等待时间 W_q 遵循 M/M/1 队列公式 W_q = λ / (μ(μ-λ))；若 λ=0.5 req/s，W_q ≈ 1s；若 λ=0.9 req/s，W_q ≈ 9s，超过 5s 阈值需降级。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M/M/1队列公式 W_q = λ/(μ(μ-λ)) 在 μ=1 时，λ=0.5 得 0.5/(1*0.5)=1s，λ=0.9 得 0.9/(1*0.1)=9s，计算无误且符合排队论基本原理。
+
+## Search Query
+
+M/M/1 queue waiting time formula api rate limiting concurrency

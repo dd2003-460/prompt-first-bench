@@ -1,0 +1,28 @@
+# N64: 投机解码拒绝率 p_reject 与任务复杂度的关系：p_reject = 1 - η，η 随输入熵增加而降低；在数学证明任务中 η≈0.5 (p_reject
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+投机解码拒绝率 p_reject 与任务复杂度的关系：p_reject = 1 - η，η 随输入熵增加而降低；在数学证明任务中 η≈0.5 (p_reject=0.5)，在代码补全中 η≈0.8 (p_reject=0.2)；调度边界 L_switch = (C_api_per_token * L / (1-p_reject) + T_overhead) / (1/Throughput_local - 1/Throughput_api)
+
+## Corrected Claim
+
+投机解码拒绝率 p_reject 通常随任务复杂度（输入熵）增加而升高（即接受率 η 降低）；在数学证明等高熵任务中接受率通常低于代码补全等低熵任务；调度边界 L_switch 取决于 API 与本地推理的成本及延迟权衡，具体数值需根据实际系统参数计算。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 正交性失败：子节点A和B本质上是同一物理量（调度边界L_switch）在不同参数下的两个特例，存在概念重叠而非正交维度；子节点C引入了全新的决策维度（置信度），与前两者逻辑层级不同，导致集合异质。2. 冗余严重：A和B均为'公式+特定参数代入'的结构，可合并为'参数化调度模型'。3. 完备性缺失：父节点定义了包含C_api_per_token和Throughput的通用公式，但子节点未解释该公式如何映射到具体的成本/延迟权衡，且缺少对公式中各变量物理意义的独立定义节点。）
+
+## Search Query
+
+speculative decoding rejection rate task complexity entropy relationship scheduling boundary
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/15575453436&rut=0dcfa8bca0908c95a25cdefddd8f1275db7522db2bff14b0882ee7a8f4af0ba5', 'type': 'ddg', 'title': '投机解码（Speculative Decoding）详解 - 知乎'}

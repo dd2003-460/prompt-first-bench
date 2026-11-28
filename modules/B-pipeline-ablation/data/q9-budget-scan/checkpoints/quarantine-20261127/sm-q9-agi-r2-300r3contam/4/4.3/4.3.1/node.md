@@ -1,0 +1,28 @@
+# N59: 模型自评估置信度Confidence与真实正确概率Accuracy之间的校准误差Calibration Error定义为ECE = Σ_b (|D_b|/D) 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+模型自评估置信度Confidence与真实正确概率Accuracy之间的校准误差Calibration Error定义为ECE = Σ_b (|D_b|/D) * |acc(D_b) - conf(D_b)|，对于27b模型在未校准状态下，ECE通常在15-25%之间，这意味着直接使用原始置信度作为阈值τ会导致FP/FN率严重偏离预期，必须先经过Platt Scaling或Isotonic Regression校准。
+
+## Corrected Claim
+
+模型自评估置信度Confidence与真实正确概率Accuracy之间的校准误差Calibration Error定义为ECE = Σ_b (|D_b|/D) * |acc(D_b) - conf(D_b)|。对于大型语言模型（如27b级别）在未校准状态下，ECE通常较高（具体数值依任务和模型而异，常见于10%-30%区间），这意味着直接使用原始置信度作为阈值可能导致FP/FN率偏离预期，建议经过Platt Scaling或Isotonic Regression等校准方法处理。
+
+## Evidence
+
+[质询]陈述中关于“27b模型”在未校准状态下ECE具体数值范围（15-25%）属于特定经验数据，缺乏通用性且易受数据集、任务类型及具体模型架构影响，参考来源未提供该具体数值支持，存在以偏概全或数据过时的风险。 | 来源[1]直接支持了ECE的定义及校准误差的概念，但未覆盖具体的27b模型数值范围；该数值部分为经验事实，逻辑自洽但缺来源直接支持，故降级。
+
+## Search Query
+
+llm confidence calibration error expected calibration error ece 27b model platt scaling isotonic regression
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E6%A0%A1%E5%87%86%E8%AF%AF%E5%B7%AE/68062680&rut=1a986687062d5b09777eb27d5dbf8c0bbe824bd460f176d2cf02334e44d6f785', 'type': 'ddg', 'title': '校准误差_百度百科'}

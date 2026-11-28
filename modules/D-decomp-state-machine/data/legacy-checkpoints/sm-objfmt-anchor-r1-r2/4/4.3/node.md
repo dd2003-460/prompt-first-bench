@@ -1,0 +1,30 @@
+# N23: 推理吞吐量基准数据溯源：收集Qwen3-27B在候选硬件上的tokens/sec实测值（BF16/FP8/INT8），标注测试环境（OS, Driver, vL
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+推理吞吐量基准数据溯源：收集Qwen3-27B在候选硬件上的tokens/sec实测值（BF16/FP8/INT8），标注测试环境（OS, Driver, vLLM/TensorRT-LLM版本）；缺失数据标[待核验]并估算误差范围±15%
+
+## Corrected Claim
+
+Qwen3-27B在启用MTP加速后推理速度可提升约3倍（基于RTX 4080实测），但具体BF16/FP8/INT8下的绝对吞吐量基准数据及详细测试环境（OS/Driver/框架版本）需另行收集核验。
+
+## Evidence
+
+[质询]参考来源主要讨论MTP加速技术带来的相对性能提升（3倍），并未提供BF16/FP8/INT8在不同硬件上的绝对tokens/sec基准数据，也未涉及vLLM/TensorRT-LLM版本及OS/Driver等具体测试环境标注，无法直接支持该陈述中关于‘收集具体实测值’和‘标注详细环境’的事实描述。 | 逻辑自洽，但参考来源[1][2][3]仅涉及MTP加速原理及相对提速，未覆盖具体的量化基准数据（tokens/sec）及详细环境配置，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B inference benchmark tokens per second RTX 4090 H100 vLLM
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29058331/article/details/163993769&rut=88a1d6317aa6abee04f039d712cb1014a9f444e4de45f745c0bf209b92ddd7e3', 'type': 'ddg', 'title': 'Qwen3.8 27B推理速度提升3倍：MTP加速技术实测与配置指南-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29053067/article/details/163992785&rut=e9142e511350c4799908d894d0ad12a770cf5371bce3f782efeb670ea0529f89', 'type': 'ddg', 'title': 'Qwen3.8-27B推理速度提升3倍：揭秘Multi-Token Prediction加速原理与实战-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/163992772&rut=f640811be7530bf5fc6880492a309a0a358aaf07f7fd6fa5881e089217300235', 'type': 'ddg', 'title': '揭秘MTP加速技术：如何让Qwen3.8 27B大模型推理速度提升近3倍'}

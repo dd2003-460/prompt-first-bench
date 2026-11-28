@@ -1,0 +1,24 @@
+# N20: 多智能体交叉验证（Multi-Agent Cross-Validation）中，采用 N 个独立智能体投票达成共识时，错误率 E_consensus 随 N 呈
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+多智能体交叉验证（Multi-Agent Cross-Validation）中，采用 N 个独立智能体投票达成共识时，错误率 E_consensus 随 N 呈指数衰减：E_consensus ≈ E_single^N * C(N, <N/2)，其中 E_single 为单智能体独立错误率（对于 27b 模型在特定领域约 15-20%），据此计算在 V100 集群上并发运行 N=3 或 N=5 时的吞吐量损失（latency multiplier ≈ N * 0.8 due to parallelism overhead on TP=4 setup）。
+
+## Corrected Claim
+
+在多智能体交叉验证中，若假设各智能体错误相互独立，共识错误率理论上随 N 增加而显著降低（近似为 E_single^N 量级），但实际中受限于模型共性偏差，衰减速度会慢于理想指数模型。V100 集群上的吞吐量损失取决于具体的并行策略和通信开销，通常接近线性增长但受并行效率影响，不宜简单固定为 N*0.8。
+
+## Evidence
+
+[质询]公式 E_consensus ≈ E_single^N * C(N, <N/2) 在数学上是不严谨的近似，且忽略了智能体间错误的相关性（correlation）。若智能体共享相同的底层模型偏差（common mode failure），错误率不会随 N 呈理想指数衰减，而是收敛于一个非零下限。此外，'latency multiplier ≈ N * 0.8' 是一个高度依赖具体硬件调度、通信开销和任务并行度的经验值，并非通用物理或逻辑常数，将其作为固定系数缺乏普适性。 | 先验知识/题面给定，逻辑校验通过。虽然公式是简化的二项分布近似（假设独立同分布），但在理想化假设下逻辑自洽；然而，由于缺乏外部来源支持具体的经验参数（如 0.8 系数和 15-20% 错误率），且存在忽略错误相关性的潜在风险，依据经验事实排除条款及降级规则，判定为 degraded。
+
+## Search Query
+
+multi-agent voting error reduction LLM throughput cost

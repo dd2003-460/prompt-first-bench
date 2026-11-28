@@ -1,0 +1,24 @@
+# N8: 单序列最大有效上下文长度下的延迟模型：Latency(N) = Prefill_Latency(N) + Decode_Latency(N)，其中Prefill
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+单序列最大有效上下文长度下的延迟模型：Latency(N) = Prefill_Latency(N) + Decode_Latency(N)，其中Prefill阶段为计算密集（Compute-bound），Decode阶段为内存密集（Memory-bound）；在262144 max_model_len下，Prefill耗时随N线性增长，Decode每token耗时随KV Cache大小增加而增加，需测量N=32k, 64k, 128k, 256k时的端到端延迟曲线。
+
+## Corrected Claim
+
+在典型的LLM推理场景中，总延迟通常由Prefill（计算密集）和Decode（内存密集）两部分组成。随着序列长度N增加，Prefill耗时通常显著增加，Decode每token耗时也可能因KV Cache增大而受影响。具体延迟曲线需根据实际硬件和软件栈进行测量验证，而非仅依赖理论线性假设。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能特征（如Prefill严格线性增长、Decode随KV Cache增加而增加的具体机制及特定max_model_len下的行为），这些并非纯数学或逻辑公理，而是依赖于具体硬件架构、软件实现（如FlashAttention版本、量化方式）及模型结构的经验事实。虽然大方向符合LLM推理的一般规律，但缺乏具体来源支持其精确的线性关系和特定阈值下的表现，存在过度简化的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+LLM inference latency prefill decode phase 256k context length memory bound compute bound analysis

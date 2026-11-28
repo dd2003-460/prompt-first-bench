@@ -1,0 +1,20 @@
+# N263: 综述/结构化检索场景下 H_shift=0.2 nats 对应的熵增量 ΔH = H_shift * ln(2) ≈ 0.138 bits/token，该低熵特
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N103, N104, N105
+
+## Claim
+
+综述/结构化检索场景下 H_shift=0.2 nats 对应的熵增量 ΔH = H_shift * ln(2) ≈ 0.138 bits/token，该低熵特性使得 MTP 草稿头的预测准确率 η_draft 从代码域的 0.85 提升至 0.90 以上，因为上下文冗余度高，Next-Token 分布更尖锐，KL 散度 D_KL(P_true || P_draft) < 0.1 nats。
+
+## Corrected Claim
+
+在综述/结构化检索场景下，H_shift=0.2 nats 对应的熵增量 ΔH ≈ 0.138 bits/token。这种低熵特性通常意味着 Next-Token 分布更尖锐，理论上有利于提高 MTP 草稿头的预测准确率并降低 KL 散度，但具体的准确率提升幅度（如从 0.85 至 0.90+）及 KL 散度阈值需依赖具体实验数据验证。
+
+## Evidence
+
+[质询]将具体的经验性能指标（η_draft从0.85提升至0.90+，KL散度<0.1 nats）归因于单一的熵增量（0.138 bits/token），缺乏严格的因果推导支持。虽然低熵通常意味着更高的预测确定性，但具体的准确率提升幅度和KL散度阈值依赖于模型架构、训练数据分布及解码策略，不能仅由熵值线性或单调推导得出，属于未经证实的经验断言。 | source=knowledge，数学换算（0.2 * ln(2) ≈ 0.138）逻辑自洽，但后半部分关于MTP草稿头具体准确率提升和KL散度阈值的经验数值缺乏第一性原理支撑，且无外部来源验证，符合经验事实排除条款中‘逻辑自洽但缺来源支持’的情形，故降级。

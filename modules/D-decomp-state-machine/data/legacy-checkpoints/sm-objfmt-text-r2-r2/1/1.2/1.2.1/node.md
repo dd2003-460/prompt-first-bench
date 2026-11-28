@@ -1,0 +1,20 @@
+# N42: BF16 精度工作点：W_mem = 55.6 GB，无量化校准开销，质量损失 ΔScore = 0%，但该方案要求单卡显存 ≥ 60 GB (含 KV Cac
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+BF16 精度工作点：W_mem = 55.6 GB，无量化校准开销，质量损失 ΔScore = 0%，但该方案要求单卡显存 ≥ 60 GB (含 KV Cache 和激活缓冲)，将候选硬件限制在 H100/A100 或 Mac Studio 等高成本/非典型方案，性价比指数受初始购置成本 ($30k+) 主导
+
+## Corrected Claim
+
+BF16 精度工作点：W_mem = 55.6 GB，无量化校准开销，质量损失 ΔScore = 0%，但该方案要求单卡显存 ≥ 60 GB (含 KV Cache 和激活缓冲)，将候选硬件限制在 H100/A100 或 Mac Studio 等高成本/非典型方案，性价比指数受初始购置成本 ($30k+) 主导
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：BF16下55.6GB权重加上KV Cache及激活缓冲，总显存需求超过60GB符合大模型推理的工程常识；H100/A100具备80GB显存，Mac Studio M2 Ultra最高支持192GB统一内存，均满足≥60GB的要求；高成本硬件导致性价比受购置成本主导的逻辑自洽。

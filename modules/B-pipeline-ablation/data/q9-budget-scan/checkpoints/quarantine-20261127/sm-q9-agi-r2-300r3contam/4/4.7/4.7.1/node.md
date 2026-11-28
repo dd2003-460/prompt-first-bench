@@ -1,0 +1,20 @@
+# N71: 工作点C的全云成本上限公式：C_C_total = N_queries × C_marginal_C + C_privacy_compliance，其中 C_m
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+工作点C的全云成本上限公式：C_C_total = N_queries × C_marginal_C + C_privacy_compliance，其中 C_marginal_C 取 $0.2-0.5/query 的中值 $0.35，N_queries 为完成一次完整科研循环所需的平均查询数（需实测，预期 50-100），C_privacy_compliance 为数据脱敏与合规审查的固定成本（$500-2000/cycle），若 N_queries > 80 则总成本超过 $1000，此时需评估是否值得相比工作点B的质量增益（L4 vs L3）。
+
+## Corrected Claim
+
+工作点C的全云成本上限公式：C_C_total = N_queries × C_marginal_C + C_privacy_compliance，其中 C_marginal_C 取 $0.2-0.5/query 的中值 $0.35，N_queries 为完成一次完整科研循环所需的平均查询数（需实测，预期 50-100），C_privacy_compliance 为数据脱敏与合规审查的固定成本（$500-2000/cycle），若 N_queries > 80 则总成本超过 $1000，此时需评估是否值得相比工作点B的质量增益（L4 vs L3）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合线性成本模型，数值代入验证正确（80 * 0.35 + 500 = 780 < 1000，若取上限2000则80*0.35+2000=2280>1000，逻辑上存在阈值区间，表述合理），无内部矛盾。

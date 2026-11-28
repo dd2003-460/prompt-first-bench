@@ -1,0 +1,28 @@
+# N48: M1 Max 无法运行 vLLM 的根本原因是其 GPU 驱动仅支持 Metal 框架，而 vLLM 依赖 CUDA 后端进行高效矩阵运算；尝试使用 llama
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+M1 Max 无法运行 vLLM 的根本原因是其 GPU 驱动仅支持 Metal 框架，而 vLLM 依赖 CUDA 后端进行高效矩阵运算；尝试使用 llama.cpp 或 MLX 框架在 M1 Max 上运行 7B 以下小模型时，推理速度仅为 V100 集群的 1/10-1/20，且无法支持 27B 模型（显存不足）；因此 M1 Max 在科研循环中仅能承担编排、日志记录、向量数据库查询等 I/O 密集型任务，计算密集任务必须卸载至 V100 或云端 [待核验]
+
+## Corrected Claim
+
+M1 Max 无法原生运行依赖 CUDA 后端的 vLLM，因其 GPU 驱动仅支持 Metal 框架；使用 llama.cpp 或 MLX 框架时，受限于 CPU/GPU 协同计算能力及内存带宽，其推理速度显著低于专用 GPU 集群（如 V100），且受约 26GB 有效 GPU 显存限制，难以高效运行 27B 及以上规模的大模型；因此 M1 Max 更适合承担 I/O 密集型任务，计算密集任务建议卸载至专用 GPU 或云端。
+
+## Evidence
+
+[质询]陈述中关于性能对比的具体数值（V100集群的1/10-1/20）和特定模型限制（无法支持27B）属于经验事实，缺乏直接来源支持，且M1 Max统一内存架构下通过MLX等框架优化后，小模型推理效率可能高于此保守估计，同时27B模型在量化条件下理论上可能在32GB统一内存中运行（尽管速度慢），绝对化的‘无法支持’表述过于武断。 | 来源[1]仅确认了M1 Max的GPU可用内存约为26GB及Metal框架背景，间接支持了显存限制导致大模型难以运行的逻辑，但未提供vLLM不支持CUDA的具体技术细节，也未提供与V100集群的性能对比数据，属于间接支持且覆盖不全。
+
+## Search Query
+
+M1 Max GPU Metal framework limitations vs CUDA vLLM llama.cpp inference speed comparison
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/AlexsJones/llmfit/issues/570&rut=cbfe95140ad3f51579bb69c88ebbfdebf6778b88ff7cb74d7c48d62e5e3491f5', 'type': 'ddg', 'title': 'Feature request: show size of unified memory available to GPU ... - GitHub'}

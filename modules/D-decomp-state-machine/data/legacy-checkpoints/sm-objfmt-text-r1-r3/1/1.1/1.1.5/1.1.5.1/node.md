@@ -1,0 +1,20 @@
+# N104: Block-wise Quantization 的 Scale/Zero-point 元数据开销计算：假设 block_size=128（典型值），每个 blo
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N31
+
+## Claim
+
+Block-wise Quantization 的 Scale/Zero-point 元数据开销计算：假设 block_size=128（典型值），每个 block 需存储 1 个 FP32 scale 和 1 个 FP32 zero-point（共 8 bytes），元数据占比 = (8 bytes / (128 * 0.5 bytes)) = 12.5%；若 block_size=256，占比降至 6.25%；若仅存 scale（无 zero-point），block_size=128 时占比为 6.25%。N31 声称的 2-5% 偏低，实际通常在 5-15% 之间，取决于 block size 和是否存储 zero-point。
+
+## Corrected Claim
+
+Block-wise Quantization 的 Scale/Zero-point 元数据开销计算：假设 block_size=128（典型值），每个 block 需存储 1 个 FP32 scale 和 1 个 FP32 zero-point（共 8 bytes），元数据占比 = (8 bytes / (128 * 0.5 bytes)) = 12.5%；若 block_size=256，占比降至 6.25%；若仅存 scale（无 zero-point），block_size=128 时占比为 6.25%。N31 声称的 2-5% 偏低，实际通常在 5-15% 之间，取决于 block size 和是否存储 zero-point。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（8/(128*0.5)=12.5%, 8/(256*0.5)=6.25%, 4/(128*0.5)=6.25%），符合量化元数据开销的基本定义与量级。

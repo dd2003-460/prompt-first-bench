@@ -1,0 +1,24 @@
+# N31: 陆面感热通量 (Q_SH) 的日变化幅度大：白天晴天可达 300–800 W/m²，夜间辐射冷却导致 -50 至 -150 W/m²。在登陆后首 6 小时（假设
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+陆面感热通量 (Q_SH) 的日变化幅度大：白天晴天可达 300–800 W/m²，夜间辐射冷却导致 -50 至 -150 W/m²。在登陆后首 6 小时（假设跨越昼夜交界），净感热积累量 ∫Q_SH dt 通常不足以抵消潜热损失 ΔQ_LE，导致边界层净热量亏损。
+
+## Corrected Claim
+
+陆面感热通量 (Q_SH) 的日变化幅度大：白天晴天可达 300–800 W/m²，夜间辐射冷却导致 -50 至 -150 W/m²。在登陆后首 6 小时（假设跨越昼夜交界），净感热积累量 ∫Q_SH dt 通常不足以抵消潜热损失 ΔQ_LE，导致边界层净热量亏损。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：陆面感热通量数值范围符合气象学常识，且白天感热积累量通常小于夜间及全天平均潜热损失，导致边界层净热量亏损的物理机制自洽。
+
+## Search Query
+
+surface sensible heat flux diurnal cycle tropical cyclone landfall net heat balance

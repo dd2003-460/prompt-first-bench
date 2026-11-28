@@ -1,0 +1,17 @@
+{
+  "id": "N138",
+  "claim": "TP=4 策略下 Attention 阶段 All-Reduce 的数据量修正：Q/O 投影后需 AllReduce，单次数据量 = 2 * hidden_size * bytes_per_elem。在 FP16 下为 2 * 5120 * 2 = 20KB；在 BF16/FP32 混合精度下可能不同。原 claim 中 40KB 假设了 FP32 或错误的双倍计算，需确认 vLLM 在 V100 (SM70) 上的默认 dtype 是否为 FP16。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "先验知识/题面给定，逻辑校验通过：TP=4下Attention的Q/O投影后AllReduce涉及Q和O两个张量，每个大小为hidden_size，故总数据量为2*hidden_size*bytes_per_elem；FP16下2*5120*2=20480字节=20KB，计算正确。",
+  "corrected_claim": "TP=4 策略下 Attention 阶段 All-Reduce 的数据量修正：Q/O 投影后需 AllReduce，单次数据量 = 2 * hidden_size * bytes_per_elem。在 FP16 下为 2 * 5120 * 2 = 20KB；在 BF16/FP32 混合精度下可能不同。原 claim 中 40KB 假设了 FP32 或错误的双倍计算，需确认 vLLM 在 V100 (SM70) 上的默认 dtype 是否为 FP16。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N43"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM tensor parallelism allreduce size attention fp16 vs fp32 memory layout",
+  "retrieval_sources": []
+}

@@ -1,0 +1,20 @@
+# N246: 术语对齐失败的量化指标：在生物-物理交叉题中，模型对专业术语（如 'phosphorylation cascade'）的 Embedding 相似度低于 0.8
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N74
+
+## Claim
+
+术语对齐失败的量化指标：在生物-物理交叉题中，模型对专业术语（如 'phosphorylation cascade'）的 Embedding 相似度低于 0.85 的比例为 45%，而在单一学科题中仅为 12%
+
+## Corrected Claim
+
+在生物-物理交叉题中，模型对专业术语的Embedding相似度显著低于单一学科题，表明术语对齐失败率更高。
+
+## Evidence
+
+[质询]该陈述包含具体的经验统计数据（45% vs 12%）和特定阈值（0.85），属于经验事实而非第一性原理可推导内容。虽然逻辑上交叉学科术语歧义导致Embedding相似度降低是合理的，但具体数值缺乏来源支持，且不同模型、数据集下波动极大，无法确认为普遍真理。 | 经验事实，逻辑自洽但缺来源支持（source=knowledge，但具体数值属经验数据，无外部验证，依规则降级）

@@ -1,0 +1,24 @@
+# N26: Qwen3-27B 在 OpenWebMath 和 MATH-500 基准测试上的解题准确率基线约为 45%-55%，而在 SciCode (Python/Nu
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Qwen3-27B 在 OpenWebMath 和 MATH-500 基准测试上的解题准确率基线约为 45%-55%，而在 SciCode (Python/NumPy) 基准上的 Pass@1 约为 35%-40%；这表明本地模型在纯数学推导和复杂代码执行环节存在显著能力缺口，需依赖外部计算器或 Code Interpreter 工具补偿。
+
+## Corrected Claim
+
+Qwen3-27B 在数学和代码基准测试上表现良好，但具体准确率数值需查阅官方技术报告或权威第三方评测以确认，现有来源未提供确切数据。
+
+## Evidence
+
+[质询]参考来源[1]讨论的是 'Qwen 3.6 27B' 且主要聚焦于编程任务与智能密度对比，并未提供 'Qwen3-27B' 在 OpenWebMath、MATH-500 及 SciCode 上的具体准确率数值（45%-55% 和 35%-40%），存在版本混淆（3.6 vs 3）及数据缺失问题。 | 来源[1]主题相关但版本不一致（Qwen 3.6 vs Qwen3）且未包含具体基准测试数值，无法直接支持或反驳具体百分比；鉴于这是经验事实（具体模型性能指标），缺乏直接来源支持，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2055287697623856945&rut=15197e6378d63427ae9a6e4a0901cd53e79afd374f51edc5a7dd4354a17355bf', 'type': 'ddg', 'title': 'Qwen 3.6 27B深度评测：27B参数单挑397B，本地跑AI编程的时代来了'}

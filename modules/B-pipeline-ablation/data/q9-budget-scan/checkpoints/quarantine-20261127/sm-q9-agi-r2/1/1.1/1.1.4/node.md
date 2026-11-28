@@ -1,0 +1,24 @@
+# N33: vLLM 在 V100 上的 Block Size 默认为 16 tokens，KV Cache 分配粒度为 block；由于显存剩余极少，max_num_se
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+vLLM 在 V100 上的 Block Size 默认为 16 tokens，KV Cache 分配粒度为 block；由于显存剩余极少，max_num_seqs=8 会导致每个序列可用的 KV 块数急剧减少，实际并发下的有效上下文长度会因 Block 碎片化而进一步降低约 5-10%，建议将 max_num_seqs 降至 2-4 以最大化单序列上下文深度。
+
+## Corrected Claim
+
+vLLM 在 V100 上通常采用 Block 粒度的 KV Cache 分配（默认 Block Size 常见为 16 tokens，具体依版本而定）；在显存紧张时，较高的 max_num_seqs 会分散可用 KV 块，导致单序列最大上下文长度受限，并因 Block 内部碎片产生一定开销（具体比例视负载而定），建议根据显存余量调整 max_num_seqs 以平衡并发与上下文深度。
+
+## Evidence
+
+[质询]「Block 碎片化导致有效上下文长度降低约 5-10%」这一具体数值缺乏通用理论支撑，碎片化损耗取决于负载特征和调度策略，并非固定百分比；此外，V100 上 vLLM 的默认 Block Size 是否为 16 需视具体版本而定（早期版本多为 16，新版本可能不同），且 max_num_seqs 对单序列上下文深度的影响主要受限于总显存而非单纯的碎片化。 | 先验知识/题面给定，逻辑校验通过：vLLM 基于 PagedAttention 机制，Block 粒度分配确实存在内部碎片，但具体损耗比例（5-10%）为经验估计而非绝对真理，且默认参数随版本变化，故降级为定性表述。
+
+## Search Query
+
+vLLM block size fragmentation impact on context length low memory

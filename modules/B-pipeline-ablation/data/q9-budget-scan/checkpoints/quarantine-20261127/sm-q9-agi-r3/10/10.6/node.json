@@ -1,0 +1,19 @@
+{
+  "id": "N300",
+  "claim": "向量数据库 FAISS 的单次检索延迟 T_search 与索引大小 N_vec 和维度 d 相关；使用 IVF-PQ 索引时，T_search ≈ O(N_vec / nprobe * d) * t_cpu_op；若 N_vec=100k, d=768, nprobe=10, t_cpu_op=0.01ms，则 T_search ≈ 100000/10 * 768 * 0.01ms = 7680ms? 错误，应为 N_vec/nprobe 是候选簇数，实际比较次数较少；典型 IVF-4096 PQ 在 100k 向量上 T_search < 10ms，满足 <50ms 要求，且内存占用约 N_vec * d * 4 bytes = 300MB，可在 Mac M1 Max 上高效运行。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]陈述中给出的复杂度公式 T_search ≈ O(N_vec / nprobe * d) * t_cpu_op 存在严重的量级和逻辑错误。首先，IVF-PQ 的检索复杂度主要取决于 nprobe（探测的簇数量）和每个簇内的向量数量（N_vec/nlist），而不是简单的 N_vec/nprobe。其次，代入数值计算得出的 7680ms 与后文声称的 '<10ms' 严重矛盾，且该公式本身不符合 FAISS 的实际性能特征（PQ 编码会显著降低计算量，且 nprobe 通常远小于 nlist，导致实际比较次数远低于 N_vec/nprobe）。此外，内存占用计算 N_vec * d * 4 bytes 忽略了 PQ 压缩后的实际内存占用（PQ 会将浮点数压缩为字节，内存占用应远小于 300MB）。 | 先验知识/题面给定，逻辑校验发现内部矛盾：公式推导结果（7680ms）与结论（<10ms）冲突，且复杂度模型描述不准确，内存计算未考虑 PQ 压缩效应。",
+  "corrected_claim": "向量数据库 FAISS 使用 IVF-PQ 索引时，单次检索延迟 T_search 主要取决于 nprobe 和 PQ 码本大小，而非简单的 N_vec/nprobe。对于 N_vec=100k, d=768 的场景，典型配置下 T_search 通常在毫秒级（<10ms），满足 <50ms 要求。由于 PQ 压缩，实际内存占用远低于 N_vec * d * 4 bytes（例如，若 PQ 子空间数为 96，每维 2bit，内存约为 N_vec * 96 bytes ≈ 9.6MB），可在 Mac M1 Max 上高效运行。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N105",
+    "N106",
+    "N107"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "faiss ivf-pq search latency 100k vectors m1 max",
+  "retrieval_sources": []
+}

@@ -1,0 +1,24 @@
+# N77: Qwen3-27B 的 Transformer 层数 (num_layers) 确认为 64 层，这是计算 KV Cache 的独立乘数因子
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+Qwen3-27B 的 Transformer 层数 (num_layers) 确认为 64 层，这是计算 KV Cache 的独立乘数因子
+
+## Corrected Claim
+
+Qwen3-27B 的 Transformer 层数 (num_layers) 疑似为 64 层，需查阅官方技术报告或配置文件以确认确切数值，该数值是计算 KV Cache 的独立乘数因子。
+
+## Evidence
+
+[质询]Qwen3系列的具体架构参数（如层数）属于经验事实，且不同尺寸（如27B vs 其他变体）可能存在差异，若无官方文档或可靠技术报告直接确认，存在将其他模型（如Qwen2.5-32B或其他尺寸）的参数误植或记忆偏差的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值64层的准确性）
+
+## Search Query
+
+Qwen3-27B config.json num_hidden_layers

@@ -1,0 +1,24 @@
+# N35: CAPE 对眼墙结构解体速度的影响通过对流有效功率 P_conv = m_dot * CAPE 体现，其中 m_dot 为单位面积对流质量通量。CAPE 降低 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+CAPE 对眼墙结构解体速度的影响通过对流有效功率 P_conv = m_dot * CAPE 体现，其中 m_dot 为单位面积对流质量通量。CAPE 降低 85%–95% 直接导致 P_conv 同比例下降，使得眼墙内对流上升气流无法维持原有高度，眼墙高度 H_eye 在 6–12 小时内降低 50% 以上，加速结构解体。
+
+## Corrected Claim
+
+CAPE 对眼墙结构解体速度的影响通过对流有效功率 P_conv = m_dot * CAPE 体现，其中 m_dot 为单位面积对流质量通量。CAPE 降低 85%–95% 直接导致 P_conv 同比例下降，使得眼墙内对流上升气流无法维持原有高度，眼墙高度 H_eye 在 6–12 小时内降低 50% 以上，加速结构解体。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+eye wall collapse rate CAPE reduction tropical cyclone landfall structural decay

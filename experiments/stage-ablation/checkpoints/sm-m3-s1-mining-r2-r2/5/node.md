@@ -1,0 +1,24 @@
+# N14: 纯铜（Pure Copper）在室温下的典型导热系数约为 401 W/(m·K)，而高纯铝（High-purity Aluminum）可达 237 W/(m·K
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+纯铜（Pure Copper）在室温下的典型导热系数约为 401 W/(m·K)，而高纯铝（High-purity Aluminum）可达 237 W/(m·K)。
+
+## Corrected Claim
+
+纯铜（Pure Copper）在室温下的典型导热系数约为 401 W/(m·K)，而高纯铝（High-purity Aluminum）可达 237 W/(m·K)。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点分别描述了铜的温度依赖性和铝的杂质依赖性，两者主题不同且无矛盾，满足正交性；但父节点核心是陈述两种材料在室温下的典型数值对比，子节点却转向了非室温或特定纯度下的修正/变化规律，未直接涵盖父节点中‘高纯铝在室温下为237 W/(m·K)’这一基础事实的独立确认或对比逻辑，存在信息偏移，故不完备。）
+
+## Retrieval Sources
+
+- {'url': 'https://www.jtcopper.com/hghy/34276&rut=0816a84444193ad6035fdd279d43ad1a830cc4ba4b2903a847ce8c0dc13a74fc', 'type': 'ddg', 'title': '铜在热管理领域实现从"量变"到"质变"的跨越 - 金田铜业'}

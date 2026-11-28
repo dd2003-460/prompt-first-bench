@@ -1,0 +1,20 @@
+# N76: H100 SXM 服务器节点的基础设施附加成本估算公式：Infra_Cost = (Power_Supply_Overhead_W * Utilization_
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+H100 SXM 服务器节点的基础设施附加成本估算公式：Infra_Cost = (Power_Supply_Overhead_W * Utilization_Factor * Electricity_Rate * Hours_Per_Year * 5_Years) + Cooling_Capex_Amortization，其中 Power_Supply_Overhead_W 约为 550W（参考 N25），需代入具体电价和冷却摊销系数以完善 TCO 对比中的非 GPU 部分。
+
+## Corrected Claim
+
+H100 SXM 服务器节点的基础设施附加成本估算公式：Infra_Cost = (Power_Supply_Overhead_W * Utilization_Factor * Electricity_Rate * Hours_Per_Year * 5_Years) + Cooling_Capex_Amortization，其中 Power_Supply_Overhead_W 约为 550W（参考 N25），需代入具体电价和冷却摊销系数以完善 TCO 对比中的非 GPU 部分。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM 功耗约 700W，加上服务器其他组件（CPU、内存、风扇等）总功耗约 1000-1200W，电源效率损耗后输入功率约 1100-1300W，扣除 GPU 本身功耗后，基础设施附加功耗（PSU overhead + 其他组件）在 400-600W 范围内，550W 处于合理量级；TCO 公式结构符合标准 IT 基础设施成本模型。

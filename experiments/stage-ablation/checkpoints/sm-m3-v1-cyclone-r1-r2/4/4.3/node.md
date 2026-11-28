@@ -1,0 +1,29 @@
+# N20: 垂直风切变（Mechanism 3）的量化贡献不确定性：登陆后风切变通常增强，但其对眼墙对称性的破坏程度难以用单一系数量化，不同数值模式（如 HRES vs N
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+垂直风切变（Mechanism 3）的量化贡献不确定性：登陆后风切变通常增强，但其对眼墙对称性的破坏程度难以用单一系数量化，不同数值模式（如 HRES vs NAM）模拟的切变效应差异可达 ±15% 中心气压变化，需列为开放问题。
+
+## Corrected Claim
+
+垂直风切变（Mechanism 3）的量化贡献不确定性：登陆后风切变通常增强，但其对眼墙对称性的破坏程度难以用单一系数量化，不同数值模式模拟的切变效应存在显著差异，需列为开放问题。
+
+## Evidence
+
+[质询]陈述中提到的具体数值“±15% 中心气压变化”以及特定模式对比（HRES vs NAM）属于具体的经验观测或模拟结果，参考来源中完全缺失此类数据支持，且该数值量级（15%的气压变化对于台风中心气压而言极大，通常风切变影响更多体现在结构不对称而非整体强度的剧烈波动，除非是极端案例）缺乏来源佐证，存在数值夸大或特定案例泛化的风险。 | 参考来源[1]和[2]仅定义了风切变的概念和公式，未涉及台风登陆后风切变对眼墙对称性的具体量化贡献或数值模式间的差异数据，属于经验事实且缺乏来源直接支持。
+
+## Search Query
+
+vertical wind shear impact on tropical cyclone intensity decay uncertainty model spread
+
+## Retrieval Sources
+
+- {'url': 'https://zh.wikipedia.org/wiki/%E9%A3%8E%E5%88%87%E5%8F%98&rut=d44e92111d76abb7878d671cd63760e4b9d7935f972c8dc27d11b289079e65a2', 'type': 'ddg', 'title': '风切变 - 维基百科，自由的百科全书'}
+- {'url': 'https://wenku.baidu.com/view/ae0928babcf67c1cfad6195f312b3169a551ea65.html&rut=a3a712c8ca0dbe9af13c167271ae9801da7cf2a0d086c93fd8039ec009df0c82', 'type': 'ddg', 'title': '请写出垂直风切变的计算公式，并说明各变量的含义及单位。'}

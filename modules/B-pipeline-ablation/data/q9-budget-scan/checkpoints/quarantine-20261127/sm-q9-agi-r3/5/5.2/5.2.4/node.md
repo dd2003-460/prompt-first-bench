@@ -1,0 +1,20 @@
+# N91: W2模式下的端到端延迟 T_end_to_end = max(T_local, T_cloud) + T_network; 由于 T_cloud (API 响应
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+W2模式下的端到端延迟 T_end_to_end = max(T_local, T_cloud) + T_network; 由于 T_cloud (API 响应时间 ~5-15s) 远小于 T_local (~400s)，延迟主要由本地瓶颈主导，速度提升有限，主要收益在于质量提升而非速度
+
+## Corrected Claim
+
+W2模式下的端到端延迟 T_end_to_end = max(T_local, T_cloud) + T_network; 由于 T_cloud (API 响应时间 ~5-15s) 远小于 T_local (~400s)，延迟主要由本地瓶颈主导，速度提升有限，主要收益在于质量提升而非速度
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：W2模式下并行执行取最大值加网络开销，本地推理耗时远大于云端API响应，故延迟由本地主导，符合逻辑与工程常识。

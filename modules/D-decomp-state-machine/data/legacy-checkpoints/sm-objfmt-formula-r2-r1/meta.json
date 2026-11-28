@@ -1,0 +1,137 @@
+{
+  "qid": "objfmt-formula-r2",
+  "question": "你要在本地工作站上推理 Qwen3-27B 模型，不设硬性延迟指标（延迟是性能变量，由硬件和部署配置决定，不作为前置约束）；上下文窗口 ≥ 32K tokens 作为容量下限保留。权重精度不限（BF16/FP8/INT8/NVFP4/W4 均可），但必须论证所选精度的质量损失是否可接受。候选硬件：自行搜索确定值得考虑的完整候选集——覆盖你认为所有可能影响性价比排序的架构、代际、容量档位和价格区间（包括消费级、数据中心级、以及任何你认为值得纳入比较的非典型方案）。同时评估单卡与多卡方案的 TCO 差异（如 2× 消费卡 vs 1× 数据卡）。给出性价比最优的完整选卡方案。要求：思考必须最完整，确认没有遗漏任何影响决策的维度；每个关键数字标注来源（刚查到的 vs 凭记忆的），不确定的标 [待核验]；最终推荐必须是条件性的，不能给无条件排名。",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "Feasibility: 硬件显存/内存容量能否容纳模型权重+KV Cache（≥32K ctx）+ 运行时开销（布尔判定，不满足则剔除）",
+      "Quality: 所选量化精度下模型输出与基准精度（如FP16/BF16）的质量差距是否在可接受阈值内（需引用量化误差指标或人工评测标准）",
+      "Cost: 一次性硬件采购成本 + 预估电费/维护成本（TCO，货币单位）",
+      "Performance: 在给定硬件+精度下的 Token/s 吞吐量或首Token延迟（作为性能变量，用于比较，不作为硬约束）"
+    ],
+    "composition": "Filter(Feasibility ∧ Quality) · (Performance / Cost)，即在满足容量和质量底线的前提下，最大化单位成本的吞吐/响应能力",
+    "rationale": "本题核心是在无硬性延迟约束下追求‘性价比’，因此首先通过可行性和质量门槛过滤无效选项，然后在剩余选项中以性能/成本比作为排序键，符合本地推理场景下用户关注投入产出比的决策逻辑。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N8",
+      "claim": "推理框架（如 vLLM/SGLang）的运行时开销及激活值内存占用估算值（GB），通常占总显存的 5-10% 或固定预留",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验数值范围（5-10%）和固定预留值概念，属于经验事实而非第一性原理可推导内容；且不同模型规模、硬件配置及框架版本下，运行时开销占比波"
+    },
+    {
+      "node_id": "N9",
+      "claim": "候选硬件清单：消费级显卡（RTX 3090/4090, RX 7900 XTX 等）的单卡显存容量（GB）及当前市场均价",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述要求提供“当前市场均价（USD）”，但参考来源仅涉及显存容量（24GB）及适用性分析，完全缺失价格数据；且“当前”价格随时间波动，静态来源难以确证实"
+    },
+    {
+      "node_id": "N10",
+      "claim": "候选硬件清单：数据中心级显卡（A100/H100/L40S）的单卡显存容量（GB）及租赁/购买价格估算。",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源仅提供了部分显卡的架构对比背景，未包含具体的单卡显存容量数值及租赁/购买价格估算，无法直接支持该事实节点中的具体数据需求。 | 来源[1]提及了"
+    },
+    {
+      "node_id": "N11",
+      "claim": "非典型方案：高容量统一内存工作站（如 Mac Studio M2/M3 Ultra, Threadripper 平台）的",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述要求提供具体的“有效带宽（GB/s）”数值，但参考来源仅提及内存容量上限（512GB），完全缺失带宽数据；此外，Threadripper 平台的内存"
+    },
+    {
+      "node_id": "N13",
+      "claim": "Qwen3-27B 在 INT8 量化下的权重大小（约 27GB）及对应的质量退化基准测试分数（如 MMLU, Huma",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源中提到的模型名称均为 'Qwen3.8-27B'，而待核验事实指定为 'Qwen3-27B'，存在版本/命名不一致的风险；此外，来源 [3] 主要讨"
+    },
+    {
+      "node_id": "N14",
+      "claim": "Qwen3-27B 在 W4A8 或 W4A16 量化下的权重大小（约 13.5GB）及对应的质量退化基准测试分数（相对",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源标题提及的是 'Qwen3.8-27B' 而非 'Qwen3-27B'，且摘要内容主要讨论推理速度（t/s）和硬件配置，未提供 W4A8/W4A16"
+    },
+    {
+      "node_id": "N16",
+      "claim": "硬件支持矩阵：各候选显卡（4090/A100/H100/Mac）对目标精度（BF16/INT8/W4）的原生计算单元支持",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述要求提供具体的‘原生计算单元支持情况’及‘加速比（TFLOPS 对比）’数值，但参考来源仅提供了定性的性能比较（如H100比A100快数倍）和选型建"
+    },
+    {
+      "node_id": "N19",
+      "claim": "多卡方案的通信开销惩罚因子：在 PCIe 互联下，模型并行导致的 AllReduce 延迟占总推理时间的百分比估算（相对",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述试图给出一个具体的“百分比估算”数值，但通信开销占比高度依赖于模型架构（如Transformer层数、隐藏层维度）、Batch Size、序列长度"
+    },
+    {
+      "node_id": "N23",
+      "claim": "硬件贬值与残值回收价值（Residual Value）：对于3年TCO周期，需估算主要GPU型号在第1/2/3年的二手市",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值范围（每年折旧20-30%）属于经验事实，缺乏通用性，不同GPU型号（如H100 vs RTX 4090）及市场波动下差异巨大，且参考来源未提供"
+    },
+    {
+      "node_id": "N26",
+      "claim": "物理空间与散热约束（Physical & Thermal Constraints）：本地工作站机箱需容纳多张全高显卡及相",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值“4-slot间距”属于特定硬件规格的经验事实，不同主板和显卡设计差异巨大，并非通用物理定律或第一性原理可推导的绝对标准，且参考来源完全无关。 "
+    },
+    {
+      "node_id": "N27",
+      "claim": "软件栈兼容性矩阵（Software Stack Compatibility）：验证候选硬件与推理框架（vLLM/Tens",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于FP8推理的具体CUDA版本要求（>= 12.x）及带宽利用率系数的范围（[0.5, 1.0]）属于具体的经验技术参数，缺乏通用性，且参考来源"
+    },
+    {
+      "node_id": "N28",
+      "claim": "硬件筛选排除准则：剔除显存带宽 < 500 GB/s 或单卡显存 < 24GB 的方案，因为 27B 模型在 32K 上",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体阈值（500 GB/s, 24GB, 5 tokens/s）属于经验性工程参数，缺乏通用物理定律支持，且不同模型架构（如MoE vs Dense）及"
+    },
+    {
+      "node_id": "N29",
+      "claim": "非典型低成本硬件纳入标准：AMD Radeon Pro W7900 (48GB GDDR6) 或 NVIDIA RTX ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“二手市场流通率”与“驱动稳定性评分”的具体数据缺失，且将“多卡拼接方案的可行性评估”这一动态过程描述为静态标准，缺乏量化指标支撑。 | 来源"
+    },
+    {
+      "node_id": "N30",
+      "claim": "32K 上下文下的精确显存占用测算：以 Qwen3-27B (假设 32层, GQA 8 KV heads, head_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]模型架构假设错误导致KV Cache量级严重高估：参考来源指出Qwen3系列（如Qwen3.8-27B）采用混合架构（Hybrid Attention）"
+    },
+    {
+      "node_id": "N31",
+      "claim": "性价比综合排序公式定义：Cost_Efficiency_Score = (Throughput_Tokens_per_s",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该公式为特定场景下的自定义指标，缺乏通用标准支持；且Quality_Factor的具体系数（INT8=0.95, W4=0.90）属于经验性假设，不同模"
+    },
+    {
+      "node_id": "N32",
+      "claim": "不确定性处理机制：对于缺乏公开实测数据的硬件组合（如 Mac M3 Ultra 运行 27B INT8），采用‘保守估计",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述描述的是特定的工程决策方法论（保守估计法的具体参数：带宽利用率0.6、质量损失上限5%），属于经验性工程规范或特定项目内部标准，而非通用的物理定律"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 32
+}

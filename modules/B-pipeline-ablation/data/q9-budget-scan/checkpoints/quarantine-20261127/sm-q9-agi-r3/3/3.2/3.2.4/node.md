@@ -1,0 +1,30 @@
+# N59: 专业计算库替代方案的成本-性能对比：COMSOL Multiphysics云端API单次PDE求解（2D稳态热传导，网格10^4）耗时15-30s，费用$0.0
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+专业计算库替代方案的成本-性能对比：COMSOL Multiphysics云端API单次PDE求解（2D稳态热传导，网格10^4）耗时15-30s，费用$0.05/query；MATLAB Online单次优化问题求解耗时5-10s，费用$0.02/query；本地SciPy对应求解耗时>5min且可能内存溢出
+
+## Corrected Claim
+
+专业计算库替代方案的成本-性能对比：COMSOL Multiphysics云端API单次PDE求解（2D稳态热传导，网格10^4）耗时通常在秒级至分钟级，费用依服务商而定；MATLAB Online单次优化问题求解耗时较短，费用较低；本地SciPy对应求解耗时较长且受限于本地内存。
+
+## Evidence
+
+[质询]该陈述包含具体的API定价（$0.05/$0.02）和特定配置下的精确耗时（15-30s/5-10s），这些属于高度依赖具体云服务提供商、账户等级及硬件配置的动态商业数据和技术指标，并非固定不变的经验事实或第一性原理可推导内容，极易因环境不同而产生巨大偏差。 | 参考来源[1][2][3]仅涉及COMSOL、ANSYS等软件的通用功能定位与选型建议，完全未提及云端API的具体计费标准或特定网格规模下的求解耗时，无法提供外部支持；但陈述中关于云端服务通常比本地小规模求解快、且按次收费的逻辑符合一般云计算常识，无硬逻辑错误。
+
+## Search Query
+
+COMSOL MATLAB cloud API pricing per query PDE solve time comparison local SciPy
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/1048577965_122575413&rut=326603eb7cbaa1fcd7f310afb58a467ee5ff2113e127444a547ca7f10d444ede', 'type': 'ddg', 'title': '科研选COMSOL，工业选ANSYS!华算科技深度解析两大仿真软件核心差异与实战选型'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2021584355995173984&rut=985650acf6f767356059edae1bbcce9f7710d270d5f545aa81f21b05ae13be72', 'type': 'ddg', 'title': '工程软件对比：ANSYS、ABAQUS、COMSOL该如何选择？'}
+- {'url': 'https://www.sohu.com/a/920701231_122372255&rut=781b81b9498cc0628659d573885cd3f9cd168357d99dda0ddf8d9b4632185b9b', 'type': 'ddg', 'title': '如何选择仿真软件：Abaqus、Ansys、COMSOL与达索系统全解析'}

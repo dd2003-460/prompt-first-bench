@@ -1,0 +1,20 @@
+# N7: 4xV100-16GB集群总可用HBM容量为64GB，扣除vLLM系统开销(约2GB)及模型权重占用(NVFP4 27B约13.5GB)后，剩余用于KV Cac
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+4xV100-16GB集群总可用HBM容量为64GB，扣除vLLM系统开销(约2GB)及模型权重占用(NVFP4 27B约13.5GB)后，剩余用于KV Cache的有效内存约为48.5GB
+
+## Corrected Claim
+
+4xV100-16GB集群总可用HBM容量为64GB，扣除vLLM系统开销(约2GB)及模型权重占用(NVFP4 27B约13.5GB)后，剩余用于KV Cache的有效内存约为48.5GB
+
+## Evidence
+
+[质询]NVFP4 27B模型权重占用13.5GB的估算可能存在偏差（取决于具体量化实现和精度损失容忍度），但作为工程估算量级合理；vLLM系统开销2GB也是常见经验值。 | 先验知识/题面给定，逻辑校验通过：4×16GB=64GB总容量，扣除2GB系统开销和13.5GB模型权重后，64-2-13.5=48.5GB，算术正确且量级符合实际部署场景

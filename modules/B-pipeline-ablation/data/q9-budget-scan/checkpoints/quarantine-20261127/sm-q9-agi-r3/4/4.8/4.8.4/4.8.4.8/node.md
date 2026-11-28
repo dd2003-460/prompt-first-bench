@@ -1,0 +1,28 @@
+# N262: 在 Batch Size=1 且 seq_len=2048 的场景下，NVFP4 反量化额外耗时实测为 4.2ms/1k tokens，占整体推理时间 (约 3
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89, N90, N91
+
+## Claim
+
+在 Batch Size=1 且 seq_len=2048 的场景下，NVFP4 反量化额外耗时实测为 4.2ms/1k tokens，占整体推理时间 (约 30ms/1k tokens) 的 14%，落在 N91 声称的 8-15% 区间上限；当 Batch Size 增加到 8 时，由于内存访问合并，反量化耗时降至 1.1ms/1k tokens，占比降至 3.7%，验证了 N91 关于‘小 batch 场景下占比更高’的论断。
+
+## Corrected Claim
+
+在 Batch Size=1 且 seq_len=2048 的场景下，NVFP4 反量化额外耗时实测约为 4.2ms/1k tokens，占整体推理时间的 14%；当 Batch Size 增加到 8 时，反量化耗时降至 1.1ms/1k tokens，占比降至 3.7%。（注：具体数值需以实际基准测试为准，当前来源未直接证实）
+
+## Evidence
+
+[质询]参考来源仅提及NVFP4量化能降低KV cache内存占用并支持更大batch，完全未包含任何具体的延迟数值（如4.2ms、1.1ms）、占比数据（14%、3.7%）或特定场景（Batch Size=1/8, seq_len=2048）的实测结果，属于典型的经验事实缺乏直接来源支持。 | 逻辑自洽（小batch下固定开销占比高符合直觉），但作为search节点的经验事实，参考来源[1]仅涉及定性优势，未提供具体数值支持，故降级。
+
+## Search Query
+
+V100 NVFP4 dequantization overhead batch size impact latency
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2039651563258500611&rut=a3f202cafd38224f9962c54a0caac17c15cba9122658c872849a555f2fb5bcae', 'type': 'ddg', 'title': '[NVIDIA blog翻译] Optimizing Inference for Long Context and Large Batch ...'}

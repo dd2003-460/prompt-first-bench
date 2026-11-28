@@ -1,0 +1,28 @@
+# N18: 定义 Self-Consistency 验证的成本效益函数：$Cost_{SC} = k \times (C_{infer} + T_{sample})$，其中
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+定义 Self-Consistency 验证的成本效益函数：$Cost_{SC} = k \times (C_{infer} + T_{sample})$，其中 $k$ 为采样次数（通常取 5-20），$C_{infer}$ 为单次推理成本（取决于序列长度与 batch size），$T_{sample}$ 为采样时间延迟；需量化在 V100 集群上，增加 $k$ 对最终结论准确率 $P_{acc}$ 的边际提升率 $dP_{acc}/dk$，并确定当 $dP_{acc}/dk < \epsilon$（阈值设为 0.5% 准确率提升/单位时间成本）时的最优 $k^*$。
+
+## Corrected Claim
+
+Self-Consistency 验证涉及采样次数 k 与推理成本及时间的权衡，通常需根据具体硬件（如 V100）和任务特性量化边际准确率提升以优化 k 值，但具体 k 的范围（如 5-20）及停止阈值（如 0.5%）需通过实验确定，非固定通用标准。
+
+## Evidence
+
+[质询]该陈述包含具体的工程经验参数（如 k 取值范围 5-20、阈值 epsilon 设定为 0.5%），这些属于经验事实而非第一性原理可推导内容；且参考来源仅讨论自适应一致性策略及成本-准确率权衡的一般性问题，并未提供 V100 集群上的具体量化数据或验证该特定公式及阈值的合理性。 | 逻辑自洽，但作为经验事实缺乏来源直接支持（来源[1]仅间接提及成本-准确率权衡，未覆盖具体参数与阈值），故降级。
+
+## Search Query
+
+self-consistency sampling cost accuracy tradeoff LLM inference latency
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2077890167617200535&rut=abbfe8b3031856afb5719800a118ca5d992f4ea8e4da7cf82c82f83d2828640b', 'type': 'ddg', 'title': 'Self-Consistency：采样、投票和成本—准确率 - 知乎'}

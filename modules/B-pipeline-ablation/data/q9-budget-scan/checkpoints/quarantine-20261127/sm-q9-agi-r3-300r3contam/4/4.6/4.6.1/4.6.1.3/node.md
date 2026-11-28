@@ -1,0 +1,20 @@
+# N198: 路由开销 C_routing_overhead 的构成：C_routing_overhead = T_latency_penalty * R_hourly + 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N68
+
+## Claim
+
+路由开销 C_routing_overhead 的构成：C_routing_overhead = T_latency_penalty * R_hourly + C_serialization，其中 T_latency_penalty 为云端响应比本地慢导致的流水线停滞时间（预期 2-5s/query），R_hourly=$15/hr（机会成本），C_serialization 为数据序列化/反序列化 CPU 开销（约 $0.001/query），此项在 S_threshold 附近对边际成本影响显著。
+
+## Corrected Claim
+
+路由开销 C_routing_overhead 的构成：C_routing_overhead = T_latency_penalty * R_hourly + C_serialization，其中 T_latency_penalty 为云端响应比本地慢导致的流水线停滞时间（预期 2-5s/query），R_hourly=$15/hr（机会成本），C_serialization 为数据序列化/反序列化 CPU 开销（约 $0.001/query），此项在 S_threshold 附近对边际成本影响显著。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

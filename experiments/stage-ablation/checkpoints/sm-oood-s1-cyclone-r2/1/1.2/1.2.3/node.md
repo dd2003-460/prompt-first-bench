@@ -1,0 +1,28 @@
+# N35: 登陆后陆地表面温度 T_sfc 在白天通常低于海洋 SST 5-10 K，在夜间可低至 -10 K，导致感热通量 Q_sensible 从正值（~100-200
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+登陆后陆地表面温度 T_sfc 在白天通常低于海洋 SST 5-10 K，在夜间可低至 -10 K，导致感热通量 Q_sensible 从正值（~100-200 W/m²）转为负值或接近零。
+
+## Corrected Claim
+
+登陆后陆地表面温度 T_sfc 在白天通常低于海洋 SST，在夜间差异可能更大，导致感热通量 Q_sensible 从正值转为负值或接近零，具体温差和通量数值取决于当地气象条件及气旋强度。
+
+## Evidence
+
+[质询]数值量级与具体场景依赖性强：登陆热带气旋（TC）登陆后，由于强降水和高湿度，陆地表面温度与海洋SST的差异通常较小（往往<5K），且感热通量受风速和湍流影响极大，'100-200 W/m²'这一范围对于登陆TC这种极端高风速场景可能偏低或不具代表性，容易将一般海陆热力差异的经验值误用于特定气象事件。 | 参考来源[1]仅讨论龙卷风与登陆热带气旋的关系，完全未涉及地表温度、SST差异或感热通量的具体数值，属于无关来源；该陈述包含具体的经验参数（温差5-10K，通量100-200 W/m²），属于经验事实，缺乏直接来源支持，故降级。
+
+## Search Query
+
+land surface temperature vs sea surface temperature diurnal cycle tropical cyclone landfall
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Tornado', 'type': 'wikipedia', 'title': 'Tornado'}

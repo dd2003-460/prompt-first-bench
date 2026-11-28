@@ -1,0 +1,30 @@
+# N307: 单位算力有效产出 (Valid Conclusions per FLOP) 在 N=5 时的具体数值为 0.015 conclusions/FLOP-unit，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N109
+
+## Claim
+
+单位算力有效产出 (Valid Conclusions per FLOP) 在 N=5 时的具体数值为 0.015 conclusions/FLOP-unit，而在 N=10 时下降至 0.009 (-40%)；临界点 N*=5 是通过最大化 d(E_parallel)/dFLOP 求导得到的驻点，前提是假设间独立性系数 < 0.6 (即存在中等程度的领域重叠)。
+
+## Corrected Claim
+
+单位算力有效产出在N=5时为0.015，N=10时降至0.009（-40%），临界点N*=5基于最大化d(E_parallel)/dFLOP推导，前提为假设间独立性系数<0.6。（注：此为特定模型下的经验参数，缺乏公开权威来源直接佐证，建议标注为‘某特定研究/模型设定’）
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（0.015, 0.009）和特定的模型参数（独立性系数<0.6），属于经验事实而非第一性原理可推导的数学/物理定律。参考来源仅讨论通用算力单位定义，完全未涉及此特定模型或数值，缺乏外部证据支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2][3]仅解释FLOPS/TOPS定义，与本节点具体模型数值无关）
+
+## Search Query
+
+optimal parallelism level LLM research agent valid output per compute unit marginal utility
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29531177/article/details/169484878&rut=c6591c4a227b8220757e9e30df4ce7e9800e4ae6a88371e7ff07273be6b96cb6', 'type': 'ddg', 'title': 'Tops与flops：Ai算力单位详解与应用指南 - Csdn博客'}
+- {'url': 'https://juejin.cn/post/7666731827277889542&rut=9939b469d3a419e9dfa1ffa7c076ab14feb095aff5545353c92f82986ad9f85a', 'type': 'ddg', 'title': '一文讲透ai算力单位：Tflops、Pflops、Tops、稀疏算力，到底怎么算、怎么比？本文深入解析了ai芯片算力单位 - 掘金'}
+- {'url': 'https://blog.csdn.net/weixin_70639153/article/details/159424026&rut=6cb5f84b7f379c068f0a00826e2d4c64796dd32974535b5b4fdd6a4f31dbbd7a', 'type': 'ddg', 'title': '算力单位解读-tops、Flops与算力换算方法 - Csdn博客'}

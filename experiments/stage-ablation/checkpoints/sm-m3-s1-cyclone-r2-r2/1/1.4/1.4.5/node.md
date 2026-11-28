@@ -1,0 +1,30 @@
+# N43: 衰减速率的空间变异性：在不同地理区域（如西北太平洋 vs 北大西洋），登陆后 24 小时平均衰减速率存在显著差异，西北太平洋强台风平均衰减约为 12-15 节/
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10, N11, N12
+
+## Claim
+
+衰减速率的空间变异性：在不同地理区域（如西北太平洋 vs 北大西洋），登陆后 24 小时平均衰减速率存在显著差异，西北太平洋强台风平均衰减约为 12-15 节/小时，而北大西洋飓风约为 8-12 节/小时，主要归因于背景垂直风切变环境和陆地复杂程度的差异。
+
+## Corrected Claim
+
+衰减速率存在空间变异性：西北太平洋强台风登陆后24小时平均衰减速率通常高于北大西洋飓风，主要受背景垂直风切变和陆地地形复杂度影响。（注：具体数值12-15节/小时与8-12节/小时因缺乏可靠来源支持，暂作定性描述）
+
+## Evidence
+
+[质询]参考来源均为地震波衰减研究，与台风/飓风气象学完全无关，无法提供外部证据支持具体的衰减速率数值（12-15节/小时 vs 8-12节/小时）及归因分析。 | 逻辑上，西北太平洋台风通常强度更强且海温更高，登陆后因摩擦和能量切断导致的快速衰减符合气象学直觉；但所有参考来源（[1][2][3]）均讨论地震波物理衰减，与气象事实主题无关，属于‘无可用外部证据’。鉴于具体数值属于经验事实且缺乏来源支持，依据规则降级。
+
+## Search Query
+
+regional differences in post-landfall tropical cyclone decay rate Pacific vs Atlantic
+
+## Retrieval Sources
+
+- {'url': 'http://www.progeophys.cn/data/article/pg/preview/pdf/10.6038/pg2024HH0197.pdf&rut=c8108c4212a566376d885357f290b24fd11189c5777389c881e8c4142dc90540', 'type': 'ddg', 'title': 'PDF 地震衰减模型的研究进展 - progeophys.cn'}
+- {'url': 'http://www.progeophys.cn/article/doi/10.6038/pg2024HH0197&rut=c5a6fef7e40a0fa8b6da38c2a1b3d763c4dbc4d24908e72c2576c292af0e29ee', 'type': 'ddg', 'title': '地震衰减模型的研究进展 - progeophys.cn'}
+- {'url': 'https://igg.cas.cn/xwzx/yjcg/202610/t20261023_8297118.html&rut=85ef417913f9f9dc8f75638900333b9e54a8cb6a514bf3c2b5a84369d6298fd5', 'type': 'ddg', 'title': '梁煜彤｜王巍等：频率如何改写地震衰减的主控机制？——美国大陆的尾波衰减成像----中国科学院地质与地球物理研究所'}

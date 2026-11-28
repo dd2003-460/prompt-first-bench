@@ -1,0 +1,20 @@
+# N287: 人工抽检频率 f 的经济最优解：最小化总成本 C_total(f) = f * C_human + (1-f) * C_error_cost，其中 C_erro
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+人工抽检频率 f 的经济最优解：最小化总成本 C_total(f) = f * C_human + (1-f) * C_error_cost，其中 C_error_cost 包含因漏检错误导致的信誉损失和返工时间；求导得 f_optimal = sqrt(C_error_cost / (C_human + C_error_cost))，代入 C_human=$8.33/cycle 和 C_error_cost=$50/cycle（估算返工成本），得 f_optimal ≈ 0.94，表明高频抽检在早期更经济
+
+## Corrected Claim
+
+若总成本模型为线性 C_total(f) = f * C_human + (1-f) * C_error_cost，则不存在内部最优解。若 C_human < C_error_cost，最优策略为 f=1（全检）；若 C_human > C_error_cost，最优策略为 f=0（不检）。若要使用 f_optimal = sqrt(C_error_cost / (C_human + C_error_cost)) 这一形式，需假设成本函数包含非线性项（如漏检概率随抽检频率呈非线性下降，或返工成本与漏检数量呈二次关系等），原陈述中的线性模型与推导结果矛盾。
+
+## Evidence
+
+[质询]数学推导错误：对函数 C(f) = f*C_h + (1-f)*C_e 求导得到的是线性函数，其导数为常数 (C_h - C_e)，不存在极值点（除非 C_h=C_e，此时任意 f 均为最优）。陈述中声称求导得到 f_optimal = sqrt(...) 是完全错误的数学结论，该公式通常出现在涉及平方根项的成本模型中，而非线性加权模型。 | 逻辑校验发现严重数学错误：线性成本函数的导数不为零（除非系数相等），无法通过求导得出非平凡的最优解，且给出的公式与线性模型不符。

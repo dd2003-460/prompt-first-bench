@@ -1,0 +1,24 @@
+# N210: MacBook M1 Max 运行 Llama-3-8B (INT8) 进行'代码语法检查'（Pyright/ESLint 规则匹配）的误报率为 5%，漏报率为
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N74
+
+## Claim
+
+MacBook M1 Max 运行 Llama-3-8B (INT8) 进行'代码语法检查'（Pyright/ESLint 规则匹配）的误报率为 5%，漏报率为 10%；若仅过滤明显语法错误，可将 27B 接收的代码调试请求量减少 40%，等效节省 27B 算力 12%。
+
+## Corrected Claim
+
+MacBook M1 Max 运行 Llama-3-8B (INT8) 进行代码语法检查时，其误报率和漏报率取决于具体实现与数据分布；在特定条件下，前置过滤可能显著减少后端大模型的调用量，但具体节省比例需实测确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性性能指标（5%误报率、10%漏报率、40%请求减少、12%算力节省），这些数值高度依赖于具体的测试数据集、代码库分布及硬件优化细节，并非从第一性原理或通用逻辑中必然推导出的固定常数，属于典型的经验事实。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+small language model code syntax checking false positive rate vs linter

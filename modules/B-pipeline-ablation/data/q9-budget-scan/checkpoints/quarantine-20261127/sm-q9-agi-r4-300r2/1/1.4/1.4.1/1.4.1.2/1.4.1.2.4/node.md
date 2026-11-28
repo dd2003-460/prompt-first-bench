@@ -1,0 +1,20 @@
+# N262: TP=4 通信开销在 η=0.25 时成为主要瓶颈的原因：AllReduce 延迟 T_allreduce ≈ 2 * (L_tensor / Bandwidt
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N103, N104, N105
+
+## Claim
+
+TP=4 通信开销在 η=0.25 时成为主要瓶颈的原因：AllReduce 延迟 T_allreduce ≈ 2 * (L_tensor / Bandwidth_PCIe) + Latency_base，对于 27B 模型每层 AllReduce 数据量约 16MB，V100 PCIe 3.0 带宽 12GB/s 下 T_comm ≈ 1.3ms/layer，64 层总通信时间 T_comm_total ≈ 83ms/token，占总周期 33ms (1/30tok/s) 的 250% [矛盾]，修正：实际 TP 通信与计算重叠，有效瓶颈为同步等待时间 T_sync_wait ≈ 5-10ms/batch，当 η<0.3 时计算时间 T_comp < T_sync_wait，系统进入通信受限模式，吞吐不再随 η 线性增长。
+
+## Corrected Claim
+
+TP=4 通信开销在低利用率（η<0.3）时成为主要瓶颈的原因：AllReduce 同步等待时间与计算时间重叠不足，导致系统进入通信受限模式。具体通信延迟取决于硬件互联带宽（PCIe/NVLink）和数据并行度，当计算时间小于同步等待时间时，吞吐不再随计算效率线性增长。
+
+## Evidence
+
+[质询]陈述中引用的具体数值（如27B模型每层AllReduce数据量16MB、V100 PCIe 3.0带宽12GB/s下的1.3ms/layer、总通信时间83ms等）属于高度依赖具体实现细节（如数据类型FP16/BF16、是否使用NVLink、具体框架优化策略）的经验参数，且原始陈述内部存在明显的逻辑矛盾（通信时间超过总周期时间却称占比250%后强行修正），缺乏通用性验证。 | 先验知识/题面给定，逻辑校验发现内部数值矛盾（83ms > 33ms）及经验参数缺乏普适性支持，虽核心机制（TP通信瓶颈）符合直觉，但具体量化描述不可靠。

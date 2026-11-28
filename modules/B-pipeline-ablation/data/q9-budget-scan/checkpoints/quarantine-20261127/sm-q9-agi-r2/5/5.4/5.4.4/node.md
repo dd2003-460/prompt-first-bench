@@ -1,0 +1,20 @@
+# N86: T_corr=10s 的构成拆解：修正步骤涉及将评估反馈（JSON格式，~200 tokens）注入 Prompt，重新生成修正后的假设段落（~300 toke
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24
+
+## Claim
+
+T_corr=10s 的构成拆解：修正步骤涉及将评估反馈（JSON格式，~200 tokens）注入 Prompt，重新生成修正后的假设段落（~300 tokens）；在本地 V100 上，这一步骤的 T_corr 主要由 Decode 阶段决定，300 tokens * (1/45 tokens/s) ≈ 6.7s，加上 Prompt 重组与预处理 1s，总计约 8-10s；若修正涉及代码执行（如运行小规模验证脚本），T_corr 将增加至 30-60s (参见 N19)。
+
+## Corrected Claim
+
+T_corr=10s 的构成拆解：修正步骤涉及将评估反馈（JSON格式，~200 tokens）注入 Prompt，重新生成修正后的假设段落（~300 tokens）；在本地 V100 上，这一步骤的 T_corr 主要由 Decode 阶段决定，300 tokens * (1/45 tokens/s) ≈ 6.7s，加上 Prompt 重组与预处理 1s，总计约 8-10s；若修正涉及代码执行（如运行小规模验证脚本），T_corr 将增加至 30-60s (参见 N19)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100单卡Decode速度45 tokens/s符合工程常识，300 tokens耗时约6.7s，加上预处理1s，总耗时8-10s量级合理，内部计算自洽。

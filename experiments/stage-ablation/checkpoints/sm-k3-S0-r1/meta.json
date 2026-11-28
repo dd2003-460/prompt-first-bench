@@ -1,0 +1,132 @@
+{
+  "qid": "k3-S0",
+  "question": "目标：在我的硬件条件下，以性价比最高、速度最快且可靠的方式，达到 research-AGI。\n\n**research-AGI 的操作化定义**（待 D 确认，v0 用 D 的 autoresearch 系统作锚）：\n一个 AI 系统能在我指定的研究方向上，独立完成\"提出假设 → 设计实验 → 执行（含检索/计算）→ 分析 → 得出可验证结论 → 更新自身知识\"的完整科研循环，且产出的研究结论经人工抽查达到\"可发表级\"（对标顶刊同题材论文的标准），无需人类逐步指导。\n\n**我的硬件条件**（v0，2026-11-22 服务器实测，待 D 确认精确边界）：\n- 推理平台：一台固定服务器，4× Tesla V100-SXM2-16GB（compute cap 7.0），不可更换\n- 当前部署：vLLM 服务 qwen3.8-27b（NVFP4 量化，TP=4，MTP×4 投机解码，fp8 KV cache，max_model_len=262144，max-num-seqs=8，端口 8787 代理）\n- 开发机：MacBook Pro（Apple M1 Max），跑编排/检索/分析，不跑 27b 推理\n- 约束：不改模型权重（prompt + hook + 外部记忆/工具）\n- 预算约束：时间 + 电费 + （可选）云端 API 费用\n\n任务：给出达到上述目标的最优路径分解。要求：\n1. 自行识别并完整覆盖所有影响\"最快可靠达到\"的贡献因子，不遗漏（因子清单由模型识别，题面不预列——预列=泄露 gold 骨架）\n2. 每个因子给出量化依据（数值/公式/可检索事实），标 conf\n3. 指出当前硬件条件下的能力上限（27b 本地模型能到哪一层，瓶颈在哪）\n4. 给出预算-质量权衡：不同投入档位下能达到的能力边界\n5. 把\"不确定、需要进一步查证\"的点收进黑盒表",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "Coverage (C): 路径是否完整覆盖 research-AGI 闭环中所有关键能力模块（假设生成、实验设计、执行、分析、结论、知识更新），缺失任一核心环节视为 0",
+      "Feasibility (F): 方案是否在给定硬件约束（4xV100-16G, 27B NVFP4, 无权重修改）下物理可行，包括内存占用、推理吞吐、并发限制，违反硬约束视为不可行",
+      "Time-to-Goal (T): 从当前状态到达到可发表级科研循环所需的时间周期（天/周），越小越好",
+      "Cost-Efficiency (CE): 单位产出质量下的资源消耗（电费 + API 调用费 + 人工干预次数），越低越好",
+      "Reliability (R): 系统自主运行时的成功率与鲁棒性，定义为在无人工干预下完成完整科研循环且结果通过人工抽查的概率",
+      "Quality-Upper-Bound (Q): 在该硬件与模型配置下，所能达到的最高科研结论质量等级（对标顶刊标准的达成度百分比）"
+    ],
+    "composition": "minimize (T + λ₁·Cost) subject to F=1 ∧ R ≥ R_min ∧ Q ≥ Q_publishable; maximize CE",
+    "rationale": "该目标函数将'最快'（T）、'性价比最高'（CE/Cost）、'可靠'（R）和'达到 research-AGI'（F ∧ Q）四个核心要求映射为带约束的最优化问题，确保所有关键维度都被量化且相互制约，避免单一指标优化导致的次优解。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N7",
+      "claim": "4×V100-16GB (TP=4) 运行 Qwen3.8-27B (NVFP4) 的单 token 解码延迟基准值：在",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的性能基准数值（P50/P99延迟），属于经验事实，且当前无任何参考来源支持这些具体数值，无法验证其准确性。 | 经验事实，逻辑自洽但缺来"
+    },
+    {
+      "node_id": "N8",
+      "claim": "显存占用模型：总显存消耗 = (27B params × 4-bit quant size ≈ 13.5GB) + (K",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]KV Cache 的具体数值缺失（标记为[待核验]），且不同模型架构（如 GQA vs MHA）和实现细节会导致该数值差异巨大，无法仅凭参数规模确定唯一"
+    },
+    {
+      "node_id": "N9",
+      "claim": "TP=4 通信开销占比：在 V100 SXM2 (NVLink 300GB/s) 架构下，AllReduce 通信时间占",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值缺失且缺乏来源支持：陈述中关键量化指标（通信占比百分比、实际加速比倍数）均为[待核验]状态，且本轮检索无可用来源，无法验证这些经验性数值是否符合"
+    },
+    {
+      "node_id": "N10",
+      "claim": "长上下文衰减阈值：Qwen3.8-27B 在超过 [待核验] tokens 上下文后，Perplexity 上升幅度超过",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值阈值（Perplexity上升>15%，准确率下降>10%）和特定模型版本（Qwen3.8-27B），这些属于经验事实，无法从"
+    },
+    {
+      "node_id": "N11",
+      "claim": "假设生成环节：LLM 调用模式为 Zero-shot CoT + Self-Consistency (k=[待核验])，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含多个具体的经验参数（Self-Consistency的k值、平均输出token数、容忍幻觉率阈值），这些属于特定系统配置或实验结果，无法从第一"
+    },
+    {
+      "node_id": "N13",
+      "claim": "执行环节（检索/计算）：非 LLM 主导，由 MacBook 执行 Python/R 脚本；LLM 仅负责解析中间结果，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中包含具体的阈值数值（如“>[待核验] tokens”和“[待核验]%”），这些属于经验性参数或特定系统配置，无法从第一性原理推导，且缺乏具体数值支"
+    },
+    {
+      "node_id": "N14",
+      "claim": "分析环节：LLM 调用模式为 Chain-of-Thought + Verifier (Self-Critique)，需",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“平均迭代次数”的具体数值缺失（标记为[待核验]），且“主要失败模式”和“需外部计算器”属于经验性观察结论，缺乏普遍适用的定量标准或第一性原理"
+    },
+    {
+      "node_id": "N21",
+      "claim": "建立基于蒙特卡洛树搜索（MCTS）的自我批判机制，设定反思深度 K=3 轮，每轮生成 5 个替代假设进行对抗测试；量化指",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性参数（K=3, 5个假设, λ₀=0.15, ΔT≈0.8s/token），这些数值并非由MCTS算法定义或第一性原理必然导出，而"
+    },
+    {
+      "node_id": "N25",
+      "claim": "纯本地工作点（Tier 1）：4×V100 满载运行 Qwen3.8-27B，无云依赖。成本 C_1 = P_elect",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与工程常识存在显著偏差：4×V100 (FP16) 推理 Qwen3-27B 的吞吐量通常远高于 48-72 小时/篇的极低水平（除非输入/输出"
+    },
+    {
+      "node_id": "N28",
+      "claim": "Qwen3.8-27B NVFP4 量化在长链科研任务（>8k tokens 推理链）中的实际表现未知。[待核验] 假设",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值假设（ΔAccuracy ≈ 2-5%），这属于特定模型版本（Qwen3.8-27B）和特定量化格式（NVFP4）下的实证数据"
+    },
+    {
+      "node_id": "N29",
+      "claim": "云 API 隐性成本波动风险：包括速率限制（Rate Limiting）导致的排队延迟 T_queue 和突发流量下的价",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]β_price ∈ [1.0, 1.5] 和 σ_cost > 20% 等具体数值阈值缺乏通用行业标准或第一性原理支持，属于特定业务场景下的经验参数，不"
+    },
+    {
+      "node_id": "N30",
+      "claim": "V100-SXM2-16GB 集群在 max_model_len=262144 下的 KV Cache 内存压力：TP=",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的工程经验参数（如V100 SXM2在特定配置下的KV Cache剩余空间估算、OOM概率与显存占用率的量化关系），这些属于经验事实而非第"
+    },
+    {
+      "node_id": "N31",
+      "claim": "定义“可发表级”结论的定量基准：在特定学科领域（如CS/NLP），AI生成草稿需通过双盲同行评审模拟，接受率（Accep",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N32",
+      "claim": "建立人工抽查验证流程（Human-in-the-Loop Verification Protocol）：采用分层抽样策略",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N33",
+      "claim": "量化幻觉对“可发表性”的致命影响阈值：在实证研究类论文中，任何未经数据源验证的引用（Citation Hallucina",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 27
+}

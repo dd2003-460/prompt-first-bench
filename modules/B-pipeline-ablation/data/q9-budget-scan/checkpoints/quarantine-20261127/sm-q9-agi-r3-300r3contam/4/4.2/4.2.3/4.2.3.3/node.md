@@ -1,0 +1,20 @@
+# N167: N57中非线性衰减系数α的实测方法论：定义α(N) = (T_actual(N) / T_ideal(N)) - 1，其中T_ideal(N) = T_sing
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+N57中非线性衰减系数α的实测方法论：定义α(N) = (T_actual(N) / T_ideal(N)) - 1，其中T_ideal(N) = T_single * N（假设完全线性），需设计控制变量实验：固定prompt长度和输出长度，分别测量N=1,2,3,4,5,8时的端到端延迟，拟合α(N)曲线，确定在N=3时α≈0.15-0.25的区间边界条件。
+
+## Corrected Claim
+
+N57中非线性衰减系数α的实测方法论：定义α(N) = (T_actual(N) / T_ideal(N)) - 1，其中T_ideal(N) = T_single * N（假设完全线性），需设计控制变量实验：固定prompt长度和输出长度，分别测量N=1,2,3,4,5,8时的端到端延迟，拟合α(N)曲线，确定在N=3时α≈0.15-0.25的区间边界条件。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

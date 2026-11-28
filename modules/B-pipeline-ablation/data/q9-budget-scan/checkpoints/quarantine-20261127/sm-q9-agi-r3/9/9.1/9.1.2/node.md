@@ -1,0 +1,24 @@
+# N283: NVFP4 量化在 V100 (Compute Cap 7.0) 上缺乏原生 Tensor Core 支持，反量化至 FP16 的算子开销使得单 Token 生
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+NVFP4 量化在 V100 (Compute Cap 7.0) 上缺乏原生 Tensor Core 支持，反量化至 FP16 的算子开销使得单 Token 生成时间增加约 15%，相比 INT8 量化，吞吐量低 10-15%，是吞吐量的主要软件瓶颈。
+
+## Corrected Claim
+
+NVFP4 量化在 V100 (Compute Cap 7.0) 上缺乏原生 Tensor Core 支持，需反量化至 FP16 进行计算，由此产生的算子开销通常会导致单 Token 生成时间增加及吞吐量下降（具体幅度取决于软件优化程度，通常在 10%-20% 区间），是主要的软件瓶颈之一。
+
+## Evidence
+
+[质询]具体性能损耗数值（15%延迟增加、10-15%吞吐量降低）属于特定硬件和软件栈下的经验测量数据，缺乏通用性，且不同实现（如TensorRT vs PyTorch）差异巨大，无法作为绝对事实。 | 先验知识/题面给定，逻辑校验通过：V100 (CC 7.0) 确实不支持 FP4 Tensor Core，需反量化至 FP16/INT8 计算，引入额外算子开销符合物理直觉；但具体百分比为经验事实，无来源支持，故降级。
+
+## Search Query
+
+V100 NVFP4 quantization overhead inference speed comparison INT8

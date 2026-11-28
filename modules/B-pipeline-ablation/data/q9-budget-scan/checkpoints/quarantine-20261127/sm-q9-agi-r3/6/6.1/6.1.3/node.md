@@ -1,0 +1,20 @@
+# N76: 纯本地工作点A的单位有效研究结论成本：Cost_per_valid_conclusion = Cost_elec_monthly / (Throughput_e
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N27
+
+## Claim
+
+纯本地工作点A的单位有效研究结论成本：Cost_per_valid_conclusion = Cost_elec_monthly / (Throughput_eff * P_valid_local)，其中 P_valid_local 为本地27B模型产出“可发表级”结论的概率（基于 N24 的幻觉率 <5% 及逻辑一致性校验通过率，假设 P_valid_local ≈ 0.5，需实测校准），则单位成本 ≈ $61.2 / (45 * 0.5) ≈ $2.72/conclusion（保守）或 $0.85/conclusion（乐观）
+
+## Corrected Claim
+
+纯本地工作点A的单位有效研究结论成本：Cost_per_valid_conclusion = Cost_elec_monthly / (Throughput_eff * P_valid_local)，其中 P_valid_local 为本地27B模型产出“可发表级”结论的概率（基于 N24 的幻觉率 <5% 及逻辑一致性校验通过率，假设 P_valid_local ≈ 0.5，需实测校准），则单位成本 ≈ $61.2 / (45 * 0.5) ≈ $2.72/conclusion（保守）或 $0.85/conclusion（乐观）
+
+## Evidence
+
+[质询]P_valid_local ≈ 0.5 的假设缺乏实证数据支持，且将‘可发表级’结论概率简单设定为0.5可能存在主观偏差；此外，$61.2/month 的成本和 45 conclusions/month 的吞吐量也是特定条件下的经验值，若硬件配置或任务难度变化，这些数值会显著波动。 | 先验知识/题面给定，逻辑校验通过：公式结构正确，数值代入计算无误（61.2 / (45 * 0.5) = 2.72），符合成本效益分析的基本逻辑。

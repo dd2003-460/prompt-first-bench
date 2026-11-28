@@ -1,0 +1,24 @@
+# N289: Compute-Bound 临界 Batch Size 计算：要使 Arithmetic Intensity (AI) 超过 Ridge Point 17.4，
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N115, N116, N117
+
+## Claim
+
+Compute-Bound 临界 Batch Size 计算：要使 Arithmetic Intensity (AI) 超过 Ridge Point 17.4，需满足 BS * SeqLen * Op_per_token > 17.4 * Bytes_read_per_token；鉴于 27B 模型权重 (54GB in FP16, 27GB in FP8) 需常驻显存，剩余显存仅约 5-8GB/卡用于 KV Cache；在 FP8 KV (1 byte/param/head) 下，最大可容纳 KV 序列长度限制最大有效 Batch Size 至 BS_max ≈ 16-32 (取决于上下文长度)，此时 AI 仍 < 17.4，数学证明在当前显存约束下无法进入 Compute-Bound 区域。
+
+## Corrected Claim
+
+在典型的大模型推理显存约束下（如单卡 80GB 运行 27B 模型），KV Cache 的显存占用显著限制了最大有效 Batch Size（通常在几十以内），导致算术强度（AI）难以超过 Roofline 模型的 Ridge Point，系统主要受限于内存带宽而非计算能力。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件假设（如单卡显存容量、FP8 KV Cache 的具体字节数定义 '1 byte/param/head' 存在歧义，通常 KV Cache 大小与层数和头数有关而非直接等于参数量）以及特定的模型配置（27B 模型的具体架构参数未给出），导致 'BS_max ≈ 16-32' 和 'AI < 17.4' 的结论依赖于未明示的特定硬件环境（如 A100/H100 80G vs 40G）和模型细节，缺乏通用性。 | 先验知识/题面给定，逻辑校验通过：在显存受限场景下，KV Cache 占用大量显存确实会限制 Batch Size，进而限制算术强度（AI = FLOPs / Bytes），使得大模型推理往往处于 Memory-Bound 区域。虽然具体数值（16-32）依赖特定假设，但核心逻辑（显存约束 -> BS 受限 -> AI 低于 Ridge Point）在工程上是自洽且常见的瓶颈分析模式。
+
+## Search Query
+
+Roofline model ridge point batch size threshold LLM inference memory bound compute bound calculation

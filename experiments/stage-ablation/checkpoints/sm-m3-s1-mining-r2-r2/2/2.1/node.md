@@ -1,0 +1,20 @@
+# N10: 在恒温边界条件下，热流量Q与厚度d呈反比关系（Q ∝ 1/d），因此厚度减半(d→d/2)会导致热流量翻倍(Q→2Q)。
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+在恒温边界条件下，热流量Q与厚度d呈反比关系（Q ∝ 1/d），因此厚度减半(d→d/2)会导致热流量翻倍(Q→2Q)。
+
+## Corrected Claim
+
+在恒温边界条件下，热流量Q与厚度d呈反比关系（Q ∝ 1/d），因此厚度减半(d→d/2)会导致热流量翻倍(Q→2Q)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

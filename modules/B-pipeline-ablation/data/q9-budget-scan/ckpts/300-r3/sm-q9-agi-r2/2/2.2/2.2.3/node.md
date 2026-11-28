@@ -1,0 +1,24 @@
+# N57: 建立伦理合规性过滤的量化规则：定义敏感词库大小 S_ethics ≥ 1000 条，匹配准确率 > 95%，误报率 < 5%；若命中敏感词，强制插入人工审查队列
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+建立伦理合规性过滤的量化规则：定义敏感词库大小 S_ethics ≥ 1000 条，匹配准确率 > 95%，误报率 < 5%；若命中敏感词，强制插入人工审查队列，延迟上限 24h
+
+## Corrected Claim
+
+建立伦理合规性过滤的量化规则：定义敏感词库大小 S_ethics ≥ 1000 条，匹配准确率 > 95%，误报率 < 5%；若命中敏感词，强制插入人工审查队列，延迟上限 24h
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+AI ethics compliance keyword filtering false positive rate

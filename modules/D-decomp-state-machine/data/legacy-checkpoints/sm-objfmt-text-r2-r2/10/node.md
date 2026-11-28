@@ -1,0 +1,26 @@
+# N38: Apple M3 Ultra Mac Studio (192GB Unified Memory) 方案中，内存带宽为 819 GB/s，虽然足以加载 BF16 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Apple M3 Ultra Mac Studio (192GB Unified Memory) 方案中，内存带宽为 819 GB/s，虽然足以加载 BF16 模型 (54GB) 并留有充足空间给 32K KV Cache，但其推理速度约为 20-30 tokens/s，且购置成本约 $4,000-$5,000，其 TCO 在 5 年周期内因低功耗 (<200W) 具有竞争力，但性能上限低于 NVIDIA 消费级方案，适合作为‘静音/低功耗’条件下的备选而非性价比首选。
+
+## Corrected Claim
+
+Apple M3 Ultra Mac Studio (192GB Unified Memory) 方案拥有高内存带宽（官方规格通常为819 GB/s），足以容纳大模型及KV Cache。其具体推理速度（如20-30 tokens/s）和TCO竞争力取决于特定模型负载、上下文长度及电力成本，通常被视为静音/低功耗场景下的优质备选，但在纯算力性价比上可能不及同价位NVIDIA消费级显卡组合。
+
+## Evidence
+
+[质询]陈述中包含具体的推理速度（20-30 tokens/s）、功耗（<200W）及TCO结论，这些属于依赖特定模型规模、上下文长度及电价假设的经验性数据，并非硬件固有属性，且参考来源未提供相关性能测试数据，存在以偏概全或数据过时的风险。 | 来源[1][2][3]确认了Apple M3 Ultra Mac Studio的存在及基本形态，但未提供内存带宽、推理速度、功耗或成本效益的具体数值支持；该事实包含大量经验性参数，逻辑自洽但缺乏直接来源佐证，符合degraded判定标准。
+
+## Retrieval Sources
+
+- {'url': 'https://duckduckgo.com/y.js?ad_domain=amazon.com&ad_provider=bingv7aa&ad_type=txad&click_metadata=w1MDAn7ymb6kQbdTz9gl2IgTFBJlgM9tpFloW3lLrnWstK816QRWDZiNAMj2R8MpLQa5xsUfHeKb1G9qCdfgNIZgW9Vm64GghbvWUNOGYxFvKgG4GsV7lwJJOy%2DEqDtnpc08adUZ_2HLLfUkmcA6KK4U1ZdIYRqq%2D63EMYDfsPU.tSon4qdQ5ig%2D%2DEN1doMxmA&rut=de8f2aff27a6b52610686e26d225bd301278795186e8f6b564f9af4dd4623a91&u3=https%3A%2F%2Fwww.bing.com%2Faclick%3Fld%3De8A72rQwQ7AhxmqUl9Ui1hbTVUCUyNyeHbC7KKf0bq8l%2D9UXhXbZvcs874HlW1ZK0XsJbouFgE_loDAoqj80jRqqRU2IVbQ%2DlKimeL51qwm9hCLGnyYXTeDByrHLfdcSnU2pcLYv9lgkVRYdedUOib44r_4IisYYpgUz2_g_e0TBeOk1B_1yw00AMWB0SIcOkSTfNUlEmWqMYw8tO8YPL4ba%2DqnNw%26u%3DaHR0cHMlM2ElMmYlMmZ3d3cuYW1hem9uLmNvbSUyZnMlMmYlM2ZpZSUzZFVURjglMjZrZXl3b3JkcyUzZGFwcGxlJTJibWFjJTJic3R1ZGlvJTJid2l0aCUyYm0zJTJidWx0cmElMjZpbmRleCUzZGFwcyUyNnRhZyUzZHR4dHN0ZGJnZHQtMjAlMjZyZWYlM2RwZF9zbF80dXMycDhreHdpX3AlMjZhZGdycGlkJTNkMTIyOTI1NTI2OTY4MDE2NCUyNmh2YWRpZCUzZDc2ODI4NTk0NzA3ODUyJTI2aHZuZXR3JTNkcyUyNmh2cW10JTNkcCUyNmh2Ym10JTNkYnAlMjZodmRldiUzZGMlMjZodmxvY2ludCUzZCUyNmh2bG9jcGh5JTNkMTQwNDM3JTI2aHZ0YXJnaWQlM2Rrd2QtNzY4Mjg4OTAxMDEyMzElM2Fsb2MtOTYlMjZoeWRhZGNyJTNkMTg5MjBfMTM0OTI5MzclMjZtY2lkJTNkODFhZjk4NjE3ODM0M2U5MWE0YmFmMThhYjQ4MjQ3ZTclMjZsYW5ndWFnZSUzZGVuX1VTJTI2bXNjbGtpZCUzZDEzMTNhNzQ4MDIwODFiYmE5OGI1Y2M0MTQzZjUyZmIx%26rlid%3D1313a74802081bba98b5cc4143f52fb1&vqd=4-238001500266347310245844212761382182421&iurl=%7B1%7DIG%3D87E73599FBD9412F933B968A05F668FC%26CID%3D2471B474EA0B67A72A97AC6AEBF96679%26ID%3DDevEx%2C5038.1&rut=db4f7d029860a134447bfa836c422f26fb87df383d612368802ff9e493718b29', 'type': 'ddg', 'title': 'Shop Apple Mac Studio With M3 Ultra - Amazon.com®'}
+- {'url': 'https://www.apple.com/mac-studio/compare/?modelList=Mac-Studio-M3-Ultra,Mac-Studio-M4-Max&rut=70c44832c6a41e6abec39c536693a34a4822a3cd0ce2ea4e0b17d6aa0953b60f', 'type': 'ddg', 'title': 'Mac Studio (M3 Ultra) vs Mac Studio (M4 Max) - Apple'}
+- {'url': 'https://www.apple.com/shop/product/fu973ll/a/Refurbished-Mac-Studio-Apple-M3-Ultra-chip-with-28%E2%80%91Core-CPU-and-60%E2%80%91Core-GPU&rut=a56216ac0aa70f6a27a131427ce06ed67f417761b5c8c295354e66ae41657142', 'type': 'ddg', 'title': 'Refurbished Mac Studio Apple M3 Ultra chip with 28‑Core CPU and 60‑Core GPU'}

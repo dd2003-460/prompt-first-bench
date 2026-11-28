@@ -1,0 +1,24 @@
+# N27: 外部工具调用延迟分布：Python 沙箱执行平均耗时 2.3s，API 检索平均 0.8s，代码编译/运行平均 5.1s；工具调用占总推理时间的 35-40%，
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+外部工具调用延迟分布：Python 沙箱执行平均耗时 2.3s，API 检索平均 0.8s，代码编译/运行平均 5.1s；工具调用占总推理时间的 35-40%，需通过并行化将关键路径延迟降低至 60%。
+
+## Corrected Claim
+
+外部工具调用通常占据显著比例的推理时间（具体比例视任务而定），其延迟受执行环境影响较大；优化策略包括并行化以降低关键路径延迟。
+
+## Evidence
+
+[质询]具体数值（2.3s, 0.8s, 5.1s, 35-40%, 60%）缺乏通用基准支持，不同硬件环境、网络状况及任务复杂度下波动极大，属于特定场景下的经验数据而非普适事实。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体延迟数值无法从第一性原理推导）。
+
+## Search Query
+
+LLM agent tool calling latency distribution python sandbox api retrieval overhead

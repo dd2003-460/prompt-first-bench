@@ -1,0 +1,20 @@
+# N236: 假设生成阶段的单位验证成本 e_hypothesis 估算为 5000 Tokens（含CoT推理+结构化输出）+ 5分钟人工审查，折算为标准时间单位约为 1.
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N83
+
+## Claim
+
+假设生成阶段的单位验证成本 e_hypothesis 估算为 5000 Tokens（含CoT推理+结构化输出）+ 5分钟人工审查，折算为标准时间单位约为 1.5 单位；实验执行阶段 e_experiment 估算为 2000 Tokens（代码生成+调试日志）+ 2分钟人工审查，约为 0.8 单位；分析阶段 e_analysis 估算为 3000 Tokens（图表解读+结论推导）+ 3分钟人工审查，约为 1.0 单位。
+
+## Corrected Claim
+
+假设生成阶段的单位验证成本 e_hypothesis 估算为 5000 Tokens（含CoT推理+结构化输出）+ 5分钟人工审查，折算为标准时间单位约为 1.5 单位；实验执行阶段 e_experiment 估算为 2000 Tokens（代码生成+调试日志）+ 2分钟人工审查，约为 0.8 单位；分析阶段 e_analysis 估算为 3000 Tokens（图表解读+结论推导）+ 3分钟人工审查，约为 1.0 单位。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,29 @@
+# N17: 物理机制-眼墙替换周期（Eyewall Replacement Cycle, ERC）：强台风登陆前常处于ERC阶段，此时外眼墙发展、内眼墙收缩。登陆后摩擦加剧
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+物理机制-眼墙替换周期（Eyewall Replacement Cycle, ERC）：强台风登陆前常处于ERC阶段，此时外眼墙发展、内眼墙收缩。登陆后摩擦加剧内眼墙的破碎，若此时内眼墙已弱，则整体衰减极快；若外眼墙主导，衰减可能稍缓。
+
+## Corrected Claim
+
+物理机制-眼墙替换周期（Eyewall Replacement Cycle, ERC）：强台风登陆前常处于ERC阶段，此时外眼墙发展、内眼墙收缩。登陆后摩擦加剧内眼墙的破碎，若此时内眼墙已弱，则整体衰减极快；若外眼墙主导，衰减可能稍缓。
+
+## Evidence
+
+来源[1]和[2]直接支持ERC的定义及内外眼墙的结构变化过程（外眼墙形成/收缩，内眼墙减弱/破碎），结合气象学基本原理（登陆摩擦导致内眼墙破碎加速衰减），逻辑自洽且有多源支持。
+
+## Search Query
+
+eyewall replacement cycle impact on landfall decay intensity structure
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E7%9C%BC%E5%A3%81%E7%BD%AE%E6%8D%A2/16513723&rut=80bcf38778a021f69f7e6c9b0dc048526985f5dc87a204d89bc34373deb70899', 'type': 'ddg', 'title': '眼壁置换_百度百科'}
+- {'url': 'https://en.wikipedia.org/wiki/Eyewall_replacement_cycle&rut=7106f0602a0a7629ef6ad2bbdc7a9550463fbbfdedc85dd8bcffbc086bd3aec5', 'type': 'ddg', 'title': 'Eyewall replacement cycle - Wikipedia'}

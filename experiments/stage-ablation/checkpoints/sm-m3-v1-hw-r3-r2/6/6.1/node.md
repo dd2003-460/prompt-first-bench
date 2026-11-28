@@ -1,0 +1,24 @@
+# N31: 27B 本地模型在 '提出假设' 步骤的创造性上限：在未见过的跨学科领域，其生成假设的新颖性评分 (Novelty Score) 预计低于 GPT-4o 的 3
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+27B 本地模型在 '提出假设' 步骤的创造性上限：在未见过的跨学科领域，其生成假设的新颖性评分 (Novelty Score) 预计低于 GPT-4o 的 30-50%，需通过外部检索工具注入最新文献以弥补知识截止日期的缺陷
+
+## Corrected Claim
+
+27B 本地模型在未见过的跨学科领域的假设生成新颖性通常低于 GPT-4o，主要受限于训练数据截止时间和参数量，建议结合外部检索工具以弥补知识时效性缺陷。
+
+## Evidence
+
+[质询]该陈述包含具体的量化预测（新颖性评分低于GPT-4o的30-50%），这属于经验事实且缺乏公开基准测试的直接支持，不同模型版本和评估标准下该比例可能波动极大，无法从第一性原理严格推导。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体百分比数值无法由第一性原理推出）
+
+## Search Query
+
+LLM hypothesis generation novelty evaluation cross-domain science Qwen vs GPT-4

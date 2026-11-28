@@ -1,0 +1,24 @@
+# N52: Qwen3.8-27B 的 Transformer 层数 L 约为 64 层，每层 KV Head 数量与 Head Dim 决定单个 Token 的 KV C
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14
+
+## Claim
+
+Qwen3.8-27B 的 Transformer 层数 L 约为 64 层，每层 KV Head 数量与 Head Dim 决定单个 Token 的 KV Cache 大小，FP8 量化下每个 Token 每层的 KV Cache 占用约为 (2 * n_heads * head_dim * 1 byte)，需具体查看模型 config.json 确认 n_kv_heads 和 head_dim。
+
+## Corrected Claim
+
+对于典型的 27B 参数量级 Transformer 模型，KV Cache 大小由层数、KV Head 数量和 Head Dim 决定，FP8 量化下每 Token 每层占用约为 2 * n_kv_heads * head_dim * 1 byte，具体数值需查阅对应模型的 config.json 文件确认。
+
+## Evidence
+
+[质询]Qwen3.8-27B 并非公开已知的标准模型版本（Qwen 系列常见为 0.5B, 1.8B, 4B, 7B, 14B, 32B, 72B 等，或 Qwen2/2.5/3 系列），其具体的层数（L=64）和 KV Head 配置属于特定经验参数，无法从第一性原理推导，且缺乏官方文档或可靠来源证实该特定型号的存在及其架构细节。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且模型名称疑似不存在或非标准发布版本，无法验证具体参数）
+
+## Search Query
+
+Qwen3 27B model config num_layers num_key_value_heads head_dim

@@ -1,0 +1,17 @@
+{
+  "id": "N104",
+  "claim": "单卡 24GB (RTX 4090) 运行 BF16 权重 (54GB) + FP8 KV Cache (2.68GB) 的可行性判定：由于 54GB > 24GB，纯 GPU 驻留不可行；必须采用 CPU Offload 或 Weight Quantization (如 INT4) 混合策略。若坚持 BF16 权重，需将大部分权重卸载至 CPU RAM，此时瓶颈变为 PCIe 带宽 (~64 GB/s) 而非 VRAM 带宽，导致吞吐量下降 > 50% [待核验]。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]吞吐量下降 > 50% 的具体数值缺乏严谨推导，实际性能损失高度依赖于模型架构（如 Attention 占比）、Batch Size 及 PCIe 版本（Gen4 vs Gen5），该定量结论过于绝对。 | 先验知识/题面给定，逻辑校验通过：54GB > 24GB 导致纯 GPU 驻留不可行是确定的；PCIe 带宽远低于显存带宽导致 Offload 后吞吐显著下降符合物理直觉，但具体降幅 >50% 为经验估计，故降级。",
+  "corrected_claim": "单卡 24GB (RTX 4090) 运行 BF16 权重 (54GB) + FP8 KV Cache (2.68GB) 的可行性判定：由于 54GB > 24GB，纯 GPU 驻留不可行；必须采用 CPU Offload 或 Weight Quantization (如 INT4) 混合策略。若坚持 BF16 权重并采用 CPU Offload，瓶颈将转为 PCIe 带宽，导致吞吐量显著下降（通常超过 50%，具体取决于负载特征）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N29"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

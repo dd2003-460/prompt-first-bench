@@ -1,0 +1,26 @@
+# N31: 定义'可发表级'结论的量化可靠性阈值：基于顶刊（如Nature/Science子刊）审稿流程，设定模型独立生成结论的逻辑一致性评分(Logical Consis
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+定义'可发表级'结论的量化可靠性阈值：基于顶刊（如Nature/Science子刊）审稿流程，设定模型独立生成结论的逻辑一致性评分(Logical Consistency Score, LCS)需≥0.9，且事实性错误率(Factual Error Rate, FER)需<0.05%。LCS通过自动化的逻辑链条验证工具（如CoT parser）计算，FER通过RAG检索比对计算。
+
+## Corrected Claim
+
+顶刊（如Nature/Science子刊）对AI辅助内容的管控主要侧重于AI生成比例的检测（如AI率低于5%-10%）及强制披露义务，目前并无公开证据表明其采用‘LCS≥0.9且FER<0.05%’作为基于审稿流程的标准化量化可靠性阈值。
+
+## Evidence
+
+[质询]该陈述将‘可发表级’结论的量化阈值（LCS≥0.9, FER<0.05%）归因于‘基于顶刊审稿流程’，但这属于虚构的因果关系和事实错误。顶刊（如Nature/Science）的审稿流程关注的是科学严谨性、新颖性和数据真实性，并不存在针对‘模型独立生成结论’的标准化LCS/FER量化阈值体系；参考来源明确指出顶刊主要关注AI辅助的披露及AI率（通常指文本相似度或AI生成比例，如5%-10%以下），而非逻辑一致性评分或事实错误率的特定数值阈值。 | 参考来源[1][2][3]显示顶刊对AI内容的管控主要基于‘AI率’（文本检测指标）和披露要求，并未提及或支持‘LCS≥0.9’和‘FER<0.05%’作为基于审稿流程的量化可靠性阈值，原陈述混淆了概念并虚构了顶刊的标准。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/why_not_do_som/article/details/163701984&rut=dfbaf811cc5e876cb3efa16bd97978d8c155f1a080d28c407cfc989dab88886a', 'type': 'ddg', 'title': 'SCI期刊AI率要求到底是多少？2026年最新解读：一区/二区/顶刊标准全汇总_sci投稿ai率-CSDN博客'}
+- {'url': 'https://www.cnblogs.com/jiangai/p/22428648&rut=f7628213dbda666708c5c738ebe60e4744349d67a624732a642011a4c810c2dd', 'type': 'ddg', 'title': 'Sci期刊ai率要求到底是多少？2026年最新解读：一区/二区/顶刊标准全汇总 - 还在做实验的师兄 - 企业博客'}
+- {'url': 'https://www.cnblogs.com/jiangai/p/22101530&rut=393191886d128b8714dd804c56e65238a2e1e881f57572b4784d4cffbe176b72', 'type': 'ddg', 'title': '2026年各期刊平台AI率红线汇总：SCI/EI/CSSCI/Turnitin/iThenticate要求一次说清'}

@@ -1,0 +1,20 @@
+# N40: 边界层辐合度 $CBL$ 与低层角动量输送 $M_{transport}$ 的定量关系：$M_{transport} \propto CBL \cdot r^2
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10, N11, N12
+
+## Claim
+
+边界层辐合度 $CBL$ 与低层角动量输送 $M_{transport}$ 的定量关系：$M_{transport} \propto CBL \cdot r^2 \cdot V_{\theta}$，其中 $r$ 为半径，$V_{\theta}$ 为切向风速；$CBL$ 降低 90% 导致 $M_{transport}$ 降低 80-90%，直接削弱风场维持能力，贡献约 30-50% 的初始衰减速率。
+
+## Corrected Claim
+
+边界层辐合度 $CBL$ 与低层角动量输送 $M_{transport}$ 呈正相关，$M_{transport}$ 随 $CBL$ 降低而显著减少，从而削弱风场维持能力并加速台风初始衰减。
+
+## Evidence
+
+[质询]该陈述包含具体的经验量化数值（如“降低90%导致降低80-90%”、“贡献约30-50%”），这些并非从第一性原理严格推导出的恒定比例，而是依赖于特定台风案例或模拟实验的经验统计值，缺乏普适性的理论必然性。 | source=knowledge，逻辑自洽（角动量输送确实与边界层摩擦/辐合及半径平方成正比，定性关系正确），但具体百分比数值属于经验事实，无来源支持且非第一性原理可严格推出，故降级。

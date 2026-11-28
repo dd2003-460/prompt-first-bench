@@ -1,0 +1,24 @@
+# N70: 表格提取误差的主要来源是跨页表格分割错误：在复杂布局中，40% 的 F1 损失（即 0.15 的绝对分值）源于表格被 PDF 分页符切断导致行列错位；采用 Do
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+表格提取误差的主要来源是跨页表格分割错误：在复杂布局中，40% 的 F1 损失（即 0.15 的绝对分值）源于表格被 PDF 分页符切断导致行列错位；采用 Docling 的 TableTransformer 模块时，若启用 merge_across_pages=True，可将表格 F1 从 0.78 提升至 0.85，但解析耗时 T_parse 增加 20%（从 5s 增至 6s），需权衡准确率提升与时间成本。
+
+## Corrected Claim
+
+表格提取误差的主要来源之一是跨页表格分割错误：在复杂布局中，PDF分页符切断表格常导致行列错位，显著降低F1分数；采用具备跨页合并功能的表格识别模块（如Docling的TableTransformer）通常能提升表格F1，但会增加解析耗时，需在准确率与时间成本间权衡。
+
+## Evidence
+
+[质询]具体数值（40% F1损失占比、F1从0.78升至0.85、耗时增加20%）及特定参数名（merge_across_pages）缺乏通用标准支持，疑似特定实验数据或虚构细节，易将个案经验误作普遍规律。 | 先验知识/题面给定，逻辑校验通过；但作为knowledge节点，虽逻辑自洽，鉴于其包含高度具体的经验性数值和特定实现细节，且无外部来源佐证其普适性，依据保守原则降级为定性表述以规避潜在的事实偏差风险。
+
+## Search Query
+
+Docling table extraction cross-page merging accuracy improvement benchmark

@@ -1,0 +1,29 @@
+# N47: 指令遵循度衰减曲线：随着Context Length (L) 增加，指令遵循度(Follow Rate)呈非线性下降。实证数据显示，当L > 8k tokens
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+指令遵循度衰减曲线：随着Context Length (L) 增加，指令遵循度(Follow Rate)呈非线性下降。实证数据显示，当L > 8k tokens时，遵循度下降斜率显著变陡，而非固定在4k处断崖式下跌
+
+## Corrected Claim
+
+随着Context Length (L) 增加，指令遵循度(Follow Rate)呈非线性下降趋势，实证数据显示在高负载下（如长上下文或高指令密度）遵循度下降加速，但具体拐点位置因模型而异，并非固定于4k或8k。
+
+## Evidence
+
+[质询]具体阈值（8k tokens）及“斜率显著变陡”的量化描述缺乏来源直接支持，属于特定实验条件下的经验数据，不同模型和任务下表现差异巨大，不能一概而论。 | 来源[2]证实了随指令密度/长度增加遵循度下降的趋势（间接支持），但未提供8k tokens的具体阈值或斜率变化细节；来源[1]无关。作为经验事实，逻辑自洽但缺直接来源支持。
+
+## Search Query
+
+LLM instruction following degradation long context length benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1907016263173116054&rut=bf9fdac49f524f200bbbb9c8590580ee47e62fabb20f76b6266a8fb7b5e0cbb9', 'type': 'ddg', 'title': '大模型指令遵循：多维度评估挑战与注意力机制的优化 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/1931112690887136613&rut=04053195144ff72ef15005c232b6c552c5aaf52fa25961cf7dd5c227ea470514', 'type': 'ddg', 'title': '极限考验：Llm 能同时听懂多少条指令？ - 知乎'}

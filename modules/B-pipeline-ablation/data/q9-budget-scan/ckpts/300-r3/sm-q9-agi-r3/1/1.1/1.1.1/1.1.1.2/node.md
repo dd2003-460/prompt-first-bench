@@ -1,0 +1,24 @@
+# N132: 工作点B（平衡型/中等并发）：设置 gpu_memory_utilization=0.90，KV Cache 池容量为 48.0GB，支持 4 个并发序列，单序
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N36, N37, N38
+
+## Claim
+
+工作点B（平衡型/中等并发）：设置 gpu_memory_utilization=0.90，KV Cache 池容量为 48.0GB，支持 4 个并发序列，单序列最大上下文长度限制为 52,428 tokens（48.0e9 / (4 * 4e3)），此时单 token 生成延迟增加约 5%，总吞吐量提升 15%，是性价比最高的配置。
+
+## Corrected Claim
+
+工作点B（平衡型/中等并发）：设置 gpu_memory_utilization=0.90，KV Cache 池容量为 48.0GB。若单序列最大上下文长度为 52,428 tokens，则根据模型架构不同，支持的并发序列数远小于 4（通常仅为 1-2 个，取决于每 token KV 大小）；或者若强制支持 4 个并发，单序列最大上下文长度需大幅降低（例如降至数千 tokens 级别）。原陈述中‘48.0e9 / (4 * 4e3) = 52,428’的计算逻辑错误，且性能提升数据缺乏来源支持。
+
+## Evidence
+
+[质询]数值计算存在严重量纲错误：48.0GB 显存除以 (4 * 4000) 得到的商约为 3MB，而非 52,428 tokens；且 52,428 tokens 的 KV Cache 占用远超 48GB 显存（通常需数 GB 至数十 GB 取决于模型大小），导致‘支持 4 个并发’与‘单序列 52k 上下文’在物理上互斥。 | 逻辑校验发现内部矛盾：KV Cache 容量计算与显存总量不匹配，且并发数与上下文长度的组合超出显存物理极限，属于硬逻辑错误。
+
+## Search Query
+
+vLLM optimal max_num_seqs context length tradeoff

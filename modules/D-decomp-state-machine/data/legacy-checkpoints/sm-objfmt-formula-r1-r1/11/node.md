@@ -1,0 +1,25 @@
+# N44: 消费级 GPU (RTX 40/50系) 与数据中心 GPU (H100/A100) 在二手市场（Used Market）的残值率曲线及未来 1-2 年的价格波
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+消费级 GPU (RTX 40/50系) 与数据中心 GPU (H100/A100) 在二手市场（Used Market）的残值率曲线及未来 1-2 年的价格波动预测，用于修正 TCO 模型中的硬件折旧项，特别是 4090 因矿潮结束后的价格稳定趋势 vs H100 的企业级保值能力
+
+## Corrected Claim
+
+消费级 GPU (RTX 40/50系) 与数据中心 GPU (H100/A100) 在技术规格和市场定位上存在显著差异（如ECC、NVLink支持），这通常导致二者在二手市场的保值能力不同，但具体的残值率曲线及未来价格波动需结合实时市场数据进一步验证。
+
+## Evidence
+
+[质询]参考来源主要聚焦于GPU的技术规格对比（如ECC、NVLink、算力）和选型建议，缺乏关于二手市场具体残值率曲线、未来1-2年价格波动预测以及矿潮结束后4090价格稳定性的量化数据或明确的市场趋势分析，属于经验事实且缺乏直接来源支持。 | 来源[1]和[2]提供了H100与RTX 4090/5090的技术差异背景，间接支持了两者在市场定位上的区别（企业级vs消费级），但未提供具体的二手残值率数值或价格预测数据，符合经验事实排除条款中‘逻辑自洽但缺来源支持’的情形。
+
+## Retrieval Sources
+
+- {'url': 'https://miningboard.com/zh/guides/datacenter-vs-consumer-vs-workstation-gpu&rut=3c437dfef8de199eac5d3320d80d7d01ac19b8448b818422b5a478bc2f80a7e9', 'type': 'ddg', 'title': '数据中心 vs 消费级 vs 工作站 GPU,讲清楚 (2026) · MiningBoard'}
+- {'url': 'https://blog.csdn.net/weixin_44262492/article/details/154491892&rut=1dfc0150c00ea3274700f878fc1366c5e0db17df48550359507110724e34737d', 'type': 'ddg', 'title': '【Gpu训练显卡对比】H100/H200/Rtx 4090/5090/A100/Mi300x - Csdn博客'}

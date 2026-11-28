@@ -1,0 +1,24 @@
+# N319: LCS 中 DAG 构建的边提取规则：采用基于依存句法树（Dependency Parsing）的因果/蕴含关系抽取，每条边 (u, v) 对应一个逻辑步骤 u
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N115
+
+## Claim
+
+LCS 中 DAG 构建的边提取规则：采用基于依存句法树（Dependency Parsing）的因果/蕴含关系抽取，每条边 (u, v) 对应一个逻辑步骤 u 支持/蕴含步骤 v 的关系，需使用 Stanford CoreNLP 或 spaCy 的 NER 与关系抽取模块，准确率在学术文本上约为 85%-90%。
+
+## Corrected Claim
+
+LCS 中 DAG 构建通常采用基于依存句法树的因果/蕴含关系抽取，每条边 (u, v) 表示步骤 u 支持/蕴含步骤 v。可使用 Stanford CoreNLP 或 spaCy 等工具进行实体识别与关系抽取，具体准确率取决于模型与数据集，通常在学术文本上表现良好。
+
+## Evidence
+
+[质询]准确率数值（85%-90%）缺乏特定上下文支撑，且将复杂的DAG构建简化为单一NER/关系抽取模块的准确率是不严谨的；不同数据集和模型下波动极大，该具体数值范围属于未经证实的经验断言。 | source=knowledge，逻辑结构自洽（依存句法用于关系抽取是标准做法），但具体准确率数值属于经验事实，无来源支持且易受模型/数据影响，故降级。
+
+## Search Query
+
+dependency parsing logical implication extraction accuracy academic text

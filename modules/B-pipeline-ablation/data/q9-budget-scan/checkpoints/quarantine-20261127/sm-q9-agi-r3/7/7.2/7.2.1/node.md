@@ -1,0 +1,28 @@
+# N264: Qwen3.8-27B 在 4×V100-SXM2-16GB (TP=4) 上，FP16 基线的单请求持续生成吞吐量（tokens/s）基准值为 [待核验]，需
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N92
+
+## Claim
+
+Qwen3.8-27B 在 4×V100-SXM2-16GB (TP=4) 上，FP16 基线的单请求持续生成吞吐量（tokens/s）基准值为 [待核验]，需通过 vLLM benchmark 脚本在 max_model_len=262144 和 max_num_seqs=8 配置下实测获取，作为加速比计算的除数。
+
+## Corrected Claim
+
+Qwen3.8-27B 在 4×V100-SXM2-16GB (TP=4) 上，FP16 基线的单请求持续生成吞吐量（tokens/s）基准值需通过 vLLM benchmark 脚本在指定配置下实测获取，当前缺乏公开的确切数值，建议以实测为准。
+
+## Evidence
+
+[质询]该陈述声称具体的吞吐量数值为[待核验]，属于经验事实（具体性能指标），无法从第一性原理推导，必须依赖实测数据。虽然来源[1]标题提及了相关硬件和模型，但摘要中未提供具体的FP16基线吞吐量数值，且配置细节（max_model_len=262144）未在摘要中明确确认，因此缺乏直接的外部数值支持。 | 来源[1]主题相关（Qwen3.8-27B, 4xV100, vLLM），但摘要未提供具体的FP16吞吐量数值，属于间接支持/无直接数值证据，符合经验事实降级条件。
+
+## Search Query
+
+vLLM Qwen 27B V100 TP4 throughput benchmark tokens per second FP16
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2072074634476909289&rut=e14e1b01b639a378ae8d7ef986fe88097d0f64a2bbbf119b0cbfae0037f1bd29', 'type': 'ddg', 'title': 'Qwen3.8-27B 实测：V100 上的部署要点与 Q4/Q8 全量基准'}

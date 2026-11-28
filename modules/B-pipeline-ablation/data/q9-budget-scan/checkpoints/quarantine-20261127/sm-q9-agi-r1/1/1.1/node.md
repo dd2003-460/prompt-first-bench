@@ -1,0 +1,24 @@
+# N7: 4xV100-SXM2-16GB在NVFP4量化Qwen3.8-27B模型下的理论峰值Token生成吞吐量（tokens/sec），受限于HBM带宽（~900G
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+4xV100-SXM2-16GB在NVFP4量化Qwen3.8-27B模型下的理论峰值Token生成吞吐量（tokens/sec），受限于HBM带宽（~900GB/s per GPU）与计算能力（CC 7.0不支持原生FP4指令，需软件模拟或降维至FP16/INT8执行路径），需通过nsight-systems profiling获取实际kernel耗时。
+
+## Corrected Claim
+
+4xV100-SXM2-16GB在NVFP4量化Qwen3.8-27B模型下的Token生成吞吐量受限于HBM带宽（~900GB/s per GPU）与计算能力（CC 7.0不支持原生FP4指令，需软件模拟或降维执行），具体数值需通过nsight-systems profiling获取实际kernel耗时后确定。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件参数（HBM带宽~900GB/s）和特定模型（Qwen3.8-27B）的性能预测，属于经验事实。虽然V100的HBM2带宽确实在900GB/s左右（实际约900-950GB/s），且CC 7.0确实不支持原生FP4，但‘理论峰值Token生成吞吐量’是一个依赖于具体实现细节（如KV Cache大小、Batch Size、Kernel优化程度）的经验值，无法仅从第一性原理严格推导出唯一确定的数值或范围，且缺乏来源支持其具体量化结论。 | 经验事实，逻辑自洽（V100带宽与架构限制描述符合常识）但缺来源支持，且具体吞吐量数值无法仅凭逻辑推导得出。
+
+## Search Query
+
+vLLM Qwen3.8 27B NVFP4 quantization V100 throughput benchmark tokens per second

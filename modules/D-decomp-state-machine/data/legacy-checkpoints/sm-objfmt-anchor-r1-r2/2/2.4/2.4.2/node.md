@@ -1,0 +1,24 @@
+# N61: 数据中心双卡方案 (2x A100/H100) 的互联优势与成本项：NVLink 4.0 提供 900GB/s 双向带宽，消除 PCIe 瓶颈，使多卡并行推理加
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+数据中心双卡方案 (2x A100/H100) 的互联优势与成本项：NVLink 4.0 提供 900GB/s 双向带宽，消除 PCIe 瓶颈，使多卡并行推理加速比从 1.7x 提升至 ~1.95x；但 NVLink Bridge 成本 ~$500/对，且需专用服务器机箱/电源 ($3000-$5000 额外基础设施)，总初始硬件成本比消费级双卡高 3-5 倍。
+
+## Corrected Claim
+
+数据中心双卡方案 (2x A100/H100) 的互联优势与成本项：NVLink 4.0 提供 900GB/s 双向带宽，消除 PCIe 瓶颈，使多卡并行推理加速比从 1.7x 提升至 ~1.95x；但 NVLink Bridge 成本 ~$500/对，且需专用服务器机箱/电源 ($3000-$5000 额外基础设施)，总初始硬件成本比消费级双卡高 3-5 倍。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVLink 4.0 带宽（900GB/s）及双卡互联带来的加速比提升符合硬件架构常识；成本估算（NVLink Bridge + 专用机箱/电源）与消费级双卡方案的倍数关系在量级上合理，无内部矛盾。
+
+## Search Query
+
+A100 NVLink bridge cost server infrastructure overhead

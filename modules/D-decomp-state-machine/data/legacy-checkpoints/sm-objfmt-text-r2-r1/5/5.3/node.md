@@ -1,0 +1,28 @@
+# N29: 双卡消费级方案（2x RTX 4090）通过 Tensor Parallelism 实现模型分片，其吞吐量提升受限于 PCIe 带宽（~16GB/s），预计总吞
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+双卡消费级方案（2x RTX 4090）通过 Tensor Parallelism 实现模型分片，其吞吐量提升受限于 PCIe 带宽（~16GB/s），预计总吞吐约为 80 tokens/s [待核验]
+
+## Corrected Claim
+
+双卡消费级方案（2x RTX 4090）通过 Tensor Parallelism 实现模型分片，其吞吐量提升受限于 PCIe 带宽及显存带宽，具体吞吐量需根据量化精度和模型大小实测确定，80 tokens/s 这一具体数值缺乏直接来源支持。
+
+## Evidence
+
+[质询]数值量级存疑：对于70B模型，双卡4090（FP16/INT8量化）在PCIe Gen4 x16（~32GB/s有效带宽，非16GB/s）下，推理延迟主要受限于显存带宽而非PCIe，80 tokens/s的吞吐量对于消费级双卡方案而言偏高（通常单卡4090跑70B Q4约为10-20 tokens/s，双卡并行若通信开销大，提升有限，且PCIe带宽通常标称更高），且来源摘要未提供具体数值支持。 | 来源[1]主题相关（双卡4090部署DeepSeek70B），但摘要中未包含具体的吞吐量数值（80 tokens/s）或PCIe带宽限制的具体数据，属于间接支持/无直接数值证据，故降级。
+
+## Search Query
+
+dual RTX 4090 tensor parallelism LLM inference bandwidth bottleneck
+
+## Retrieval Sources
+
+- {'url': 'https://developer.baidu.com/article/detail.html?id=3786150&rut=84f5360546c936b4ca017ec56168bae0c6673341b1f10c798bed063178331a5f', 'type': 'ddg', 'title': '单双卡RTX 4090挑战DeepSeek70B：本地大模型部署的极限探索与实测分析-百度开发者中心'}

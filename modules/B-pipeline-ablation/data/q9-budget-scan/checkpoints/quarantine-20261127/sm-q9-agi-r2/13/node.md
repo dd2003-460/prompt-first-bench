@@ -1,0 +1,26 @@
+# N105: 自动化闭环中的‘自我知识更新’机制需引入版本控制的向量数据库：每次科研循环结束后，新生成的经过验证的结论（Verified Facts）需写入 RAG 索引，但
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+自动化闭环中的‘自我知识更新’机制需引入版本控制的向量数据库：每次科研循环结束后，新生成的经过验证的结论（Verified Facts）需写入 RAG 索引，但为防止错误传播，需设置‘隔离区’（Quarantine Zone）；只有当同一结论在后续 3 次独立实验中再次被验证（Consensus Count >= 3）时，才从隔离区移至主索引；此机制的单次更新写入延迟 T_write ≈ 50ms (FAISS Insert)，但避免了单次幻觉污染整个知识库的风险，确保长期运行的可靠性。
+
+## Corrected Claim
+
+自动化闭环中的‘自我知识更新’机制建议引入版本控制的向量数据库：每次科研循环结束后，新生成的经过验证的结论需写入 RAG 索引，并设置‘隔离区’以防止错误传播；通常需设定一定的共识验证次数（如多次独立实验验证）后，才从隔离区移至主索引；此机制虽增加写入延迟，但能避免单次幻觉污染整个知识库，确保长期运行的可靠性。
+
+## Evidence
+
+[质询]陈述中关于“Consensus Count >= 3”的具体阈值以及“T_write ≈ 50ms”的具体延迟数值属于特定的工程经验参数或设计选择，并非通用标准或第一性原理可推导的必然事实，且参考来源未提供这些具体数值的直接支持。 | 来源[1][2][3]支持RAG知识库动态迭代、版本管理及增量更新的技术背景，但未直接证实“3次验证”阈值及“50ms”延迟的具体数值，属经验事实缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://cloud.tencent.com/developer/article/2687069&rut=19a5cf330c4430eac3fee5b7197e1d8248b2fc9b7740fc2cfa13b583c768313e', 'type': 'ddg', 'title': '大模型应用：智能体知识库动态迭代架构与大模型数据集全链路版本管理实战.135-腾讯云开发者社区-腾讯云'}
+- {'url': 'https://cloud.tencent.com/developer/article/2645176&rut=251969347f380ed41ae90948170e13e645e927dba7c76c33078ce12a1f9aab88', 'type': 'ddg', 'title': 'Rag向量数据库如何实现增量更新？-腾讯云开发者社区-腾讯云'}
+- {'url': 'https://developer.aliyun.com/article/1740017&rut=e70e63ca424083602065398243b9d772d69a6b1c306077ec91720267452ca420', 'type': 'ddg', 'title': '大模型应用：智能体知识库动态迭代架构与大模型数据集全链路版本管理实战.135-阿里云开发者社区'}

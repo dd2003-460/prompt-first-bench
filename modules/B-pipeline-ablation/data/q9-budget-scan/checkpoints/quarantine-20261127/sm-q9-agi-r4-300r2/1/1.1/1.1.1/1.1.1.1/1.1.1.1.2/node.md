@@ -1,0 +1,20 @@
+# N239: 工作点B（平衡/可行上限）：max_num_seqs=10, TP=4。CUDA Context固定开销1.8GB/卡，Block Manager元数据0.3G
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N92
+
+## Claim
+
+工作点B（平衡/可行上限）：max_num_seqs=10, TP=4。CUDA Context固定开销1.8GB/卡，Block Manager元数据0.3GB/卡，模型权重分摊3.42GB/卡，KV Cache占用8.5GB/卡（N220），总占用14.02GB/卡 < 16GB，剩余1.98GB安全边际，是V100-16GB下的最大可行并发数。
+
+## Corrected Claim
+
+工作点B（平衡/可行上限）：max_num_seqs=10, TP=4。CUDA Context固定开销1.8GB/卡，Block Manager元数据0.3GB/卡，模型权重分摊3.42GB/卡，KV Cache占用8.5GB/卡（N220），总占用14.02GB/卡 < 16GB，剩余1.98GB安全边际，是V100-16GB下的最大可行并发数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：各项显存占用之和（1.8+0.3+3.42+8.5=14.02GB）小于16GB，且剩余空间（1.98GB）符合安全边际常识，数值量级合理。

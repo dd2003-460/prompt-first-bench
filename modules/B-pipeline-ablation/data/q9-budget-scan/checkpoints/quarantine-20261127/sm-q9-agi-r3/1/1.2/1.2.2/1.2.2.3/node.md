@@ -1,0 +1,20 @@
+# N144: 在 GQA 修正后，4xV100 集群剩余可用显存 V_avail=49.5GB 下支持的最大并发序列数 N_max_seq_gqa = floor(49.5 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N39
+
+## Claim
+
+在 GQA 修正后，4xV100 集群剩余可用显存 V_avail=49.5GB 下支持的最大并发序列数 N_max_seq_gqa = floor(49.5 / 1.28) = 38，远高于 MHA 假设下的 4，因此当前 max-num-seqs=8 成为新的瓶颈而非显存
+
+## Corrected Claim
+
+在 GQA 修正后，4xV100 集群剩余可用显存 V_avail=49.5GB 下支持的最大并发序列数 N_max_seq_gqa = floor(49.5 / 1.28) = 38，远高于 MHA 假设下的 4，因此当前 max-num-seqs=8 成为新的瓶颈而非显存
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：49.5 / 1.28 ≈ 38.67，向下取整为 38，计算正确；38 > 4 且 38 > 8，逻辑推导成立，max-num-seqs=8 确实成为瓶颈。

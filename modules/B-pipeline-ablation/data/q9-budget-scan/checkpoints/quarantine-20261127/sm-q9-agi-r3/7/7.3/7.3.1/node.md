@@ -1,0 +1,24 @@
+# N268: 在 4×V100-SXM2-16GB 通过 NVLink 互联的配置下，TP=4 通信带宽的理论峰值为 300 GB/s (单向 150 GB/s)，实际 Al
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N93
+
+## Claim
+
+在 4×V100-SXM2-16GB 通过 NVLink 互联的配置下，TP=4 通信带宽的理论峰值为 300 GB/s (单向 150 GB/s)，实际 All-Reduce 有效带宽利用率通常为理论值的 70-80%，即约 210-240 GB/s，用于计算通信延迟的理论下限。
+
+## Corrected Claim
+
+在 4×V100-SXM2-16GB 通过 NVLink 互联的配置下，TP=4 通信带宽的理论峰值为 300 GB/s (单向 150 GB/s)，实际 All-Reduce 有效带宽利用率通常为理论值的 70-80%，即约 210-240 GB/s，用于计算通信延迟的理论下限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 NVLink 3.0 单链路双向带宽为 300 GB/s（单向 150 GB/s），TP=4 全互联拓扑下聚合带宽符合该量级；All-Reduce 效率 70-80% 为业界公认的经验范围，数值量级与工程常识一致。
+
+## Search Query
+
+V100 SXM2 NVLink bandwidth TP4 all-reduce effective throughput

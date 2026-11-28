@@ -1,0 +1,30 @@
+# N34: 陆地上空垂直风切变 $S$ 的典型量级与海洋差异：陆地受复杂地形和冷高压脊影响，垂直风切变矢量通常 >10-15 kt，且方向多变，远超开阔洋面上通常 <5-1
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+陆地上空垂直风切变 $S$ 的典型量级与海洋差异：陆地受复杂地形和冷高压脊影响，垂直风切变矢量通常 >10-15 kt，且方向多变，远超开阔洋面上通常 <5-10 kt 的均一环境。
+
+## Corrected Claim
+
+陆地上空垂直风切变通常比开阔洋面更为复杂且强度较大，主要受地形摩擦和局地热力环流影响，但具体数值随天气形势变化显著，无固定阈值。
+
+## Evidence
+
+[质询]具体数值阈值（陆地>10-15 kt vs 海洋<5-10 kt）缺乏通用气象学标准支持，且“冷高压脊”作为陆地风切变增强的主要归因在气象动力学上不够严谨（高压脊通常对应下沉气流和风切变减弱区，而非增强区），存在因果归因偏差风险。 | 参考来源[1][2][3]仅定义了垂直风切变及其对天气系统的影响，未提供陆地与海洋的具体数值对比数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+vertical wind shear magnitude over land versus open ocean tropical cyclone structural tilt
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E9%A3%8E%E7%9A%84%E5%9E%82%E7%9B%B4%E5%88%87%E5%8F%98/5002545&rut=85367fec524cac2ae401472a59a995e0fa6f16edcdd76f92c3747188e045477e', 'type': 'ddg', 'title': '风的垂直切变 - 百度百科'}
+- {'url': 'https://zh.wikipedia.org/wiki/%E9%A3%8E%E5%88%87%E5%8F%98&rut=d44e92111d76abb7878d671cd63760e4b9d7935f972c8dc27d11b289079e65a2', 'type': 'ddg', 'title': '风切变 - 维基百科，自由的百科全书'}
+- {'url': 'https://baike.baidu.com/item/%E9%A3%8E%E5%88%87%E5%8F%98/3066713&rut=5a1ceae9e00297a4380308260267edb6254088dda4985f3eba246f6919115844', 'type': 'ddg', 'title': '风切变 - 百度百科'}

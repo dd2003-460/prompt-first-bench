@@ -1,0 +1,24 @@
+# N130: 流式输出缓冲对 Hook 触发延迟的影响：vLLM 默认流式 chunk 大小非固定 1 token，而是基于 GPU 输出队列 flush 间隔（典型 ~10
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N51
+
+## Claim
+
+流式输出缓冲对 Hook 触发延迟的影响：vLLM 默认流式 chunk 大小非固定 1 token，而是基于 GPU 输出队列 flush 间隔（典型 ~10-50ms）；若 Hook 在每个 chunk 而非每个 token 执行，实际正则匹配频率从 50/s 降至 ~20-50/s，单次开销虽不变但总 CPU 占用降低至 0.1-0.25%，且检测到 '<tool_call>' 的响应延迟增加一个 chunk 周期（~20ms），对端到端工具调用启动时间贡献 < 0.1%。
+
+## Corrected Claim
+
+流式输出缓冲对 Hook 触发延迟的影响：vLLM 默认流式 chunk 大小非固定 1 token，而是基于 GPU 输出队列 flush 间隔（典型 ~10-50ms）；若 Hook 在每个 chunk 而非每个 token 执行，实际正则匹配频率从 50/s 降至 ~20-50/s，单次开销虽不变但总 CPU 占用降低至 0.1-0.25%，且检测到 '<tool_call>' 的响应延迟增加一个 chunk 周期（~20ms），对端到端工具调用启动时间贡献 < 0.1%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+vllm streaming chunk size latency token generation buffer interval

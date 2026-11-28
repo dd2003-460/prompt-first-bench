@@ -1,0 +1,20 @@
+# N11: MacBook Pro M1 Max 的内存带宽为 400 GB/s，统一内存容量 32GB/64GB，其 CPU/GPU 算力不足以运行 27B 模型推理，仅
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+MacBook Pro M1 Max 的内存带宽为 400 GB/s，统一内存容量 32GB/64GB，其 CPU/GPU 算力不足以运行 27B 模型推理，仅适合作为编排层和轻量工具调用节点，与 V100 集群通过 HTTP/REST 接口通信。
+
+## Corrected Claim
+
+MacBook Pro M1 Max 的内存带宽为 400 GB/s，统一内存容量 32GB/64GB，其 CPU/GPU 算力不足以运行 27B 模型推理，仅适合作为编排层和轻量工具调用节点，与 V100 集群通过 HTTP/REST 接口通信。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1聚焦于本地硬件算力与内存限制导致的推理不可行性（结论：仅适合编排），子节点2聚焦于与外部集群通信的延迟分析及优化建议（结论：网络非瓶颈，建议换gRPC）。两者关注点不同（本地资源 vs 通信链路），无重叠或矛盾。但父节点明确提到了'内存带宽400GB/s'这一关键规格，子节点1虽提及内存瓶颈但未具体结合400GB/s带宽进行量化分析（例如计算Token生成速度受限于带宽而非算力的情况），导致对父节点中特定技术参数覆盖不全。）

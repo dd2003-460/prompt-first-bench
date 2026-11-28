@@ -1,0 +1,24 @@
+# N24: 纯铜导热系数的温度依赖性在293K至373K范围内近似线性，斜率约为 -0.2 W/(m·K²)，即 d(k_Cu)/dT ≈ -0.2，导致高温端(373K)
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+纯铜导热系数的温度依赖性在293K至373K范围内近似线性，斜率约为 -0.2 W/(m·K²)，即 d(k_Cu)/dT ≈ -0.2，导致高温端(373K)数值降至约 385 W/(m·K)。
+
+## Corrected Claim
+
+纯铜导热系数的温度依赖性在293K至373K范围内近似线性，斜率约为 -0.2 W/(m·K²)，即 d(k_Cu)/dT ≈ -0.2，导致高温端(373K)数值降至约 385 W/(m·K)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：纯铜在室温附近导热系数约为400 W/(m·K)，随温度升高呈线性下降趋势，斜率量级符合物理直觉，数值推导自洽。
+
+## Search Query
+
+pure copper thermal conductivity temperature dependence 293K to 373K

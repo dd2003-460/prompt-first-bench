@@ -1,0 +1,24 @@
+# N35: 低切变工作点（S < 5 m/s）：气旋中心与暖心基本对齐，RMW 对称性保持，24h 内最大风速衰减主要受摩擦主导，额外切变贡献 < 2 kt/24h，此时衰
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+低切变工作点（S < 5 m/s）：气旋中心与暖心基本对齐，RMW 对称性保持，24h 内最大风速衰减主要受摩擦主导，额外切变贡献 < 2 kt/24h，此时衰减速率接近纯摩擦模型预测值。
+
+## Corrected Claim
+
+低切变工作点（S < 5 m/s）：气旋中心与暖心基本对齐，RMW 对称性保持，24h 内最大风速衰减主要受摩擦主导，额外切变贡献 < 2 kt/24h，此时衰减速率接近纯摩擦模型预测值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：低切变环境下气旋结构对称性保持，摩擦主导衰减符合热带气旋动力学基本原理，数值量级（<2kt/24h额外贡献）合理。
+
+## Search Query
+
+low vertical wind shear tropical cyclone decay rate symmetric structure

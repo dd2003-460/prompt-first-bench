@@ -1,0 +1,24 @@
+# N28: 硬件筛选排除准则：剔除显存带宽 < 500 GB/s 或单卡显存 < 24GB 的方案，因为 27B 模型在 32K 上下文下，低带宽会导致解码速度低于 5 t
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+硬件筛选排除准则：剔除显存带宽 < 500 GB/s 或单卡显存 < 24GB 的方案，因为 27B 模型在 32K 上下文下，低带宽会导致解码速度低于 5 tokens/s，无法满足基本交互体验，且显存不足无法容纳 KV Cache。
+
+## Corrected Claim
+
+硬件筛选通常需关注显存带宽与容量，对于27B模型在长上下文场景，低带宽和高显存占用会显著影响解码速度与可行性，具体阈值需根据实际模型架构与量化策略评估。
+
+## Evidence
+
+[质询]具体阈值（500 GB/s, 24GB, 5 tokens/s）属于经验性工程参数，缺乏通用物理定律支持，且不同模型架构（如MoE vs Dense）及量化方式下，KV Cache占用和解码速度差异巨大，单一阈值可能过于绝对。 | 来源[1]讨论了显存、带宽与CUDA核心的优先级，间接支持了硬件筛选的重要性，但未提供具体的数值阈值（如500 GB/s或24GB）作为硬性排除标准，属于经验事实且缺乏直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/24188050446&rut=4c1e1792a0ebeb49913a8ebe32b3734f0ea5db0cc69bd25de728d6b1716f7293', 'type': 'ddg', 'title': '显存、带宽与CUDA核心的优先级分析，Deepseek 大语言模型部署技术选型 - 知乎'}

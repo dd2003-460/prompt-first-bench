@@ -1,0 +1,20 @@
+# N31: 热流量对导热系数的绝对误差传递公式为 δQ = (A·ΔT/d)·δk，代入A=0.01 m²、ΔT=80 K、d=0.01 m，斜率系数为80,000 W/(
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+热流量对导热系数的绝对误差传递公式为 δQ = (A·ΔT/d)·δk，代入A=0.01 m²、ΔT=80 K、d=0.01 m，斜率系数为80,000 W/(W/(m·K))，即k每偏差1 W/(m·K)，Q偏差80 kW
+
+## Corrected Claim
+
+热流量对导热系数的绝对误差传递公式为 δQ = (A·ΔT/d)·δk，代入A=0.01 m²、ΔT=80 K、d=0.01 m，斜率系数为80,000 W/(W/(m·K))，即k每偏差1 W/(m·K)，Q偏差80 kW
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据傅里叶定律 Q=kAΔT/d，对 k 求导得 δQ=(AΔT/d)δk，代入数值计算斜率为 80,000 W/(W/(m·K))，即 80 kW per W/(m·K)，推导无误。

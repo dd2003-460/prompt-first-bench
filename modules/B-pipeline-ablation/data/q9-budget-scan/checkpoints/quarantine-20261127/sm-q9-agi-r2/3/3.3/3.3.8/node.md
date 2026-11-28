@@ -1,0 +1,20 @@
+# N65: 基于修正后的 KV 大小 (64KB/token)，V100 剩余 2.5GB 显存可支持的最大上下文长度 L_max = 2.5GB / 64KB ≈ 40,
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16, N17, N18
+
+## Claim
+
+基于修正后的 KV 大小 (64KB/token)，V100 剩余 2.5GB 显存可支持的最大上下文长度 L_max = 2.5GB / 64KB ≈ 40,960 tokens (40k)。这与 32k 的保守估计接近，但表明 40k 是单请求理论极限，超过 40k 必然 OOM。
+
+## Corrected Claim
+
+基于修正后的 KV 大小 (64KB/token)，V100 剩余 2.5GB 显存可支持的最大上下文长度 L_max = 2.5GB / 64KB ≈ 40,960 tokens (40k)。这与 32k 的保守估计接近，但表明 40k 是单请求理论极限，超过 40k 必然 OOM。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：2.5GB / 64KB = 2560MB / 0.0625MB = 40960 tokens，计算准确且符合内存限制逻辑。

@@ -1,0 +1,20 @@
+# N91: NVIDIA RTX 5090 (Blackwell 架构) 预计配备 32GB GDDR7 显存，带宽 ~1792 GB/s，支持原生 FP4/FP8 加速。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+NVIDIA RTX 5090 (Blackwell 架构) 预计配备 32GB GDDR7 显存，带宽 ~1792 GB/s，支持原生 FP4/FP8 加速。若其上市价格维持在 $2000 左右，其显存容量突破 24GB 限制，理论上可单卡运行 BF16 27B 模型 (54GB 需 offload 或部分量化，但 32GB 足以运行 FP8 27GB + 部分 KV Cache)，将改变当前 24GB 显存瓶颈下的性价比排序。[待核验: 具体上市日期及最终规格] 
+
+## Corrected Claim
+
+NVIDIA RTX 5090 (Blackwell 架构) 预计配备 32GB GDDR7 显存，带宽 ~1792 GB/s，支持原生 FP4/FP8 加速。若其上市价格维持在 $2000 左右，其显存容量突破 24GB 限制，理论上可单卡运行 BF16 27B 模型 (54GB 需 offload 或部分量化，但 32GB 足以运行 FP8 27GB + 部分 KV Cache)，将改变当前 24GB 显存瓶颈下的性价比排序。[待核验: 具体上市日期及最终规格] 
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

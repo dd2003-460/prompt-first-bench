@@ -1,0 +1,24 @@
+# N79: 引用错误类型分布对检测精度的影响：在LLM生成文本中，虚构引用（Hallucinated IDs）占比约40%，元数据错误（标题/作者错配）占比约35%，DOI
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+引用错误类型分布对检测精度的影响：在LLM生成文本中，虚构引用（Hallucinated IDs）占比约40%，元数据错误（标题/作者错配）占比约35%，DOI无效占比约15%，其他格式错误占比10%；Semantic Scholar API对虚构ID检测召回率 Recall_fake≈98%，但对元数据错配（ID存在但内容不符）检测召回率仅 Recall_meta≈60%，需结合本地嵌入匹配进行二次校验以提升整体 Recall_total 至 85%以上。
+
+## Corrected Claim
+
+在LLM生成文本中，虚构引用、元数据错误、DOI无效及其他格式错误共同构成主要错误类型；Semantic Scholar API对虚构ID的检测召回率通常较高，但对元数据错配的检测能力相对较弱，常需结合本地嵌入匹配等二次校验手段以提升整体检测精度。
+
+## Evidence
+
+[质询]具体数值（40%/35%/15%/10%及98%/60%/85%）缺乏公开权威基准测试支持，疑似特定实验场景下的局部数据被泛化为普遍规律，存在以偏概全风险。 | 先验知识/题面给定，逻辑校验通过（各部分占比之和为100%，召回率提升逻辑自洽），但具体经验参数缺乏通用共识支持，故降级。
+
+## Search Query
+
+LLM citation hallucination types distribution detection recall rates

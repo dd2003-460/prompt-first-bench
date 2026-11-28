@@ -1,0 +1,24 @@
+# N56: NVIDIA L40S (48GB GDDR6) 的显存带宽为 864 GB/s，单卡购买成本约为 $10,000-$12,000，租赁成本约为 $2.5-$3
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+NVIDIA L40S (48GB GDDR6) 的显存带宽为 864 GB/s，单卡购买成本约为 $10,000-$12,000，租赁成本约为 $2.5-$3.5/hour，显存容量 48GB 足以容纳 Qwen3-27B 的 INT8 权重 (27.8GB) 和 KV Cache (13.7GB) 的组合，带宽略低于 RTX 4090，但显存容量更大，适合需要更长上下文或更高 batch size 的场景。
+
+## Corrected Claim
+
+NVIDIA L40S (48GB GDDR6) 的显存带宽为 864 GB/s，单卡购买成本约为 $10,000-$12,000，租赁成本约为 $2.5-$3.5/hour，显存容量 48GB 足以容纳 Qwen3-27B 的 INT8 权重 (27.8GB) 和 KV Cache (13.7GB) 的组合，带宽略低于 RTX 4090，但显存容量更大，适合需要更长上下文或更高 batch size 的场景。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：L40S 48GB GDDR6 带宽 864 GB/s 符合官方规格；Qwen3-27B INT8 权重约 27.8GB 加上 KV Cache 13.7GB 总计约 41.5GB，小于 48GB 显存容量，逻辑自洽；价格区间符合市场常识。
+
+## Search Query
+
+NVIDIA L40S 48GB GDDR6 memory bandwidth price 2024

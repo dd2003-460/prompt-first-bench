@@ -1,0 +1,30 @@
+# N72: 多文件代码重构成功率与文件数的关系：在 1-3 个文件时成功率为 75%，4-5 个文件时降至 55%，>5 个文件时降至 <40%，呈指数衰减趋势，拟合公式 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+多文件代码重构成功率与文件数的关系：在 1-3 个文件时成功率为 75%，4-5 个文件时降至 55%，>5 个文件时降至 <40%，呈指数衰减趋势，拟合公式 S(n)=75*exp(-0.15*(n-3)) for n>3
+
+## Corrected Claim
+
+多文件代码重构成功率通常随文件数增加而显著下降，具体数值因项目复杂度和工具而异，缺乏统一的标准统计基准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验统计数据（75%, 55%, <40%）及特定的拟合公式，属于经验事实。参考来源中没有任何一个提供了关于“多文件重构成功率随文件数变化”的具体数值或曲线，来源[1]讨论的是IDE配置优化后的整体成功率（99.6%），来源[2]讨论的是衡量指标，来源[3]讨论的是AI工具流程，均未涉及此特定统计规律。因此，缺乏外部来源支持，且无法从第一性原理推导出这些具体数值。 | 逻辑上，随着涉及文件数增加，重构复杂度上升导致成功率下降符合直觉，且给出的指数衰减公式在数学上能大致拟合描述的趋势（n=3时为75%，n=4时约64.8%，n=5时约55.8%，n=6时约48.1%，n=7时约41.4%，n=8时约35.7%，符合<40%的大致范围）。但作为经验事实，所有提供的参考来源均与此具体统计规律无关，无法提供直接支持。
+
+## Search Query
+
+Qwen3.8-27B code refactoring success rate vs number of files exponential decay
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/QuickSolve/article/details/162339833&rut=49992455086fa8e0c361b9582637dbe75af6c99492faaacc58a93e9173850a7e', 'type': 'ddg', 'title': 'IDEA重构成功率跃升至99.6%的终极配置包（含2023年度JetBrains内部Benchmark测试数据）'}
+- {'url': 'https://blog.csdn.net/stone1290/article/details/122775316&rut=8c235735903fb4e4719daea65b2f25b13f8945dd519065b47af89d17e70368e0', 'type': 'ddg', 'title': '代码重构的力量：如何衡量重构成功 - Csdn博客'}
+- {'url': 'https://www.xyc.ai/news/2026-06-21-ai-cli-legacy-code-refactoring-guide/&rut=f5859e14457231593aa79e89917f09b1e195ed0bfb376445fabfc506fab6af15', 'type': 'ddg', 'title': 'Ai 自动重构代码实战：用 Cli 工具逐文件分析遗留系统，附风险控制清单'}

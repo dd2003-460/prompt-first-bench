@@ -1,0 +1,20 @@
+# N255: 4x V100-SXM2 集群在运行 27B 模型时的静态功耗约为 300W (每卡 75W idle + 动态波动)，满载推理功耗可达 1200W (每卡 3
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+4x V100-SXM2 集群在运行 27B 模型时的静态功耗约为 300W (每卡 75W idle + 动态波动)，满载推理功耗可达 1200W (每卡 300W)。按工业电价 $0.10/kWh 计算，每小时推理成本约为 $0.12 (idle) 至 $0.12 (full load, 假设效率因子 1.0，实际含 PSU 损耗约 15%)，即 $0.138/hour。若每日运行 24 小时，月度电费成本约为 $41.40，这是本地推理的固定运营成本下限。
+
+## Corrected Claim
+
+4x V100-SXM2 集群在运行 27B 模型时的静态功耗约为 300W (每卡 75W idle + 动态波动)，满载推理功耗可达 1200W (每卡 300W)。按工业电价 $0.10/kWh 计算，每小时推理成本约为 $0.12 (idle) 至 $0.12 (full load, 假设效率因子 1.0，实际含 PSU 损耗约 15%)，即 $0.138/hour。若每日运行 24 小时，月度电费成本约为 $41.40，这是本地推理的固定运营成本下限。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

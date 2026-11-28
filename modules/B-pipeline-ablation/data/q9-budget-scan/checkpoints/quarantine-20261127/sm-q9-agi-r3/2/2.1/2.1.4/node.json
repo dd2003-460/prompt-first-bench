@@ -1,0 +1,19 @@
+{
+  "id": "N53",
+  "claim": "FAISS IndexFlatIP 在 M1 Max 32GB 内存上检索 100 万维 1536 向量时，单次查询延迟约为 5-10ms（纯 CPU 暴力搜索）；若启用 GPU 加速（需 CUDA 兼容层或 Metal 移植，M1 不支持标准 FAISS-GPU），延迟可降至 1-2ms，但当前环境下无法使用 GPU 加速，故维持 CPU 基线。",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值量级存疑：在 M1 Max 32GB 内存上对 100 万个 1536 维向量进行纯 CPU 暴力内积搜索（IndexFlatIP），单次查询需要读取约 6GB 数据（1,000,000 * 1536 * 4 bytes），受限于内存带宽（M1 Max 约 400GB/s），理论下限延迟约为 15ms，实际因计算开销通常更高，5-10ms 的估计过于乐观，可能低估了延迟。 | 经验事实，逻辑自洽但缺来源支持；且基于内存带宽的第一性原理估算显示 5-10ms 可能偏低，无法排除误差，故降级。",
+  "corrected_claim": "FAISS IndexFlatIP 在 M1 Max 32GB 内存上检索 100 万维 1536 向量时，单次查询延迟预计不低于 15ms（受内存带宽限制），具体数值需实测确认；M1 不支持标准 FAISS-GPU，故维持 CPU 基线。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N13",
+    "N14",
+    "N15"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "FAISS M1 Max Apple Silicon CPU inference latency 1 million vectors 1536 dim",
+  "retrieval_sources": []
+}

@@ -1,0 +1,20 @@
+# N103: 混合档位的成本-质量权衡临界点 T_switch 定义为：当本地完成剩余实验所需的额外时间 ΔT_local 超过云端执行相同任务的成本折算时间 ΔT_clou
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N26
+
+## Claim
+
+混合档位的成本-质量权衡临界点 T_switch 定义为：当本地完成剩余实验所需的额外时间 ΔT_local 超过云端执行相同任务的成本折算时间 ΔT_cloud_cost 时，切换至云端。ΔT_cloud_cost = (N_remaining × T_ablation_local × Cost_Per_Hour_Cloud) / (Budget_Constraint_Ratio)。
+
+## Corrected Claim
+
+混合档位的成本-质量权衡临界点 T_switch 定义为：当本地完成剩余实验所需的额外时间 ΔT_local 超过云端执行相同任务的成本折算时间 ΔT_cloud_cost 时，切换至云端。ΔT_cloud_cost = (N_remaining × T_ablation_local × Cost_Per_Hour_Cloud) / (Budget_Constraint_Ratio)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

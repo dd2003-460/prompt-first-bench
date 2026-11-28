@@ -1,0 +1,24 @@
+# N80: RTX 4090 对 INT8 (W8A16) 精度的原生计算支持：SM 8.9 支持 INT8 Tensor Cores，标称 INT8 稀疏算力为 330 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+RTX 4090 对 INT8 (W8A16) 精度的原生计算支持：SM 8.9 支持 INT8 Tensor Cores，标称 INT8 稀疏算力为 330 TOPS，密集算力约为 165 TOPS，支持 vLLM 的 INT8 量化推理内核。
+
+## Corrected Claim
+
+RTX 4090 对 INT8 (W8A16) 精度的原生计算支持：SM 8.9 支持 INT8 Tensor Cores，标称 INT8 稀疏算力为 330 TOPS，密集算力约为 165 TOPS，支持 vLLM 的 INT8 量化推理内核。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090基于Ada Lovelace架构（SM 8.9），其INT8 Tensor Core密集算力确为165 TOPS，稀疏算力为330 TOPS，且支持vLLM的INT8量化推理。
+
+## Search Query
+
+RTX 4090 INT8 tensor core performance TOPS dense sparse

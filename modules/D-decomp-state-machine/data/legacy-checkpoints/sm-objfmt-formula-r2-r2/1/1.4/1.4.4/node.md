@@ -1,0 +1,30 @@
+# N49: NVIDIA RTX 4090 当前美国市场新品零售价（MSRP）为 $1599 USD，实际二级市场成交价波动范围约为 $1600-$1800 USD [时效
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+NVIDIA RTX 4090 当前美国市场新品零售价（MSRP）为 $1599 USD，实际二级市场成交价波动范围约为 $1600-$1800 USD [时效待核]。
+
+## Corrected Claim
+
+NVIDIA RTX 4090 当前美国市场新品零售价（MSRP）为 $1599 USD，但实际二级市场/零售成交价波动范围约为 $2000-$4400 USD，显著高于MSRP。
+
+## Evidence
+
+[质询]数值量级严重错误：参考来源显示当前美国市场RTX 4090价格远高于$1599-$1800，实际市场价在$2000-$4400之间，与陈述中的低价区间完全矛盾。 | 来源[1][2]显示当前最低价为$4400，12个月中位数$3350；来源[3]显示平均价$2022，最高$3000，均远超陈述的$1599-$1800区间，来源与陈述明确矛盾。
+
+## Search Query
+
+NVIDIA RTX 4090 current market price USD 2024
+
+## Retrieval Sources
+
+- {'url': 'https://gpuprix.com/zh/us/gpus/geforce-rtx-4090&rut=891d2122da8eb5e31d34636ef8454dfaf27178de737c036237b85678890a1cae', 'type': 'ddg', 'title': 'GeForce RTX 4090 价格（美国） — 历史价格、优惠与规格'}
+- {'url': 'https://gpuprix.com/us/gpus/geforce-rtx-4090&rut=bbd8b985dda6cf75723f5dcbdb4b34e1b31367d35878105ed426bf453d9fdaf6', 'type': 'ddg', 'title': 'GeForce RTX 4090 Price in United States — History, Deals & Specs'}
+- {'url': 'https://bestvaluegpu.com/history/new-and-used-rtx-4090-price-history-and-specs/&rut=bd9259afa43cc7c89db9c0e8bf024cadd8de3167251cb3ab116ddf371935cf35', 'type': 'ddg', 'title': 'RTX 4090 Price History — $3000 used (Nov 2026)'}

@@ -1,0 +1,20 @@
+# N66: 成本增加系数的精确计算：Cost_Ratio = (N_samples * (T_prompt + T_response)) / (T_prompt + T_r
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+成本增加系数的精确计算：Cost_Ratio = (N_samples * (T_prompt + T_response)) / (T_prompt + T_response)。若 T_prompt >> T_response (如 RAG 场景 Prompt 2000 tokens, Response 100 tokens)，则 Cost_Ratio ≈ 5 * 2100 / 2100 = 5 倍。若 T_response >> T_prompt (如长文生成)，Cost_Ratio 接近 5 倍。N18 声称的'成本增加约 4 倍'偏低，实际应为 5 倍（对应 n=5 采样）。
+
+## Corrected Claim
+
+成本增加系数的精确计算：Cost_Ratio = (N_samples * (T_prompt + T_response)) / (T_prompt + T_response)。若 T_prompt >> T_response (如 RAG 场景 Prompt 2000 tokens, Response 100 tokens)，则 Cost_Ratio ≈ 5 * 2100 / 2100 = 5 倍。若 T_response >> T_prompt (如长文生成)，Cost_Ratio 接近 5 倍。N18 声称的'成本增加约 4 倍'偏低，实际应为 5 倍（对应 n=5 采样）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式推导正确，n=5时成本系数确为5倍，反驳了N18的4倍说法

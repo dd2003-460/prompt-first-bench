@@ -1,0 +1,24 @@
+# N79: AMD MI300X 显存规格：128GB HBM3，带宽 5,300 GB/s，位宽 8192-bit，来源为 AMD 官方产品页面 [待核验]，需确认是否为
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+AMD MI300X 显存规格：128GB HBM3，带宽 5,300 GB/s，位宽 8192-bit，来源为 AMD 官方产品页面 [待核验]，需确认是否为 OAM 模块标准带宽。
+
+## Corrected Claim
+
+AMD MI300X 显存规格：128GB HBM3，带宽约 5.3 TB/s，位宽 8192-bit，具体数值以 AMD 官方最新产品页面为准。
+
+## Evidence
+
+[质询]数值量级与公开规格存在偏差：AMD MI300X 官方标称显存带宽通常为 5.3 TB/s (5,300 GB/s)，但部分早期资料或特定配置下可能标注为 5.3 TB/s 或略有差异，且 8192-bit 位宽对应 128GB HBM3 是合理的，但需确认是否所有 OAM 模块均统一为此带宽，可能存在不同批次或子型号的差异。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法进行外部核验）
+
+## Search Query
+
+AMD MI300X memory bandwidth specs HBM3 official

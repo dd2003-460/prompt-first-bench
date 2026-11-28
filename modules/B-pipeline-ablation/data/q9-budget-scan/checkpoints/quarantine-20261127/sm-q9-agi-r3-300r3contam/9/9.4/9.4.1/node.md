@@ -1,0 +1,20 @@
+# N247: KV Cache 显存占用的精确计算：KV_cache_GB = (max_model_len * num_layers * num_kv_heads * he
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N86
+
+## Claim
+
+KV Cache 显存占用的精确计算：KV_cache_GB = (max_model_len * num_layers * num_kv_heads * head_dim * 2 * bytes_per_elem) / 1e9。对于 27B 模型（假设 num_layers=32, num_kv_heads=8, head_dim=128, FP8=1 byte），单序列 KV 占用 ≈ 262144 * 32 * 8 * 128 * 2 * 1 / 1e9 ≈ 17.2 GB/seq。在 TP=4 下，每卡承担 1/4 的 KV 头，单卡单序列 KV ≈ 4.3 GB。
+
+## Corrected Claim
+
+KV Cache 显存占用的精确计算：KV_cache_GB = (max_model_len * num_layers * num_kv_heads * head_dim * 2 * bytes_per_elem) / 1e9。对于 27B 模型（假设 num_layers=32, num_kv_heads=8, head_dim=128, FP8=1 byte），单序列 KV 占用 ≈ 262144 * 32 * 8 * 128 * 2 * 1 / 1e9 ≈ 17.2 GB/seq。在 TP=4 下，每卡承担 1/4 的 KV 头，单卡单序列 KV ≈ 4.3 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构正确（包含K和V两部分故乘2），数值计算准确（262144*32*8*128*2/1e9 ≈ 17.18GB），TP分片逻辑合理（17.18/4 ≈ 4.3GB）。

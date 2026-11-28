@@ -1,0 +1,28 @@
+# N162: TP=4 下的通信开销模型：每生成 1 个 token，需进行 2 次 AllReduce (Attention Output 和 FFN Output)。NV
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N46
+
+## Claim
+
+TP=4 下的通信开销模型：每生成 1 个 token，需进行 2 次 AllReduce (Attention Output 和 FFN Output)。NVLink 带宽为 300 GB/s (bidirectional)，AllReduce 数据传输量约为 Hidden_Size * Batch_Size * Dtype_Size * 2。假设 Hidden_Size=4096, Batch_Size=1, Dtype=FP16 (2 bytes)，单次 AllReduce 数据量 ≈ 16KB。通信时间 T_comm ≈ 16KB / 300GB/s ≈ 0.05μs，可忽略不计。然而，同步开销 (Synchronization Overhead) 和 Kernel Launch 延迟约为 0.1-0.5ms/token。因此，实际 TPS 受限于 Compute + Sync，而非纯带宽。实测 TPS 应通过 `vllm bench serve --backend vllm` 获取。
+
+## Corrected Claim
+
+TP=4 下每生成 1 个 token 需进行 2 次 AllReduce。以典型 NVLink 带宽（如 300 GB/s）估算，单次 AllReduce 传输约 16KB 数据，纯带宽耗时极短（<0.1μs），可忽略。实际 TPS 主要受限于计算延迟及同步/Kernel Launch 开销（通常在毫秒级），具体数值高度依赖硬件型号（如 A100/H100）及驱动版本，建议通过 `vllm bench serve` 实测获取。
+
+## Evidence
+
+[质询]NVLink 带宽数值（300 GB/s）及同步开销具体范围（0.1-0.5ms）属于特定硬件代际的经验参数，不同 GPU 型号（如 A100 vs H100）差异巨大，且未指明具体硬件环境，存在以偏概全的风险。 | 来源 [1] 仅提及无 NVLink 时应使用流水线并行以降低通信开销，未提供 TP=4 下的具体通信量计算、带宽数值或同步延迟数据，无法直接支持该定量结论；但该陈述内部逻辑自洽（16KB/300GB/s ≈ 0.05μs 计算正确），符合经验事实排除条款中‘逻辑自洽但缺来源支持’的情形。
+
+## Search Query
+
+vLLM tensor parallelism communication overhead NVLink latency benchmark tokens per second
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/vllm-project/vllm/blob/main/docs/serving/parallelism_scaling.md&rut=b06abe9b41130f2e50dbb7418515fe1671a26f03498a93af0d2261ae75e59694', 'type': 'ddg', 'title': 'vllm/docs/serving/parallelism_scaling.md at main · vllm-project/vllm ...'}

@@ -1,0 +1,24 @@
+# N18: Qwen3-27B 在 INT8 精度下的理论最小显存占用为 27GB (27B * 1 byte) + 量化校准常数开销 (~0.5GB) + KV Cach
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+Qwen3-27B 在 INT8 精度下的理论最小显存占用为 27GB (27B * 1 byte) + 量化校准常数开销 (~0.5GB) + KV Cache 开销，总显存需求约 28.5-29.5GB
+
+## Corrected Claim
+
+Qwen3-27B 在 INT8 精度下的理论最小显存占用为 27GB (27B * 1 byte) + 量化校准常数开销 (~0.5GB) + KV Cache 开销，总显存需求约 28.5-29.5GB
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点1和子节点2存在严重的逻辑冗余与潜在矛盾。它们分别计算了KV Cache在INT8和BF16两种假设下的显存占用，这属于同一参数（KV Cache精度/大小）的不同取值分支，而非正交的独立维度。此外，子节点2中提到的总显存31.596GB超出了父节点声明的28.5-29.5GB范围，导致父子节点结论不一致，除非父节点隐含了条件分支，否则构成矛盾。）
+
+## Search Query
+
+Qwen3-27B INT8 quantization memory overhead

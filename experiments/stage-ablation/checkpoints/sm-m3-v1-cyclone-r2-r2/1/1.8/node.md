@@ -1,0 +1,30 @@
+# N14: 中等强度气旋（34-63 kt）登陆后首小时衰减速率中位数约为 $5-10 \text{kt/hr}$，时间常数 $\tau_{decay} \approx 1
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+中等强度气旋（34-63 kt）登陆后首小时衰减速率中位数约为 $5-10 \text{kt/hr}$，时间常数 $\tau_{decay} \approx 18-36 \text{hours}$；强度较低的气旋衰减更缓慢，因初始能量较小且结构更易重组。
+
+## Corrected Claim
+
+中等强度气旋登陆后首小时衰减速率显著高于弱气旋，其衰减过程具有特定的时间常数；强度较低的气旋因初始能量较小且结构更易重组，衰减更为缓慢。
+
+## Evidence
+
+[质询]具体数值（5-10 kt/hr, 18-36 hours）缺乏来源直接支持，且不同研究对衰减时间常数的定义和估算可能存在差异，需确认该特定区间是否为公认的中位数标准。 | 来源[1]和[2]证实了热带气旋登陆后衰减存在强度依赖性（强风暴衰减快，弱风暴衰减慢），支持了定性结论；但来源摘要未提供具体的中位衰减速率数值和时间常数范围，属于经验事实且缺具体数值来源支持。
+
+## Search Query
+
+moderate tropical storm landfall decay rate kt/hr statistics
+
+## Retrieval Sources
+
+- {'url': 'https://news.qq.com/rain/a/20261010A0071500&rut=df0c9db2b077d68d9992c0375448a2f177f102f0f14b30f0886ef2ff9d0f487c', 'type': 'ddg', 'title': 'Nature Communications | 全球热带气旋登陆后，强弱风暴的衰减趋势存在强度依赖性差异!_腾讯新闻'}
+- {'url': 'https://jns.nju.edu.cn/CN/10.13232/j.cnki.jnju.2024.02.007&rut=b092c84d0052aa2b125458bf0913bde97755dc3969197492c22fbf778efaedc2', 'type': 'ddg', 'title': '登陆我国内陆热带气旋的衰减趋势分析'}
+- {'url': 'https://jns.nju.edu.cn/article/2024/0469-5097/0469-5097-2024-60-2-257.shtml&rut=923c1be5662bd0919aeba40544e45864e65d42b998d27bd1d98e6761766d3dc9', 'type': 'ddg', 'title': '登陆我国内陆热带气旋的衰减趋势分析 - Nju'}

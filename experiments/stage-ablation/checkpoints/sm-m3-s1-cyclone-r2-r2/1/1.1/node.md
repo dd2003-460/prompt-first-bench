@@ -1,0 +1,20 @@
+# N7: 表面摩擦耗散功率 P_fric = C_D * ρ_air * A_surface * V^3，其中 C_D ≈ 2.0×10⁻³，ρ_air ≈ 1.2 kg
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+表面摩擦耗散功率 P_fric = C_D * ρ_air * A_surface * V^3，其中 C_D ≈ 2.0×10⁻³，ρ_air ≈ 1.2 kg/m³，A_surface 为气旋覆盖面积（πR², R≈50km），V 为最大风速（m/s）。
+
+## Corrected Claim
+
+表面摩擦耗散功率 P_fric = C_D * ρ_air * A_surface * V^3，其中 C_D ≈ 2.0×10⁻³，ρ_air ≈ 1.2 kg/m³，A_surface 为气旋覆盖面积（πR², R≈50km），V 为最大风速（m/s）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式量纲正确（[C_D]无量纲, [ρ]kg/m³, [A]m², [V³]m³/s³ => kg·m²/s³=W），数值量级符合空气动力学常识（湍流/粗糙表面阻力系数~10⁻³量级，空气密度~1.2kg/m³）。

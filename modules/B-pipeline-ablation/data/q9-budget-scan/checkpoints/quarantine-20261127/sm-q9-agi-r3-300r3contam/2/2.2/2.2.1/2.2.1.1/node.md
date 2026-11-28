@@ -1,0 +1,30 @@
+# N123: FAISS 在 Apple M1 Max (16GB RAM) 上对 10k 个 768-dim float32 向量执行 Flat IP 检索时，Top-5 
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48, N49, N50
+
+## Claim
+
+FAISS 在 Apple M1 Max (16GB RAM) 上对 10k 个 768-dim float32 向量执行 Flat IP 检索时，Top-5 的 P95 延迟实测值为 14.2ms（基于 M1 Max 内存带宽 ~120GB/s 及 L2 缓存命中率的估算），低于 50ms 阈值，因此无需启用 IVF-PQ。
+
+## Corrected Claim
+
+FAISS 在 Apple M1 Max 上对 10k 个 768-dim float32 向量执行 Flat IP 检索时，Top-5 的 P95 延迟预计远低于 50ms 阈值（估算值约 14.2ms），因此通常无需启用 IVF-PQ。
+
+## Evidence
+
+[质询]该陈述声称提供了“实测值”（measured value），但括号内明确注明是基于内存带宽和缓存命中率的“估算”（estimation），存在事实性质上的自相矛盾；此外，14.2ms 这一具体数值缺乏公开基准测试的直接支持，属于特定环境下的经验数据。 | 逻辑上，10k * 768 * 4 bytes ≈ 30MB 数据量，M1 Max 内存带宽约 400GB/s（非120GB/s，但即便按保守估计），纯内存读取耗时应在毫秒级以内，14.2ms 的估算值在数量级上是合理的（可能包含软件开销或保守假设），且低于 50ms 阈值的结论在逻辑上成立；但参考来源 [1][2][3] 仅涉及 M1 Max 的基础规格和通用基准，未提供 FAISS 在该硬件上的具体向量检索延迟数据，无法直接支持 14.2ms 这一具体数值，故降级为定性表述。
+
+## Search Query
+
+FAISS Flat Index latency Apple M1 Max 10k vectors 768 dimensions benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://www.cpu-monkey.com/en/compare_cpu-apple_m1_max_32_gpu-vs-qualcomm_snapdragon_768g&rut=d3a2d9e6cd4963106bea6a5b019ca99f5af45d12558d622c841acf4b1ea8d91d', 'type': 'ddg', 'title': 'Apple M1 Max (32-GPU) vs Qualcomm Snapdragon 768G - CPU Monkey'}
+- {'url': 'https://www.cpu-monkey.com/en/cpu-apple_m1_max_32_gpu&rut=656986433f964098bddfb091f516cba988a92190b67e72d0d38f2619c42dec46', 'type': 'ddg', 'title': 'Apple M1 Max (32-GPU) - Benchmarks & Specs - CPU Monkey'}
+- {'url': 'https://www.notebookcheck.net/Apple-M1-Max-Processor-Benchmarks-and-Specs.579971.0.html&rut=e131db93048eaaca58d674f3f774089f24e71f09f9c000aba65aca74b4d77599', 'type': 'ddg', 'title': 'Apple M1 Max Processor - Benchmarks and Specs - Notebookcheck'}

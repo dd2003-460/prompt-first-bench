@@ -1,0 +1,20 @@
+# N56: 修正FLOPs可行性阈值：基于V100 FP16峰值15.7 TFLOPS/GPU及40%利用率，1小时上限应为 15.7e12 * 4 * 0.4 * 360
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+修正FLOPs可行性阈值：基于V100 FP16峰值15.7 TFLOPS/GPU及40%利用率，1小时上限应为 15.7e12 * 4 * 0.4 * 3600 ≈ 9.0e17 FLOPs，而非2.3e17；需将原阈值上调4倍以匹配实际算力
+
+## Corrected Claim
+
+修正FLOPs可行性阈值：基于V100 FP16峰值15.7 TFLOPS/GPU及40%利用率，1小时上限应为 15.7e12 * 4 * 0.4 * 3600 ≈ 9.0e17 FLOPs，而非2.3e17；需将原阈值上调4倍以匹配实际算力
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：15.7e12 * 4 * 0.4 * 3600 = 9.024e17，计算准确且符合物理直觉

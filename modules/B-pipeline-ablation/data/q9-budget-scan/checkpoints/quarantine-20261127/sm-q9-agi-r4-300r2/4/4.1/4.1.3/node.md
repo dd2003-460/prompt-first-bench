@@ -1,0 +1,28 @@
+# N64: 投机解码拒绝率 p_reject 与任务复杂度的关系：p_reject = 1 - η，η 随输入熵增加而降低；在数学证明任务中 η≈0.5 (p_reject
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+投机解码拒绝率 p_reject 与任务复杂度的关系：p_reject = 1 - η，η 随输入熵增加而降低；在数学证明任务中 η≈0.5 (p_reject=0.5)，在代码补全中 η≈0.8 (p_reject=0.2)；调度边界 L_switch = (C_api_per_token * L / (1-p_reject) + T_overhead) / (1/Throughput_local - 1/Throughput_api)
+
+## Corrected Claim
+
+投机解码拒绝率 p_reject 通常随任务复杂度（输入熵）增加而升高（即接受率 η 降低）；在数学证明等高熵任务中接受率通常低于代码补全等低熵任务；调度边界 L_switch 取决于 API 与本地推理的成本及延迟权衡，具体数值需根据实际系统参数计算。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备, 有冗余（1. 冗余严重：子节点A和B本质上是同一调度公式在不同参数（η, Throughput, Cost）下的特例计算，应合并为‘调度边界计算案例’或仅保留通用公式推导，无需拆分为两个独立的概念节点。2. 逻辑矛盾/非正交：父节点定义的调度边界公式基于‘吞吐量差值’（Time-based），而子节点A中的计算使用了‘单位成本差值’（Cost-based）且未体现父节点公式中的(1-p_reject)项对本地有效吞吐的影响，导致定义不一致。3. 不完备：父节点核心是‘拒绝率与复杂度的关系’及由此决定的调度边界，子节点C（置信度修正）属于额外的控制机制，虽相关但偏离了父节点关于‘复杂度-拒绝率-调度’的主线逻辑，且未解释为何置信度能替代或修正基于熵的调度。）
+
+## Search Query
+
+speculative decoding rejection rate task complexity entropy relationship scheduling boundary
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/15575453436&rut=0dcfa8bca0908c95a25cdefddd8f1275db7522db2bff14b0882ee7a8f4af0ba5', 'type': 'ddg', 'title': '投机解码（Speculative Decoding）详解 - 知乎'}

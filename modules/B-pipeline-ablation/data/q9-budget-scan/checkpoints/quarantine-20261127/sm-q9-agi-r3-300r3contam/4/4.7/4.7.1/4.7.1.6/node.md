@@ -1,0 +1,30 @@
+# N213: 云GPU实例选型对比：AWS p4d.24xlarge ($32.77/hour) vs GCP a2-ultragpu-8g ($40.00/hour) vs
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N71, N72, N73
+
+## Claim
+
+云GPU实例选型对比：AWS p4d.24xlarge ($32.77/hour) vs GCP a2-ultragpu-8g ($40.00/hour) vs Azure ND96asr_v4 ($36.50/hour)，需比较单位显存成本与网络延迟，选择性价比最高的实例。
+
+## Corrected Claim
+
+云GPU实例选型对比：AWS p4d.24xlarge、GCP a2-ultragpu-8g 和 Azure ND96asr_v4 均为基于NVIDIA A100 GPU的高性能实例，需根据实时报价比较单位显存成本与网络延迟以选择性价比最高的实例。
+
+## Evidence
+
+[质询]具体价格数值（$32.77, $40.00, $36.50）属于易变的市场经验数据，且参考来源中未包含GCP和Azure的价格信息，无法验证其准确性及当前有效性。 | 来源[1][2]确认了AWS p4d实例的存在及硬件配置（A100 GPU），但未提供具体价格；来源[3]提及成本优化但未列出具体单价；GCP和Azure的价格完全缺乏来源支持，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+cloud GPU instance pricing comparison A100 H100
+
+## Retrieval Sources
+
+- {'url': 'https://aws.amazon.com/ec2/instance-types/p4/&rut=b0cc884c67eeabb5e56cff7a3b58aa1bbcc6ccde034dea821e415349513e6ac7', 'type': 'ddg', 'title': 'Amazon EC2 P4d Instances - AWS'}
+- {'url': 'https://aws.amazon.com/cn/ec2/instance-types/p4/&rut=e93d3a3d514ba0d0cfd6bacb70ba3ddf37682ff6a2071d2c8ed62d939f8c6753', 'type': 'ddg', 'title': 'Amazon EC2 P4d 实例 — AWS'}
+- {'url': 'https://blog.csdn.net/weixin_47315004/article/details/163467936&rut=7c577dabaf7ac2298f24e062ecd3b6ea20dd2a24a7a2ee76fb47f483c74b16eb', 'type': 'ddg', 'title': 'GPU 选型血泪史：从 g4dn 到 p4d，我的深度学习训练成本降了 63%-CSDN博客'}

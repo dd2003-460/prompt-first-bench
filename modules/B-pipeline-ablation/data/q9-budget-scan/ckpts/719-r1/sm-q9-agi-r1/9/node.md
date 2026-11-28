@@ -1,0 +1,26 @@
+# N27: 在 Hook 增强架构中，引入 Code Interpreter 工具执行 Python 脚本进行数值验证时，沙箱环境（Docker/GVisor）的安全隔离启
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在 Hook 增强架构中，引入 Code Interpreter 工具执行 Python 脚本进行数值验证时，沙箱环境（Docker/GVisor）的安全隔离启动时间需 < 5s，且代码执行错误（Syntax/Logic Error）的首次修正成功率（First-Time Success Rate）需 > 80% 以保证科研循环的连续性。
+
+## Corrected Claim
+
+在 Hook 增强架构中，引入 Code Interpreter 工具执行 Python 脚本进行数值验证时，通常要求沙箱环境具备快速启动能力（如秒级以内）以及较高的代码执行错误首次修正成功率，以保证科研循环的连续性。
+
+## Evidence
+
+[质询]该陈述包含具体的工程性能指标（沙箱启动时间<5s，首次修正成功率>80%），这些属于经验性设计目标或特定系统的实测数据，并非通用物理定律或数学公理，无法从第一性原理推导得出。参考来源仅讨论Hook机制的原理和接入方法，完全未涉及Code Interpreter的沙箱性能或错误修正率的具体数值，因此缺乏直接证据支持这些具体阈值。 | 逻辑上自洽（沙箱启动快和纠错率高确实有利于科研循环连续性），但参考来源[1][2][3]仅涉及Hook技术原理，与Code Interpreter沙箱性能及错误率指标无关，属于经验事实且缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/wuShiJingZuo/article/details/135016069&rut=8b22031ae24c596b6fc318cad5057bc8730bdb70b7cfb84a098d291e19c949dc', 'type': 'ddg', 'title': 'Python Hook钩子函数详解 - CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_32175665/article/details/164582495&rut=b69f9dfcee75fc736feaff4ec56c251628fb8f3c31dab11a9af2fe1dc6e82ff1', 'type': 'ddg', 'title': 'HOOK技术实战解析：从Python与JavaScript示例理解原理与应用'}
+- {'url': 'https://docs.pingcode.com/insights/u6nlp2jzdbgewfkq4phha51w&rut=9fa33d7271fef34755936cd3b1a1d8b4a25856077b8d91817b5d2fceeff972b7', 'type': 'ddg', 'title': 'Python 接入 Claude Code Hooks 怎么做？Hooks 不生效排查和自动化经验'}

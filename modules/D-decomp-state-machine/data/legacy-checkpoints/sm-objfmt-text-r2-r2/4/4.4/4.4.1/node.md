@@ -1,0 +1,28 @@
+# N83: 消费级双卡（2x RTX 4090）互联所需的 PCIe 4.0 x16 转接卡及延长线缆成本约为 $100-$150，且不需要昂贵的专有互联桥接器，这部分硬件
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N26
+
+## Claim
+
+消费级双卡（2x RTX 4090）互联所需的 PCIe 4.0 x16 转接卡及延长线缆成本约为 $100-$150，且不需要昂贵的专有互联桥接器，这部分硬件开销远低于数据中心方案。
+
+## Corrected Claim
+
+消费级双卡（2x RTX 4090）互联通常需要使用PCIe 4.0 x16转接卡及延长线缆，具体成本因品牌和型号而异，但通常远低于数据中心专有互联方案。
+
+## Evidence
+
+[质询]参考来源仅提及主板PCIe通道拆分和延长线的使用场景，未提供具体的转接卡及线缆成本数据（$100-$150），且未明确对比数据中心方案的硬件开销，属于经验事实缺乏直接来源支持。 | 来源[1]间接支持了使用PCIe延长线和转接卡的可行性，但未提供具体价格区间，符合经验事实排除条款中‘逻辑自洽但缺来源支持’的情形。
+
+## Search Query
+
+PCIe 4.0 riser cable cost for dual GPU setup
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/16864316403&rut=aa009edc6c89f7494c7465d8239b92b30dab489dc27bc393cb943529cdbf0b09', 'type': 'ddg', 'title': '基于双卡 Rtx 4090 搭建家用深度学习主机 - 知乎'}

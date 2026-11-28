@@ -1,0 +1,445 @@
+{
+  "qid": "q9-agi",
+  "question": "目标：在我的硬件条件下，以性价比最高、速度最快且可靠的方式，达到 research-AGI。\n\n**research-AGI 的操作化定义**（待 D 确认，v0 用 D 的 autoresearch 系统作锚）：\n一个 AI 系统能在我指定的研究方向上，独立完成\"提出假设 → 设计实验 → 执行（含检索/计算）→ 分析 → 得出可验证结论 → 更新自身知识\"的完整科研循环，且产出的研究结论经人工抽查达到\"可发表级\"（对标顶刊同题材论文的标准），无需人类逐步指导。\n\n**我的硬件条件**（v0，2026-11-22 服务器实测，待 D 确认精确边界）：\n- 推理平台：一台固定服务器，4× Tesla V100-SXM2-16GB（compute cap 7.0），不可更换\n- 当前部署：vLLM 服务 qwen3.8-27b（NVFP4 量化，TP=4，MTP×4 投机解码，fp8 KV cache，max_model_len=262144，max-num-seqs=8，端口 8787 代理）\n- 开发机：MacBook Pro（Apple M1 Max），跑编排/检索/分析，不跑 27b 推理\n- 约束：不改模型权重（prompt + hook + 外部记忆/工具）\n- 预算约束：时间 + 电费 + （可选）云端 API 费用\n\n任务：给出达到上述目标的最优路径分解。要求：\n1. 自行识别并完整覆盖所有影响\"最快可靠达到\"的贡献因子，不遗漏（因子清单由模型识别，题面不预列——预列=泄露 gold 骨架）\n2. 每个因子给出量化依据（数值/公式/可检索事实），标 conf\n3. 指出当前硬件条件下的能力上限（27b 本地模型能到哪一层，瓶颈在哪）\n4. 给出预算-质量权衡：不同投入档位下能达到的能力边界\n5. 把\"不确定、需要进一步查证\"的点收进黑盒表",
+  "round": 2,
+  "state": "rework",
+  "dropped_redundant": 1,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "F1_Reach: 系统闭环成功率（P_success），定义为在指定研究方向上，AI 独立完成的科研循环产出结果通过人工抽查达到'可发表级'标准的概率（0-1 浮点数，可测）",
+      "F2_Cost: 总拥有成本（TCO），包含电费（基于 GPU 功率 × 运行时间）、云端 API 调用费用（Token 数 × 单价）、以及机会成本（折算为等效人力时薪 × 等待时间），单位为货币（可测）",
+      "F3_Time: 达成时延（T_latency），从启动到首次产出稳定'可发表级'结论所需的墙钟时间（Wall-clock time），单位为小时/天（可测）",
+      "F4_Reliability: 鲁棒性指标（R_score），定义为系统在连续 N 次独立运行中，未发生崩溃、幻觉失控或死锁的比例，且单次运行失败后的平均恢复时间（MTTR）低于阈值（可测）",
+      "F5_ConstraintFit: 硬件适配度（H_fit），定义为当前 4xV100 集群在不修改模型权重前提下，支撑该架构所需的最大并发/上下文利用率与理论上限的比值（0-1，可测）"
+    ],
+    "composition": "Maximize ( F1_Reach × F4_Reliability ) subject to [ F3_Time ≤ T_max AND F2_Cost ≤ Budget_cap AND F5_ConstraintFit ≥ 1.0 ] ; Objective = (F1_Reach × F4_Reliability) / (λ₁·F3_Time + λ₂·F2_Cost)",
+    "rationale": "此目标函数成立是因为：'可发表级'和'可靠'是硬门槛（乘积项，任一为0则整体失效），而'性价比'和'速度'是在满足硬门槛后用于优化路径的排序键（分母项，越小越好），且必须在既定硬件约束（F5）内求解。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "parent_id": "N6",
+      "issues": [
+        "不完备",
+        "有冗余"
+      ],
+      "suggestions": [
+        "重构子节点结构：将子节点改为模型的组成要素，例如：1. 成本函数定义（包含电费、API费率、折旧、人力成本的通用公式）；2. 性能与质量函数（定义吞吐量、延迟与质量指标如Kappa系数的关系）；3. 约束条件与优化目标（定义预算上限、时间窗口、最低质量标准及求解方法）。",
+        "消除冗余：当前的三个工作点应作为‘示例’或‘验证案例’放在一个子节点中，或者作为附录，而不是作为并列的三个核心子节点。它们不应占据主要的分解层级。",
+        "补充缺失内容：增加关于‘时间-质量权衡’的具体数学表达（例如帕累托前沿的定义），以及‘最优资源配置’的决策逻辑（如线性规划或多目标优化算法的描述），而不仅仅是三个静态快照的计算。"
+      ],
+      "round": 0
+    },
+    {
+      "node_id": "N7",
+      "claim": "4xV100-SXM2-16GB 集群在 TP=4 模式下，qwen3.8-27b (NVFP4) 的理论显存占用下限为",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值计算存在严重逻辑矛盾：16GB总显存减去13.5GB权重占用，剩余仅为2.5GB，这与陈述中‘加上KV Cache开销后剩余约2.5GB’相悖（若加"
+    },
+    {
+      "node_id": "N8",
+      "claim": "在 V100 (Compute Cap 7.0) 上，NVFP4 量化带来的计算加速比相对于 FP16 基准为 [待核验",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中给出的具体加速比数值范围（1.5x-2.0x）属于经验事实，参考来源仅证实了NVFP4在V100上的可行性及显存压缩效果，但未提供具体的计算加速比"
+    },
+    {
+      "node_id": "N9",
+      "claim": "MTP×4 投机解码在 V100 上的实际接受率（Acceptance Rate）受限于模型分布匹配度，典型值为 0.6",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与具体场景强相关，缺乏通用性：MTP（Multi-Token Prediction）的接受率高度依赖于具体模型架构、训练数据分布及硬件特性，0."
+    },
+    {
+      "node_id": "N11",
+      "claim": "Agent 闭环中幻觉抑制的量化指标定义为‘事实一致性得分’，计算公式为 Score = (Retrieved_Fact",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性阈值（<70%, >90%）和特定模型规模（27B）下的表现数据，这些并非第一性原理可推导的数学或物理常数，而是依赖于具体数据集、"
+    },
+    {
+      "node_id": "N12",
+      "claim": "长程推理状态一致性维护的工程成本体现在上下文窗口利用率：当科研循环步骤数 > 50 时，qwen3.8-27b 的 ma",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中包含具体的经验性阈值（如“每10步压缩”、“信息保留率85%”）和特定模型参数（qwen3.8-27b, max_model_len=262144"
+    },
+    {
+      "node_id": "N13",
+      "claim": "故障自愈机制的响应时间阈值设定为 < 5 秒：当 vLLM 服务因 OOM 或超时崩溃时，编排层需在 5 秒内检测到心跳",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]「重试成本增加300%」这一具体数值缺乏明确的计算基准和来源支持，属于经验性估算，不同场景下（如是否包含冷启动时间、上下文长度差异）波动极大，无法从第一"
+    },
+    {
+      "node_id": "N15",
+      "claim": "云端 API 调用相对于本地推理的成本效益比：对于 27B 规模模型，云端 API 价格通常为 $0.001-$0.00",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]本地推理的吞吐量假设缺失导致单位成本计算严重失真。4xV100 集群运行 27B 模型的实际吞吐量远高于隐含假设（通常可达数千至数万 tokens/秒）"
+    },
+    {
+      "node_id": "N16",
+      "claim": "混合策略的最优切换点在于‘边际效用递减’曲线：当本地 27B 模型的输出置信度（Self-Consistency Sco",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于阈值偏差导致错误率变化的具体量化关系（±0.1 导致 5%-10% 变化）缺乏普适性，属于高度依赖特定任务分布的经验数据，无法从第一性原理推导"
+    },
+    {
+      "node_id": "N18",
+      "claim": "长上下文处理瓶颈与分段策略：Qwen3.8-27B 在 max_model_len=262144 下，KV Cache ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与硬件常识存在显著偏差：1. V100 原生不支持 FP4 量化（通常需 A100/H100 或特定软件模拟），且 27B 模型 FP4 权重约"
+    },
+    {
+      "node_id": "N20",
+      "claim": "文献解析器准确率与结构化提取：使用 Unstructured.io 或 Docling 解析 PDF 文献，提取标题、作",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（如 Title F1=0.95, T_parse≈3-8s）属于特定工具版本、硬件配置及数据集下的经验测量值，非普适真理，且缺乏当前检索来源的"
+    },
+    {
+      "node_id": "N22",
+      "claim": "数据引用准确性量化基准：定义引用错误率 E_cite = (Incorrect_Citations / Total_Ci",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]将‘Nature/Science 编辑标准’量化为具体的‘E_cite < 5%’及‘0-2处非关键错误’缺乏权威公开文献支持，属于对主观编辑标准的过度"
+    },
+    {
+      "node_id": "N23",
+      "claim": "创新性评分模型：采用 Novelty Score S_nov ∈ [0, 10]，基于向量空间中生成假设与最近邻文献的距",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体的经验参数（如阈值6.0、高估幅度0.5-1.0、更新时间2h），这些并非第一性原理可推导的数学或物理常数，而是依赖于特定数据集、模型"
+    },
+    {
+      "node_id": "N28",
+      "claim": "V100-SXM2-16GB 集群在 TP=4 模式下，NVLink 互联带宽为 300 GB/s（双向聚合），AllR",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]NVLink 300 GB/s 是单卡双向聚合带宽，TP=4 时 AllReduce 涉及多对多通信，实际有效带宽受限于拓扑和协议开销，不能简单用 30"
+    },
+    {
+      "node_id": "N29",
+      "claim": "Qwen3.8-27B 在 V100 (Compute Cap 7.0) 上启用 FlashAttention-2 时，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体的性能基准数据（如2.0x计算密度提升、1.2x-1.5x实际加速比、120-180s耗时），这些属于经验事实，无法从第一性原理推导，"
+    },
+    {
+      "parent_id": "N6",
+      "issues": [
+        "不完备",
+        "有冗余"
+      ],
+      "suggestions": [
+        "重构结构以消除冗余：将'工作点A/B/C'合并为一个子节点'成本-性能参数化模型'，定义通用公式 C(total) = f(config, time, quality)，并将A/B/C作为该模型的三个基准案例（Benchmark Cases）列出，而不是作为三个平行的顶层子节点。",
+        "补充'数学映射模型'内容：新增子节点明确描述如何建立 T(quality) 和 C(budget) 之间的函数关系，例如引入生产函数或帕累托前沿分析，而不仅仅是列举几个离散点。",
+        "补充'最优资源配置方案'内容：新增子节点描述基于上述模型的优化策略，例如在多目标优化（最小化成本 vs 最大化质量/速度）下，如何根据预算约束求解最优的本地/云端资源配比比例。"
+      ],
+      "round": 1
+    },
+    {
+      "parent_id": "N13",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "明确父节点中‘5秒阈值’的具体定义：是指‘故障检测+重启指令发出’的时间，还是‘服务完全恢复可用’的端到端时间？若为后者，需修正子节点2中Cold Restart的时间估算或调整父节点的阈值设定以匹配现实约束。",
+        "补充说明为何在Cold Restart耗时(≈6s)超过5s阈值的情况下，系统仍选择该阈值，或者明确系统默认采用Warm Standby模式以满足5s SLA，从而消除逻辑矛盾。",
+        "在子节点3中，进一步量化‘300%成本增加’与当前计算的Token损失之间的映射关系，验证父节点中‘300%’这一具体数值的推导依据，以增强论证的严密性。"
+      ],
+      "round": 1
+    },
+    {
+      "node_id": "N33",
+      "claim": "vLLM 在 V100 上的 Block Size 默认为 16 tokens，KV Cache 分配粒度为 block",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]「Block 碎片化导致有效上下文长度降低约 5-10%」这一具体数值缺乏通用理论支撑，碎片化损耗取决于负载特征和调度策略，并非固定百分比；此外，V10"
+    },
+    {
+      "node_id": "N37",
+      "claim": "MTP×4 (Multi-Token Prediction) 在 Qwen3.8-27B 上的接受率 α 并非恒定 0.",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值区间（如代码任务0.4-0.5，低熵任务0.8-0.9）及特定模型（Qwen3.8-27B）的MTP接受率缺乏公开基准数据支持，属于未经证实的经"
+    },
+    {
+      "node_id": "N39",
+      "claim": "在 V100 4卡 TP 环境下，MTP 的 Draft 模型（通常为主模型的一部分或小型化版本）也需参与 AllRed",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级缺乏实证支撑：'通信延迟占比从15%升至25-30%'及'端到端加速比降低10-15%'的具体百分比属于高度依赖具体模型架构、序列长度和硬件拓扑"
+    },
+    {
+      "node_id": "N40",
+      "claim": "V100-SXM2-16GB 在 TP=4 模式下，NVLink 3.0 的单向带宽为 25 GB/s (总双向 50 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级严重错误：27B模型单层AllReduce通信量计算错误（应为~54MB而非54MB*40层的总和导致后续推导混乱，且27B模型通常有32-48"
+    },
+    {
+      "node_id": "N41",
+      "claim": "NVFP4 量化后，Qwen3.8-27B 的权重体积从 FP16 的 54GB 压缩至约 13.5GB (27GB/2",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]V100 (CC 7.0) 不支持 FP4 格式，且其 Tensor Core 主要优化 FP16/BF16/INT8，不存在‘FP4 Tensor C"
+    },
+    {
+      "node_id": "N42",
+      "claim": "MTP×4 投机解码在 V100 上的实际加速比受限于 Draft 模型的生成速度与 Target 模型的验证速度耦合；",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]Target 27B 模型在 V100 上的显存占用远超单卡容量（27B FP16 需约 54GB，V100 最大 32GB），且 3600GB/s 带"
+    },
+    {
+      "node_id": "N44",
+      "claim": "Qwen3.8-27B 在无 RAG 辅助下的基线事实一致性得分 Score_base ≈ 55-65% (基于 LLM",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体的经验性数值阈值（如 Score_base 55-65%, MRR > 0.85, nDCG 提升 0.1 等），这些并非从第一性原理"
+    },
+    {
+      "node_id": "N45",
+      "claim": "幻觉抑制的边际成本分析：将 Score 从 80% 提升至 90% 所需的额外计算资源主要集中在检索阶段的向量数据库查询",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与具体参数缺乏普适性：Cross-Encoder 的延迟和 GPU 利用率高度依赖硬件配置（如 A100 vs T4）和 Batch Size，"
+    },
+    {
+      "node_id": "N46",
+      "claim": "分层摘要机制的信息保留率量化：采用递归摘要策略，每 10 步将当前对话历史压缩为 512 tokens 的摘要；信息保留",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（Qwen3.8-27B 上的 IR 约为 80-90%），这属于特定模型在特定任务下的性能指标，无法从第一性原理或数学公理中"
+    },
+    {
+      "node_id": "N47",
+      "claim": "上下文窗口截断风险的量化建模：当科研循环步骤数 S > 50 时，累计生成的 Token 数 N_tokens ≈ S ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]关于 RoPE 导致早期 Token 注意力权重下降 20-30% 的具体数值缺乏通用理论支持，且不同模型架构和实现细节下该衰减特性差异巨大，属于未经证"
+    },
+    {
+      "node_id": "N48",
+      "claim": "长程推理的一致性维护成本函数：C_consistency = T_summary_generation + T_retr",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与硬件常识严重不符：1. T_summary_generation ≈ 2s/step 对于本地推理生成摘要而言过于乐观（通常生成数百token"
+    },
+    {
+      "node_id": "N58",
+      "claim": "本地 27B 模型 Self-Consistency Score (SCS) 的计算公式为 SCS = (Consist",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（SCS=0.6对应15%误判率，SCS=0.8对应5%漏检率）缺乏通用理论支撑，属于特定实验条件下的经验数据，且参考来源未提供该具体统计结果，"
+    },
+    {
+      "node_id": "N59",
+      "claim": "云端复核（GPT-4o）相对于本地 27B 的边际效用增益 ΔU 定义为 ΔU = (Quality_Cloud - Q",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验数值（ΔU=0.35, 0.05）和特定阈值（SCS 0.6/0.8），属于经验事实。参考来源主要讨论GPT-4o私有化部署、蒸馏技"
+    },
+    {
+      "node_id": "N60",
+      "claim": "阈值敏感性分析：将切换阈值从 0.6 调整为 0.5 时，云端调用频率增加约 20%，整体错误率降低 3%，但成本增加 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（如云端调用频率增加20%、错误率降低3%等）和特定的优化目标函数参数，这些属于特定系统或实验下的经验事实，无法从第一性原理推"
+    },
+    {
+      "node_id": "N61",
+      "claim": "RAG 索引构建中的嵌入批处理效率：在 M1 Max 上，bge-large-en-v1.5 单条嵌入耗时 1.2s，但",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体性能数值（1.2s/0.8s）及优化后时间范围（14-22h）缺乏来源直接支持，且不同硬件/模型版本下性能差异巨大，属于特定环境下的经验事实，无法从"
+    },
+    {
+      "node_id": "N62",
+      "claim": "FAISS HNSW 索引在 100k 文档、1024 维向量下的内存占用约为 1.2GB (Index + Vecto",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（1.2GB内存、30ms/80ms延迟、0.85/0.95召回率）属于高度依赖硬件环境（M1 Max CPU/GPU加速情况）、数据集分布及F"
+    },
+    {
+      "node_id": "N63",
+      "claim": "增量更新机制：当新增文献 N_new=500 篇/月时，全量重建索引耗时 T_rebuild ≈ 22 小时，而增量插入",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中的具体数值（T_rebuild=22h, T_embed=0.8s, T_insert_HNSW=0.02s）属于特定系统配置下的经验参数，并非通"
+    },
+    {
+      "node_id": "N67",
+      "claim": "OOM 失败的主导因素是内存峰值而非平均内存：在 PyTorch 任务中，GPU/内存峰值利用率 P_peak 与 OO",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]Sigmoid 函数的具体参数（中心点 0.85，斜率 0.05）及特定内存阈值（2.5GB/1.5GB）属于高度依赖具体硬件、PyTorch 版本及模"
+    },
+    {
+      "node_id": "N68",
+      "claim": "死循环导致的超时失败率 P_deadlock 与代码复杂度 C_code（圈复杂度）正相关，P_deadlock = C",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含多个具体的经验性数值（如系数0.01、失败占比30%-40%、恢复时间2s），这些并非物理定律或数学公理，而是依赖于具体系统实现、负载分布和故"
+    },
+    {
+      "node_id": "N69",
+      "claim": "重试机制的边际效用递减曲线：第 k 次重试的成功率 P_success(k) = P_success(0) * (1 -",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将复杂的系统可靠性问题简化为独立的伯努利试验（几何分布），忽略了故障的相关性（如系统性故障导致重试无效）以及‘最优重试次数’依赖于具体的价值函数和"
+    },
+    {
+      "node_id": "N70",
+      "claim": "表格提取误差的主要来源是跨页表格分割错误：在复杂布局中，40% 的 F1 损失（即 0.15 的绝对分值）源于表格被 P",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（40% F1损失占比、F1从0.78升至0.85、耗时增加20%）及特定参数名（merge_across_pages）缺乏通用标准支持，疑似特"
+    },
+    {
+      "node_id": "N71",
+      "claim": "图表 Caption 与图像内容的对齐误差：F1=0.78 中，20% 的错误来自 Caption 位置偏移（Capti",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（F1=0.78, 20%/80%错误分布, Filter_conf>0.9, 30%过滤率, F1提升至0.82, 5%丢弃"
+    },
+    {
+      "node_id": "N72",
+      "claim": "解析耗时的线性拟合公式：T_parse = T_base + α * N_pages + β * N_tables；基于",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验回归系数（T_base=0.5s, α=0.3s/page, β=1.2s/table）及特定硬件（M1 Max）的性能假设，这些属"
+    },
+    {
+      "node_id": "N73",
+      "claim": "5 个评估维度的内部相关性矩阵：前提一致性 (D1) 与推导步骤有效性 (D2) 的相关系数 r=0.85，无矛盾性 (",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（r=0.85, r=0.75, κ变化0.02, 耗时减少30%），这些并非第一性原理可推导的数学恒等式，而是依赖于特定数据"
+    },
+    {
+      "node_id": "N74",
+      "claim": "本地 Qwen3.8-27B 作为 Judge 的能力上限：在逻辑一致性任务上，其 Kappa 系数 κ_local ≈",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体的经验性数值（Kappa系数区间、偏差幅度、人工抽查比例调整），这些并非逻辑或数学上的必然结论，而是依赖于特定数据集、评估协议和模型版"
+    },
+    {
+      "node_id": "N76",
+      "claim": "针对 Nature/Science 等顶刊，'非关键引用错误'（如拼写、年份偏差<2年、DOI有效但标题微小差异）与'关",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将具体的量化阈值（如'<5%'、'0%'）归因于Nature/Science等顶刊的官方编辑政策，但这属于具体的经验性操作规范或内部指南细节，并非"
+    },
+    {
+      "node_id": "N77",
+      "claim": "Semantic Scholar Graph API 的 `citations` 端点用于反向验证引用真实性的具体调用格",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]速率限制（100 req/s/IP）和平均延迟（150-300ms）属于具体的经验性能指标，参考来源仅提供了API文档链接和基础介绍，未包含这些具体的数"
+    },
+    {
+      "node_id": "N78",
+      "claim": "本地嵌入相似度匹配算法的具体实现：使用 sentence-transformers/all-MiniLM-L6-v2 (",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体性能指标（T_comp≈2ms, T_local_match≈100ms）和误差率（FPR≈2%, FNR≈1.5%）属于高度依赖硬件环境、数据分布"
+    },
+    {
+      "node_id": "N79",
+      "claim": "引用错误类型分布对检测精度的影响：在LLM生成文本中，虚构引用（Hallucinated IDs）占比约40%，元数据错",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（40%/35%/15%/10%及98%/60%/85%）缺乏公开权威基准测试支持，疑似特定实验场景下的局部数据被泛化为普遍规律，存在以偏概全风"
+    },
+    {
+      "node_id": "N81",
+      "claim": "缩放因子 k=10 的校准依据：基于对 100 篇已发表顶刊论文的逆向工程，计算其假设部分与当时最新文献的余弦距离分布 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验统计数据（100篇论文、μ≈0.60、σ≈0.15、95%覆盖率），这些属于经验事实而非第一性原理可推导内容。虽然逻辑上 k=10 "
+    },
+    {
+      "node_id": "N83",
+      "claim": "嵌入模型对新颖性评分敏感度的影响：使用 bge-large-en-v1.5 (1024维) 相比 all-MiniLM-",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体的性能提升数值（15%分辨率、0.3-0.5分压低幅度、3倍耗时比）属于特定实验环境下的经验数据，缺乏通用基准测试的直接支持，不同硬件和负载下波动较"
+    },
+    {
+      "node_id": "N89",
+      "claim": "工作点 A 中单篇论文生成的实际耗时 T_paper_actual 受限于 KV Cache 显存瓶颈导致的上下文截断；",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值推导存在内部不一致：若 T_paper_actual 从 120s 上升至 200-300s，增量仅为 80-180s。假设 N=3-5 次摘要，每"
+    },
+    {
+      "node_id": "N97",
+      "claim": "在 TP=4 配置下，Decode 阶段每次迭代需执行 Ring AllReduce 同步，传输数据量为 2 * d_m",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级严重错误：对于 d_model=4096 的模型，单次 Ring AllReduce 传输的数据量远大于 16KB。即使仅考虑激活值（2 * 4"
+    },
+    {
+      "node_id": "N99",
+      "claim": "FlashAttention-2 在 Compute Cap 7.0 (V100) 上的内核优化主要减少 HBM 访问次",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体加速比数值（1.5x-2.0x 理论 vs 1.2x-1.5x 实际）缺乏公开基准测试的直接支持，且将 FP8 转换开销量化为特定倍数属于经验推测，"
+    },
+    {
+      "node_id": "N101",
+      "claim": "在 4x V100 TP=4 架构下，Decode 阶段的理论单 token 延迟下限 T_decode_min 受限于",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N102",
+      "claim": "Qwen3.8-27B 在‘假设生成’阶段的可靠性边界：基于 GSM8K 和 HumanEval 的代理指标，27B 模",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中包含极其具体的量化数据（如“准确率从70%骤降至40%以下”、“D>5”、“指数衰减”），这些属于特定的经验测量结果，无法从第一性原理推导，且参考"
+    },
+    {
+      "node_id": "N103",
+      "claim": "外部符号计算引擎（SymPy）与 LLM 的 Hook 集成延迟量化：在 M1 Max 上，SymPy 执行一个中等复杂",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（200-500ms, 50-100ms, 1.0-1.2s）缺乏公开基准测试支持，且SymPy性能高度依赖具体表达式结构，'中等复杂度'定义模"
+    },
+    {
+      "node_id": "N104",
+      "claim": "预算档位 B2（混合云）的效能突变点：当云端 API 调用比例超过 40% 时，系统整体吞吐量不再线性下降，而是出现‘队",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体的经验性数值（如40%阈值、2s至8-12s的延迟激增、0.2至0.08 iters/s的速度变化、35%的最优阈值），这些属于特定系"
+    },
+    {
+      "node_id": "N105",
+      "claim": "自动化闭环中的‘自我知识更新’机制需引入版本控制的向量数据库：每次科研循环结束后，新生成的经过验证的结论（Verifie",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“Consensus Count >= 3”的具体阈值以及“T_write ≈ 50ms”的具体延迟数值属于特定的工程经验参数或设计选择，并非"
+    }
+  ],
+  "contradiction_events": [
+    {
+      "round": 2,
+      "a": "N56",
+      "b": "N90",
+      "a_claim": "硬件折旧摊销对成本优势的侵蚀：假设 4xV100 服务器初始成本 $20,000，使用寿命 3 年 (1095 天)，日均折旧 C_deprec_daily =",
+      "b_claim": "工作点 A 的硬件折旧成本 C_deprec 应基于直线法计算：V100 集群购置成本约 $12,000-$15,000，预期使用寿命 T_life = 3 年",
+      "desc": "4xV100 服务器的初始购置成本在 N56 中假设为 $20,000，而在 N90 中假设为 $12,000-$15,000，两者数值冲突。",
+      "fixed": false
+    }
+  ],
+  "n_nodes": 102
+}

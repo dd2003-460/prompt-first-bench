@@ -1,0 +1,26 @@
+# N32: 建立‘新颖性-可行性’二维评估矩阵以模拟同行评审。维度1‘新颖性’通过计算生成假设与 Vector DB 中最近邻文献的余弦相似度 (Cosine Simila
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+建立‘新颖性-可行性’二维评估矩阵以模拟同行评审。维度1‘新颖性’通过计算生成假设与 Vector DB 中最近邻文献的余弦相似度 (Cosine Similarity) 衡量，阈值设为 Sim < 0.85 视为具备一定新颖性；维度2‘可行性’通过静态代码分析检查实验脚本的资源需求（内存/时间）是否在硬件上限内。只有当 Novelty > Threshold 且 Feasibility = True 时，才进入最终报告生成阶段。该机制防止生成‘正确但陈旧’或‘创新但无法执行’的低质量结论。
+
+## Corrected Claim
+
+建立‘新颖性-可行性’二维评估矩阵以模拟同行评审。维度1‘新颖性’通常通过计算生成假设与已有文献的语义相似度（如余弦相似度）衡量，并设定阈值以筛选具备新颖性的假设；维度2‘可行性’可通过多种手段（如资源估算、代码静态分析等）检查实验方案是否在硬件限制内。只有当新颖性达标且可行性确认为真时，才进入最终报告生成阶段。
+
+## Evidence
+
+[质询]该陈述包含具体的工程实现细节（如余弦相似度阈值 0.85、静态代码分析作为可行性唯一指标），这些属于特定系统的经验性设计参数，并非通用科学事实或第一性原理可推导结论。参考来源 [2] 虽提及 AI 模拟评审及多维评估（含新颖性、可行性），但未提供具体的阈值数值或验证‘静态代码分析’是衡量可行性的标准/唯一方法，因此无法确认该具体配置的正确性或普遍适用性。 | 来源 [2] 间接支持了使用 AI 从新颖性和可行性等多维度模拟同行评审的概念框架，但未提供具体的阈值（0.85）或技术实现细节（静态代码分析），属于经验事实且缺乏直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://www.researchgate.net/publication/372689282_A_Comparative_Evaluation_Method_for_Novelty_of_Multiple_Scientific_and_Technical_Articles&rut=37b222b29875092e390e4cec86b2a957b7c4352f54ecd02415f14d3480b36f5c', 'type': 'ddg', 'title': '(PDF) A Comparative Evaluation Method for Novelty of Multiple ...'}
+- {'url': 'https://www.techwalker.com/2026/0226/3179686.shtml&rut=430b0a63613cb41255de14efba25aec5aeb3f98a043559356b2b0b948781c620', 'type': 'ddg', 'title': '清华大学等名校联手：Ai也能当研究评委了？这套系统比人类专家还挑剔 - 科技行者'}
+- {'url': 'https://www.lis.ac.cn/CN/10.13266/j.issn.0252-3116.2023.19.007&rut=165ac29c70e37becb6251c4fc422b5ce979c0f1318330a854ab23dc5f18e9fbb', 'type': 'ddg', 'title': '一种多篇科技论文新颖性对比评估方法 - lis.ac.cn'}

@@ -1,0 +1,20 @@
+# N119: 非典型候选方案：Apple Mac Studio M2 Ultra (192GB Unified Memory) 或 M3 Ultra (256GB) 作为本地
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+非典型候选方案：Apple Mac Studio M2 Ultra (192GB Unified Memory) 或 M3 Ultra (256GB) 作为本地工作站方案，虽然 CPU/GPU 算力远低于 GPU 集群，但其统一内存架构允许在单台设备内以 BF16/INT8 精度运行 Qwen3-27B 并支持 >32K 上下文，无需多卡互联复杂度，其能效比（Performance/Watt）在低并发场景下极具竞争力，需纳入'非典型'候选集进行比较。
+
+## Corrected Claim
+
+非典型候选方案：Apple Mac Studio M2 Ultra (192GB Unified Memory) 或 M3 Ultra (256GB) 作为本地工作站方案，虽然 CPU/GPU 算力远低于 GPU 集群，但其统一内存架构允许在单台设备内以 BF16/INT8 精度运行 Qwen3-27B 并支持 >32K 上下文，无需多卡互联复杂度，其能效比（Performance/Watt）在低并发场景下极具竞争力，需纳入'非典型'候选集进行比较。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

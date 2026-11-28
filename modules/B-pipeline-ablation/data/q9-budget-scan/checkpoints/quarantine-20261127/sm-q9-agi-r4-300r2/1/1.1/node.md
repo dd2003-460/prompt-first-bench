@@ -1,0 +1,20 @@
+# N6: 模型权重显存占用为 27B 参数 × 0.5 bytes/NVFP4 = 13.5 GB，单卡 16GB 可用显存约 14GB（扣除 CUDA context 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+模型权重显存占用为 27B 参数 × 0.5 bytes/NVFP4 = 13.5 GB，单卡 16GB 可用显存约 14GB（扣除 CUDA context 等开销），剩余空间仅 0.5GB，无法单卡承载完整权重。
+
+## Corrected Claim
+
+模型权重显存占用为 27B 参数 × 0.5 bytes/NVFP4 = 13.5 GB，单卡 16GB 可用显存约 14GB（扣除 CUDA context 等开销），剩余空间仅 0.5GB，无法单卡承载完整权重。
+
+## Evidence
+
+[质询]NVFP4 并非 NVIDIA 官方标准术语（通常为 FP4 或 NVFP8），可能存在术语混淆；但鉴于 source 为 knowledge，且计算逻辑基于给定的 0.5 bytes/param 假设，主要风险在于该假设是否符合特定硬件/软件栈的实际量化精度定义。然而，作为先验知识节点，若接受其前提（即采用 4-bit 量化且每参数占 0.5 字节），则逻辑自洽。 | 先验知识/题面给定，逻辑校验通过：27B * 0.5B = 13.5GB，14GB - 13.5GB = 0.5GB，数值计算无误，符合单卡显存受限的工程常识。

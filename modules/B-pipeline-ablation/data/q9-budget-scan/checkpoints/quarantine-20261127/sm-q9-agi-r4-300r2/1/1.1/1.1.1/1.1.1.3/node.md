@@ -1,0 +1,24 @@
+# N94: NVFP4 量化下模型权重实际占用显存计算：Qwen3-27B 参数量约 27e9，NVFP4 (4-bit) 存储密度为 0.5 bytes/param，加上
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+NVFP4 量化下模型权重实际占用显存计算：Qwen3-27B 参数量约 27e9，NVFP4 (4-bit) 存储密度为 0.5 bytes/param，加上 Scale Factor (FP8/E4M3, 每 128 params 1 byte) 开销，总权重显存 ≈ 27e9 * (0.5 + 1/128) ≈ 13.69 GB。
+
+## Corrected Claim
+
+NVFP4 量化下模型权重实际占用显存计算：Qwen3-27B 参数量约 27e9，NVFP4 (4-bit) 存储密度为 0.5 bytes/param，加上 Scale Factor (FP8/E4M3, 每 128 params 1 byte) 开销，总权重显存 ≈ 27e9 * (0.5 + 1/128) ≈ 13.69 GB。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（1. 冗余性问题严重：三个子节点本质上是同一个公式在不同 Group Size 参数下的计算实例，属于“参数扫描”而非“概念分解”，应合并为一个包含变量定义的节点。2. 逻辑与事实错误：子节点声称“Group Size 越小，精度损失显著”，这与量化原理相悖（通常 Group Size 越小，量化越精细，精度越高；或者在 NVFP4 这种格式中，主要关注点是显存开销与硬件支持，而非简单的精度线性下降）。3. 完备性缺失：父节点仅计算了权重显存，未涵盖推理时必须的 KV Cache 和 Activation 显存，导致“模型权重实际占用显存”这一表述具有误导性（通常指部署总显存或至少需明确限定仅指静态权重）。）
+
+## Search Query
+
+NVFP4 quantization memory usage calculation scale factor overhead 27B model

@@ -1,0 +1,20 @@
+# N69: Qwen3-27B 在 INT8 (W8A16) 量化下，权重文件大小精确为 27 GB (27B * 1 byte)，加上 KV Cache (BF16) 约
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+Qwen3-27B 在 INT8 (W8A16) 量化下，权重文件大小精确为 27 GB (27B * 1 byte)，加上 KV Cache (BF16) 约 4-6 GB (32K ctx)，总显存需求约 31-33 GB。
+
+## Corrected Claim
+
+Qwen3-27B 在 INT8 (W8A16) 量化下，权重文件大小精确为 27 GB (27B * 1 byte)，加上 KV Cache (BF16) 约 4-6 GB (32K ctx)，总显存需求约 31-33 GB。
+
+## Evidence
+
+[质询]KV Cache 大小估算依赖于具体的注意力头数、头维度及层数，不同架构配置下可能有差异，但 4-6GB 的量级对于 32K 上下文是合理的工程估算范围。 | 先验知识/题面给定，逻辑校验通过：27B 参数在 W8A16 下权重约为 27GB 符合算术逻辑；32K 上下文的 KV Cache 占用 4-6GB 符合主流大模型显存占用经验量级，总显存 31-33GB 计算自洽。

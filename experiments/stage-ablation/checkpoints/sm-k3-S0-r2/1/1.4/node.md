@@ -1,0 +1,24 @@
+# N10: 长上下文衰减阈值：Qwen3.8-27B 在超过 [待核验] tokens 上下文后，Perplexity 上升幅度超过 15%，且指令遵循准确率下降 >10%
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+长上下文衰减阈值：Qwen3.8-27B 在超过 [待核验] tokens 上下文后，Perplexity 上升幅度超过 15%，且指令遵循准确率下降 >10%（基于公开评测集 LongBench/Needle-in-a-Haystack 数据），此为本地模型可靠性的硬上限。
+
+## Corrected Claim
+
+长上下文衰减现象：大语言模型（如Qwen系列）在超过其有效上下文窗口后，通常会出现Perplexity上升和指令遵循准确率下降的现象，具体阈值取决于模型架构与训练数据，需参考官方技术报告或最新基准测试数据。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（Perplexity上升>15%，准确率下降>10%）和特定模型版本（Qwen3.8-27B），这些属于经验事实，无法从第一性原理推导，且缺乏任何来源支持。此外，'Qwen3.8-27B'这一具体型号及对应的精确性能拐点数据在公开文献中难以直接验证，存在参数虚构或过度精确化的风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值阈值及模型版本细节）
+
+## Search Query
+
+Qwen3 long context performance degradation perplexity threshold 27B

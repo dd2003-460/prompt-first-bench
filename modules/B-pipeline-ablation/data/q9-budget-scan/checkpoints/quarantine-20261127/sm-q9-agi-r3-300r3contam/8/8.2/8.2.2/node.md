@@ -1,0 +1,24 @@
+# N239: 内存墙临界点公式：当 KV Cache 读取量 (Read_KV) 与权重读取量 (Read_Weights) 之比 R_ratio = Read_KV / R
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N82
+
+## Claim
+
+内存墙临界点公式：当 KV Cache 读取量 (Read_KV) 与权重读取量 (Read_Weights) 之比 R_ratio = Read_KV / Read_Weights > 1 时，推理进入 Memory-Bound 区域。对于 27B 模型，权重大小 W_size ≈ 27e9 * 0.5 bytes (FP8) ≈ 13.5 GB。若 Context L 使得 L * 128KB > 13.5GB，即 L > 105,468 tokens 时，KV 读取主导带宽消耗。
+
+## Corrected Claim
+
+内存墙临界点公式：当 KV Cache 读取量 (Read_KV) 与权重读取量 (Read_Weights) 之比 R_ratio = Read_KV / Read_Weights > 1 时，推理进入 Memory-Bound 区域。对于 27B 模型，权重大小 W_size ≈ 27e9 * 0.5 bytes (FP8) ≈ 13.5 GB。若 Context L 使得 L * 128KB > 13.5GB，即 L > 105,468 tokens 时，KV 读取主导带宽消耗。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B模型FP8权重大小约13.5GB，KV Cache每token占用128KB，计算临界点L=13.5GB/128KB≈105,468 tokens，数值量级与逻辑推导均正确。
+
+## Search Query
+
+LLM inference memory bound threshold kv cache vs weight size calculation

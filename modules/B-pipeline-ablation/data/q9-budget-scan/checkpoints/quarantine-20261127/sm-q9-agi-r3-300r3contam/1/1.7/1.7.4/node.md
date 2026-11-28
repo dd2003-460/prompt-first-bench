@@ -1,0 +1,29 @@
+# N51: arXiv API 非高峰时段 P95 延迟基线：基于公开监控数据，GET /api/query 请求的平均 P95 延迟约为 300-500ms，受速率限制（
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13, N14, N19
+
+## Claim
+
+arXiv API 非高峰时段 P95 延迟基线：基于公开监控数据，GET /api/query 请求的平均 P95 延迟约为 300-500ms，受速率限制（~1 req/s）约束，突发查询需实现指数退避策略。
+
+## Corrected Claim
+
+arXiv API 在非高峰时段的 P95 延迟通常在数百毫秒级别（如 300-500ms），且受速率限制约束（通常建议控制在每秒 1 次左右），突发查询需实现指数退避策略。
+
+## Evidence
+
+[质询]具体数值（P95 300-500ms）和速率限制细节（~1 req/s）属于经验性监控数据，参考来源仅为通用文档，未提供具体的性能基准或精确的速率限制阈值，存在将一般性建议具体化为精确数值的风险。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2]仅确认API存在及基本使用规范，未提供具体延迟基线或精确速率限制数值）
+
+## Search Query
+
+arXiv API latency P95 response time benchmark rate limit
+
+## Retrieval Sources
+
+- {'url': 'https://info.arxiv.org/help/api/index.html&rut=d22b781d460e9e1a687bd5640e98af0d7bb892bf1ebcd9331164c6db3a8652bf', 'type': 'ddg', 'title': 'arXiv API Access - arXiv info'}
+- {'url': 'https://info.arxiv.org/help/api/user-manual.html&rut=ef7f2da70d5dbb595b33481155b2ba4adce0f219bf913e49fa463ea47b447787', 'type': 'ddg', 'title': "arXiv API User's Manual - arXiv info"}

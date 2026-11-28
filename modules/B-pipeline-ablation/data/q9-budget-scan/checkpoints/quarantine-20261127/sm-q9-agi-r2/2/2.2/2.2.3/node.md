@@ -1,0 +1,20 @@
+# N48: 长程推理的一致性维护成本函数：C_consistency = T_summary_generation + T_retrieval + T_prompt_inj
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+长程推理的一致性维护成本函数：C_consistency = T_summary_generation + T_retrieval + T_prompt_injection；其中 T_summary_generation ≈ 2s/step (本地推理), T_retrieval ≈ 50ms/step (FAISS), T_prompt_injection ≈ 0 (仅增加 Token 计数)；每 10 步执行一次摘要，平均每步成本 C_avg = (2s + 0.05s) / 10 ≈ 0.205 s/step；若不使用摘要机制，直接保留全量历史，当 S=100 时，Prompt 长度达 50,000 tokens，Prefill 耗时 T_prefill ≈ 50,000 * (27GB/3600GB/s) ≈ 375 ms，相比摘要机制的 20.5s 总开销，全量历史的 Prefill 延迟虽高，但避免了信息丢失风险，需权衡 T_prefill 增加与 IR 降低对最终结论质量的影响。
+
+## Corrected Claim
+
+长程推理一致性维护成本需权衡摘要生成的额外延迟与全量历史导致的Prefill延迟增加。具体数值高度依赖硬件配置（如显存带宽）和模型规模，不能简单套用固定常数（如2s/step或3600GB/s带宽）。一般地，随着上下文长度S增加，全量历史的Prefill延迟呈线性增长，而摘要机制引入固定的生成开销但限制了上下文长度，需在特定硬件基准下重新估算。
+
+## Evidence
+
+[质询]数值量级与硬件常识严重不符：1. T_summary_generation ≈ 2s/step 对于本地推理生成摘要而言过于乐观（通常生成数百token需数秒至数十秒）；2. T_prefill 计算中使用的带宽 3600GB/s 远超当前主流消费级/工作站显卡（如RTX 4090约1TB/s，A100约2TB/s）的显存带宽上限，导致得出的 375ms 延迟严重低估了实际 Prefill 时间（实际可能在秒级）；3. 将 '20.5s 总开销' 与 '375ms Prefill 延迟' 进行直接对比存在维度混淆（一个是累积生成/处理时间，一个是单次前向传播延迟）。 | source=knowledge，但数值量级违背硬件物理极限（带宽过高）及LLM推理常规耗时，逻辑校验未通过。

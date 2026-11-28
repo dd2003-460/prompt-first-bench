@@ -1,0 +1,24 @@
+# N51: 在 4x V100 TP=4 配置下，NVFP4 权重的反序列化带宽需求仅为 FP16 的 1/4（即 640 GB/s vs 2560 GB/s），但由于 V
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16, N17, N18
+
+## Claim
+
+在 4x V100 TP=4 配置下，NVFP4 权重的反序列化带宽需求仅为 FP16 的 1/4（即 640 GB/s vs 2560 GB/s），但由于 V100 缺乏原生 FP4 Tensor Core，实际内存带宽利用率受限于 PCIe/NVLink 数据搬运与反量化延迟，有效吞吐提升仅约 1.3x。
+
+## Corrected Claim
+
+在 4x V100 TP=4 配置下，NVFP4 权重的数据体积仅为 FP16 的 1/4，理论上可降低内存带宽压力；但由于 V100 缺乏原生 FP4 Tensor Core，需依赖 CPU/GPU 进行反量化，实际端到端吞吐提升受限于反量化开销与数据搬运延迟，通常显著低于理论加速比（如 4x），具体提升幅度（如 ~1.3x）取决于模型结构与实现细节。
+
+## Evidence
+
+[质询]数值量级与硬件架构常识存在潜在冲突：V100 的 HBM2 带宽约为 900 GB/s，而 FP16 权重加载需求 2560 GB/s 远超其物理上限，暗示该场景可能涉及跨节点通信或特定瓶颈假设，但陈述中未明确界定‘带宽需求’是指理论峰值还是实际受限值，且‘1.3x’提升系数缺乏通用基准支撑，易被质疑为特定实验数据的过度泛化。 | 先验知识/题面给定，逻辑校验通过：NVFP4 相比 FP16 位宽减半（4bit vs 16bit），理论上数据量减少至 1/4，带宽需求降低符合算术逻辑；V100 无原生 FP4 Tensor Core 需反量化，导致计算效率受限，有效吞吐低于理论加速比（4x）符合硬件架构限制下的工程直觉。虽无外部来源直接支持具体数值（640/2560 GB/s 及 1.3x），但作为 knowledge 节点，核心逻辑（位宽比例关系、硬件限制导致效率折损）自洽，故保留但降级以反映具体数值的经验属性。
+
+## Search Query
+
+V100 NVFP4 inference throughput memory bandwidth utilization

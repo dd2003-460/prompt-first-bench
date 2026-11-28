@@ -1,0 +1,24 @@
+# N17: MacBook M1 Max 的 CPU 集群 (10-core) 在单线程浮点性能上约为 V100 GPU 的 1/50，但其统一内存架构 (32GB Uni
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+MacBook M1 Max 的 CPU 集群 (10-core) 在单线程浮点性能上约为 V100 GPU 的 1/50，但其统一内存架构 (32GB Unified Memory) 允许在不经过 PCIe 拷贝的情况下直接访问大模型权重；因此，对于 <7B 参数的轻量级任务 (如嵌入生成、小模型分类)，在 M1 Max 上运行的延迟比通过 PCIe 调用 V100 低 3-5 倍，应作为首选本地化任务。
+
+## Corrected Claim
+
+MacBook M1 Max 的统一内存架构允许直接访问大模型权重，避免了通过 PCIe 调用 V100 时的数据拷贝开销。对于 <7B 参数的轻量级任务（如嵌入生成、小模型分类），由于省去了数据传输延迟，在 M1 Max 上运行的端到端延迟通常低于通过 PCIe 调用 V100 的方案，适合作为低延迟本地化任务的首选。
+
+## Evidence
+
+[质询]将CPU单线程浮点性能与GPU整体吞吐进行直接倍数对比（1/50）缺乏严谨的基准测试支撑，且忽略了M1 Max CPU在内存带宽和延迟上的优势可能部分抵消计算劣势，导致'3-5倍延迟降低'的结论过于绝对，实际取决于具体算子优化程度。 | 先验知识/题面给定，逻辑校验通过：M1 Max统一内存架构确实消除了PCIe拷贝开销，对于小模型（<7B）且受限于CPU单核性能的轻量级任务，避免跨设备数据传输确实能显著降低端到端延迟，但具体倍数需实测验证。
+
+## Search Query
+
+Apple M1 Max unified memory inference latency vs PCIe GPU small models

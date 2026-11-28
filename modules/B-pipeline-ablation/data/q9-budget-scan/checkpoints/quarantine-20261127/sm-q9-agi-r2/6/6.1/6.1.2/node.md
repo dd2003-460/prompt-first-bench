@@ -1,0 +1,24 @@
+# N89: 工作点 A 中单篇论文生成的实际耗时 T_paper_actual 受限于 KV Cache 显存瓶颈导致的上下文截断；由于 N7/N18 指出有效上下文仅约 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+工作点 A 中单篇论文生成的实际耗时 T_paper_actual 受限于 KV Cache 显存瓶颈导致的上下文截断；由于 N7/N18 指出有效上下文仅约 32k tokens，而完整科研循环需处理 >50k tokens 的历史，需插入 N 次中间摘要压缩步骤，每次摘要耗时 T_summary ≈ 10s + 推理延迟，导致 T_paper_actual = 50 * T_infer_step + N * T_summary，N 约为 3-5 次，总耗时从理论 120s 上升至 200-300s，日产出上限从 5 篇降至 2-4 篇。
+
+## Corrected Claim
+
+工作点 A 中单篇论文生成的实际耗时 T_paper_actual 受限于 KV Cache 显存瓶颈导致的上下文截断；由于有效上下文仅约 32k tokens，而完整科研循环需处理 >50k tokens 的历史，需插入 N 次中间摘要压缩步骤。由于摘要步骤引入了额外的计算和延迟开销，总耗时从理论值显著上升，导致日产出上限下降。具体耗时增加幅度和 N 的确切数值需根据实际推理延迟和摘要模型效率进一步校准。
+
+## Evidence
+
+[质询]数值推导存在内部不一致：若 T_paper_actual 从 120s 上升至 200-300s，增量仅为 80-180s。假设 N=3-5 次摘要，每次 T_summary ≈ 10s + 推理延迟，则 N*T_summary 需达到 80-180s，意味着单次摘要平均耗时需高达 16-60s。这与 'T_summary ≈ 10s + 推理延迟' 的描述（通常暗示额外开销较小，总耗时可能在 20-30s 左右）存在量级上的模糊性或潜在矛盾，除非 '推理延迟' 被定义为极大的值，但这与常规 LLM 摘要延迟不符。此外，'50 * T_infer_step' 对应 120s 意味着 T_infer_step=2.4s，这在长上下文下可能偏高，但主要问题在于摘要耗时的估算缺乏明确支撑。 | 先验知识/题面给定，逻辑校验发现数值推导中摘要耗时与总耗时增量的关系存在模糊性，且无外部来源支持具体参数值，故降级。
+
+## Search Query
+
+vllm context window limitation summary compression latency overhead long chain of thought

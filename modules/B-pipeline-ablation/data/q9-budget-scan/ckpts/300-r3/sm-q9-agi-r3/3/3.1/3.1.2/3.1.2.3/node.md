@@ -1,0 +1,24 @@
+# N229: GPQA Diamond 基准中知识缺失（Knowledge Gap）的量化判定标准：模型在生成过程中显式表达不确定性（如 'I don't know', 'u
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+GPQA Diamond 基准中知识缺失（Knowledge Gap）的量化判定标准：模型在生成过程中显式表达不确定性（如 'I don't know', 'uncertain'）或输出置信度低于阈值（如 logit margin < 0.5），且该问题所需的特定事实未出现在模型预训练语料的高频覆盖区
+
+## Corrected Claim
+
+在某些针对 GPQA Diamond 的研究或自定义评估框架中，可能采用模型显式表达不确定性或输出置信度低于特定阈值（如 logit margin < 0.5）作为知识缺失的代理指标，但这并非 GPQA 基准的官方统一量化判定标准。
+
+## Evidence
+
+[质询]该陈述将‘GPQA Diamond 基准’与特定的‘量化判定标准’（如 logit margin < 0.5）强行绑定，但 GPQA 官方定义及主流评估协议中并未规定统一的‘知识缺失’量化阈值或强制要求模型显式表达不确定性作为判定标准，这属于对特定研究论文或自定义评估框架中方法的过度泛化或虚构关联。 | 先验知识/题面给定，逻辑校验通过，但缺乏权威来源支持该特定阈值与 GPQA 基准的官方绑定关系，故降级。
+
+## Search Query
+
+LLM knowledge gap detection confidence threshold GPQA benchmark analysis

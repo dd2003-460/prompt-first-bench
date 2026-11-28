@@ -1,0 +1,20 @@
+# N83: Qwen3-27B INT8 在单张 RTX 4090 上的实测吞吐量基准：权重 INT8 (13.5GB) + KV BF16 (8-12GB) ≈ 21.5
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N23
+
+## Claim
+
+Qwen3-27B INT8 在单张 RTX 4090 上的实测吞吐量基准：权重 INT8 (13.5GB) + KV BF16 (8-12GB) ≈ 21.5-25.5GB，可能轻微超出 24GB 导致 Swap 或需启用 KV 量化；若全 INT8 (含 KV) 则显存充裕；吞吐量通常略低于 FP8 因 Dequant 开销，预估为 FP8 的 85-95% [待核验]。
+
+## Corrected Claim
+
+Qwen3-27B INT8 在单张 RTX 4090 上的实测吞吐量基准：权重 INT8 (13.5GB) + KV BF16 (8-12GB) ≈ 21.5-25.5GB，可能轻微超出 24GB 导致 Swap 或需启用 KV 量化；若全 INT8 (含 KV) 则显存充裕；吞吐量通常略低于 FP8 因 Dequant 开销，预估为 FP8 的 85-95% [待核验]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B参数量约27B，INT8权重约13.5GB符合计算；KV Cache在BF16下占用8-12GB取决于上下文长度，总显存21.5-25.5GB接近RTX 4090的24GB上限，存在Swap风险符合硬件限制；INT8因Dequant开销略低于FP8吞吐量符合推理引擎通用性能特征。

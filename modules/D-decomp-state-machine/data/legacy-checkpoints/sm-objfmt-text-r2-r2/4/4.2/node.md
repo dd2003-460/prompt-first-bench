@@ -1,0 +1,30 @@
+# N24: 消费级高端 GPU（如 RTX 4090 24GB）的初始购置成本基准线约为 $1,600 [待核验]
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+消费级高端 GPU（如 RTX 4090 24GB）的初始购置成本基准线约为 $1,600 [待核验]
+
+## Corrected Claim
+
+消费级高端 GPU（如 RTX 4090 24GB）的建议零售价（MSRP）约为 $1,599，实际市场初始购置成本通常在 $1,600 左右波动。
+
+## Evidence
+
+[质询]RTX 4090 的 MSRP（建议零售价）为 $1,599，但实际市场初始购置成本常受供需影响波动，且不同地区/渠道价格存在差异，$1,600 作为精确基准线略显绝对，且参考来源未直接提供该具体数值。 | 经验事实，逻辑自洽（符合 RTX 4090 已知 MSRP 量级），但参考来源 [1][2][3] 均未直接提及 $1,600 这一具体价格数值，缺乏直接来源支持。
+
+## Search Query
+
+RTX 4090 24GB price USD 2024
+
+## Retrieval Sources
+
+- {'url': 'https://cloudgputracker.com/zh/blog/gpu-benchmark-complete-guide-2026/&rut=2e98ba4c292b31895ec232c0588dcf4513d4dd002427c4c49884212348cf3260', 'type': 'ddg', 'title': '2026年 GPU 基准测试完整指南：性能对比与选型建议 | CloudGPUTracker.com'}
+- {'url': 'https://detail.zol.com.cn/vga/s10074/&rut=c4008259f0102780923c1122d263333e73b69481f105bcfc7210e1cd691f10a6', 'type': 'ddg', 'title': '【Rtx 4090显卡】Rtx 4090显卡报价及图片大全-zol中关村在线'}
+- {'url': 'https://post.smzdm.com/p/aome47wn/&rut=dd1f7352de3a0d8582628bc0e9dab18e225aae30de95c34d01f91bf3cb5d80a6', 'type': 'ddg', 'title': '消费级与旗舰级算力差异：大模型微调GPU精准选型攻略'}

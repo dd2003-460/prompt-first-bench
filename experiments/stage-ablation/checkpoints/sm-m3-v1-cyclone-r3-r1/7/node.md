@@ -1,0 +1,26 @@
+# N27: 主导机制的量级论证：登陆后第一个6小时内，由潜热通量切断引起的能量亏损（ΔE_heat）约为 500-1000 J/kg，而由地表摩擦耗散引起的动能亏损（ΔE_
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+主导机制的量级论证：登陆后第一个6小时内，由潜热通量切断引起的能量亏损（ΔE_heat）约为 500-1000 J/kg，而由地表摩擦耗散引起的动能亏损（ΔE_friction）仅为 50-150 J/kg；两者比值高达 5:1 至 10:1，确凿证明热力学能量切断（Energy Cut-off）是登陆后初期强度衰减的主导项，而非动力学摩擦。
+
+## Corrected Claim
+
+登陆后初期，潜热通量切断引起的能量亏损通常显著大于地表摩擦耗散引起的动能亏损，热力学能量切断是强度衰减的主导项，而非动力学摩擦。
+
+## Evidence
+
+[质询]具体数值量级（500-1000 J/kg vs 50-150 J/kg）及精确比值（5:1-10:1）缺乏权威气象学文献的直接支持，属于经验估算值，不同台风个例及研究模型中差异较大，且来源[2]虽提及能量切断是根本原因，但未提供此特定量级的对比数据。 | 来源[2]定性支持‘能量来源切断是根本原因’，但未提供具体数值量级支持；来源[1]和[3]与该事实主题无关。作为经验事实，逻辑自洽但缺直接数值来源支持，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E6%BD%9C%E7%83%AD%E9%80%9A%E9%87%8F/7214440&rut=4b7a62fd1dfe3ac1974e40dbbcf69ae8df8a553fa5b5fc5dfb58223ad5754e84', 'type': 'ddg', 'title': '潜热通量_百度百科'}
+- {'url': 'https://wenku.baidu.com/view/ed9b744f826fb84ae45c3b3567ec102de3bddf16.html&rut=eb76b04a29c55f41b2eb8749f8ac198bef319f42e270277b8dd59d1bfc3eb464', 'type': 'ddg', 'title': '台风登陆后为何会减弱？5大原因详解，能量来源切断是关键'}
+- {'url': 'https://www.sohu.com/a/1075687695_120950077&rut=e4f1c7e8876cd6da3637b98d86b9a2d09e53eb7f7fe45adf899c041d94d5a398', 'type': 'ddg', 'title': '【可研案例】带您复盘风光储项目可研案例报告：三处修改成关键？_小时数_论证_结论'}

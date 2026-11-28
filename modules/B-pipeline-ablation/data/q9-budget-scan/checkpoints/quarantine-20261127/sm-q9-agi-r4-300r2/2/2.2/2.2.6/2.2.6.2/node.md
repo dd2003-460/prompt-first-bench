@@ -1,0 +1,24 @@
+# N134: 数学公式 Token 计数系数的实证校准：在 CodeLlama 或 Qwen tokenizer 中，LaTeX 数学符号（如 \int, \frac, \s
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+数学公式 Token 计数系数的实证校准：在 CodeLlama 或 Qwen tokenizer 中，LaTeX 数学符号（如 \int, \frac, \sum）的平均 Token 密度是自然语言的 1.5-2.0 倍，而非固定 1.2 倍；若初稿包含 30% 的数学内容，加权 Token 计数 L_eff = 0.7*L + 0.3*(1.8*L) = 1.24L，此时 Critic 总消耗 = 1.4 * 1.24L ≈ 1.74L，相比纯文本 1.4L 增加 24%，需据此调整成本预算模型。
+
+## Corrected Claim
+
+在特定 tokenizer 中，LaTeX 数学符号的 Token 密度通常高于自然语言，具体倍数需根据实际 tokenizer 和文档内容实测校准，不宜直接采用固定 1.8 倍系数进行成本预算。
+
+## Evidence
+
+[质询]声称 LaTeX 符号平均 Token 密度是自然语言的 1.5-2.0 倍缺乏普遍适用的实证支持，不同 tokenizer（CodeLlama vs Qwen）及具体符号组合下差异巨大，且 1.8 倍的系数选择过于武断，属于未经充分验证的经验估算。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+latex math symbols token density comparison natural language llm tokenizer efficiency

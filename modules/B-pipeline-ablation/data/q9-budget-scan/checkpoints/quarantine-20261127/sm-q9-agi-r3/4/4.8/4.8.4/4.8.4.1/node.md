@@ -1,0 +1,29 @@
+# N255: DeBERTa-v3-large 在单张 V100-16GB 上的显存占用约为 1.7GB (FP16)，支持 Batch Size=32 的并发 NLI 推理
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N89, N90, N91
+
+## Claim
+
+DeBERTa-v3-large 在单张 V100-16GB 上的显存占用约为 1.7GB (FP16)，支持 Batch Size=32 的并发 NLI 推理，单步推理耗时实测为 45ms (seq_len=128)，符合 N89 声称的 50-100ms 区间下限。
+
+## Corrected Claim
+
+DeBERTa-v3-large 在单张 V100-16GB 上的显存占用和推理耗时取决于具体实现（如是否使用量化、TensorRT加速等），通常 FP16 下权重约占 3GB，短序列推理延迟在几十毫秒量级，具体数值需以实际部署环境为准。
+
+## Evidence
+
+[质询]具体性能指标（1.7GB显存、45ms延迟）属于高度依赖硬件驱动、CUDA版本及具体推理框架（如TensorRT vs PyTorch）的经验事实，无法从模型参数量直接精确推导，且参考来源仅为模型主页，未包含具体的基准测试数据。 | 逻辑上DeBERTa-v3-large参数量约1.5B，FP16权重约3GB，加上激活值1.7GB总显存略低但量级合理（可能指仅权重或特定优化后）；45ms延迟在V100上处理短序列（128）是合理的工程估算值，但参考来源[1][2]仅确认模型存在，未提供具体性能数据，属于经验事实缺直接来源支持。
+
+## Search Query
+
+DeBERTa-v3-large inference latency V100 benchmark ms
+
+## Retrieval Sources
+
+- {'url': 'https://huggingface.co/microsoft/deberta-v3-large&rut=32092bd62e12b37649fd4b457b89a232e336e36d3824bb3cc1dfe6d217c45a4b', 'type': 'ddg', 'title': 'microsoft/deberta-v3-large · Hugging Face'}
+- {'url': 'https://huggingface.co/microsoft/deberta-large&rut=1b01359159bb6978c611f0be23b0c8bcabc88fc79b34b9e984b77dee5905bb29', 'type': 'ddg', 'title': 'microsoft/deberta-large · Hugging Face'}

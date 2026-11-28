@@ -1,0 +1,24 @@
+# N6: 边界层摩擦耗散功率密度公式：P_friction = 0.5 * rho * C_d * V_max^3，其中C_d为拖曳系数(≈0.001-0.002)，V_
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+边界层摩擦耗散功率密度公式：P_friction = 0.5 * rho * C_d * V_max^3，其中C_d为拖曳系数(≈0.001-0.002)，V_max为最大风速。
+
+## Corrected Claim
+
+边界层摩擦耗散功率密度更准确的表述应基于壁面剪切应力 τ_w = 0.5 * rho * C_f * V^2，功率密度为 τ_w * V = 0.5 * rho * C_f * V^3，其中 C_f 为摩擦系数（≈0.001-0.002），V 为局部或特征风速。
+
+## Evidence
+
+[质询]公式量纲与物理定义存在混淆：标准空气动力学中，单位面积的风能通量（功率密度）为 0.5 * rho * V^3，而引入拖曳系数 C_d 后通常用于计算阻力功率（F*v = 0.5 * rho * C_d * A * V^3），此时 C_d 对于光滑圆柱/球体通常在 0.4-1.0 量级，而非 0.001-0.002；若指边界层壁面剪切应力产生的摩擦功率，其系数应为摩擦系数 C_f（约 0.001-0.002），但公式形式通常涉及积分或平均速度而非简单的 V_max^3 乘以常数，且 'P_friction' 术语易与整体拖曳混淆。 | 先验知识/题面给定，逻辑校验发现量纲与系数定义存在潜在矛盾（C_d 与 C_f 混淆，或 V_max 与平均风速关系未明确），虽属 knowledge 节点，但存在可信攻击点导致无法完全确认为 verified。
+
+## Search Query
+
+boundary layer friction dissipation formula tropical cyclone

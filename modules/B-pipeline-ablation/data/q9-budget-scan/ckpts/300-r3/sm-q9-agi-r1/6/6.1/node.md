@@ -1,0 +1,30 @@
+# N28: 长上下文实际有效窗口（EAW）的实证验证协议：设计一组长度为 [8k, 32k, 128k, 256k] 的针在草堆（Needle-in-a-Haystack）
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+长上下文实际有效窗口（EAW）的实证验证协议：设计一组长度为 [8k, 32k, 128k, 256k] 的针在草堆（Needle-in-a-Haystack）测试集，嵌入关键科学事实于不同位置，测量 Qwen3.8-27b 的召回率。记录召回率降至 90% 时的最大上下文长度，作为该模型的 EAW 硬边界
+
+## Corrected Claim
+
+一种用于评估长上下文实际有效窗口（EAW）的潜在协议是：设计长度为 [8k, 32k, 128k, 256k] 的针在草堆测试集，测量模型在不同位置的召回率，并将召回率降至特定阈值（如90%）时的最大上下文长度视为该模型在该测试条件下的有效边界。
+
+## Evidence
+
+[质询]该陈述描述的是一个具体的实验设计方案（Protocol），而非已确立的通用标准或已完成的实证结论。虽然‘针在草堆’测试是业界常用的评估长上下文有效性的方法，但将‘召回率降至90%时的最大长度’定义为特定模型（Qwen3.8-27b）的‘EAW硬边界’属于特定的实验设定，缺乏权威来源直接支持这一特定阈值和定义作为该模型的既定事实。此外，Qwen3.8-27b的具体性能数据需依赖实际测试，当前来源仅讨论一般性现象，未提供该特定模型在此协议下的验证结果。 | 来源[1]和[2]间接支持了长上下文存在‘标称’与‘实际有效’差距的现象，并提及了测试必要性，但未直接支持该特定实验协议（90%阈值、特定长度序列）作为Qwen3.8-27b的既定EAW定义或已完成验证的事实。
+
+## Search Query
+
+Needle in a haystack test Qwen long context recall rate 256k
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29046611/article/details/168581991&rut=1c4742d2fe4e7c8ad8449e5c144bf3e85eb7b9d2ac6291abc147d505d6b41bb1', 'type': 'ddg', 'title': '标称128k实际只有32k？长上下文有效窗口的实测与工程优化-csdn博客'}
+- {'url': 'https://blog.csdn.net/weixin_32238157/article/details/168709396&rut=a2e97c67860431b0e63c5df5dcaf56f6b36ef571cebdbb308651d99324e8dadb', 'type': 'ddg', 'title': '大模型长上下文有效窗口实测：标称128k为何实际用不满-csdn博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/159480523&rut=72293ce57d5938d0cf44563c2c0d10db60edd6c98504c6acd00dc693a2fc0943', 'type': 'ddg', 'title': '百川2-13B上下文长度实测：OpenClaw处理长文档任务表现_宁柳跨越-龙虾开发者社区'}

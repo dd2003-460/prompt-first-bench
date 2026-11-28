@@ -1,0 +1,29 @@
+# N23: 硬件贬值与残值回收价值（Residual Value）：对于3年TCO周期，需估算主要GPU型号在第1/2/3年的二手市场残值率（通常每年折旧20-30%，高端
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+硬件贬值与残值回收价值（Residual Value）：对于3年TCO周期，需估算主要GPU型号在第1/2/3年的二手市场残值率（通常每年折旧20-30%，高端卡初期折旧更快 [待核验]）。Net_CapEx_3yr = Initial_CapEx - Residual_Value_Year3。此项在对比高单价数据卡与低单价消费卡时显著影响性价比排序。
+
+## Corrected Claim
+
+硬件贬值与残值回收价值（Residual Value）：对于3年TCO周期，需估算主要GPU型号在第1/2/3年的二手市场残值率（具体数值需根据特定型号及市场行情确定，通常高端卡初期折旧较快）。Net_CapEx_3yr = Initial_CapEx - Residual_Value_Year3。此项在对比高单价数据卡与低单价消费卡时显著影响性价比排序。
+
+## Evidence
+
+[质询]具体数值范围（每年折旧20-30%）属于经验事实，缺乏通用性，不同GPU型号（如H100 vs RTX 4090）及市场波动下差异巨大，且参考来源未提供该具体数值支持。 | 逻辑自洽，但具体折旧率为经验事实，参考来源[1][2]仅定义残值概念，未提供GPU具体折旧数据，故降级。
+
+## Search Query
+
+used GPU depreciation rate 3 years market value 2024
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E6%AE%8B%E4%BD%99%E4%BB%B7%E5%80%BC/9067346&rut=48274b60b09ddecb8a99ef0a3154cd9afca4d3c96dccceba7f9381d816050c1a', 'type': 'ddg', 'title': '残余价值_百度百科'}
+- {'url': 'https://wenku.baidu.com/view/345286345ecfa1c7aa00b52acfc789eb172d9e39.html&rut=a4271093717f64ff445aad97a7ed876f5c7651a07ed34efd978c520c4d377a6b', 'type': 'ddg', 'title': 'Residual Value是什么？5分钟搞懂资产残值计算与评估全攻略'}

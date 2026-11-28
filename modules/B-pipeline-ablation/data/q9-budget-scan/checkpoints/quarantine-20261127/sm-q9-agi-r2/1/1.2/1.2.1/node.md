@@ -1,0 +1,24 @@
+# N34: V100 (CC 7.0) 不支持原生 FP4 指令，NVFP4 推理必须通过软件库（如 cuBLASLt 或自定义 Kernel）将其反量化为 FP16/IN
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+V100 (CC 7.0) 不支持原生 FP4 指令，NVFP4 推理必须通过软件库（如 cuBLASLt 或自定义 Kernel）将其反量化为 FP16/INT8 后进行矩阵乘法；此过程引入额外的内存读写开销和 ALU 运算，导致计算吞吐量相对于 FP16 基准不仅无加速，反而可能下降 10-20%（即加速比 < 1.0x），其主要收益仅在于显存占用降低从而允许更长上下文或更大 Batch。
+
+## Corrected Claim
+
+V100 (CC 7.0) 不支持原生 FP4 指令，NVFP4 推理必须通过软件库（如 cuBLASLt 或自定义 Kernel）将其反量化为 FP16/INT8 后进行矩阵乘法；此过程引入额外的内存读写开销和 ALU 运算，导致计算吞吐量相对于 FP16 基准不仅无加速，反而可能下降 10-20%（即加速比 < 1.0x），其主要收益仅在于显存占用降低从而允许更长上下文或更大 Batch。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 (CC 7.0) 硬件架构确实不支持 FP4 原生指令，NVFP4 需软件模拟，引入额外开销符合物理直觉，且主要收益为显存节省符合工程常识。
+
+## Search Query
+
+V100 FP4 emulation performance overhead software dequantization cost

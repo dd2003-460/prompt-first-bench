@@ -1,0 +1,24 @@
+# N30: KV Cache 管理策略：采用 PagedAttention 算法，块大小 B=16 tokens，每块占用内存 M_block = 16 * d_model
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+KV Cache 管理策略：采用 PagedAttention 算法，块大小 B=16 tokens，每块占用内存 M_block = 16 * d_model * n_layers * 2 bytes (Q,K) = 16 * 4096 * 48 * 2 = 6.29MB；V100 16GB 显存扣除模型权重后剩余 ~4GB 用于 KV Cache，支持最大并发序列数 N_seq = 4GB / 6.29MB ≈ 652 序列（理论上限）
+
+## Corrected Claim
+
+KV Cache 管理策略：采用 PagedAttention 算法，块大小 B=16 tokens，每块占用内存 M_block = 16 * d_model * n_layers * 2 bytes (Q,K) = 16 * 4096 * 48 * 2 = 6.29MB；V100 16GB 显存扣除模型权重后剩余 ~4GB 用于 KV Cache，支持最大并发序列数 N_seq = 4GB / 6.29MB ≈ 652 序列（理论上限）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（16*4096*48*2 bytes ≈ 6.29MB），容量估算逻辑自洽（4GB/6.29MB ≈ 652），符合PagedAttention基本原理及V100显存约束下的数量级直觉。
+
+## Search Query
+
+PagedAttention block size KV cache memory calculation vLLM

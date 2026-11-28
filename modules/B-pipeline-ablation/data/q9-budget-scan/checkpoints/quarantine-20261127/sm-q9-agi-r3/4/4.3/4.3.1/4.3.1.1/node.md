@@ -1,0 +1,29 @@
+# N195: 2026-11 时点 Claude-3.5 Sonnet 的官方定价需核实：输入 $3/M tokens，输出 $15/M tokens；需确认是否包含 Bat
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+2026-11 时点 Claude-3.5 Sonnet 的官方定价需核实：输入 $3/M tokens，输出 $15/M tokens；需确认是否包含 Batch API 折扣（通常为 50% off），若可用，实际成本 Cost_eff = 0.5 * (Input_P * In_Tok + Output_P * Out_Tok)。
+
+## Corrected Claim
+
+2026-11 时点 Claude-3.5 Sonnet 的官方定价需进一步核实具体数值（通常参考历史定价约为输入 $3/M tokens，输出 $15/M tokens）；若包含 Batch API 折扣（通常为 50% off），实际成本计算逻辑为 Cost_eff = 0.5 * (Input_P * In_Tok + Output_P * Out_Tok)。
+
+## Evidence
+
+[质询]参考来源未提供具体的定价数值（$3/$15）及Batch API折扣细节，无法从现有来源直接验证具体金额，且2026年11月的价格可能随时间调整，存在经验事实缺失来源支持的风险。 | 来源[2]确认了Claude 3.5 Sonnet的存在，但未包含具体定价数据；来源[1]提及2026年11月模型清单但摘要中无价格信息。该陈述为经验事实（具体API价格），逻辑自洽（计算公式正确）但缺乏直接来源支持具体数值，故降级。
+
+## Search Query
+
+Anthropic Claude 3.5 Sonnet pricing November 2026 batch API discount
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2106726780946080971&rut=40c4140576b55c923ed65fc1f4c173d5a0480e9c265c908f063a9609f2b45eef', 'type': 'ddg', 'title': '2026年11月Claude API可用模型清单及实用选型指南 - 知乎'}
+- {'url': 'https://www.anthropic.com/news/claude-3-5-sonnet&rut=b1e4145b066752795a818ca262085732673aa097efb74b3128b714b0e98998bf', 'type': 'ddg', 'title': 'Introducing Claude 3.5 Sonnet \\ Anthropic'}

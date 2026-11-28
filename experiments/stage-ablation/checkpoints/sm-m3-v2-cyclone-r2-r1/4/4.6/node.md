@@ -1,0 +1,28 @@
+# N16: 本地海温-气温差 ΔT_sfc 的典型范围：热带海洋 ΔT_sfc ≈ 2-5 K，登陆后陆地 ΔT_sfc ≈ -5 至 -15 K；ΔT_sfc 对潜热通量
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5
+
+## Claim
+
+本地海温-气温差 ΔT_sfc 的典型范围：热带海洋 ΔT_sfc ≈ 2-5 K，登陆后陆地 ΔT_sfc ≈ -5 至 -15 K；ΔT_sfc 对潜热通量 Q_LH 的影响公式 Q_LH ≈ C_E·ρ·L_v·(q_sfc - q_air)，具体值需根据当地气象观测查证
+
+## Corrected Claim
+
+本地海温-气温差 ΔT_sfc 的典型范围：热带海洋 ΔT_sfc 通常在几开尔文以内（具体符号和大小随季节和天气系统变化），登陆后陆地 ΔT_sfc 绝对值通常增大；ΔT_sfc 对潜热通量 Q_LH 的影响遵循 Q_LH ≈ C_E·ρ·L_v·(q_sfc - q_air)，具体数值需根据当地气象观测查证。
+
+## Evidence
+
+[质询]参考来源仅讨论热带海表温度（SST）的变化特征，完全未涉及海气温差（ΔT_sfc）的具体数值范围或潜热通量公式，无法提供外部证据支持该经验事实。 | 逻辑自洽：热带海洋通常气温略高于或接近海温（或海温略高，取决于具体定义和季节，但量级在几度内合理），陆地登陆后由于下垫面性质改变及摩擦耗散，近地面气温通常显著低于海温（或反之，取决于具体定义，但-5至-15K的量级在台风登陆过程中是常见的经验估计）；潜热通量公式符合边界层物理原理。但来源[1]与事实主题无关，且该事实属于经验参数，缺乏直接来源支持。
+
+## Search Query
+
+sea surface temperature air temperature difference latent heat flux hurricane landfall typical values
+
+## Retrieval Sources
+
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=17550p10765x0a10tg2t0g40up556520&site=xueshu_se&rut=0c5ffa578466f00b631d9e5932fe63d80993bb6cffe29ab4a63d7e937f170009', 'type': 'ddg', 'title': '热带海水温度多时间尺度变化特征分析 - 百度学术'}

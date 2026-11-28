@@ -1,0 +1,20 @@
+# N53: Value(Iteration_Speed) 的量化定义为每减少 1 秒延迟带来的边际效用增益：Value = ΔQ / ΔT，其中 ΔQ 为质量分数提升 (0
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+Value(Iteration_Speed) 的量化定义为每减少 1 秒延迟带来的边际效用增益：Value = ΔQ / ΔT，其中 ΔQ 为质量分数提升 (0-1 scale)，ΔT 为时间节省 (s)；在科研循环中，若云端延迟 T_cloud=2s 低于本地 T_local=10s，节省 8s，假设每 8s 节省带来 0.05 分的质量稳定性提升 (减少超时截断)，则 Value=0.00625/s；此值需乘以任务优先级权重 W_priority (1-10) 以反映关键步骤的重要性。
+
+## Corrected Claim
+
+Value(Iteration_Speed) 的量化定义为每减少 1 秒延迟带来的边际效用增益：Value = ΔQ / ΔT，其中 ΔQ 为质量分数提升 (0-1 scale)，ΔT 为时间节省 (s)；在科研循环中，若云端延迟 T_cloud=2s 低于本地 T_local=10s，节省 8s，假设每 8s 节省带来 0.05 分的质量稳定性提升 (减少超时截断)，则 Value=0.00625/s；此值需乘以任务优先级权重 W_priority (1-10) 以反映关键步骤的重要性。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数值计算正确（0.05/8=0.00625），定义符合边际效用概念，量纲合理。

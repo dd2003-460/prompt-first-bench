@@ -1,0 +1,20 @@
+# N63: MTTR < 30 分钟的分解：MTTR = Detection Time + Diagnosis Time + Recovery Time。Detection
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+MTTR < 30 分钟的分解：MTTR = Detection Time + Diagnosis Time + Recovery Time。Detection Time 依赖于监控粒度（建议 < 5 min，基于 Prometheus 抓取间隔 30s + 告警延迟），Diagnosis Time 依赖于日志聚合效率（建议 < 10 min），Recovery Time 依赖于容器重启与状态加载（建议 < 15 min）。
+
+## Corrected Claim
+
+MTTR < 30 分钟的分解：MTTR = Detection Time + Diagnosis Time + Recovery Time。Detection Time 依赖于监控粒度（建议 < 5 min，基于 Prometheus 抓取间隔 30s + 告警延迟），Diagnosis Time 依赖于日志聚合效率（建议 < 10 min），Recovery Time 依赖于容器重启与状态加载（建议 < 15 min）。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（子节点分别对应 MTTR 公式中的三个独立组成部分（Detection, Diagnosis, Recovery），且 Recovery 部分进一步细分为‘容器启动’和‘状态加载’两个正交子环节，逻辑清晰无重叠。所有关键路径均有覆盖，且各节点数据点具体，未出现同一参数的重复罗列。）

@@ -1,0 +1,33 @@
+{
+  "id": "N318",
+  "claim": "NumPy dot product 在 10^6 元素上的耗时 T_np 受 BLAS 库实现影响：使用 OpenBLAS 时，T_np ≈ N / (FLOPs_rate * efficiency)，假设 CPU 单核 FLOPs_rate = 10 GFLOPS，efficiency = 0.8，T_np ≈ 10^6 / (10^10 * 0.8) = 0.125ms，与 N99 中 15ms 矛盾，需确认 N99 数据是否基于多核并行（如 8 核下 T_np ≈ 0.015ms）或包含内存带宽限制（10^6 * 4bytes = 4MB，L3 缓存 32MB，带宽 ~50GB/s，T_mem ≈ 4MB / 50GB/s = 0.08ms）",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该陈述包含具体的硬件性能参数（10 GFLOPS, 0.8 efficiency, 50GB/s bandwidth）和计算结果（0.125ms, 0.08ms），这些属于经验事实，无法从第一性原理严格推出，且参考来源未提供这些具体数值以支持其正确性。 | 逻辑推导过程自洽（算术正确，量纲合理），但作为经验事实缺乏来源直接支持具体参数值，符合degraded判定标准。",
+  "corrected_claim": "NumPy dot product 在 10^6 元素上的耗时受 BLAS 库实现及硬件性能影响。若假设 CPU 单核 FLOPs_rate 为 10 GFLOPS 且效率为 0.8，则计算耗时约为 0.125ms；若考虑内存带宽限制（如 4MB 数据量，50GB/s 带宽），内存访问耗时约为 0.08ms。具体实际耗时需根据特定硬件配置实测确定。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N99"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "NumPy dot product performance OpenBLAS single core 1 million elements latency",
+  "retrieval_sources": [
+    {
+      "url": "https://stackoverflow.com/questions/58404232/why-is-numpy-dot-as-fast-as-these-gpu-implementations-of-matrix-multiplication&rut=09060924a75730a09196035a91d50b63091c6100eabf25578041371d880e66a2",
+      "type": "ddg",
+      "title": "performance - Why is numpy.dot as fast as these GPU implementations of ..."
+    },
+    {
+      "url": "https://stackoverflow.com/questions/5990577/speeding-up-numpy-dot&rut=cfc61e20d225ec0c0ffaee52259d2c494fc494972cab691901efd090e3224d6d",
+      "type": "ddg",
+      "title": "python - Speeding up numpy.dot - Stack Overflow"
+    },
+    {
+      "url": "https://medium.com/@amrkmrc/how-numpy-vector-operations-are-so-fast-and-efficient-114971a669fb&rut=d690e5f7392f0ee5fc29dbe7fad8975d3a2a2b836cec7a89bec2013a1993f973",
+      "type": "ddg",
+      "title": "How Numpy vector operations are so fast and efficient"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "id": "N118",
+  "claim": "局域网内 Mac 至 V100 服务器的 HTTP/REST RTT 基线为 0.5-2ms (千兆以太网)；JSON 序列化 1MB 上下文数据的 CPU 耗时约为 5-10ms (Python json.loads/dumps)，gRPC (Protobuf) 序列化耗时约为 2-5ms，证实 gRPC 可减少约 40-60% 的序列化开销，但在总推理时间 (>1s) 中占比仍 <1%。",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]具体数值（如RTT 0.5-2ms, JSON 5-10ms, gRPC 2-5ms）属于高度依赖硬件环境（CPU型号、内存带宽、网络交换机配置）的经验事实，无法从第一性原理严格推导，且参考来源多为通用基准测试或不同语言环境（如.NET），缺乏针对特定Mac-V100千兆局域网及Python环境的直接数据支持。 | 逻辑自洽（gRPC二进制序列化通常比JSON文本序列化快，且相对于>1s的推理时间，毫秒级序列化开销占比确实<1%），但来源[1][2][3]仅提供了gRPC与REST性能对比的通用趋势和间接支持，未提供该特定场景下的精确数值，符合经验事实降级条件。",
+  "corrected_claim": "在典型的千兆局域网环境中，Mac至V100服务器的HTTP/REST RTT通常在亚毫秒至几毫秒级别；对于1MB上下文数据，Python中JSON序列化耗时通常高于gRPC(Protobuf)序列化，后者可减少约40-60%的序列化开销，但在总推理时间（>1s）中占比通常小于1%。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N38"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "gRPC vs REST serialization overhead latency benchmark JSON Protobuf",
+  "retrieval_sources": [
+    {
+      "url": "https://matinfarzadfar.com/articles/grpc-rest-benchmarks&rut=ff3af182b1ba754b8fc9a3086061ac212551f6718b4eb8bbb304ca514956939d",
+      "type": "ddg",
+      "title": "gRPC vs REST Performance .NET: Real Benchmarks"
+    },
+    {
+      "url": "https://asoasis.tech/articles/2026-04-17-0253-grpc-vs-rest-performance-comparison/&rut=9ef2b95248e1cf14e56a70b030accf3508fadfb749cecf8daddf25a30470a614",
+      "type": "ddg",
+      "title": "gRPC vs REST: A Practical Performance Comparison and Tuning Guide"
+    },
+    {
+      "url": "https://www.academy.kwas.tech/benchmarks/grpc-vs-rest-json-payload-latency&rut=a72c5c40a6063affb708f5b49e0823a1470c42d138175923971d18a556b504c2",
+      "type": "ddg",
+      "title": "gRPC Protobufs vs REST JSON: Serialization Latency"
+    }
+  ]
+}

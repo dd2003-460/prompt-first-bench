@@ -1,0 +1,28 @@
+# N19: 感热通量（Mechanism 2）的临界阈值不确定性：海表温度（SST）低于 26.5°C 时潜热通量 $Q_{latent} = L_v E$ 急剧下降，但精
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+感热通量（Mechanism 2）的临界阈值不确定性：海表温度（SST）低于 26.5°C 时潜热通量 $Q_{latent} = L_v E$ 急剧下降，但精确的“能量切断”阈值因湿度廓线而异，目前无单一共识值，需标记为 [待核验: 具体临界SST值范围 25-27°C]。
+
+## Corrected Claim
+
+感热通量（Mechanism 2）的临界阈值不确定性：海表温度（SST）低于约26-27°C时潜热通量 $Q_{latent} = L_v E$ 通常显著下降，但精确的“能量切断”阈值因湿度廓线而异，目前无单一共识值，需标记为 [待核验: 具体临界SST值范围 25-27°C]。
+
+## Evidence
+
+[质询]参考来源仅涉及数据评估方法（COARE算法），完全未提及SST 26.5°C这一具体阈值或潜热通量随SST变化的非线性机制，属于来源与事实主题不匹配，缺乏直接证据支持。 | 逻辑上，SST低于约26-27°C时大气饱和水汽压降低导致潜热通量显著下降符合物理直觉，但26.5°C作为‘急剧下降’的精确临界值属于经验参数，且参考来源[1]与具体阈值无关，无法提供外部验证。
+
+## Search Query
+
+critical sea surface temperature threshold for tropical cyclone energy cutoff landfall
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.baidu.com/view/3056ed73ab956bec0975f46527d3240c8447a1b0&rut=00065a7e76cddb09735cacc527cfc14c3725168d273f72b2e8493f02dff1d863', 'type': 'ddg', 'title': '中国沿岸ERA-Interim和MERRA感热通量和潜热通量的资料评估'}

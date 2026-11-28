@@ -1,0 +1,24 @@
+# N34: 陆面 CAPE 的低值（50–200 J/kg）主要受限于对流凝结高度 LCL 的升高：LCL ≈ 125 m * (T_surface - T_dewpoin
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+陆面 CAPE 的低值（50–200 J/kg）主要受限于对流凝结高度 LCL 的升高：LCL ≈ 125 m * (T_surface - T_dewpoint) / (T_surface + 273)。登陆后露点温度 T_dewpoint 因湿度下降而显著降低，导致 LCL 升高，压缩了对流发展的垂直距离，从而降低 CAPE。
+
+## Corrected Claim
+
+陆面 CAPE 的低值（50–200 J/kg）主要受限于对流凝结高度 LCL 的升高：LCL ≈ 125 m * (T_surface - T_dewpoint) / (T_surface + 273)。登陆后露点温度 T_dewpoint 因湿度下降而显著降低，导致 LCL 升高，压缩了对流发展的垂直距离，从而降低 CAPE。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LCL升高确实会减少有效对流层厚度，从而降低CAPE，符合大气热力学基本原理。
+
+## Search Query
+
+lifting condensation level increase after landfall impact on CAPE

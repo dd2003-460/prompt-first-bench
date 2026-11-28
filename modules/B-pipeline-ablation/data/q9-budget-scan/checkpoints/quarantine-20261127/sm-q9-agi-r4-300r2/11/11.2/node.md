@@ -1,0 +1,24 @@
+# N225: 去重阈值 θ_sim 的敏感性分析：θ_sim 每降低 0.05 (从 0.85 降至 0.80)，保留的候选假设数量 N_retained 平均增加 0.5 
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N88
+
+## Claim
+
+去重阈值 θ_sim 的敏感性分析：θ_sim 每降低 0.05 (从 0.85 降至 0.80)，保留的候选假设数量 N_retained 平均增加 0.5 个，但后续验证阶段的 Token 消耗 C_verify 线性增加 ~16.7%；若 N_retained > 4，则受限于 max_num_seqs=8 的并发能力，总耗时 T_total 将增加 >20%，违背速度最优原则。
+
+## Corrected Claim
+
+去重阈值 θ_sim 的敏感性分析表明：降低 θ_sim 会增加保留的候选假设数量 N_retained，进而导致后续验证阶段的 Token 消耗 C_verify 和总耗时 T_total 上升；当 N_retained 超过并发限制（如 max_num_seqs=8）时，性能开销显著增加，可能违背速度最优原则。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性量化数据（如Token消耗增加~16.7%、耗时增加>20%），这些数值并非由第一性原理或通用逻辑必然推出，而是依赖于特定的系统实现、负载分布及硬件环境，属于经验事实。在无外部来源支持的情况下，无法确认这些具体数值的准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+semantic deduplication threshold impact on downstream inference cost llm

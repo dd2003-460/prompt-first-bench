@@ -1,0 +1,139 @@
+{
+  "qid": "q9-agi",
+  "question": "目标：在我的硬件条件下，以性价比最高、速度最快且可靠的方式，达到 research-AGI。\n\n**research-AGI 的操作化定义**（待 D 确认，v0 用 D 的 autoresearch 系统作锚）：\n一个 AI 系统能在我指定的研究方向上，独立完成\"提出假设 → 设计实验 → 执行（含检索/计算）→ 分析 → 得出可验证结论 → 更新自身知识\"的完整科研循环，且产出的研究结论经人工抽查达到\"可发表级\"（对标顶刊同题材论文的标准），无需人类逐步指导。\n\n**我的硬件条件**（v0，2026-11-22 服务器实测，待 D 确认精确边界）：\n- 推理平台：一台固定服务器，4× Tesla V100-SXM2-16GB（compute cap 7.0），不可更换\n- 当前部署：vLLM 服务 qwen3.8-27b（NVFP4 量化，TP=4，MTP×4 投机解码，fp8 KV cache，max_model_len=262144，max-num-seqs=8，端口 8787 代理）\n- 开发机：MacBook Pro（Apple M1 Max），跑编排/检索/分析，不跑 27b 推理\n- 约束：不改模型权重（prompt + hook + 外部记忆/工具）\n- 预算约束：时间 + 电费 + （可选）云端 API 费用\n\n任务：给出达到上述目标的最优路径分解。要求：\n1. 自行识别并完整覆盖所有影响\"最快可靠达到\"的贡献因子，不遗漏（因子清单由模型识别，题面不预列——预列=泄露 gold 骨架）\n2. 每个因子给出量化依据（数值/公式/可检索事实），标 conf\n3. 指出当前硬件条件下的能力上限（27b 本地模型能到哪一层，瓶颈在哪）\n4. 给出预算-质量权衡：不同投入档位下能达到的能力边界\n5. 把\"不确定、需要进一步查证\"的点收进黑盒表",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "FeasibilityGate (布尔值): 在给定硬件(4xV100, 27B模型, 无权重修改)和预算约束下，系统是否能物理执行完整的科研循环(假设->实验->结论)。若为False，后续指标无效。",
+      "ScientificValidity (连续值): 产出结论达到'可发表级'的概率或置信度。定义为人工抽查中符合顶刊标准的比例。",
+      "TimeToSuccess (连续值): 从启动到首次稳定产出可验证结论所需的时间单位(小时/天)。",
+      "OperationalCost (连续值): 达成目标所需的总资源消耗(电费+API费+人工监督时间)。",
+      "Reliability (连续值): 系统在长时间运行中保持功能正常、无灾难性失败的稳定性指标(如平均故障间隔时间MTBF)。"
+    ],
+    "composition": "FeasibilityGate × ( ScientificValidity · Reliability ) / ( TimeToSuccess + λ·OperationalCost )",
+    "rationale": "该函数首先通过硬约束过滤掉不可行方案，随后最大化‘有效产出’(有效性x可靠性)，同时最小化‘达成代价’(时间+资源)，从而精确对应题目要求的‘性价比最高、速度最快且可靠’。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "parent_id": "N2",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "建议增加一个关于‘Prompt工程对状态转移稳定性的影响’的子节点，分析不同Prompt结构（CoT vs ReAct）对状态跳转准确率和Token效率的具体影响，以补全父节点中‘Prompt工程’这一关键要素。",
+        "建议在‘外部工具集成’子节点中补充关于工具接口标准化（Schema定义）对Agent理解工具能力的贡献，因为这也是构建Agent系统拓扑结构的一部分，目前仅关注了错误恢复。"
+      ],
+      "round": 0
+    },
+    {
+      "parent_id": "N4",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "补充一个子节点，明确‘学术严谨性’的其他自动评估维度，如：自动生成方法学描述的可读性与完整性评分、与现有文献的冲突检测机制、以及数据/代码开源合规性检查。",
+        "考虑将‘可复现率’和‘幻觉检测’整合为更广义的‘质量验证网关’下的两个并行检查项，以更好地体现它们在验证闭环中的协同作用，但当前分列也可接受，主要问题在于缺失其他严谨性维度。"
+      ],
+      "round": 0
+    },
+    {
+      "node_id": "N7",
+      "claim": "4xV100-SXM2-16GB在NVFP4量化Qwen3.8-27B模型下的理论峰值Token生成吞吐量（tokens",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件参数（HBM带宽~900GB/s）和特定模型（Qwen3.8-27B）的性能预测，属于经验事实。虽然V100的HBM2带宽确实在90"
+    },
+    {
+      "node_id": "N8",
+      "claim": "单序列最大有效上下文长度下的延迟模型：Latency(N) = Prefill_Latency(N) + Decode_",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性性能特征（如Prefill严格线性增长、Decode随KV Cache增加而增加的具体机制及特定max_model_len下的行为"
+    },
+    {
+      "node_id": "N9",
+      "claim": "并发数（max-num-seqs=8）对单用户吞吐量的影响系数：当并发请求数从1增加到8时，由于Batching优化，总",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的性能指标预期（TTFT/TPOT变化率）和特定配置下的行为描述，属于经验事实，缺乏实测数据支持，且不同硬件/模型下表现差异巨大，无法仅凭"
+    },
+    {
+      "node_id": "N10",
+      "claim": "MTP×4投机解码在V100上的加速比与接受率：MTP（Multi-Token Prediction）依赖Draft M",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]加速比公式 `1 / (1 - Acceptance_Rate * (1 - Cost_Ratio))` 存在严重的逻辑和量纲错误。标准投机解码的加速比"
+    },
+    {
+      "node_id": "N15",
+      "claim": "长期知识库的检索精度与召回率指标：使用向量数据库（如Chroma/FAISS）存储历史实验结论，检索质量由Cosine ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“每增加1个不相关文档，幻觉率上升0.5-1%”的具体数值缺乏普适性，属于高度依赖特定模型、数据集和评估方法的经验性观察，并非固定常数或第一性"
+    },
+    {
+      "node_id": "N16",
+      "claim": "262k上下文内的信息衰减曲线：随着上下文长度增加，模型对早期信息的注意力权重下降（Lost in the Middle",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（15-25%忽略概率）缺乏通用基准支持，不同模型架构（如RoPE vs ALiBi）及具体实现下该指标波动极大，属于特定实验条件下的经验数据而"
+    },
+    {
+      "node_id": "N23",
+      "claim": "状态丢失防护：利用vLLM的KV cache持久化特性，将长上下文对话历史（max_model_len=262144）分",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]vLLM 原生并不具备将 KV Cache 自动持久化到磁盘并支持从任意分片恢复以应对 OOM 或重启的标准特性（通常需依赖外部存储或特定实验性功能），"
+    },
+    {
+      "node_id": "N25",
+      "claim": "工作点B（中性价比最优）：本地处理常规推理+云端API（如GPT-4o）处理复杂代码执行与长文档摘要，按token计费估",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]“缩短30%”和“$50-200”属于具体的经验性量化指标，缺乏通用基准测试支持，不同科研场景下波动极大，易被质疑为过度精确的臆测。 | 先验知识/题面"
+    },
+    {
+      "node_id": "N27",
+      "claim": "Research-AGI '可发表级'输出的量化验收标准：在特定领域（如材料科学或生物信息学）的盲评测试中，AI生成的摘",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N28",
+      "claim": "提示工程扩展功能的极限：在27B模型不微调的前提下，通过Chain-of-Thought (CoT) 和 Tree-of",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N29",
+      "claim": "外部工具链对系统功能的扩展边界：集成Python沙箱（用于代码执行/数值计算）和Web搜索API（用于实时文献检索）后，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N30",
+      "claim": "电费成本量化模型：4x V100-SXM2-16GB 满载功耗约为 600W-700W，按工业电价 $0.1/kWh 计",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N31",
+      "claim": "时间-质量权衡曲线：在预算受限情况下，引入云端API（如GPT-4o/Claude-3.5）作为'第二意见'验证器，可将",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 31
+}

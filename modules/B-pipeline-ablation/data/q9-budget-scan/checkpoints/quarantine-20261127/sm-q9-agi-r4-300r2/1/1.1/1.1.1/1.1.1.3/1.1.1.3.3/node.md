@@ -1,0 +1,20 @@
+# N245: 工作点C（低显存/高压缩）：NVFP4量化，Group Size=32。Scale Factor开销为1 byte/32 params = 0.03125 by
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N94
+
+## Claim
+
+工作点C（低显存/高压缩）：NVFP4量化，Group Size=32。Scale Factor开销为1 byte/32 params = 0.03125 bytes/param。总权重显存 = 27e9 * (0.5 + 0.03125) ≈ 14.34 GB。相比N94基准13.69GB，增加0.65GB，精度损失显著，但可能通过减少KV Cache精度补偿，需权衡整体质量。
+
+## Corrected Claim
+
+工作点C（低显存/高压缩）：NVFP4量化，Group Size=32。Scale Factor开销为1 byte/32 params = 0.03125 bytes/param。总权重显存 = 27e9 * (0.5 + 0.03125) ≈ 14.34 GB。相比N94基准13.69GB，增加0.65GB，精度损失显著，但可能通过减少KV Cache精度补偿，需权衡整体质量。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVFP4为4-bit格式（0.5 bytes/param），Group Size=32且Scale Factor通常为8-bit（1 byte），开销计算 1/32=0.03125 bytes/param 正确；总显存 27e9 * 0.53125 ≈ 14.34 GB 计算无误；与基准对比及定性权衡符合工程常识。

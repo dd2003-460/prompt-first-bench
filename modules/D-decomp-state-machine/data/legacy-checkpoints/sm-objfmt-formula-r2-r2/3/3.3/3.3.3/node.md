@@ -1,0 +1,24 @@
+# N105: 在 Batch Size=1 的解码阶段，AllReduce 通信量与模型参数量成正比。对于 27B 模型，每次 AllReduce 传输约 54MB (BF1
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+在 Batch Size=1 的解码阶段，AllReduce 通信量与模型参数量成正比。对于 27B 模型，每次 AllReduce 传输约 54MB (BF16) 或 27MB (INT8) 数据。在 PCIe 4.0 下，单次 AllReduce 延迟约为 1.7ms (54MB/31.5GB/s)，占单 token 生成时间 (假设 50ms) 的 3.4%；在 NVLink 下，延迟降至 0.06ms，占比 0.12% [待核验]。
+
+## Corrected Claim
+
+在 Batch Size=1 的解码阶段，AllReduce 通信量与模型参数量成正比。对于 27B 模型，每次 AllReduce 传输约 54MB (BF16) 或 27MB (INT8) 数据。在 PCIe 4.0 下，单次 AllReduce 延迟约为 1.7ms (54MB/31.5GB/s)，占单 token 生成时间 (假设 50ms) 的 3.4%；在 NVLink 下，延迟降至 0.06ms，占比 0.12% [待核验]。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在BF16下体积为54MB，PCIe 4.0带宽31.5GB/s对应延迟约1.7ms，计算自洽。
+
+## Search Query
+
+AllReduce latency per token generation PCIe vs NVLink 27B model

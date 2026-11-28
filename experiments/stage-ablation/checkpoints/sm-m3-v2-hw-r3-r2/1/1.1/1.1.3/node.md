@@ -1,0 +1,24 @@
+# N35: 分页对齐损耗量化模型：vLLM 使用 PagedAttention，block_size 通常为 16 tokens。实际内存占用 = ceil(seq_len
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+分页对齐损耗量化模型：vLLM 使用 PagedAttention，block_size 通常为 16 tokens。实际内存占用 = ceil(seq_len / block_size) * block_size * bytes_per_token。对于 seq_len=262144，若 block_size=16，则 262144/16 = 16384 块，无向上取整损耗（因为整除）。损耗主要来自：1) 元数据指针开销（每块 4-8 bytes）；2) 物理页分配的非连续性导致的 TLB miss 间接性能损耗（非内存容量损耗）。需澄清 N7 中 '10%-15% 上浮' 是指物理内存占用增加还是有效带宽利用率下降。
+
+## Corrected Claim
+
+分页对齐损耗量化模型：vLLM 使用 PagedAttention，block_size 通常为 16 tokens。实际内存占用 = ceil(seq_len / block_size) * block_size * bytes_per_token。对于 seq_len=262144，若 block_size=16，则 262144/16 = 16384 块，无向上取整损耗（因为整除）。损耗主要来自：1) 元数据指针开销（每块 4-8 bytes）；2) 物理页分配的非连续性导致的 TLB miss 间接性能损耗（非内存容量损耗）。需澄清 N7 中 '10%-15% 上浮' 是指物理内存占用增加还是有效带宽利用率下降。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：262144能被16整除，数学计算无误；PagedAttention机制及元数据开销描述符合vLLM技术原理。
+
+## Search Query
+
+vLLM paged attention memory overhead metadata pointer block size alignment loss calculation

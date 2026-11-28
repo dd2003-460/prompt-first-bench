@@ -1,0 +1,17 @@
+{
+  "id": "N10",
+  "claim": "MTP×4投机解码在V100上的加速比与接受率：MTP（Multi-Token Prediction）依赖Draft Model与Target Model的一致性；在CC 7.0硬件上，若Draft Model也占用显存，需评估4个GPU中是否有足够余量运行额外Draft头；加速比 = 1 / (1 - Acceptance_Rate * (1 - Cost_Ratio))，需实测Acceptance_Rate在科研长文本生成场景下的分布（通常0.7-0.9）。",
+  "level": "L2",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]加速比公式 `1 / (1 - Acceptance_Rate * (1 - Cost_Ratio))` 存在严重的逻辑和量纲错误。标准投机解码的加速比取决于 Draft 成本与 Target 成本的比值以及接受率，通常近似为 `1 / (Cost_Draft/Cost_Target + (1-Acc)*Cost_Target)` 或类似形式。给出的公式中，若 Acceptance_Rate=0.9, Cost_Ratio=0.1，分母为 `1 - 0.9*0.9 = 0.19`，加速比约5.26倍；但若 Acceptance_Rate=1.0, Cost_Ratio=0.1，分母为 `1 - 0.9 = 0.1`，加速比10倍。然而，当 Cost_Ratio 接近 1 时（Draft 很贵），公式预测加速比趋向无穷大，这违背直觉（Draft 越贵加速比应越低甚至小于1）。此外，该公式未正确反映 Draft 生成多个 token 的成本累积效应，属于错误的经验公式。 | 逻辑校验发现加速比公式存在硬逻辑错误（违背基本经济/计算直觉），且无外部来源支持该特定公式及 V100 上的具体性能数据。",
+  "corrected_claim": "MTP×4投机解码在V100上的加速比与接受率：MTP依赖Draft与Target模型的一致性；在CC 7.0硬件上需评估显存余量；加速比受Acceptance_Rate和Draft/Target成本比共同影响，通常Acceptance_Rate在0.7-0.9之间，但具体加速比需根据实际成本模型计算，原公式有误。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N1"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "speculative decoding multi-token prediction acceptance rate V100 vLLM acceleration ratio",
+  "retrieval_sources": []
+}

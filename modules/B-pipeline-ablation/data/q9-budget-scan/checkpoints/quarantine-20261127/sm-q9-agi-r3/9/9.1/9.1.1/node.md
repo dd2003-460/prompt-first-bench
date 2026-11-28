@@ -1,0 +1,30 @@
+# N282: 在 4x V100 TP=4、NVFP4 量化、max_model_len=262144 且 max-num-seqs=8 的配置下，当输入上下文长度超过 16
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N100
+
+## Claim
+
+在 4x V100 TP=4、NVFP4 量化、max_model_len=262144 且 max-num-seqs=8 的配置下，当输入上下文长度超过 16k tokens 时，KV Cache 显存占用达到 12GB/卡，剩余显存不足以支持 Batch Size > 4，导致实际吞吐量降至 12-15 tokens/sec。
+
+## Corrected Claim
+
+在 4x V100 TP=4、NVFP4 量化、max_model_len=262144 且 max-num-seqs=8 的配置下，长上下文（>16k tokens）会导致 KV Cache 显存占用显著增加，可能限制 Batch Size 并降低吞吐量，但具体数值需根据实际模型架构和测试确定。
+
+## Evidence
+
+[质询]具体数值（12GB KV Cache、12-15 tokens/sec）缺乏来源直接支持，且不同模型架构（如Qwen3.8 vs 通用MoE）的KV Cache大小差异巨大，无法从通用配置推导特定数值。 | 来源[1][2][3]证实了V100+NVFP4+TP4部署MoE模型的可行性及显存压力背景，但未提供具体的KV Cache占用数值和吞吐量数据，属于经验事实缺来源支持。
+
+## Search Query
+
+vLLM Qwen 27B V100 KV cache memory limit batch size throughput long context
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_31499265/article/details/165505911&rut=76edac84c41d0f03e4fce6e2ed82c0744f13e75cdd1527c41e3d4266ae8608ea', 'type': 'ddg', 'title': '老显卡部署MoE模型：NVFP4量化与TP4并行在V100上的实践-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29035147/article/details/165506001&rut=6a6fefece8571181bbeef618b581dde8bf51b9b6db1cfaa06d7158fc573beb5d', 'type': 'ddg', 'title': 'V100实战NVFP4量化：Qwen3.8-Flash-Next四卡TP4部署 - CSDN博客'}
+- {'url': 'https://www.csdn.net/detail/weixin_29048309/172195&rut=2f180d12f4e2a49c98be7beac9e41c8611ae1f31607ccfbba31f4d4f5b2f28fd', 'type': 'ddg', 'title': 'V100老卡硬刚125b大模型：Nvfp4量化+Tp4并行实测 - Csdn'}

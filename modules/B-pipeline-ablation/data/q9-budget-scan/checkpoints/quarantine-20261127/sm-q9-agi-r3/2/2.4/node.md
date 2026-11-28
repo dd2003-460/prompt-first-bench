@@ -1,0 +1,20 @@
+# N15: 假设生成步骤的 prompt 模板需包含 3 个动态注入字段：(1) 当前领域 SOTA 摘要 (≤ 2k tokens)，(2) 历史失败实验列表 (≤ 1k
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+假设生成步骤的 prompt 模板需包含 3 个动态注入字段：(1) 当前领域 SOTA 摘要 (≤ 2k tokens)，(2) 历史失败实验列表 (≤ 1k tokens)，(3) 用户指定研究方向关键词 (≤ 200 tokens)，总 prompt 长度控制在 8k tokens 以内以避免超出有效上下文。
+
+## Corrected Claim
+
+假设生成步骤的 prompt 模板需包含 3 个动态注入字段：(1) 当前领域 SOTA 摘要 (≤ 2k tokens)，(2) 历史失败实验列表 (≤ 1k tokens)，(3) 用户指定研究方向关键词 (≤ 200 tokens)，总 prompt 长度控制在 8k tokens 以内以避免超出有效上下文。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：各分项token上限之和（2k+1k+0.2k=3.2k）小于总上限8k，留有余量，符合LLM上下文管理常识，无逻辑矛盾。

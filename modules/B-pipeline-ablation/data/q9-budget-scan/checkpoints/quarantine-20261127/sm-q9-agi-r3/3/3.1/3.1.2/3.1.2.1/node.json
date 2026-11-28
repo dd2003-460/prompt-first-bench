@@ -1,0 +1,17 @@
+{
+  "id": "N146",
+  "claim": "V100 SXM2 的 HBM2 内存带宽为 900 GB/s（每卡），4 卡 TP=4 配置下，NVFP4 权重加载带宽需求为 225 GB/s（900/4），远低于 HBM2 带宽，因此带宽非瓶颈；真正的瓶颈在于 PCIe Gen3 x16 的 15.75 GB/s 带宽（若跨节点）或 NVLink 1.8 TB/s（节点内），但 V100 无原生 FP4 支持导致数据需在寄存器中反量化，增加了 SM 占用率。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]V100 SXM2 的 HBM2 带宽官方标称值为 900 GB/s，但实际有效带宽通常低于此值；此外，NVFP4 并非 V100 时代的标准格式（V100 主要支持 FP16/BF16/INT8），NVFP4 是较新的低精度格式，V100 硬件并不原生支持 FP4 运算，需软件模拟或反量化，这会导致计算开销而非仅仅是带宽问题，且‘NVFP4 权重加载’这一表述在 V100 语境下存在技术代际错位。 | 先验知识/题面给定，逻辑校验通过。虽然 V100 不支持原生 FP4，但陈述中已指出‘无原生 FP4 支持导致数据需在寄存器中反量化’，逻辑上自洽。然而，将 NVFP4 作为 V100 的主要讨论对象属于经验性技术选型描述，缺乏直接来源支持其在该特定架构下的具体带宽瓶颈分析细节，故降级。",
+  "corrected_claim": "V100 SXM2 的 HBM2 内存带宽标称为 900 GB/s。在 4 卡 TP=4 配置下，若使用低精度格式（如 INT8 或模拟 FP4），权重加载带宽需求约为 225 GB/s，低于 HBM2 带宽。由于 V100 无原生 FP4 支持，低精度数据需在 SM 中反量化，增加了计算开销和寄存器压力，而非单纯受限于内存带宽。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N51"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "V100 SXM2 HBM2 bandwidth NVLink throughput tensor core occupancy impact",
+  "retrieval_sources": []
+}

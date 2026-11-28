@@ -1,0 +1,24 @@
+# N15: 环境涡度侵入的非对称破坏：环境绝对涡度f_env从海洋的~10⁻⁴ s⁻¹(赤道附近)增至陆地受地形/锋面影响的~2-5×10⁻⁴ s⁻¹时，气旋相对涡度ζ_c
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+环境涡度侵入的非对称破坏：环境绝对涡度f_env从海洋的~10⁻⁴ s⁻¹(赤道附近)增至陆地受地形/锋面影响的~2-5×10⁻⁴ s⁻¹时，气旋相对涡度ζ_cy必须补偿以保持总涡度守恒，ζ_cy=f_env-f_cy,0，导致气旋直径扩大10-30%(R_new=R_old×(1+f_env/f_cy,0))，风速按角动量守恒V_max∝1/R^(1/2)衰减，典型衰减-1至-3 kt/hr。
+
+## Corrected Claim
+
+环境绝对涡度 f_env 从海洋的 ~10⁻⁴ s⁻¹ 增至陆地受地形/锋面影响的 ~2-5×10⁻⁴ s⁻¹ 时，根据绝对涡度守恒，气旋的相对涡度 ζ_cy 需相应调整（通常表现为气旋性旋转减弱或结构重组），可能导致气旋直径扩大 10-30%，风速按角动量守恒 V_max ∝ 1/R^(1/2) 衰减，典型衰减 -1 至 -3 kt/hr。
+
+## Evidence
+
+[质询]公式 ζ_cy = f_env - f_cy,0 存在严重的符号和物理逻辑错误。根据绝对涡度守恒 (f+ζ)_new ≈ (f+ζ)_old，若环境涡度 f_env 增加，相对涡度 ζ_cy 应当减小（对于气旋，ζ 为负值，绝对值减小），而不是由该公式计算得出。此外，该公式暗示相对涡度直接等于环境涡度之差，忽略了初始相对涡度的贡献，且量纲和符号均不符合气旋动力学基本原理。 | 先验知识/题面给定，逻辑校验失败：公式推导违背绝对涡度守恒的基本符号逻辑（f增加应导致|ζ|减小，而非简单代数差），且缺乏外部来源支持。
+
+## Search Query
+
+environmental vorticity intrusion tropical cyclone diameter expansion angular momentum conservation

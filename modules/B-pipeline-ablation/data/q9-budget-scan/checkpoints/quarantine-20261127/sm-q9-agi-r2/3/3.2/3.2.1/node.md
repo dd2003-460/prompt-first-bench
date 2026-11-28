@@ -1,0 +1,20 @@
+# N55: 本地推理的 per-token 成本修正：原 N15 中 $0.00001-$0.00003/1k tokens 的计算基于 0.1kW 负载是错误的，实际 4
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N15
+
+## Claim
+
+本地推理的 per-token 成本修正：原 N15 中 $0.00001-$0.00003/1k tokens 的计算基于 0.1kW 负载是错误的，实际 4xV100 满载功耗约 1.6kW (含 CPU/风扇)，电价 $0.15/kWh 下，小时成本 $0.24；在 45 tokens/s 吞吐下，per-token 成本 = $0.24 / (45 * 3600) ≈ $1.48e-6/token，即 $0.00148/1k tokens；这与云端 $0.003/1k tokens 相比，本地成本优势仅为 2x，而非 100x。
+
+## Corrected Claim
+
+本地推理的 per-token 成本修正：原 N15 中 $0.00001-$0.00003/1k tokens 的计算基于 0.1kW 负载是错误的，实际 4xV100 满载功耗约 1.6kW (含 CPU/风扇)，电价 $0.15/kWh 下，小时成本 $0.24；在 45 tokens/s 吞吐下，per-token 成本 = $0.24 / (45 * 3600) ≈ $1.48e-6/token，即 $0.00148/1k tokens；这与云端 $0.003/1k tokens 相比，本地成本优势仅为 2x，而非 100x。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：4xV100满载功耗约1.6kW符合硬件规格常识，$0.15/kWh电价下小时成本$0.24计算正确，45 tokens/s吞吐下per-token成本$1.48e-6推导无误，与云端$0.003/1k tokens对比得出2x优势结论逻辑自洽。

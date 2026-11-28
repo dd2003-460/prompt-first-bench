@@ -1,0 +1,25 @@
+# N30: 在科研自动化的质检环节，需区分‘逻辑一致性’与‘事实准确性’。对于‘可发表级’结论，仅靠 Self-Consistency (N22) 不足，需引入基于引用追踪
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在科研自动化的质检环节，需区分‘逻辑一致性’与‘事实准确性’。对于‘可发表级’结论，仅靠 Self-Consistency (N22) 不足，需引入基于引用追踪的 Factuality Score (FS)。定义 FS = (Verified Citations / Total Citations)，其中 Verified Citations 指通过 DOI 解析并在原始 PDF 中通过 NLI (Natural Language Inference) 模型确认支持该论断的引用。若 FS < 0.95，则标记为‘高风险幻觉’，需触发人工审查或重新检索。此指标直接对标顶刊对参考文献准确性的零容忍标准。
+
+## Corrected Claim
+
+在科研自动化的质检环节，需区分‘逻辑一致性’与‘事实准确性’。对于‘可发表级’结论，仅靠 Self-Consistency 不足，需引入基于引用追踪的事实性评估指标（如 Factuality Score）。该指标通常通过验证引用来源（如DOI解析及NLI模型确认）来计算，低于特定阈值（如0.95）时标记为高风险并触发人工审查。
+
+## Evidence
+
+[质询]该陈述包含具体的工程参数（FS阈值0.95）和特定的技术实现路径（DOI解析+NLI），属于经验事实/特定系统设计，无法从第一性原理推导，且参考来源均未提及此具体指标定义及阈值。 | 逻辑自洽，但参考来源[1][2]仅涉及通用自动化质检流程，未提供Factuality Score的具体定义、计算方式或0.95阈值的直接支持，属经验事实缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/999018008_122626081&rut=37acd3e4db4536c850427cb33d3b58feb76f63f8dde8cf8792b7b20f301bb32b', 'type': 'ddg', 'title': '长篇学术文本排版耗时耗力？掌握这套"自动化质检"工作流_格式_逻辑_正文'}
+- {'url': 'https://www.sohu.com/a/975943039_122593835&rut=a5eb0d4a013bf4cd98de10218faad355fbb84a157af89ec389aa7231dd0b359f', 'type': 'ddg', 'title': '从人工到AI：IACheck × AI审核重新定义检测报告审核流程_数据_逻辑_标准'}

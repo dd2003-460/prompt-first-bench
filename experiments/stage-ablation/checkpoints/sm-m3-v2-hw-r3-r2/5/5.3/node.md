@@ -1,0 +1,24 @@
+# N26: 收敛瓶颈识别：当本地 27B 模型在复杂推理任务上的准确率停滞在 70% 左右时，识别为 'Model Capability Ceiling'。此时继续优化 P
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+收敛瓶颈识别：当本地 27B 模型在复杂推理任务上的准确率停滞在 70% 左右时，识别为 'Model Capability Ceiling'。此时继续优化 Prompt 的边际收益趋近于 0。突破点在于引入外部计算器（如 SymPy）或代码解释器来处理数学/逻辑密集型子任务，将模型的认知负荷从 '计算' 转移至 '规划'，预计可将整体任务完成率提升至 85%。
+
+## Corrected Claim
+
+当本地大模型在复杂推理任务上遇到能力瓶颈时，识别为 'Model Capability Ceiling'。此时继续优化 Prompt 的边际收益显著降低。突破点在于引入外部计算器（如 SymPy）或代码解释器来处理数学/逻辑密集型子任务，将模型的认知负荷从 '计算' 转移至 '规划'，通常可显著提升整体任务完成率。
+
+## Evidence
+
+[质询]陈述中包含具体的经验性数值预测（如准确率停滞在70%、提升至85%），这些具体数值并非第一性原理可推导的必然结果，而是依赖于特定数据集、模型版本和任务分布的经验观察，缺乏普适性保证。 | 先验知识/题面给定，逻辑校验通过：引入外部工具处理计算密集型子任务以减轻LLM认知负荷并提升准确率的策略在逻辑上自洽且符合当前AI工程实践共识，但具体数值（70%->85%）为经验估计，非绝对真理。
+
+## Search Query
+
+LLM reasoning ceiling tool use code interpreter improvement

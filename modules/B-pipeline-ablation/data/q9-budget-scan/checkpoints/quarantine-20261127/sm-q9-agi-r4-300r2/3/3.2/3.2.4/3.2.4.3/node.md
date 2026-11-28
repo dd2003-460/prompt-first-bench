@@ -1,0 +1,24 @@
+# N149: n_refs=10 的合理性依据：基于科研论文中参考文献数量的分布，典型顶刊论文引用数在 30-50 篇，但每次迭代验证仅需核心 10 篇；需统计 27B 生成
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+n_refs=10 的合理性依据：基于科研论文中参考文献数量的分布，典型顶刊论文引用数在 30-50 篇，但每次迭代验证仅需核心 10 篇；需统计 27B 生成的假设中平均引用文献数，若均值 >15，则 n_refs 应上调至 15，成本增加 50%
+
+## Corrected Claim
+
+n_refs=10 的设定需基于实际生成假设的平均引用文献数进行动态调整；若统计均值显著高于 10（例如 >15），则应相应上调 n_refs 以平衡验证覆盖率与计算成本，具体阈值需根据实证数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（如“典型顶刊论文引用数在 30-50 篇”、“成本增加 50%”），这些属于经验事实，无法从第一性原理严格推导，且缺乏外部来源支持其具体数值和因果关系的准确性。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源）
+
+## Search Query
+
+average number of citations verified per LLM generated hypothesis in scientific research

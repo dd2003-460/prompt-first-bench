@@ -1,0 +1,20 @@
+# N158: 过度自信偏差的量化修正：模型自评估置信度 conf 与真实正确率 acc 的校准误差 ECE 导致 p_base 高估，修正后 p_base_corrected
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+过度自信偏差的量化修正：模型自评估置信度 conf 与真实正确率 acc 的校准误差 ECE 导致 p_base 高估，修正后 p_base_corrected = p_base_raw - Δ_conf_bias，其中 Δ_conf_bias 为 ECE 的均值部分（如 ECE=0.15，则 p_base 下调 0.05-0.10），需在校准集上拟合 Platt Scaling 参数 a, b，conf_calibrated = 1/(1+exp(-a*conf-b))。
+
+## Corrected Claim
+
+过度自信偏差的量化修正：模型自评估置信度 conf 与真实正确率 acc 的校准误差 ECE 导致 p_base 高估，修正后 p_base_corrected = p_base_raw - Δ_conf_bias，其中 Δ_conf_bias 为 ECE 的均值部分（如 ECE=0.15，则 p_base 下调 0.05-0.10），需在校准集上拟合 Platt Scaling 参数 a, b，conf_calibrated = 1/(1+exp(-a*conf-b))。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

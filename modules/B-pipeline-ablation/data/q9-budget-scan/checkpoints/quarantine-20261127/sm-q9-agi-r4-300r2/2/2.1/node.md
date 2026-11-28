@@ -1,0 +1,28 @@
+# N11: Prompt 结构对自主性的影响量化：采用 ReAct 格式 (Reason+Act) 相比纯 Chain-of-Thought，在工具调用准确率上提升约 20
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+Prompt 结构对自主性的影响量化：采用 ReAct 格式 (Reason+Act) 相比纯 Chain-of-Thought，在工具调用准确率上提升约 20-30% (基于 LLM 基准测试数据)。关键约束：Prompt 长度需控制在 4k tokens 以内以避免稀释注意力，超出后指令遵循度下降 >15%。
+
+## Corrected Claim
+
+采用 ReAct 格式 (Reason+Act) 相比纯 Chain-of-Thought，通常能显著提升工具调用准确率（具体提升幅度依模型和任务而异，常见基准显示有显著正向效果）。关于 Prompt 长度，过长的上下文可能导致注意力稀释从而降低指令遵循度，但具体的 token 阈值（如 4k）和性能下降比例（如 >15%）并非通用常数，需根据具体模型特性进行调优。
+
+## Evidence
+
+[质询]陈述中包含具体的量化指标（工具调用准确率提升20-30%，指令遵循度下降>15%），这些属于经验事实。提供的参考来源[1]仅定性描述了ReAct框架的背景和优势，并未提供具体的基准测试数据或数值对比，因此无法从现有来源直接验证这些具体数值。此外，'4k tokens'作为注意力稀释的硬性阈值缺乏普适性，不同模型架构对此敏感度差异巨大，该具体数值缺乏广泛共识支持。 | 来源[1]间接支持ReAct优于纯CoT的定性结论，但未提供具体的20-30%提升数据及4k tokens阈值证据；该事实包含具体经验参数，逻辑自洽但缺来源直接支持，故降级。
+
+## Search Query
+
+ReAct prompt engineering tool use accuracy improvement over CoT LLM benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1929923151464231826&rut=c0bfe8f59fdd4c0898baf06f82aeed2d90111e5faa2daa41f4b15270b0be7cf4', 'type': 'ddg', 'title': '智能体的开发-ReAct 框架 - 知乎'}

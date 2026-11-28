@@ -1,0 +1,30 @@
+# N143: BM25 参数调优对 Recall@5 的影响：在科研摘要这种短文本场景下，默认参数 k1=1.5, b=0.75 并非最优；通过 Grid Search 优化
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N40
+
+## Claim
+
+BM25 参数调优对 Recall@5 的影响：在科研摘要这种短文本场景下，默认参数 k1=1.5, b=0.75 并非最优；通过 Grid Search 优化后，k1=1.2, b=0.6 通常能将 Recall@5 从基线 0.65 提升至 0.72-0.75，提升幅度约为 10%-15%
+
+## Corrected Claim
+
+在科研摘要等短文本场景下，BM25 默认参数（k1=1.5, b=0.75）可能非最优；通过 Grid Search 优化 k1 和 b（例如降低至 k1≈1.2, b≈0.6 附近）通常能提升 Recall@5，但具体提升幅度取决于数据集分布，一般预期有显著改善。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（Recall@5 从 0.65 提升至 0.72-0.75，提升幅度 10%-15%），这属于特定数据集（科研摘要）上的实证结果，无法从第一性原理推导。参考来源仅提供了 BM25 参数调优的一般性方法论和方向（如调整 k1, b 以优化评分/召回），并未提供针对“科研摘要”这一特定场景的具体基准测试数据或确切的提升幅度数值。因此，虽然逻辑上参数调优可能带来提升，但具体的数值区间缺乏直接来源支持，存在过拟合于特定实验或数据不准确的风险。 | 来源 [1][2][3] 证实了 BM25 参数（k1, b）可调优以提升检索效果（间接支持），但未提供科研摘要场景下 Recall@5 具体从 0.65 升至 0.72-0.75 的实证数据（经验事实，逻辑自洽但缺来源直接支持具体数值）。
+
+## Search Query
+
+BM25 parameter tuning short text scientific abstracts recall improvement k1 b
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_32288959/article/details/167737341&rut=8ce0142872bc6e581747de285a2f2d082c354b2f64dce4ffa41c79ab2f7fcd0c', 'type': 'ddg', 'title': 'Bm25算法详解：公式拆解、参数调优与混合检索实践-csdn博客'}
+- {'url': 'https://blog.csdn.net/qq_41840843/article/details/160600649&rut=5826c627f45be7b95997eacb93865955e8bd7e665d960109423fabd30f004707', 'type': 'ddg', 'title': 'Elasticsearch深度实战：吃透BM25三要素，精准掌控文档评分优化_bm25 长切片短查询如何提高分数-CSDN博客'}
+- {'url': 'https://www.elastic.co/cn/search-labs/blog/elasticsearch-relevance-tuning-improve-recall&rut=26970099b1295cfffd6e47905988222f21c2788c4871e0ef8240be4ce3607a56', 'type': 'ddg', 'title': 'Elasticsearch 相关性调整：测量并提升搜索召回率'}

@@ -1,0 +1,30 @@
+# N33: 眼墙对流崩塌的因果链与时间滞后机制：潜热切断后，眼墙对流并非瞬时停止，而是经历 30-60 分钟的惯性维持期，随后因上升气流能量不足而发生结构性崩塌，导致中心气
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+眼墙对流崩塌的因果链与时间滞后机制：潜热切断后，眼墙对流并非瞬时停止，而是经历 30-60 分钟的惯性维持期，随后因上升气流能量不足而发生结构性崩塌，导致中心气压回升。
+
+## Corrected Claim
+
+眼墙对流崩塌并非瞬时发生，而是经历一段惯性维持期后发生结构性崩塌，导致中心气压回升，具体时间滞后取决于台风结构与环境条件。
+
+## Evidence
+
+[质询]具体数值“30-60分钟”缺乏通用性，不同台风尺度、强度及环境条件下，眼墙崩塌的时间滞后差异巨大，该特定时间窗口可能仅适用于个别案例或特定模型模拟，而非普遍物理规律。 | 来源[3]确认了眼壁置换循环（ERC）是一个具有时间演变的过程，支持了“非瞬时停止”的逻辑，但未提供具体的“30-60分钟”这一经验数值；来源[1][2]主要讨论形成机制，未涉及具体崩塌时长。作为经验事实，逻辑自洽但缺具体数值来源支持。
+
+## Search Query
+
+eyewall convection collapse time lag after latent heat cutoff tropical cyclone
+
+## Retrieval Sources
+
+- {'url': 'http://www.progeophys.cn/dzdqs-data/cjg/2021/6/PDF/dqwlxb-64-6-1857.pdf&rut=bddbd13ea1095b2a01067319ad4e9b5db83cb8b824aef28e74df195c8f4e7af3', 'type': 'ddg', 'title': 'PDF 台风双眼墙形成及眼墙替换过程的研究进展'}
+- {'url': 'http://www.dzkx.org/article/doi/10.6038/cjg2021O0388&rut=74980045a03e47d420c0de5db9f0d7903f305787119119d7d58ffbdb74e71e01', 'type': 'ddg', 'title': '台风双眼墙形成及眼墙替换过程的研究进展 - dzkx.org'}
+- {'url': 'https://stormatlasx.com/zh/guides/science/tropical-cyclone-eye-eyewall-dynamics-and-intensity-change&rut=0d247f06de4e316e5f632d6a7de156b0d7314582ef74a4af6c552c09adcfb805', 'type': 'ddg', 'title': '台风风眼与眼墙动力学：气压梯度力、眼壁置换循环（ERC）与爆发性增强（RI）预测指南 - StormAtlas'}

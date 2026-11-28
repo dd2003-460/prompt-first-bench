@@ -1,0 +1,30 @@
+# N50: NVIDIA RTX 3090 当前美国市场二手/翻新平均价格为 $800-$1100 USD，新品库存稀缺，主要流通为二手 [时效待核]。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+NVIDIA RTX 3090 当前美国市场二手/翻新平均价格为 $800-$1100 USD，新品库存稀缺，主要流通为二手 [时效待核]。
+
+## Corrected Claim
+
+NVIDIA RTX 3090 当前美国市场二手/翻新价格中位数约为 $1,700 USD，部分低价库存起价约 $977 USD，新品库存稀缺。
+
+## Evidence
+
+[质询]数值量级严重偏差：参考来源显示2026年11月RTX 3090二手中位价约为$1,700，最低起价约$977，而陈述声称平均价为$800-$1100，显著低于实际市场数据。 | 来源[1]指出2026年11月eBay二手中位价为$1,700，来源[2]显示最低交付价为$977，来源[3]显示近期最高价为$1,644，均高于或远超陈述中的$800-$1100区间，且来源[3]的历史均价$843是长期平均值而非当前价格，当前市场已大幅上涨。
+
+## Search Query
+
+used NVIDIA RTX 3090 average price eBay 2024
+
+## Retrieval Sources
+
+- {'url': 'https://cresvament.com/prices/graphics-cards/rtx-3090&rut=5b475077e5943ee7d194b562ff395c57f0c86652a75197d54dfd82aa5e8d6127', 'type': 'ddg', 'title': 'Used NVIDIA RTX 3090 24GB Price, Nov 2026: $1,700 Median eBay Ask'}
+- {'url': 'https://www.pcprice.watch/search/RTX3090/US/GPU&rut=60aa604f5715a5dbf79fb7806620ae2851d1ed578622bc30d200951cae495556', 'type': 'ddg', 'title': 'Used RTX 3090 in United States — from $977 delivered'}
+- {'url': 'https://bestvaluegpu.com/history/new-and-used-rtx-3090-price-history-and-specs/&rut=dc36555c5ac13e921cd6d68cdacc252d666ee0baaa59c5b4c173bf229c2e7f9b', 'type': 'ddg', 'title': 'RTX 3090 Price History — $1485 used (Nov 2026)'}

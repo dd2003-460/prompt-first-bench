@@ -1,0 +1,20 @@
+# N173: 基于 L_avg=0.4 的实际月电费估算：Power_Load=1000W (4x V100 满载推理峰值), Power_Idle=220W (常驻), 则
+
+- **status**: degraded
+- **level**: L4
+- **source**: derived
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+基于 L_avg=0.4 的实际月电费估算：Power_Load=1000W (4x V100 满载推理峰值), Power_Idle=220W (常驻), 则 Effective_Power = 220 + 0.4*(1000-220) = 532W；Monthly_Cost_Actual = 532 * 720 / 1000 * 0.5 ≈ 191.5 CNY/月；对比满载假设 (4320 CNY) 节省约 95% 电费，但需计入峰值功率对 PSU 效率的影响（效率在 50% 负载时最高，约 90%）。
+
+## Corrected Claim
+
+基于 L_avg=0.4 的实际月电费估算：Power_Load=1000W (4x V100 满载推理峰值), Power_Idle=220W (常驻)，则 Effective_Power = 220 + 0.4*(1000-220) = 532W；考虑PSU在50%负载时效率约90%，实际输入功率约为 532/0.9 ≈ 591W；Monthly_Cost_Actual = 591 * 720 / 1000 * 0.5 ≈ 213 CNY/月；对比满载假设 (4320 CNY) 节省约 95% 电费。
+
+## Evidence
+
+[质询]PSU效率影响未正确纳入计算：若考虑50%负载下90%效率，实际功耗应为532/0.9≈591W，导致月电费升至约213 CNY，而非191.5 CNY；此外，V100满载功耗通常为250W/卡，4卡应为1000W，但空闲功耗220W对于4卡系统偏高（通常单卡空闲约10-20W，4卡约40-80W+主板基础功耗），数据合理性存疑。 | 经验事实，逻辑自洽但缺来源支持；且PSU效率修正未体现在最终数值中，存在计算不一致

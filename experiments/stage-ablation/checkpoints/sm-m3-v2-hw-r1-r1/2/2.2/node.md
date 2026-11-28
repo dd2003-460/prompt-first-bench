@@ -1,0 +1,20 @@
+# N16: 在V100-SXM2-16GB集群上，Qwen3.8-27B的预填充阶段耗时 T_prefill 与输入长度 L_in 呈线性关系，T_prefill = ga
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+在V100-SXM2-16GB集群上，Qwen3.8-27B的预填充阶段耗时 T_prefill 与输入长度 L_in 呈线性关系，T_prefill = gamma * L_in，gamma 为每token预填充时间，典型值 gamma ≈ 0.05 ms/token [待核验]
+
+## Corrected Claim
+
+在V100-SXM2-16GB集群上，Qwen3.8-27B的预填充阶段耗时 T_prefill 与输入长度 L_in 呈线性关系，T_prefill = gamma * L_in，gamma 为每token预填充时间，其具体数值需根据实际硬件和软件环境测量确定。
+
+## Evidence
+
+[质询]gamma ≈ 0.05 ms/token 这一具体数值缺乏来源支持，且不同硬件配置和软件栈下该值可能存在显著差异，属于经验事实而非第一性原理可推导的常数。 | 经验事实，逻辑自洽但缺来源支持

@@ -1,0 +1,24 @@
+# N138: 单卡 16 GB 显存中，扣除 3.61 GB 权重和约 1.0 GB 激活值（Activations，取决于 max_model_len 和 batch_si
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34, N35, N38
+
+## Claim
+
+单卡 16 GB 显存中，扣除 3.61 GB 权重和约 1.0 GB 激活值（Activations，取决于 max_model_len 和 batch_size）后，剩余可用于 KV Cache 的动态显存约为 16 - 3.61 - 1.0 = 11.39 GB/卡，这与总显存视角下的 49.5 GB 可用量在数学上等价（4 * 11.39 ≈ 45.56 GB，差异源于激活值非完全均匀分布或估算误差）。
+
+## Corrected Claim
+
+单卡 16 GB 显存中，扣除 3.61 GB 权重和约 1.0 GB 激活值（Activations，取决于 max_model_len 和 batch_size）后，剩余可用于 KV Cache 的动态显存约为 16 - 3.61 - 1.0 = 11.39 GB/卡，这与总显存视角下的 49.5 GB 可用量在数学上等价（4 * 11.39 ≈ 45.56 GB，差异源于激活值非完全均匀分布或估算误差）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 16 - 3.61 - 1.0 = 11.39 正确，4 * 11.39 = 45.56 正确，且 45.56 与 49.5 的差异在工程估算误差范围内，逻辑自洽。
+
+## Search Query
+
+vLLM activation memory estimation Qwen3 27B max_model_len 262144 batch_size 8

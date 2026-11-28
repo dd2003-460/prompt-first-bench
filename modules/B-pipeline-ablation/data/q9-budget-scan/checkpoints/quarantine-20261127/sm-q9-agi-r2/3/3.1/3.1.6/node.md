@@ -1,0 +1,24 @@
+# N55: 在 TP=4 配置下，单卡 12.6 GB 可用 KV cache 空间支持的最大并发序列数 N_max 随序列长度 L 变化：当 L=8k tokens 时，
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16, N17, N18
+
+## Claim
+
+在 TP=4 配置下，单卡 12.6 GB 可用 KV cache 空间支持的最大并发序列数 N_max 随序列长度 L 变化：当 L=8k tokens 时，N_max ≈ 39；当 L=16k tokens 时，N_max ≈ 19；当 L=32k tokens 时，N_max ≈ 9；当 L=64k tokens 时，N_max ≈ 4。
+
+## Corrected Claim
+
+在 TP=4 配置下，单卡 12.6 GB 可用 KV cache 空间支持的最大并发序列数 N_max 随序列长度 L 变化：当 L=8k tokens 时，N_max ≈ 39；当 L=16k tokens 时，N_max ≈ 19；当 L=32k tokens 时，N_max ≈ 9；当 L=64k tokens 时，N_max ≈ 4。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV cache 占用与序列长度成正比，L 翻倍则 N_max 减半，数据符合线性关系（39/2≈19.5, 19/2≈9.5, 9/2≈4.5），量级合理。
+
+## Search Query
+
+vLLM TP4 KV cache concurrency limit sequence length

@@ -1,0 +1,20 @@
+# N15: 科研闭环的模块化架构应分为5个核心组件：假设生成器（LLM Agent）、实验设计器（代码/配置生成）、执行引擎（远程API/本地计算）、分析器（统计/可视化）
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+科研闭环的模块化架构应分为5个核心组件：假设生成器（LLM Agent）、实验设计器（代码/配置生成）、执行引擎（远程API/本地计算）、分析器（统计/可视化）、知识更新器（向量数据库/RAG），各模块间通过JSON Schema定义的API接口通信。
+
+## Corrected Claim
+
+科研闭环的模块化架构应分为5个核心组件：假设生成器（LLM Agent）、实验设计器（代码/配置生成）、执行引擎（远程API/本地计算）、分析器（统计/可视化）、知识更新器（向量数据库/RAG），各模块间通过JSON Schema定义的API接口通信。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

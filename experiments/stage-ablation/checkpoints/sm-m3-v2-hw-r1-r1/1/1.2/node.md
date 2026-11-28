@@ -1,0 +1,20 @@
+# N8: 在'提出假设'步骤中，平均每个假设占用的token数 avg_token_per_hypothesis 约为 500-800 tokens，基于顶刊摘要与引言结
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+在'提出假设'步骤中，平均每个假设占用的token数 avg_token_per_hypothesis 约为 500-800 tokens，基于顶刊摘要与引言结构的统计分布 [待核验]
+
+## Corrected Claim
+
+在典型的'提出假设'步骤中，平均每个假设占用的token数通常在数百至一千tokens之间（例如500-1000 tokens），具体数值取决于提示词复杂度与模型配置。
+
+## Evidence
+
+[质询]该数值范围（500-800 tokens）缺乏明确的统计分布支撑，且高度依赖于具体的提示词工程（Prompt Engineering）策略和模型上下文窗口限制，不同研究或应用场景下的差异可能极大，属于经验性参数而非固定常数。 | 先验知识/题面给定，逻辑校验通过（量级符合长文本生成场景），但作为经验事实缺乏直接来源支持，故降级。

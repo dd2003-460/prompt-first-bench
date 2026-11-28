@@ -1,0 +1,20 @@
+# N40: 修正后的单 token 全模型 KV Cache 大小为 128KB/token，而非原 N8 所述的 4KB/token（原计算错误地省略了层数 L 或使用了
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+修正后的单 token 全模型 KV Cache 大小为 128KB/token，而非原 N8 所述的 4KB/token（原计算错误地省略了层数 L 或使用了错误的头数定义）
+
+## Corrected Claim
+
+修正后的单 token 全模型 KV Cache 大小为 128KB/token，而非原 N8 所述的 4KB/token（原计算错误地省略了层数 L 或使用了错误的头数定义）
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（1. 正交性问题：子节点2和3引入了与父节点‘修正单token大小为128KB’无直接逻辑关联的新概念（PagedAttention开销、TP显存分布），导致子节点之间及子节点与父节点的主题偏离，存在范畴错误。2. 完备性问题：父节点核心是‘纠正4KB vs 128KB的计算错误’，子节点1虽涉及原因，但子节点2和3完全未覆盖‘为何128KB是正确值’的具体推导过程（如层数L、头数H、维度D的乘积关系），也未覆盖‘原N8具体错在哪一步’的完整对比，导致对‘修正’这一动作的解释不完整。3. 冗余性：无明显参数化冗余。）

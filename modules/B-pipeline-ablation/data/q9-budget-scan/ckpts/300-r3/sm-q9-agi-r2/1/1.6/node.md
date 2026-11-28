@@ -1,0 +1,20 @@
+# N12: 科研循环中'执行'环节的数值模拟(如分子动力学、流体CFD)需要双精度(FP64)支持，V100 FP64性能极低(1.3 TFLOPS/GPU)，4卡仅5.2
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+科研循环中'执行'环节的数值模拟(如分子动力学、流体CFD)需要双精度(FP64)支持，V100 FP64性能极低(1.3 TFLOPS/GPU)，4卡仅5.2 TFLOPS，无法满足高精度物理仿真需求，此类任务构成硬性阻断点，必须外包至云端或专用集群
+
+## Corrected Claim
+
+科研循环中'执行'环节的数值模拟(如分子动力学、流体CFD)需要双精度(FP64)支持，V100 FP64性能极低(1.3 TFLOPS/GPU)，4卡仅5.2 TFLOPS，无法满足高精度物理仿真需求，此类任务构成硬性阻断点，必须外包至云端或专用集群
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 FP64性能确为1.3 TFLOPS/GPU，4卡合计5.2 TFLOPS，对于高精度物理仿真（如分子动力学、CFD）而言，该算力水平确实构成显著瓶颈，通常需依赖更高性能GPU或专用集群。

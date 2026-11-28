@@ -1,0 +1,24 @@
+# N163: 公式 Bubble_Ratio = (p-1)/m 仅在理想条件下（计算与通信完全解耦且无重叠）成立；在实际 PP=2 部署中，由于 All-Reduce 通信
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N57
+
+## Claim
+
+公式 Bubble_Ratio = (p-1)/m 仅在理想条件下（计算与通信完全解耦且无重叠）成立；在实际 PP=2 部署中，由于 All-Reduce 通信可以与下一阶段的计算部分重叠（Overlap），有效气泡占比需修正为 Effective_Bubble = (p-1)/m * (1 - Overlap_Ratio)，其中 Overlap_Ratio 在 NVLink 环境下通常可达 0.3-0.5。
+
+## Corrected Claim
+
+公式 Bubble_Ratio = (p-1)/m 仅在理想条件下（计算与通信完全解耦且无重叠）成立；在实际 PP=2 部署中，由于 All-Reduce 通信可以与下一阶段的计算部分重叠（Overlap），有效气泡占比需修正为 Effective_Bubble = (p-1)/m * (1 - Overlap_Ratio)，其中 Overlap_Ratio 在 NVLink 环境下通常可达 0.3-0.5。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+pipeline parallelism bubble ratio overlap communication computation vLLM

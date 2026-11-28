@@ -1,0 +1,24 @@
+# N14: 能量收支估算表明，潜热供给中断贡献总衰减的~50-60%，摩擦耗散贡献~30-40%，风切变与流出受阻合计<20%；依据是海洋→陆面潜热通量降幅（80-90%）
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+能量收支估算表明，潜热供给中断贡献总衰减的~50-60%，摩擦耗散贡献~30-40%，风切变与流出受阻合计<20%；依据是海洋→陆面潜热通量降幅（80-90%）远大于摩擦系数增幅（30-50%），且前者直接切断对流引擎的核心能量源 [待核验: 各机制贡献权重需查Emanuel 2003或Reasor et al. 2006的敏感性分析]
+
+## Corrected Claim
+
+能量收支估算表明，潜热供给中断是总衰减的主要贡献因素（通常占比最高），摩擦耗散次之，风切变与流出受阻贡献相对较小；具体权重随台风结构和环境条件变化，需参考特定敏感性分析研究。
+
+## Evidence
+
+[质询]具体百分比数值（50-60%, 30-40%）属于经验性量化结论，不同研究（如 Emanuel 2003 vs Reasor et al. 2006）及不同台风案例中各机制贡献权重存在显著差异，缺乏统一标准，且当前无来源支持该特定区间。 | 先验知识/题面给定，逻辑校验通过：潜热中断作为核心能量源切断，其贡献通常高于摩擦耗散，量级关系符合物理直觉；但具体数值区间缺乏来源直接支持，且属经验事实，故降级。
+
+## Search Query
+
+tropical cyclone landfall decay mechanism contribution percentage latent heat friction sensitivity analysis Emanuel Reasor

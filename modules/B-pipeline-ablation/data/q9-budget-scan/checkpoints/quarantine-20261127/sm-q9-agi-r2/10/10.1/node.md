@@ -1,0 +1,24 @@
+# N111: 27B模型在实验设计中遗漏关键控制变量的概率 P_miss 随实验变量数量 k 呈指数增长，拟合公式为 P_miss = 1 - exp(-0.15 * k^1
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+27B模型在实验设计中遗漏关键控制变量的概率 P_miss 随实验变量数量 k 呈指数增长，拟合公式为 P_miss = 1 - exp(-0.15 * k^1.2)，当 k=5 时 P_miss ≈ 18%，k=10 时 P_miss ≈ 45%。
+
+## Corrected Claim
+
+27B模型在实验设计中遗漏关键控制变量的概率 P_miss 通常随实验变量数量 k 的增加而显著上升，具体增长曲线需依赖实证数据拟合，一般认为呈现非线性加速趋势。
+
+## Evidence
+
+[质询]该陈述包含具体的经验拟合公式（P_miss = 1 - exp(-0.15 * k^1.2)）及特定数值结果，属于经验事实而非第一性原理可推导的数学或逻辑必然结论。缺乏来源支持时，无法验证该特定系数和指数是否符合实际实验数据分布，存在‘伪精确’风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且非第一性原理可推导事实）
+
+## Search Query
+
+LLM experimental design confounding variable omission probability scaling law number of variables

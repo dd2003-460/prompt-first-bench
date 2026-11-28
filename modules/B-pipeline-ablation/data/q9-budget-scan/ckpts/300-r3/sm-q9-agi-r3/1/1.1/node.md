@@ -1,0 +1,20 @@
+# N7: 4xV100-16GB集群总可用HBM容量为64GB，扣除vLLM系统开销(约2GB)及模型权重占用(NVFP4 27B约13.5GB)后，剩余用于KV Cac
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+4xV100-16GB集群总可用HBM容量为64GB，扣除vLLM系统开销(约2GB)及模型权重占用(NVFP4 27B约13.5GB)后，剩余用于KV Cache的有效内存约为48.5GB
+
+## Corrected Claim
+
+4xV100-16GB集群总可用HBM容量为64GB，扣除vLLM系统开销(约2GB)及模型权重占用(NVFP4 27B约13.5GB)后，剩余用于KV Cache的有效内存约为48.5GB
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（1. 严重逻辑矛盾：父节点声称有效内存为48.5GB（隐含仅扣除2GB开销+13.5GB权重），但子节点1声称扣除12.8GB安全区，两者数值无法自洽（64-13.5-12.8=37.7GB，而非48.5GB）。2. 完备性缺失：父节点明确列出的“模型权重占用”在子节点中无对应分解项。3. 数据错误：子节点2中计算式 `48.5e9 / 4e3` 数量级错误，48.5GB应为 `48.5 * 10^9` bytes，除以 `4 * 10^3` bytes/token 结果约为12.1M tokens，但前提是基于错误的内存基数。）

@@ -1,0 +1,20 @@
+# N48: 4x V100-SXM2-16GB (TP=4) 运行 Qwen3.8-27B NVFP4 时，单 Worker 理论峰值算力为 156 TFLOPS (FP1
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+4x V100-SXM2-16GB (TP=4) 运行 Qwen3.8-27B NVFP4 时，单 Worker 理论峰值算力为 156 TFLOPS (FP16/BF16) 或等效 FP8/INT8 算力，但 NVFP4 实际受限于 CUDA Core 吞吐量与显存带宽，需扣除 AllReduce 通信开销。
+
+## Corrected Claim
+
+4x V100-SXM2-16GB (TP=4) 运行 Qwen3.8-27B NVFP4 时，单 Worker 理论峰值算力约为 125 TFLOPS (FP16 Tensor Core)，NVFP4 实际性能受限于 CUDA Core 吞吐量与显存带宽，需扣除 AllReduce 通信开销。
+
+## Evidence
+
+[质询]数值量级与硬件规格不符：V100-SXM2-16GB 的 FP16 Tensor Core 峰值算力约为 125 TFLOPS（非稀疏），而非 156 TFLOPS；156 TFLOPS 更接近 A100 或 H100 的量级，存在明显的硬件参数混淆或数值错误。 | 先验知识/题面给定，逻辑校验发现数值量级与 V100 硬件规格矛盾（V100 FP16 TC 峰值约 125 TFLOPS），且无外部来源支持该特定数值。

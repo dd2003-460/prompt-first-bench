@@ -1,0 +1,29 @@
+# N11: 非典型方案：高容量统一内存工作站（如 Mac Studio M2/M3 Ultra, Threadripper 平台）的内存容量上限及有效带宽（GB/s）。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+非典型方案：高容量统一内存工作站（如 Mac Studio M2/M3 Ultra, Threadripper 平台）的内存容量上限及有效带宽（GB/s）。
+
+## Corrected Claim
+
+非典型方案：高容量统一内存工作站（如 Mac Studio M3 Ultra）支持最高 512GB 统一内存；Threadripper 平台支持大容量 ECC 内存，但具体有效带宽需根据 CPU 型号及内存配置（如 8 通道 DDR5）计算，通常可达数百 GB/s 级别。
+
+## Evidence
+
+[质询]陈述要求提供具体的“有效带宽（GB/s）”数值，但参考来源仅提及内存容量上限（512GB），完全缺失带宽数据；此外，Threadripper 平台的内存带宽取决于具体配置（通道数、频率），并非固定值，直接询问其“上限”且未指定配置导致事实模糊。 | 来源[1]直接支持 Mac Studio M3 Ultra 512GB 内存容量上限，但所有来源均未提供具体的内存带宽数值（GB/s），且未涵盖 Threadripper 平台的具体带宽数据，属于经验事实缺来源支持。
+
+## Search Query
+
+Mac Studio M2 Ultra unified memory bandwidth Threadripper platform RAM capacity cost
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2025875529602020659&rut=2bd6e886abfac2e531da05074e455259db096759bfc17ab15959f2c88f7f41e9', 'type': 'ddg', 'title': 'Mac Studio 跑本地大模型：苹果的统一内存，可能是你最容易上手的方案'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2026394148693979279&rut=7f2ac1fcf9863ccf31edd95b69a9e6be4a0b9c70ec6d47235a1ca3b5019affa7', 'type': 'ddg', 'title': '128GB 以上统一内存的 Mac Studio，哪一代真正能跑大模型？'}

@@ -1,0 +1,24 @@
+# N22: 逻辑一致性验证：采用 Self-Consistency 策略，对关键推导步骤进行 $k=3$ 次独立采样（温度 $T=0.7$），计算一致性得分 $C = \f
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+逻辑一致性验证：采用 Self-Consistency 策略，对关键推导步骤进行 $k=3$ 次独立采样（温度 $T=0.7$），计算一致性得分 $C = \frac{\text{Majority Vote Count}}{k}$。仅当 $C=1.0$ 时接受输出，否则触发人工审查。该机制以 $3\times$ 的推理延迟为代价，将逻辑错误率降低约 60% [待核验]。
+
+## Corrected Claim
+
+逻辑一致性验证：采用 Self-Consistency 策略，对关键推导步骤进行 k=3 次独立采样（温度 T=0.7），计算一致性得分 C = Majority Vote Count / k。仅当 C=1.0 时接受输出，否则触发人工审查。该机制以 3× 的推理延迟为代价，旨在通过多数投票机制显著降低逻辑错误率（具体降幅依任务而定）。
+
+## Evidence
+
+[质询]声称将逻辑错误率降低约60%是一个具体的经验性能指标，缺乏通用基准测试支持，不同任务和数据集下Self-Consistency的效果差异巨大，该数值可能源自特定实验而非普遍规律。 | 先验知识/题面给定，逻辑校验通过（Self-Consistency机制描述符合主流LLM推理优化范式，k=3和T=0.7为常见超参配置，3x延迟与3次采样线性关系符合直觉），但具体降低60%错误率为经验事实，无外部来源直接支持，故降级。
+
+## Search Query
+
+self-consistency decoding logic error rate LLM

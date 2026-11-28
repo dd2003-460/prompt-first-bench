@@ -1,0 +1,20 @@
+# N199: 本地推理的折旧成本摊销：假设 4x V100 服务器总价值 $10,000，使用寿命 3 年，日均折旧 Depreciation_Daily = 10000 /
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+本地推理的折旧成本摊销：假设 4x V100 服务器总价值 $10,000，使用寿命 3 年，日均折旧 Depreciation_Daily = 10000 / (3*365) ≈ $9.17；若日均处理 N 次请求，单次折旧成本 = 9.17/N 美元，需与电力成本相加得到完全成本 Total_Cost_Local = Elec_Cost + Depr_Cost + Maint_Cost。
+
+## Corrected Claim
+
+本地推理的折旧成本摊销：假设 4x V100 服务器总价值 $10,000，使用寿命 3 年，日均折旧 Depreciation_Daily = 10000 / (3*365) ≈ $9.17；若日均处理 N 次请求，单次折旧成本 = 9.17/N 美元，需与电力成本相加得到完全成本 Total_Cost_Local = Elec_Cost + Depr_Cost + Maint_Cost。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：折旧计算符合直线法公式（总额/寿命天数），成本构成逻辑自洽。

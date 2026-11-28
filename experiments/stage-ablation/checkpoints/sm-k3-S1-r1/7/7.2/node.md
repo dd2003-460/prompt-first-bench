@@ -1,0 +1,24 @@
+# N36: V100-SXM2-16GB (CC 7.0) 对 NVFP4 数据类型的硬件原生支持状态：V100 Tensor Core 仅支持 FP16/INT8/BF1
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+V100-SXM2-16GB (CC 7.0) 对 NVFP4 数据类型的硬件原生支持状态：V100 Tensor Core 仅支持 FP16/INT8/BF16，不支持 FP4/FP8 硬件加速，导致 NVFP4 推理在 V100 上必然发生软件模拟或上转 FP16 计算，引入额外延迟惩罚因子 α_latency，需通过 vLLM 日志或基准测试获取具体 α 值（预计 >1.5x 于 A100/H100）。
+
+## Corrected Claim
+
+V100-SXM2-16GB (CC 7.0) 对 NVFP4 数据类型的硬件原生支持状态：V100 Tensor Core 仅支持 FP16/INT8/BF16，不支持 FP4/FP8 硬件加速，导致 NVFP4 推理在 V100 上必然发生软件模拟或上转 FP16 计算，引入额外延迟惩罚因子 α_latency，需通过 vLLM 日志或基准测试获取具体 α 值（预计 >1.5x 于 A100/H100）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 (CC 7.0) 架构确实仅支持 FP16/INT8/BF16 Tensor Core 运算，不支持 FP4/FP8 硬件指令，因此 NVFP4 必须通过软件模拟或上转计算，逻辑自洽且符合硬件规格事实。
+
+## Search Query
+
+V100 tensor core support FP4 FP8 NVFP4 inference latency overhead software emulation

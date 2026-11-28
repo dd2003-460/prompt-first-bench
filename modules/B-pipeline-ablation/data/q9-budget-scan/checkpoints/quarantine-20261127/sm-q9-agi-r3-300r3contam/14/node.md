@@ -1,0 +1,20 @@
+# N258: 实施路径阶段 1 (Week 1-2): 基准测试与瓶颈定位。关键里程碑：完成 N186 (T_gen_512 实测) 和 N234-N249 (显存压力测试)
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+实施路径阶段 1 (Week 1-2): 基准测试与瓶颈定位。关键里程碑：完成 N186 (T_gen_512 实测) 和 N234-N249 (显存压力测试)。依赖关系：需部署 Prometheus/Grafana 监控 GPU 利用率、显存占用及 vLLM 队列长度。产出物：硬件能力上限报告，确认实际可用的 max_model_len 和 max_num_seqs 组合，排除 OOM 风险配置。
+
+## Corrected Claim
+
+实施路径阶段 1 (Week 1-2): 基准测试与瓶颈定位。关键里程碑：完成 N186 (T_gen_512 实测) 和 N234-N249 (显存压力测试)。依赖关系：需部署 Prometheus/Grafana 监控 GPU 利用率、显存占用及 vLLM 队列长度。产出物：硬件能力上限报告，确认实际可用的 max_model_len 和 max_num_seqs 组合，排除 OOM 风险配置。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

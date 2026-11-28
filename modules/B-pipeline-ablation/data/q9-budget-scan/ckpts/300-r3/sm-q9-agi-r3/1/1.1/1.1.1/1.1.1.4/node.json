@@ -1,0 +1,19 @@
+{
+  "id": "N134",
+  "claim": "工作点D（极限安全/高可靠性）：设置 gpu_memory_utilization=0.85，KV Cache 池容量为 45.6GB，支持 2 个并发序列，单序列最大上下文长度限制为 104,857 tokens（45.6e9 / (2 * 4e3)），此时单 token 生成延迟增加约 2%，总吞吐量持平，显存碎片风险降低 50%，适合长时间稳定运行。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值计算存在严重量纲错误：45.6GB 除以 (2 * 4000) 得到的结果约为 5.7MB，而非 104,857 tokens；且 104,857 tokens 通常对应 2^17，与 45.6GB 显存容量在常规 KV Cache 大小（每 token 数 KB 至 MB 级）下不匹配，暗示参数设定或计算逻辑有误。 | 先验知识/题面给定，但逻辑校验发现数值量级与算术推导矛盾（45.6e9 bytes / 8000 ≈ 5.7e6 bytes，远小于 104,857 tokens 所需的显存空间，除非每 token 占用极小，但这与 GPU 推理常识不符），故降级。",
+  "corrected_claim": "工作点D（极限安全/高可靠性）：设置 gpu_memory_utilization=0.85，KV Cache 池容量为 45.6GB。需重新核算单序列最大上下文长度以符合实际显存占用模型（例如若每 token KV Cache 占用约 4KB，则 45.6GB 可支持约 11.4M tokens 总量，分配给 2 个序列则单序列约 5.7M tokens，而非 104,857 tokens）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N36",
+    "N37",
+    "N38"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM safety margin fragmentation risk mitigation",
+  "retrieval_sources": []
+}

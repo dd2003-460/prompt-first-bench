@@ -1,0 +1,29 @@
+# N44: NVFP4/W4 精度工作点：W_mem = 13.9 GB + ~0.7 GB 校准开销 ≈ 14.6 GB，质量损失 ΔScore 2-5%，该方案使 RT
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+NVFP4/W4 精度工作点：W_mem = 13.9 GB + ~0.7 GB 校准开销 ≈ 14.6 GB，质量损失 ΔScore 2-5%，该方案使 RTX 4090 单卡可容纳完整权重及 32K KV Cache (FP8)，最大化利用 24GB 显存容量，但需验证 Qwen3-27B 在 4-bit 下的 GSM8K 分数是否跌破 90% 阈值
+
+## Corrected Claim
+
+NVFP4/W4 精度下，27B 模型权重约 13.9 GB，加上校准开销后总显存需求约 14.6 GB，理论上可适配 24GB 显存设备（如 RTX 4090）并预留空间用于 KV Cache；但具体质量损失（ΔScore 2-5%）及 GSM8K 分数表现需针对 Qwen3-27B 进行实测验证，现有来源主要基于 Qwen3.5/3.6 在高端卡上的基准测试。
+
+## Evidence
+
+[质询]来源主要对比的是 RTX Pro 6000/H100/B200 等数据中心或高端专业卡，未直接提供 RTX 4090 (24GB) 的具体显存占用数据；且 'ΔScore 2-5%' 和 'GSM8K 分数是否跌破 90%' 属于特定模型版本（Qwen3-27B vs 来源中的 Qwen3.5/3.6）的经验性指标，缺乏直接来源支持。 | 来源 [1][2] 证实了 NVFP4 量化在 27B 模型上的可行性及性能权衡，但未直接覆盖 RTX 4090 的 24GB 显存限制及具体的 GSM8K 阈值验证，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3-27B INT4 NVFP4 quantization quality loss GSM8K benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://kaitchup.substack.com/p/qwen35-27b-latency-and-throughput&rut=a1f957a6bc9265e5bb3819e685a26db2c45cea7a5dee900f45f9c3fea397823a', 'type': 'ddg', 'title': 'Qwen3.5 27B Latency and Throughput: INT4 vs NVFP4 vs FP8 vs BF16'}
+- {'url': 'https://kaitchup.substack.com/p/qwen36-27b-quantization-fp8-vs-int4&rut=0934f2be4749b730cdbea0c32409eac25f6921073ec60fce07a3e88224c93580', 'type': 'ddg', 'title': 'Qwen3.6 27B Quantization: FP8 vs INT4 vs NVFP4'}

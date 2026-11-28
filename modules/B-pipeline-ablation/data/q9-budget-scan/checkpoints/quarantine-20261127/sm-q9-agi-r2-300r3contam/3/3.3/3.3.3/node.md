@@ -1,0 +1,20 @@
+# N61: 离线模式下虚构引用率的理论下限：无外部 API 时，仅依赖模型内部知识，27B 模型在长尾领域的虚构引用率 P_offline ≈ 1 - Coverage_K
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+离线模式下虚构引用率的理论下限：无外部 API 时，仅依赖模型内部知识，27B 模型在长尾领域的虚构引用率 P_offline ≈ 1 - Coverage_Knowledge；对于热门领域 Coverage≈0.9，P_offline≈10%；对于冷门领域 Coverage≈0.5，P_offline≈50%，无法达到 <5% 目标
+
+## Corrected Claim
+
+离线模式下虚构引用率的理论下限：无外部 API 时，仅依赖模型内部知识，27B 模型在长尾领域的虚构引用率 P_offline ≈ 1 - Coverage_Knowledge；对于热门领域 Coverage≈0.9，P_offline≈10%；对于冷门领域 Coverage≈0.5，P_offline≈50%，无法达到 <5% 目标
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：离线模式下虚构引用率由模型内部知识覆盖率决定，P=1-Coverage 符合定义逻辑，数值量级（热门90%覆盖对应10%虚构，冷门50%覆盖对应50%虚构）合理且自洽。

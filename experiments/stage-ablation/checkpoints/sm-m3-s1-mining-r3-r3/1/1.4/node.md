@@ -1,0 +1,20 @@
+# N7: 温差 ΔT 的计算：ΔT = T_hot - T_cold = 100°C - 20°C = 80 K (或 80°C)
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+温差 ΔT 的计算：ΔT = T_hot - T_cold = 100°C - 20°C = 80 K (或 80°C)
+
+## Corrected Claim
+
+温差 ΔT 的计算：ΔT = T_hot - T_cold = 100°C - 20°C = 80 K (或 80°C)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：温差计算遵循算术减法，且温差在数值上摄氏度与开尔文等价（ΔT=80K=80°C），符合物理定义。

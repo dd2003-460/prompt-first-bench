@@ -1,0 +1,24 @@
+# N144: P_single=15% 在科研假设生成任务中的具体构成：分解为数学计算错误率 P_math 与逻辑推导错误率 P_logic，需通过 27B 模型在 MATH
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N57
+
+## Claim
+
+P_single=15% 在科研假设生成任务中的具体构成：分解为数学计算错误率 P_math 与逻辑推导错误率 P_logic，需通过 27B 模型在 MATH 和 ARC-Challenge 基准上的实测错误率加权平均得出（例如若权重 0.5/0.5，则需各自基准数据）
+
+## Corrected Claim
+
+P_single=15% 是在特定科研假设生成任务中，基于 27B 模型在 MATH 和 ARC-Challenge 基准上的实测错误率加权平均得出的经验估计值，其具体构成取决于所选模型的实测表现及预设权重。
+
+## Evidence
+
+[质询]该陈述将 P_single 的具体数值（15%）及其构成（MATH/ARC-Challenge 加权平均）描述为既定事实，但这属于特定实验设定下的经验参数或假设，并非通用科学事实或第一性原理可推导结论；且 27B 模型在这两个基准上的具体错误率及权重分配缺乏通用标准，极易随模型版本和评估协议变化。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该数值为特定场景下的经验估计，非普适真理）
+
+## Search Query
+
+Qwen3-27B error rate breakdown math vs logic reasoning benchmarks

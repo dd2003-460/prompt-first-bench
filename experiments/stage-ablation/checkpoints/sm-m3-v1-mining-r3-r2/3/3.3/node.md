@@ -1,0 +1,28 @@
+# N17: 异常值检测与矛盾分析：题面给定值 450 W/(m·K) 显著高于常规铝合金（~200）且超过纯铜（~400），属于物理上极不可能的高值，提示题面数据可能存在错
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+异常值检测与矛盾分析：题面给定值 450 W/(m·K) 显著高于常规铝合金（~200）且超过纯铜（~400），属于物理上极不可能的高值，提示题面数据可能存在错误或指代非典型合金。
+
+## Corrected Claim
+
+异常值检测与矛盾分析：题面给定值 450 W/(m·K) 显著高于常规铝合金（~200）且超过纯铜（~400），属于物理上极不可能的高值，提示题面数据可能存在错误或指代非典型合金。
+
+## Evidence
+
+父节点级核验通过：正交+完备+无冗余（三个子节点分别从‘与常见铝合金对比’、‘与已知最高导热金属对比’以及‘逻辑一致性推导’三个独立维度展开分析，彼此不重叠且共同支撑父节点关于‘数据异常及可能错误’的结论。虽然前两个子节点都涉及数值计算，但参照系不同（Al vs Cu），属于不同维度的证据，不构成冗余。）
+
+## Search Query
+
+alloy thermal conductivity higher than copper 450 W/mK
+
+## Retrieval Sources
+
+- {'url': 'https://www.zhihu.com/question/603139889&rut=c78ddded4227fcc4bec33e8e82a2dd1d119db9cef5f208575cbed00b9c38d3f4', 'type': 'ddg', 'title': '测量数据处理时，怎么判别异常值？ - 知乎'}

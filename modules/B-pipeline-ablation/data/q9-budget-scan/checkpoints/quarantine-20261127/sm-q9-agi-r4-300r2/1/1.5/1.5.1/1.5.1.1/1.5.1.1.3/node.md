@@ -1,0 +1,20 @@
+# N280: NVFP4 vs FP16 显存收益的 Batch Size 换算：NVFP4 权重 14GB + KV Cache (FP8, 0.85GB/seq) vs 
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+NVFP4 vs FP16 显存收益的 Batch Size 换算：NVFP4 权重 14GB + KV Cache (FP8, 0.85GB/seq) vs FP16 权重 54GB（超出单卡 16GB 限制，需 TP=4 分摊至 13.5GB/卡）；在 TP=4 下，NVFP4 每卡可用 KV 显存 = 16GB - 14GB/4 = 16 - 3.5 = 12.5GB，支持 Max_Seqs_NVFP4 = 12.5GB / 0.85GB ≈ 14.7 条序列；而 FP16 每卡可用 KV 显存 = 16GB - 54GB/4 = 16 - 13.5 = 2.5GB，支持 Max_Seqs_FP16 = 2.5GB / 0.85GB ≈ 2.9 条序列；NVFP4 允许并发 Batch Size 提升约 5 倍，显著提升吞吐。
+
+## Corrected Claim
+
+NVFP4 vs FP16 显存收益的 Batch Size 换算：NVFP4 权重 14GB + KV Cache (FP8, 0.85GB/seq) vs FP16 权重 54GB（超出单卡 16GB 限制，需 TP=4 分摊至 13.5GB/卡）；在 TP=4 下，NVFP4 每卡可用 KV 显存 = 16GB - 14GB/4 = 16 - 3.5 = 12.5GB，支持 Max_Seqs_NVFP4 = 12.5GB / 0.85GB ≈ 14.7 条序列；而 FP16 每卡可用 KV 显存 = 16GB - 54GB/4 = 16 - 13.5 = 2.5GB，支持 Max_Seqs_FP16 = 2.5GB / 0.85GB ≈ 2.9 条序列；NVFP4 允许并发 Batch Size 提升约 5 倍，显著提升吞吐。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（16-3.5=12.5, 12.5/0.85≈14.7; 16-13.5=2.5, 2.5/0.85≈2.9），倍数关系合理（14.7/2.9≈5.07），符合显存分配的基本逻辑。

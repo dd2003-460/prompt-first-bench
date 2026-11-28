@@ -1,0 +1,24 @@
+# N26: 统计异常判定：计算 450 W/(m·K) 相对于铝合金均值 (190) 的 z-score = (450-190)/σ，若取 σ≈15 W/(m·K)，z=1
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13, N15, N16
+
+## Claim
+
+统计异常判定：计算 450 W/(m·K) 相对于铝合金均值 (190) 的 z-score = (450-190)/σ，若取 σ≈15 W/(m·K)，z=17.3，远超 3σ 阈值，确认为离群值
+
+## Corrected Claim
+
+统计异常判定：计算 450 W/(m·K) 相对于铝合金均值 (190) 的 z-score = (450-190)/σ，若取 σ≈15 W/(m·K)，z=17.3，远超 3σ 阈值，确认为离群值
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点仅涵盖了σ的估算逻辑，未覆盖父节点中关于'z-score计算公式应用'及'最终离群值确认结论'这两个关键步骤，导致分解不完备。）
+
+## Search Query
+
+statistical outlier detection z-score threshold 3sigma

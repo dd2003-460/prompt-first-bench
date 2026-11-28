@@ -1,0 +1,30 @@
+# N55: NVIDIA A100 80GB 当前购买价格（新/二手）约为 $10,000-$15,000 USD；云租赁价格约为 $1.50-$3.00 USD/hour
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+NVIDIA A100 80GB 当前购买价格（新/二手）约为 $10,000-$15,000 USD；云租赁价格约为 $1.50-$3.00 USD/hour [时效待核]。
+
+## Corrected Claim
+
+NVIDIA A100 80GB 二手价格约为 $9,500 起，新购价格约为 $22,000 起（基于2026年11月数据）；云租赁价格通常约为 $1.50-$3.00 USD/hour（需进一步核实当前云厂商报价）。
+
+## Evidence
+
+[质询]陈述中关于‘新购价格’的范围（$10,000-$15,000）与参考来源[1]提供的最新数据（New from $21,999）存在显著偏差，且二手价格下限（$9,499）略低于陈述下限（$10,000），导致整体价格区间描述不准确。 | 来源[1]显示A100 80GB二手价从$9,499起，新品从$21,999起，与陈述中的$10k-$15k区间不完全吻合（新品价格偏高，二手价格偏低），且来源未提供云租赁价格支持，故降级为定性表述。
+
+## Search Query
+
+NVIDIA A100 80GB price USD cloud rental cost 2024
+
+## Retrieval Sources
+
+- {'url': 'https://gpudojo.com/a100-80gb&rut=f7b688d9db8e8607a24615e637f26f594b8c8c7910dbc07e65463e861d025c7d', 'type': 'ddg', 'title': 'A100 80GB Used Price & History (Nov 2026) | GPUDojo'}
+- {'url': 'https://www.ebay.com/sch/i.html?_nkw=nvidia+a100+80gb+USED&_sop=12&rut=112f8b0cac6bbd0e700cc0a69036e9d74056e356b16c9dfc9ecc6dab6a58882d', 'type': 'ddg', 'title': 'Nvidia A100 80GB Used for sale | eBay'}
+- {'url': 'https://www.ebay.com/shop/nvidia-a100?_nkw=nvidia+a100&rut=9331ae7a92dd5a81541edcceef9eba76160cad5ac73bb3c9ad04032c7ddd5817', 'type': 'ddg', 'title': '25+ Nvidia A100 for sale | Updated Nov 2026 - eBay'}

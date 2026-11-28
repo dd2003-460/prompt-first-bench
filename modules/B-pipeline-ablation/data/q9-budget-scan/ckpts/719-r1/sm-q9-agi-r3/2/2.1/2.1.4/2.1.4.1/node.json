@@ -1,0 +1,28 @@
+{
+  "id": "N151",
+  "claim": "GVisor 沙箱容器冷启动时间（P50/P95）：基于 N91 提到的持久化沙箱池策略，预热后的沙箱平均启动延迟应 <50ms（P50）和 <200ms（P95），若无预热则需扣除 2-5s 的冷启动开销",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]具体数值（P50 <50ms, P95 <200ms, 冷启动 2-5s）缺乏权威基准测试支持，不同硬件配置、镜像大小及 gVisor 版本下波动极大，CSDN 博客等非官方来源的数据不具备普适性，且‘预热后’的具体延迟高度依赖池化策略的实现细节（如是否复用内存页、网络栈初始化等），直接断言具体毫秒级阈值存在过度精确的风险。 | 来源 [1] 提及 gVisor 启动优化及性能测试，但未提供具体的 P50/P95 毫秒级数值或明确的 2-5s 冷启动基准；来源 [2] 侧重架构原理，未涉及具体启动延迟数值。该陈述属于经验事实，逻辑上符合沙箱预热降低延迟的直觉，但具体数值缺乏直接来源支持，故降级。",
+  "corrected_claim": "GVisor 沙箱容器采用持久化沙箱池策略进行预热后，可显著降低启动延迟（通常从秒级降至毫秒级），具体 P50/P95 数值取决于硬件配置、镜像复杂度及池化实现细节，一般预热后延迟远低于冷启动（冷启动通常在 1-5 秒量级）。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N43"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "GVisor container cold start time benchmark milliseconds pre-warmed pool",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/gitblog_01100/article/details/150968257&rut=c9719fd2b9082997218f69c1d9d6d9d4620d49cbbce2ab30187cce5ef9808289",
+      "type": "ddg",
+      "title": "gVisor启动时间：快速启动优化与技术实现-CSDN博客"
+    },
+    {
+      "url": "https://zhengzhenyu.github.io/2026/07/30/gvisor-insight/&rut=dfd4f74ed82cf1fe013f550bd189965e8255138a1291b4dfbd926d0a57ae417d",
+      "type": "ddg",
+      "title": "gVisor 深度洞察：用户态内核的隔离哲学——仅 55 个 Syscall 的沙箱如何支撑数百万 Agent 每日运行"
+    }
+  ]
+}

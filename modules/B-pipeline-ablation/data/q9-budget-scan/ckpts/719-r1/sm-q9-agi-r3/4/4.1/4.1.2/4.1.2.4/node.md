@@ -1,0 +1,24 @@
+# N205: 在 AI 基准测试中，若效应量 r < 0.1 且 p < 0.05，通常被审稿人视为“统计显著但实际无关”（Statistically Significant
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+在 AI 基准测试中，若效应量 r < 0.1 且 p < 0.05，通常被审稿人视为“统计显著但实际无关”（Statistically Significant but Practically Trivial），此类结论在 Nature/Science 子刊中被拒稿的风险极高，除非伴随极大的样本量（n > 1000）或特定的理论意义论证。
+
+## Corrected Claim
+
+在 AI 基准测试中，若效应量 r < 0.1 且 p < 0.05，常被审稿人质疑其实际意义（Practical Significance），此类结论在顶级期刊中面临较高拒稿风险，除非伴随极大的样本量或强有力的理论解释。
+
+## Evidence
+
+[质询]将‘r < 0.1’作为‘实际无关’的绝对阈值过于武断，不同领域（如神经科学 vs 宏观经济学）对效应量的解释标准差异巨大，且‘拒稿风险极高’属于主观经验判断，缺乏普适性的量化定义。 | 先验知识/题面给定，逻辑校验通过，但具体阈值和拒稿风险描述属于经验性概括，缺乏绝对严谨性，故降级。
+
+## Search Query
+
+practical significance vs statistical significance AI benchmark review criteria

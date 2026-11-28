@@ -1,0 +1,20 @@
+# N289: KV Cache 显存占用公式：Mem_KV = 2 * Layers * d_head * n_kv_heads * Context_Len * Bytes_
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N101
+
+## Claim
+
+KV Cache 显存占用公式：Mem_KV = 2 * Layers * d_head * n_kv_heads * Context_Len * Bytes_per_elem。在 Qwen3.8-27B (假设 64 layers, 4 kv heads, 128 head_dim, fp8) 下，262144 context 单请求 KV 占用约为 2*64*4*128*262144*1 / 1e9 ≈ 43.7 GB，远超单卡 16GB 或四卡总和 64GB 的物理极限，证明 max_model_len=262144 在单请求下不可行，需依赖 paged attention 分片或实际运行中存在严重的显存溢出/OOM 风险，该测试点需标记为 [硬件不可行] 或需调整测试策略为多轮截断。
+
+## Corrected Claim
+
+KV Cache 显存占用公式：Mem_KV = 2 * Layers * d_head * n_kv_heads * Context_Len * Bytes_per_elem。在 Qwen3.8-27B (假设 64 layers, 4 kv heads, 128 head_dim, fp8) 下，262144 context 单请求 KV 占用约为 2*64*4*128*262144*1 / 1e9 ≈ 43.7 GB，远超单卡 16GB 或四卡总和 64GB 的物理极限，证明 max_model_len=262144 在单请求下不可行，需依赖 paged attention 分片或实际运行中存在严重的显存溢出/OOM 风险，该测试点需标记为 [硬件不可行] 或需调整测试策略为多轮截断。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：KV Cache 显存计算公式正确，代入参数 (2*64*4*128*262144*1) 计算结果约为 43.7GB，符合物理直觉及硬件限制逻辑。

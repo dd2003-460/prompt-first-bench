@@ -1,0 +1,29 @@
+# N129: RTX 5090 方案的软件栈依赖风险：NVFP4 加速高度依赖 Blackwell 架构的原生 Tensor Core 支持及最新的 CUDA 12.8+ /
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N46
+
+## Claim
+
+RTX 5090 方案的软件栈依赖风险：NVFP4 加速高度依赖 Blackwell 架构的原生 Tensor Core 支持及最新的 CUDA 12.8+ / PyTorch 2.6+ 内核；若当前软件生态（vLLM/TensorRT-LLM）尚未完全优化 Qwen3-27B 在 Blackwell 上的 NVFP4 内核，实际性能可能回退到 FP8 或 BF16 路径，此时由于显存不足（见 N96），将导致无法部署，构成主要的技术落地风险。
+
+## Corrected Claim
+
+RTX 5090 方案的软件栈依赖风险：NVFP4 加速依赖 Blackwell 架构的原生 Tensor Core 支持及最新软件栈；参考来源显示当前可能需要应用特定补丁才能在 GeForce Blackwell 上实现全速 NVFP4 推理，若主流框架（如 vLLM/TensorRT-LLM）未集成这些优化，实际性能可能受限或需手动配置，结合显存限制（见 N96），构成技术落地风险。
+
+## Evidence
+
+[质询]陈述中关于“vLLM/TensorRT-LLM 尚未完全优化”的具体生态状态属于动态变化的经验事实，且参考来源主要展示的是社区补丁（patches）和特定修复方案，并未直接证实主流框架（vLLM/TRT-LLM）当前的官方支持状态或具体的回退机制细节，存在以偏概全或时效性风险。 | 来源 [1] 和 [2] 证实了 RTX 5090 (Blackwell) 运行 NVFP4 需要特定补丁且原生支持存在差异，间接支持了“软件栈依赖风险”的逻辑，但未直接覆盖 vLLM/TRT-LLM 对 Qwen3-27B 的具体优化缺失这一经验事实，故降级。
+
+## Search Query
+
+RTX 5090 Blackwell NVFP4 inference performance vLLM TensorRT-LLM Qwen3
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/lna-lab/blackwell-geforce-nvfp4-gemm&rut=a4e447dcedb84188686d25778901b3051d727510bacfa42398802ecdf11a86ce', 'type': 'ddg', 'title': 'blackwell-geforce-nvfp4-gemm - GitHub'}
+- {'url': 'https://github.com/JohnTDI-cpu/trtllm-nvfp4-blackwell-fix&rut=f62207055e563c625751f17d976a62756a2423bf393bed89ee27f2c2ee00a637', 'type': 'ddg', 'title': 'NVFP4 on RTX 5090: The "Impossible" Guide - GitHub'}

@@ -1,0 +1,20 @@
+# N86: 盈亏平衡点（Break-even Point）计算公式：设日均循环数为X，本地总成本 C_local = X * (23.04/X * 1) = 23.04元（
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N22, N23, N24
+
+## Claim
+
+盈亏平衡点（Break-even Point）计算公式：设日均循环数为X，本地总成本 C_local = X * (23.04/X * 1) = 23.04元（固定电费，与X无关，只要机器开机）；云端总成本 C_cloud = X * (Input_Tokens * P_in + Output_Tokens * P_out) / 1e6 * 7.2 (汇率)；令 C_local = C_cloud，解得 X_be = 23.04 / [(1500+5000+3000)*0.60 + (800+500)*1.80] / 1e6 * 7.2 ≈ 23.04 / (5.4 + 2.34) / 1e6 * 7.2 ≈ 23.04 / 0.00005544 ≈ 415,584 循环/天
+
+## Corrected Claim
+
+盈亏平衡点（Break-even Point）计算公式：设日均循环数为X，本地总成本 C_local = X * (23.04/X * 1) = 23.04元（固定电费，与X无关，只要机器开机）；云端总成本 C_cloud = X * (Input_Tokens * P_in + Output_Tokens * P_out) / 1e6 * 7.2 (汇率)；令 C_local = C_cloud，解得 X_be = 23.04 / [(1500+5000+3000)*0.60 + (800+500)*1.80] / 1e6 * 7.2 ≈ 23.04 / (5.4 + 2.34) / 1e6 * 7.2 ≈ 23.04 / 0.00005544 ≈ 415,584 循环/天
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（23.04 / 0.00005544 ≈ 415,584），量纲与逻辑自洽。

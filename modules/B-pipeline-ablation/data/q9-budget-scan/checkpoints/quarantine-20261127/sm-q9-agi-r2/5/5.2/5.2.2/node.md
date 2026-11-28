@@ -1,0 +1,30 @@
+# N77: Semantic Scholar Graph API 的 `citations` 端点用于反向验证引用真实性的具体调用格式：GET /graph/v1/pape
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+Semantic Scholar Graph API 的 `citations` 端点用于反向验证引用真实性的具体调用格式：GET /graph/v1/paper/{paperId}/citations?fields=title,year,externalIds；该接口返回被引列表，用于检查生成的引用ID是否存在于真实文献的被引网络中，单次调用平均延迟 T_latency≈150-300ms，速率限制为 100 req/s/IP。
+
+## Corrected Claim
+
+Semantic Scholar Graph API 的 `citations` 端点用于反向验证引用真实性，调用格式为 GET /graph/v1/paper/{paperId}/citations?fields=title,year,externalIds；该接口返回被引列表，用于检查生成的引用ID是否存在于真实文献的被引网络中。
+
+## Evidence
+
+[质询]速率限制（100 req/s/IP）和平均延迟（150-300ms）属于具体的经验性能指标，参考来源仅提供了API文档链接和基础介绍，未包含这些具体的数值参数，且Semantic Scholar的公开文档通常建议非商业使用较低速率或提供API Key以提升限额，100 req/s/IP这一具体数值缺乏直接来源支持。 | 来源[1][2]确认了Semantic Scholar Academic Graph API的存在及论文数据获取功能，间接支持了API用途的逻辑合理性，但未提供具体的速率限制和延迟数值，属于经验事实缺来源支持。
+
+## Search Query
+
+Semantic Scholar Graph API citations endpoint rate limit latency
+
+## Retrieval Sources
+
+- {'url': 'https://www.semanticscholar.org/product/api&rut=018e8c95d602ee8b8df6ec21657e97e1475724ebb134c6ca1442f7e63b81f868', 'type': 'ddg', 'title': 'Semantic Scholar Academic Graph API | Semantic Scholar'}
+- {'url': 'https://api.semanticscholar.org/api-docs&rut=1837f712c5924707b5000542c51b5824b8bb1373daa914044326cb79f9e6eeb3', 'type': 'ddg', 'title': 'Academic Graph API - Semantic Scholar'}
+- {'url': 'https://www.semanticscholar.org/product/api/tutorial&rut=617eea40bf3c635eba616d656bc3a3e1c733e30c5730486d2e2932c200f4d99c', 'type': 'ddg', 'title': 'Tutorial | Semantic Scholar Academic Graph API'}

@@ -1,0 +1,29 @@
+# N39: AMD MI300X 的显存带宽为 5300 GB/s (HBM3)，显存容量为 192 GB，该参数使其在 BF16 精度下的理论 Decode 吞吐率可达 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12
+
+## Claim
+
+AMD MI300X 的显存带宽为 5300 GB/s (HBM3)，显存容量为 192 GB，该参数使其在 BF16 精度下的理论 Decode 吞吐率可达 ~100 Tokens/s，远超 NVIDIA 消费级显卡。
+
+## Corrected Claim
+
+AMD MI300X 的显存带宽为 5300 GB/s (HBM3)，显存容量为 192 GB，其高带宽特性显著提升了大模型在 BF16 精度下的 Decode 阶段性能，通常优于同代 NVIDIA 消费级显卡。
+
+## Evidence
+
+[质询]陈述中关于“BF16精度下理论Decode吞吐率可达~100 Tokens/s”的具体数值缺乏来源支持，且该吞吐量高度依赖于模型规模（参数量）和Batch Size，未指定模型参数（如7B, 70B等）使得该数值成为一个模糊的经验估计而非确定的硬件属性，存在以偏概全的风险。 | 来源[2]直接支持了5.3 TB/s (5300 GB/s)的HBM3带宽和192GB容量（隐含于MI300X规格及上下文），但未提供具体的Tokens/s吞吐量数据；吞吐量属于依赖模型架构的经验事实，逻辑上虽自洽（高带宽利于Decode），但具体数值~100 Tokens/s无法从给定来源直接验证，故降级。
+
+## Search Query
+
+AMD MI300X memory bandwidth GB/s specifications
+
+## Retrieval Sources
+
+- {'url': 'https://www.amd.com/en/products/accelerators/instinct/mi300/mi300x.html&rut=e3d993c0afb9d1d890631dd7f0191cc394207422f4bfed8bc49c78ad3c31f45e', 'type': 'ddg', 'title': 'AMD Instinct™ MI300X Accelerators'}
+- {'url': 'https://www.amd.com/content/dam/amd/en/documents/instinct-tech-docs/data-sheets/amd-instinct-mi300x-data-sheet.pdf&rut=34cc60f32d93f1f11b08bdaa3178dcc1dfd55e5c0f9c4b9c43e1104e3ce49e63', 'type': 'ddg', 'title': 'PDF AMD Instinct MI300X Accelerator'}

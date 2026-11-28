@@ -1,0 +1,24 @@
+# N32: 定义'速度最快'的核心KPI为端到端科研循环时间(T_cycle)：从假设生成到结论验证的平均墙钟时间。在27B本地部署下，目标T_cycle应控制在<15分钟
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+定义'速度最快'的核心KPI为端到端科研循环时间(T_cycle)：从假设生成到结论验证的平均墙钟时间。在27B本地部署下，目标T_cycle应控制在<15分钟/循环（含推理、工具调用、检索）。若T_cycle > 15min，则边际效用递减，因为人类监督的反馈延迟将超过自动修正的收益。
+
+## Corrected Claim
+
+定义'速度最快'的核心KPI为端到端科研循环时间(T_cycle)。在27B本地部署下，建议设定T_cycle的目标阈值（如<15分钟/循环），以平衡推理成本与人类监督的反馈延迟，避免边际效用递减。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（15分钟）和特定的因果机制（人类反馈延迟超过自动修正收益），这属于经验事实而非第一性原理可推导的数学或物理定律。参考来源仅定义了通用的Cycle Time概念，未提供针对27B模型科研场景的具体数值支持或该特定因果关系的证据。 | 逻辑自洽，但属于经验事实（具体参数值及因果假设），参考来源[1]仅涉及通用研发Cycle Time定义，与本节点特定的AI科研场景及15分钟阈值无关，缺乏直接来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/612705743&rut=94e28aa320cf7aba2e43a0dadd9b9ee2f790b2fb39d568fc24d782aed58bdc34', 'type': 'ddg', 'title': '提升研发交付效率，还得看Cycle Time - 知乎'}

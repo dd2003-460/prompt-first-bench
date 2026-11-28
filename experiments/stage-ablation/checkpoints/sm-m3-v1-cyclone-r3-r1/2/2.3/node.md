@@ -1,0 +1,24 @@
+# N11: 低层辐合减弱的定量表达：辐合度C_low = (1/r)(∂(rV_r)/∂r)，登陆后因摩擦层增厚(z_i从~100m增至~500m)和水平气压梯度减弱，C_
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+低层辐合减弱的定量表达：辐合度C_low = (1/r)(∂(rV_r)/∂r)，登陆后因摩擦层增厚(z_i从~100m增至~500m)和水平气压梯度减弱，C_low从登陆前的~10⁻⁵ s⁻¹降至~10⁻⁶ s⁻¹，导致上升运动ω≈-C_low×z_i从-1 m/s降至-0.1 m/s，对流触发阈值(θ_e≈360K)难以维持，间接削弱能量转换效率。
+
+## Corrected Claim
+
+低层辐合减弱的定量表达：辐合度C_low = (1/r)(∂(rV_r)/∂r)，登陆后因摩擦层增厚(z_i从~100m增至~500m)和水平气压梯度减弱，C_low从登陆前的~10⁻⁵ s⁻¹降至~10⁻⁶ s⁻¹，导致上升运动ω≈-C_low×z_i从-1 m/s降至-0.1 m/s，对流触发阈值(θ_e≈360K)难以维持，间接削弱能量转换效率。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：量纲分析显示 C_low [s^-1] * z_i [m] = ω [m/s] 成立；数值量级符合台风登陆后边界层加深及气压梯度减弱的物理直觉（10^-5 s^-1 * 100m ~ 1 m/s, 10^-6 s^-1 * 500m ~ 0.1 m/s），内部自洽。
+
+## Search Query
+
+low-level convergence weakening boundary layer depth tropical cyclone landfall ascent velocity

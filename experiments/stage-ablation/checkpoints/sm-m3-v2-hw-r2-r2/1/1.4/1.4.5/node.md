@@ -1,0 +1,24 @@
+# N37: FP8 KV Cache在V100上的实际带宽惩罚量化：由于缺乏原生FP8 Tensor Core，FP8存储需转换为FP16计算，导致有效带宽利用率下降至FP
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+FP8 KV Cache在V100上的实际带宽惩罚量化：由于缺乏原生FP8 Tensor Core，FP8存储需转换为FP16计算，导致有效带宽利用率下降至FP16的60-70%，等效增加KV读取延迟约40-60%。
+
+## Corrected Claim
+
+FP8 KV Cache在V100上由于缺乏原生FP8 Tensor Core，FP8存储需转换为FP16计算，导致有效带宽利用率下降，等效增加KV读取延迟，具体幅度取决于实现细节。
+
+## Evidence
+
+[质询]具体数值（60-70%利用率、40-60%延迟增加）缺乏通用基准测试支持，实际性能高度依赖具体实现（如是否使用CUDA内核优化转换、内存对齐、批处理大小等），不同框架和库的实现差异可能导致显著不同的结果，因此这些精确百分比可能过于绝对化。 | 先验知识/题面给定，逻辑校验通过：V100确实缺乏原生FP8 Tensor Core，FP8到FP16的转换确实会引入额外开销，导致有效带宽利用率下降和延迟增加，但具体数值范围因实现而异，故降级为定性表述。
+
+## Search Query
+
+V100 FP8 emulation performance penalty bandwidth utilization

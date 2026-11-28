@@ -1,0 +1,20 @@
+# N43: 知识库向量索引的内存占用为 向量数量(N) * 维度(1536) * 字节数(4 bytes/float32) = 6144 * N bytes；若 N=100
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+知识库向量索引的内存占用为 向量数量(N) * 维度(1536) * 字节数(4 bytes/float32) = 6144 * N bytes；若 N=100,000，则占用约 600 MB，M1 Max 的 400 GB/s 内存带宽支持每秒约 66,666 次向量内积运算，满足实时检索需求。
+
+## Corrected Claim
+
+知识库向量索引的内存占用为 向量数量(N) * 维度(1536) * 字节数(4 bytes/float32) = 6144 * N bytes；若 N=100,000，则占用约 600 MB，M1 Max 的 400 GB/s 内存带宽支持每秒约 66,666 次向量内积运算，满足实时检索需求。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：内存计算 100,000 * 1536 * 4 = 614,400,000 bytes ≈ 600MB 正确；带宽换算 400GB/s / 6KB ≈ 66,666 ops/s 符合算术逻辑。

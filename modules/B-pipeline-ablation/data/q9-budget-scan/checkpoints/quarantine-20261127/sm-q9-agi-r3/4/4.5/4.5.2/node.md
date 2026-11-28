@@ -1,0 +1,24 @@
+# N76: LLM-as-a-Judge 逻辑连贯性评分需使用 GPT-4o 作为裁判模型（因本地 27B 无法可靠自我评估逻辑谬误），Prompt 需包含 5 个明确的逻
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25
+
+## Claim
+
+LLM-as-a-Judge 逻辑连贯性评分需使用 GPT-4o 作为裁判模型（因本地 27B 无法可靠自我评估逻辑谬误），Prompt 需包含 5 个明确的逻辑缺陷定义（因果倒置、滑坡谬误等），输出 1-5 整数分，映射为概率 P(logic) = score/5，阈值设为 0.8 (即平均分 ≥ 4)。
+
+## Corrected Claim
+
+LLM-as-a-Judge 逻辑连贯性评分需使用 GPT-4o 作为裁判模型（因本地 27B 无法可靠自我评估逻辑谬误），Prompt 需包含 5 个明确的逻辑缺陷定义（因果倒置、滑坡谬误等），输出 1-5 整数分，映射为概率 P(logic) = score/5，阈值设为 0.8 (即平均分 ≥ 4)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+LLM-as-a-Judge logical coherence scoring rubric 1-5 scale mapping

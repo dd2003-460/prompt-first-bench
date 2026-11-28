@@ -1,0 +1,20 @@
+# N255: Prefill 阶段 TP=4 AllReduce 的通信量随 Batch_Size (B) 和 Seq_Len (L) 线性增长：Data_Size_pref
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N101
+
+## Claim
+
+Prefill 阶段 TP=4 AllReduce 的通信量随 Batch_Size (B) 和 Seq_Len (L) 线性增长：Data_Size_prefill = B * L * 4096 * 2 * 64 layers。例如 B=8, L=4096 时，Data_Size ≈ 4.2 GB；在 150 GB/s 带宽下 T_comm_prefill ≈ 28 ms，与计算时间（~100-200 ms）相当，构成显著瓶颈，需考虑计算-通信重叠优化。
+
+## Corrected Claim
+
+Prefill 阶段 TP=4 AllReduce 的通信量随 Batch_Size (B) 和 Seq_Len (L) 线性增长：Data_Size_prefill = B * L * 4096 * 2 * 64 layers。例如 B=8, L=4096 时，Data_Size ≈ 4.2 GB；在 150 GB/s 带宽下 T_comm_prefill ≈ 28 ms，与计算时间（~100-200 ms）相当，构成显著瓶颈，需考虑计算-通信重叠优化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数据量计算 B*L*H*D*Layers 符合 Transformer 架构通信量估算逻辑，数值量级（GB级）及延迟估算（ms级）在合理范围内，且符合大模型推理中 Prefill 阶段通信瓶颈的工程常识。

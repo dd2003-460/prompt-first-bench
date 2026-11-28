@@ -1,0 +1,24 @@
+# N129: Hook 线程隔离下的 CPU 争用量化：vLLM 后端 (CUDA) 与 Hook 前端 (Python/GIL) 共享 CPU 核心时，若 Hook 正则匹
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+Hook 线程隔离下的 CPU 争用量化：vLLM 后端 (CUDA) 与 Hook 前端 (Python/GIL) 共享 CPU 核心时，若 Hook 正则匹配耗时 0.05ms/token 且推理主线程 CPU 占用基线为 15%（调度/IO），在 8-core Mac M1 Max 上，GIL 锁竞争导致的额外等待时间 T_wait ≈ (T_hook * F_req) / N_cores，其中 F_req=50 req/s，N_cores=8，计算得 T_wait ≈ 0.3ms/s，对总任务时间影响 < 0.001%，确认无显著瓶颈。
+
+## Corrected Claim
+
+在 8-core Mac M1 Max 上，Hook 正则匹配耗时 0.05ms/token 且推理主线程 CPU 占用基线为 15% 时，GIL 锁竞争可能引入额外延迟，但基于粗略估算（T_hook * F_req / N_cores ≈ 0.3ms/s），其对总任务时间的相对影响极小，初步判断无显著性能瓶颈，需进一步实测验证。
+
+## Evidence
+
+[质询]公式 T_wait ≈ (T_hook * F_req) / N_cores 缺乏严谨的理论推导支撑，且量纲分析显示其结果单位应为 ms/s（即无量纲比率或每秒毫秒数），直接将其解释为“额外等待时间”并得出“< 0.001%”的影响结论存在逻辑跳跃；此外，GIL 竞争的实际开销取决于 Hook 线程与主线程的并发重叠率及上下文切换成本，简单的线性除法模型过于简化，可能低估或高估实际瓶颈。 | 先验知识/题面给定，但逻辑校验发现公式推导与量纲解释存在瑕疵，且无外部来源支持该特定量化模型的准确性，故降级为定性表述。
+
+## Search Query
+
+python gil contention cpu usage vllm frontend backend overhead benchmark

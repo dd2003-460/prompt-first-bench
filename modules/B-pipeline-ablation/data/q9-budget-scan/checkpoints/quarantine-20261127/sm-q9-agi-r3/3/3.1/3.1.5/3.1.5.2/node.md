@@ -1,0 +1,24 @@
+# N156: Qwen3.8-27B 的 n_layers=64 和 n_kv_heads=8 参数是基于其架构定义的静态值，但在 vLLM 的 PagedAttention
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+Qwen3.8-27B 的 n_layers=64 和 n_kv_heads=8 参数是基于其架构定义的静态值，但在 vLLM 的 PagedAttention 机制下，实际显存占用还需加上 Page Table 的元数据开销，约占 KV cache 总量的 1-2%。
+
+## Corrected Claim
+
+Qwen3.8-27B 的 n_layers=64 和 n_kv_heads=8 参数是基于其架构定义的静态值，但在 vLLM 的 PagedAttention 机制下，实际显存占用还需加上 Page Table 的元数据开销，该开销通常较小（一般在 1-5% 范围内，具体取决于 block_size 和序列长度）。
+
+## Evidence
+
+[质询]Page Table 的元数据开销占比并非固定的 1-2%，而是高度依赖于 block_size、序列长度以及硬件架构（如是否使用 CUDA Graphs 或特定的索引结构）。在长序列或小 block size 场景下，索引开销可能显著高于 2%；而在短序列或大 block size 下可能低于 1%。将其表述为固定的“约占 1-2%”缺乏严谨性，属于经验估计而非架构定义的静态值。 | 先验知识/题面给定，逻辑校验通过。虽然 n_layers 和 n_kv_heads 是静态架构参数，但 Page Table 开销是动态运行时开销，其比例随配置变化，固定百分比表述不够准确，故降级为定性描述。
+
+## Search Query
+
+vLLM paged attention metadata overhead page table size

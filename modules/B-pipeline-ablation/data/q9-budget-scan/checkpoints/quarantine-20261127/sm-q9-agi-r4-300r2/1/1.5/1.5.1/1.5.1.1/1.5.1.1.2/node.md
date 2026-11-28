@@ -1,0 +1,20 @@
+# N279: FP16 内核在 85% 峰值算力下的实际推理延迟：Qwen3-27B 在 V100 FP16 下的理论峰值为 15.7 TFLOPS * 85% = 13.3
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+FP16 内核在 85% 峰值算力下的实际推理延迟：Qwen3-27B 在 V100 FP16 下的理论峰值为 15.7 TFLOPS * 85% = 13.3 TFLOPS；对于 27B 参数模型，每 token 计算量约为 2 * 27e9 = 54 GFLOPs，理论最小延迟 T_min = 54e9 / 13.3e12 ≈ 4.06 ms/token；但受限于内存带宽（读取 54GB 权重需 54GB/900GB/s = 60ms），实际延迟由内存带宽主导，约为 60-80 ms/token，而非计算主导。
+
+## Corrected Claim
+
+FP16 内核在 85% 峰值算力下的实际推理延迟：Qwen3-27B 在 V100 FP16 下的理论峰值为 15.7 TFLOPS * 85% = 13.3 TFLOPS；对于 27B 参数模型，每 token 计算量约为 2 * 27e9 = 54 GFLOPs，理论最小延迟 T_min = 54e9 / 13.3e12 ≈ 4.06 ms/token；但受限于内存带宽（读取 54GB 权重需 54GB/900GB/s = 60ms），实际延迟由内存带宽主导，约为 60-80 ms/token，而非计算主导。
+
+## Evidence
+
+[质询]V100 FP16 理论峰值算力通常指 Tensor Core 加速后的性能（约 125-130 TFLOPS），若仅使用 CUDA Core 则约为 15.7 TFLOPS。陈述中使用的 15.7 TFLOPS 对应非 Tensor Core 路径，这在纯 FP16 推理中虽非最优配置但属于合法的技术口径，且后续关于内存带宽瓶颈的推导逻辑正确，因此不构成致命错误，仅为配置假设差异。 | 先验知识/题面给定，逻辑校验通过：V100 HBM2 带宽确为 900 GB/s，27B 模型 FP16 权重约 54GB，计算得出的内存延迟下限 60ms 符合物理极限，且大模型推理通常受内存带宽限制（Memory-bound），逻辑自洽。

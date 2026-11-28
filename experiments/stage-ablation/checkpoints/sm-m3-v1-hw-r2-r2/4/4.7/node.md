@@ -1,0 +1,24 @@
+# N23: 最优投入档位判定阈值：当单步科研任务复杂度 $K$（所需 token 数）> 50k 时，云端 API 的单位时间成本优势超过本地延迟劣势，切换至云端更优
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+最优投入档位判定阈值：当单步科研任务复杂度 $K$（所需 token 数）> 50k 时，云端 API 的单位时间成本优势超过本地延迟劣势，切换至云端更优
+
+## Corrected Claim
+
+当单步科研任务复杂度 K 足够大时，云端 API 的单位时间成本优势通常超过本地延迟劣势，具体切换阈值需根据硬件与网络环境动态计算。
+
+## Evidence
+
+[质询]该阈值（50k tokens）是一个具体的经验参数，缺乏通用的物理或数学第一性原理支持，其合理性高度依赖于具体的硬件配置、网络带宽、API定价及并发负载，不同场景下最优切换点差异巨大，无法作为普适定论。 | 先验知识/题面给定，逻辑校验通过（量纲与方向合理），但该具体数值属于经验事实，缺乏通用来源支持，故降级。
+
+## Search Query
+
+cost per token local GPU vs cloud API break-even point long context

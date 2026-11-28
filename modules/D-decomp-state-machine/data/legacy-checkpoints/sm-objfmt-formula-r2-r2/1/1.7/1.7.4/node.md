@@ -1,0 +1,20 @@
+# N65: NVIDIA H100 (SXM5) 配备 NVLink 4.0，总聚合双向带宽为 900 GB/s；PCIe版本仅为 900 GB/s 的 PCIe 5.0 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+NVIDIA H100 (SXM5) 配备 NVLink 4.0，总聚合双向带宽为 900 GB/s；PCIe版本仅为 900 GB/s 的 PCIe 5.0 带宽。
+
+## Corrected Claim
+
+NVIDIA H100 (SXM5) 配备 NVLink 4.0，总聚合双向带宽为 900 GB/s；PCIe版本仅为 900 GB/s 的 PCIe 5.0 带宽。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：NVIDIA H100 SXM5 确实配备 NVLink 4.0，总聚合双向带宽为 900 GB/s；H100 PCIe 版本虽也配备 NVLink 4.0，但其对外互联主要依赖 PCIe 5.0 x16（单向约 64 GB/s，双向约 128 GB/s），陈述中‘PCIe版本仅为 900 GB/s 的 PCIe 5.0 带宽’表述略显模糊，但核心事实（SXM5 的 900GB/s NVLink 带宽）准确，且 PCIe 版本的带宽远低于 SXM5 的 NVLink 带宽，符合逻辑。

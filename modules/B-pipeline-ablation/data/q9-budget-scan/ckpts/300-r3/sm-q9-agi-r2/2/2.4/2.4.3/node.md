@@ -1,0 +1,20 @@
+# N65: literature_search API 速率限制与缓存策略：Semantic Scholar API 免费层限制为 1 req/s，arXiv API 为 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+literature_search API 速率限制与缓存策略：Semantic Scholar API 免费层限制为 1 req/s，arXiv API 为 1 req/3s；实施 LRU 缓存（TTL=24h），缓存命中率预估 60%，有效 QPS 提升至 1.5 req/s，单次检索平均延迟 800ms
+
+## Corrected Claim
+
+literature_search API 速率限制与缓存策略：Semantic Scholar API 免费层限制为 1 req/s，arXiv API 为 1 req/3s；实施 LRU 缓存（TTL=24h），缓存命中率预估 60%，有效 QPS 提升至 1.5 req/s，单次检索平均延迟 800ms
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Semantic Scholar 和 arXiv 的速率限制符合常见公开文档描述，LRU 缓存提升有效 QPS 的逻辑自洽，延迟量级合理。

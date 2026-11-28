@@ -1,0 +1,24 @@
+# N299: 图数据库 Neo4j 的多跳查询延迟 T_multi_hop 与跳数 H 和节点度 D 相关；T_multi_hop ≈ O(H * D^2) * t_node
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N105, N106, N107
+
+## Claim
+
+图数据库 Neo4j 的多跳查询延迟 T_multi_hop 与跳数 H 和节点度 D 相关；T_multi_hop ≈ O(H * D^2) * t_node_access；若 H=3, D=10 (平均每个实体关联10个其他实体), t_node_access=5ms，则 T_multi_hop ≈ 3 * 100 * 5ms = 1500ms，远超 P95<50ms 的要求，因此对于高连接度图，需使用预计算路径或索引优化，否则图数据库不适合实时多跳推理。
+
+## Corrected Claim
+
+图数据库 Neo4j 的多跳查询延迟通常随跳数 H 和节点度 D 增加而显著上升，具体复杂度取决于实现细节和优化策略；在高连接度（如 D=10）且未优化的情况下，延迟可能达到毫秒至秒级，可能无法满足严格的 P95<50ms 实时要求，建议结合预计算或索引优化进行评估。
+
+## Evidence
+
+[质询]复杂度模型过于简化且缺乏实证支持：Neo4j 的多跳查询延迟并非简单的 O(H*D^2) 线性叠加，实际受内存驻留率、索引策略、查询计划及硬件影响极大；D=10 时 1500ms 的估算可能严重高估或低估真实场景，且‘不适合实时’的结论过于绝对，忽略了图数据库在特定优化下的性能潜力。 | 先验知识/题面给定，逻辑校验通过（数学计算 3*100*5ms=1500ms 正确），但作为经验事实的性能模型缺乏来源直接支持，且模型假设较强，故降级。
+
+## Search Query
+
+neo4j multi-hop query latency optimization high degree graph

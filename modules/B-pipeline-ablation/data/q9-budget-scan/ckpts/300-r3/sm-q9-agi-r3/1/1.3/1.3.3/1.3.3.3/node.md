@@ -1,0 +1,20 @@
+# N153: 方案 C（INT4 KV + 长上下文）：启用 INT4 KV Cache 量化，设置 max_model_len=65536, max_num_seqs=4。
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+方案 C（INT4 KV + 长上下文）：启用 INT4 KV Cache 量化，设置 max_model_len=65536, max_num_seqs=4。单序列 KV 占用 65536 * 64KB = 4GB，总需求 16GB，远低于 48.5GB。此方案在支持较长上下文的同時保持 4 路并发，相比方案 B 牺牲部分精度但提升并发能力，适合需要长程记忆但不需极致精度的场景。
+
+## Corrected Claim
+
+方案 C（INT4 KV + 长上下文）：启用 INT4 KV Cache 量化，设置 max_model_len=65536, max_num_seqs=4。单序列 KV 占用需根据具体模型架构和层数计算（通常远低于 64KB/token），总需求需重新评估。此方案在支持较长上下文的同时保持 4 路并发，相比方案 B 牺牲部分精度但提升并发能力，适合需要长程记忆但不需极致精度的场景。
+
+## Evidence
+
+[质询]数值量级严重错误：单序列 KV 占用计算错误。65536 tokens * 64KB/token = 4GB 是错误的，实际应为 65536 * 64KB = 4,096MB = 4GB 仅在每 token 占用 64KB 时成立，但通常 KV Cache 每 token 占用远小于 64KB（例如 Llama-2-7B 每 token KV 约 1-2KB，即使大模型也很少达到 64KB/token）。若按 64KB/token 计算，65536 * 64KB = 4GB 是正确的算术，但 64KB/token 的假设极不合理，导致总需求 16GB 的结论可能严重低估或高估实际内存需求。 | 逻辑校验发现数值量级不合理：64KB/token 的 KV Cache 占用假设不符合常见大语言模型的实际情况（通常为 KB 级别而非 64KB 级别），导致内存需求估算缺乏可信度。

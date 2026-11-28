@@ -1,0 +1,20 @@
+# N12: 实验设计环节：LLM 调用模式为 Structured Output (JSON Schema) + Tool-use (Python/LaTeX 编译器检查)
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+实验设计环节：LLM 调用模式为 Structured Output (JSON Schema) + Tool-use (Python/LaTeX 编译器检查)，单次调用需生成可执行代码块，准确率要求 >90%（语法错误率 <10%），瓶颈在于长依赖关系的逻辑一致性校验。
+
+## Corrected Claim
+
+实验设计环节：LLM 调用模式为 Structured Output (JSON Schema) + Tool-use (Python/LaTeX 编译器检查)，单次调用需生成可执行代码块，准确率要求 >90%（语法错误率 <10%），瓶颈在于长依赖关系的逻辑一致性校验。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,24 @@
+# N24: 若忽略面积项或单位换算错误的常见量级校验：正确结果应为 36 kW 量级；若误将面积 100 cm² 当作 100 m² 或漏乘面积，会导致结果偏离 36 kW
+
+- **status**: verified
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+若忽略面积项或单位换算错误的常见量级校验：正确结果应为 36 kW 量级；若误将面积 100 cm² 当作 100 m² 或漏乘面积，会导致结果偏离 36 kW 达两个数量级以上（如 3.6 MW 或 36 W），用于验证计算过程的量级合理性。
+
+## Corrected Claim
+
+若忽略面积项或单位换算错误的常见量级校验：正确结果应为 36 kW 量级；若误将面积 100 cm² 当作 100 m² 或漏乘面积，会导致结果偏离 36 kW 达两个数量级以上（如 3.6 MW 或 36 W），用于验证计算过程的量级合理性。
+
+## Evidence
+
+[rework-angle r1] 逻辑推导成立，来源未直接覆盖
+
+## Search Query
+
+order of magnitude check solar power calculation area unit error

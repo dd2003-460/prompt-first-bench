@@ -1,0 +1,24 @@
+# N66: W4A16 精度在 Qwen3-27B 上的质量损失量化基准：W4A16 (权重 4-bit, 激活 16-bit) 量化导致 MMLU 准确率从 ~72% 下
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+W4A16 精度在 Qwen3-27B 上的质量损失量化基准：W4A16 (权重 4-bit, 激活 16-bit) 量化导致 MMLU 准确率从 ~72% 下降至 ~65-67% (ΔAcc ≈ 5-7%)，Perplexity 从 ~5.2 上升至 ~5.8-6.0 (ΔPPL ≈ 0.6-0.8)，复杂推理任务 (如 GSM8K) 准确率下降 10-15%，仅在非关键、低精度容忍场景下可接受 [待核验具体基准]。
+
+## Corrected Claim
+
+W4A16 量化通常会导致 Qwen3-27B 在 MMLU 等基准上出现约 5-10% 的准确率下降及 Perplexity 上升，具体幅度取决于量化算法（如 GPTQ vs AWQ）及校准数据质量，复杂推理任务受影响更大。
+
+## Evidence
+
+[质询]具体数值（MMLU下降5-7%，PPL上升0.6-0.8，GSM8K下降10-15%）缺乏特定量化方法（如GPTQ/AWQ）和校准数据集的限定，不同实现方案下性能损失差异显著，直接断言固定区间存在以偏概全风险。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体量化基准属经验数据，不可由第一性原理推导）
+
+## Search Query
+
+Qwen3-27B W4A16 quantization quality degradation GSM8K accuracy drop

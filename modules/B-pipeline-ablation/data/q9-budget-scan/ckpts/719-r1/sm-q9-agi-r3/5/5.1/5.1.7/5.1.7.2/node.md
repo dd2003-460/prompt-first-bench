@@ -1,0 +1,24 @@
+# N247: 云端 API 连接恢复时间 T_cloud = T_health_check_interval + T_retry_backoff_sum + T_reconn
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N73
+
+## Claim
+
+云端 API 连接恢复时间 T_cloud = T_health_check_interval + T_retry_backoff_sum + T_reconnect_handshake，其中 T_health_check_interval 设为 10s, T_retry_backoff_sum 采用指数退避 (base=1s, factor=2, max_retries=5) 累计 < 31s, T_reconnect_handshake (TLS + auth) < 2s, 总计 < 43s (< 10min 约束)
+
+## Corrected Claim
+
+云端 API 连接恢复时间 T_cloud = T_health_check_interval + T_retry_backoff_sum + T_reconnect_handshake，其中 T_health_check_interval 设为 10s, T_retry_backoff_sum 采用指数退避 (base=1s, factor=2, max_retries=5) 累计 < 31s, T_reconnect_handshake (TLS + auth) < 2s, 总计 < 43s (< 10min 约束)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：指数退避计算正确（1+2+4+8+16=31s），总时长估算符合逻辑且满足约束
+
+## Search Query
+
+cloud API health check interval exponential backoff retry strategy recovery time calculation

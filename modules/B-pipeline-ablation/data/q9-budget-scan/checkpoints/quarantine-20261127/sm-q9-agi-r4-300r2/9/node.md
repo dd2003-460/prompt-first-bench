@@ -1,0 +1,26 @@
+# N27: 引入'假设-实验-结果'三元组结构化存储（JSON Schema）作为中间态，确保每一步推理可追溯。若缺少此标准化结构，后期调试错误来源的平均时间将从30分钟增
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+引入'假设-实验-结果'三元组结构化存储（JSON Schema）作为中间态，确保每一步推理可追溯。若缺少此标准化结构，后期调试错误来源的平均时间将从30分钟增加至2小时以上（基于软件工程调试复杂度曲线），严重影响迭代速度。
+
+## Corrected Claim
+
+引入'假设-实验-结果'三元组结构化存储（JSON Schema）作为中间态，有助于确保每一步推理可追溯，从而降低后期调试错误来源的难度并提升迭代效率。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑维度上正交（分别对应数据结构定义、性能收益量化、系统开销分析），无重复或矛盾。但存在完备性缺陷：父节点明确提出的核心指标是‘调试时间从30分钟增加至2小时以上’（即缺乏结构时的基线），而子节点2仅提供了引入Schema后的理想化模型数据（40min降至12min），未提供缺乏Schema时的量化基线数据以支撑父节点的断言，导致论证链条缺失关键环节。）
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/qq_19024759/article/details/152746275&rut=faec5f7d9a80ca6b32959c9ad51318b91311ef8a16ce4b43cc611f87bdea8ca1', 'type': 'ddg', 'title': '基于JSON Schema的结构化输出实现与原理解析 - CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29048309/article/details/163710959&rut=56109bad69a10f3479550d6b2924d9b3151881ba32cd6858440cd0c5014e7dd7', 'type': 'ddg', 'title': '大模型结构化输出实战：从Prompt工程到JSON Schema的三种方案对比-CSDN博客'}
+- {'url': 'https://cdnping.org/blog/llm-json-structured-output&rut=3818af76cb4cdc4f9d310ba25a4164667522c00defe18be97d9f4162561e0993', 'type': 'ddg', 'title': '大模型输出 JSON 怎么稳定：提示词、JSON mode、结构化输出三种做法对比（2026） · cdnping'}

@@ -1,0 +1,24 @@
+# N251: HR 指数 (Hallucination Rate) 计算为 HR = (1/N) * Σ I(P(token_i|context) < threshold)；
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N87
+
+## Claim
+
+HR 指数 (Hallucination Rate) 计算为 HR = (1/N) * Σ I(P(token_i|context) < threshold)；当 threshold=0.15 时，针对数值细微偏差的灵敏度仅为 60-70%，需引入数值解析器 (Parser) 对数字 token 进行单独加权。
+
+## Corrected Claim
+
+HR 指数通常定义为基于概率阈值的幻觉率计算指标；在特定实验设置下（如 threshold=0.15），其对数值细微偏差的灵敏度可能受限（约 60-70%），建议结合数值解析器优化评估。
+
+## Evidence
+
+[质询]HR 指数的具体阈值（0.15）及其对应的灵敏度数值（60-70%）属于特定实验条件下的经验统计数据，并非通用物理或数学定律，缺乏普适性定义支持。 | 先验知识/题面给定，逻辑校验通过；但具体阈值与灵敏度数值为经验事实，无外部来源直接支持，故降级。
+
+## Search Query
+
+hallucination rate metric formula numeric error detection sensitivity

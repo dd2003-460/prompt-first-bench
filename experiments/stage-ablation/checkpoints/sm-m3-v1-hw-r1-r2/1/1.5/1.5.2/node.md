@@ -1,0 +1,20 @@
+# N43: 长上下文下的 Attention 计算开销占比 $R_{attn}$：当序列长度 $S > 32k$ 时，Attention 矩阵计算从 Memory-Boun
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+长上下文下的 Attention 计算开销占比 $R_{attn}$：当序列长度 $S > 32k$ 时，Attention 矩阵计算从 Memory-Bound 转向 Compute-Bound 的比例 $R_{attn} = FLOPs_{attn} / (FLOPs_{attn} + BW_{kv} \times T_{gen})$ 显著上升；在 Qwen3-27B (GQA) 架构下，需量化 $S=128k$ 时 Attention 耗时占单 Token 生成总耗时的百分比，以修正 N11 中纯带宽受限的假设。
+
+## Corrected Claim
+
+长上下文下的 Attention 计算开销占比 $R_{attn}$：当序列长度 $S > 32k$ 时，Attention 矩阵计算从 Memory-Bound 转向 Compute-Bound 的比例 $R_{attn} = FLOPs_{attn} / (FLOPs_{attn} + BW_{kv} \times T_{gen})$ 显著上升；在 Qwen3-27B (GQA) 架构下，需量化 $S=128k$ 时 Attention 耗时占单 Token 生成总耗时的百分比，以修正 N11 中纯带宽受限的假设。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：长序列下Attention计算复杂度随S线性增长（O(S) per token），而KV Cache读取带宽开销相对固定或增长较慢，导致Compute-Bound占比上升符合物理直觉；公式定义自洽。

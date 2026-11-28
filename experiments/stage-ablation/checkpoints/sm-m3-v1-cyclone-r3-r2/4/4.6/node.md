@@ -1,0 +1,30 @@
+# N21: 流出阻塞（outflow blocking）效应在山脉附近显著增强：当气旋中心距山体<200km时，高层流出受阻导致核心辐合减弱，强台风的风速衰减率在首个12小
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+流出阻塞（outflow blocking）效应在山脉附近显著增强：当气旋中心距山体<200km时，高层流出受阻导致核心辐合减弱，强台风的风速衰减率在首个12小时内额外增加~3 kt/hr，而弱风暴几乎不受影响。
+
+## Corrected Claim
+
+流出阻塞效应在山脉附近显著增强：当气旋中心接近山体时，高层流出受阻会导致核心辐合减弱，进而影响台风的风速衰减率，且这种影响在强台风中更为显著。
+
+## Evidence
+
+[质询]具体数值（<200km, ~3 kt/hr, 12小时）及“弱风暴几乎不受影响”的对比结论在提供的参考来源中完全缺失，属于未经证实的具体经验参数。 | 来源[1][2][3]均讨论了流出层动力学对台风强度变化的影响，支持了流出受阻会改变强度变化率的定性机制，但未提供具体的距离阈值、风速衰减率增量或强弱风暴差异的定量数据，故降级为定性表述。
+
+## Search Query
+
+outflow blocking mountainous terrain tropical cyclone decay rate enhancement
+
+## Retrieval Sources
+
+- {'url': 'https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2025GL118372&rut=c496918bfae84852e7b376e40e0251331a383a84ff3086ecf9d242be4b55ca2a', 'type': 'ddg', 'title': 'Distinct Outflow Dynamics and Cloud Properties in Rapidly Intensifying ...'}
+- {'url': 'https://journals.ametsoc.org/view/journals/mwre/149/12/MWR-D-21-0141.1.pdf&rut=2b5a77782c42af8cb9721da5c41a2da6523875118e4754fade8ae26d75ac8978', 'type': 'ddg', 'title': 'PDF The Implication of Outflow Structure for the Rapid Intensification of ...'}
+- {'url': 'https://journals.ametsoc.org/view/journals/atsc/68/2/2009jas2970.1.xml&rut=f062bede46478853ea0872017c376ceaeb247ec0fca3dd37baaa06fea5242fd4', 'type': 'ddg', 'title': 'The Impact of Outflow Environment on Tropical Cyclone ... - AMETSOC'}

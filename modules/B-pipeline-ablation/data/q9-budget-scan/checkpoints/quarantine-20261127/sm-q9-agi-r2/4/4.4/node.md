@@ -1,0 +1,20 @@
+# N20: 文献解析器准确率与结构化提取：使用 Unstructured.io 或 Docling 解析 PDF 文献，提取标题、作者、摘要、方法、结果的 F1 分数：Ti
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+文献解析器准确率与结构化提取：使用 Unstructured.io 或 Docling 解析 PDF 文献，提取标题、作者、摘要、方法、结果的 F1 分数：Title F1=0.95, Abstract F1=0.92, Method Section F1=0.85 (基于 arXiv 数据集基准)；对于图表提取（Figure/Table Caption），F1=0.78；解析单篇 PDF (10-20 pages) 耗时 T_parse≈3-8s (CPU)，错误主要源于复杂表格布局（误差贡献度 40%）。
+
+## Corrected Claim
+
+使用 Unstructured.io 或 Docling 解析 PDF 文献，通常能实现较高的标题和摘要提取准确率（F1 > 0.9），方法部分提取准确率略低（F1 ~ 0.85），图表提取难度较大（F1 < 0.8）；单篇中等长度 PDF 在 CPU 环境下解析耗时通常在秒级（约 3-10s），复杂表格布局是主要误差来源之一。
+
+## Evidence
+
+[质询]具体数值（如 Title F1=0.95, T_parse≈3-8s）属于特定工具版本、硬件配置及数据集下的经验测量值，非普适真理，且缺乏当前检索来源的直接佐证，存在参数过时或环境依赖导致的偏差风险。 | 先验知识/题面给定，逻辑校验通过；但作为经验事实，具体数值缺乏实时来源直接支持，故降级为定性表述。

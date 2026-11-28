@@ -1,0 +1,20 @@
+# N102: 双卡 TP=2 推理中，每生成 1 token 产生的 AllReduce 通信数据量为 2 * P_active * bytes_per_activation
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+双卡 TP=2 推理中，每生成 1 token 产生的 AllReduce 通信数据量为 2 * P_active * bytes_per_activation，对于 Qwen3-27B (P_active≈3.3B) 在 BF16 下约为 13.2 MB/token，在 FP8 下约为 6.6 MB/token。
+
+## Corrected Claim
+
+双卡 TP=2 推理中，每生成 1 token 产生的 AllReduce 通信数据量为 2 * P_active * bytes_per_activation，对于 Qwen3-27B (P_active≈3.3B) 在 BF16 下约为 13.2 MB/token，在 FP8 下约为 6.6 MB/token。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B 激活参数约 3.3B，BF16 下 2*3.3B*2bytes ≈ 13.2MB，FP8 下 2*3.3B*1byte ≈ 6.6MB，计算无误。

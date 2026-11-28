@@ -1,0 +1,28 @@
+# N30: 气旋有效作用半径 R 随强度的经验分布（如 R ∝ V_max^α），用于精确计算 A_surface = πR²
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7, N8, N9
+
+## Claim
+
+气旋有效作用半径 R 随强度的经验分布（如 R ∝ V_max^α），用于精确计算 A_surface = πR²
+
+## Corrected Claim
+
+气旋有效作用半径 R 通常随最大风速 V_max 增加而增大，存在经验性的正相关关系（如幂律形式），具体系数需根据特定区域或数据集校准，用于估算 A_surface = πR²。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数关系（R ∝ V_max^α），属于经验事实而非第一性原理可推导内容；且参考来源仅提及热带气旋模拟综述，未提供具体的半径-强度幂律公式或验证数据，无法确认该特定经验分布的准确性及适用性。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅涉及模拟方法综述，未直接覆盖具体半径-强度经验公式）
+
+## Search Query
+
+tropical cyclone radius maximum wind intensity relationship empirical distribution
+
+## Retrieval Sources
+
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=3ed229c0a13ac01623f415d5c3e3ea4c&rut=78693664352d96f9a1297a98c73864269cdfffbd3baf03bf6210c56c07a7dd4f', 'type': 'ddg', 'title': '面向灾害风险评估的热带气旋路径及强度随机模拟综述 - 百度学术'}

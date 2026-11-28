@@ -1,0 +1,20 @@
+# N87: INT8 精度下，若 KV Cache 保持 BF16 存储，则 KV Cache 占用为 4.096 GB，此时总显存需求为 27GB (权重) + 0.5G
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+INT8 精度下，若 KV Cache 保持 BF16 存储，则 KV Cache 占用为 4.096 GB，此时总显存需求为 27GB (权重) + 0.5GB (量化参数) + 4.096GB (KV) = 31.596 GB + 开销
+
+## Corrected Claim
+
+INT8 精度下，若 KV Cache 保持 BF16 存储，则 KV Cache 占用为 4.096 GB，此时总显存需求为 27GB (权重) + 0.5GB (量化参数) + 4.096GB (KV) = 31.596 GB + 开销
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 27 + 0.5 + 4.096 = 31.596 正确，且符合 INT8 权重与 BF16 KV Cache 混合精度下的显存估算逻辑。

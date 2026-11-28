@@ -1,0 +1,25 @@
+# N130: 关键路径分析 (CPM)：在 Research-AGI 闭环中，'假设生成'与'文献检索'可并行，但'实验执行' (代码运行/仿真) 是串行瓶颈。若实验平均耗时
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+关键路径分析 (CPM)：在 Research-AGI 闭环中，'假设生成'与'文献检索'可并行，但'实验执行' (代码运行/仿真) 是串行瓶颈。若实验平均耗时 2 小时，且失败重试率 40%，则有效实验周期 T_exp_eff = 2h / (1 - 0.4) = 3.33h。整个科研循环的关键路径长度为 T_hypothesis (15min) + T_retrieval (5min) + T_exp_eff (3.33h) + T_analysis (30min) ≈ 4.08h。优化重点应放在降低实验失败率 (通过前置静态检查) 和并行化多个假设的实验执行上。
+
+## Corrected Claim
+
+在Research-AGI闭环中，若假设实验平均耗时2小时且失败重试率40%，则有效实验周期约为3.33小时；结合其他环节耗时，关键路径长度约为4小时左右。优化重点在于降低实验失败率及并行化。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（如实验耗时2小时、失败率40%、各环节具体时长），这些属于特定场景下的经验数据，无法从第一性原理或通用CPM定义中推导出来，且参考来源仅提供了CPM的理论定义，未提供这些具体数值的支持。 | 逻辑计算自洽（2/(1-0.4)=3.33, 0.25+0.083+3.33+0.5≈4.16，原文约4.08存在微小舍入差异但不影响量级），但参考来源[1][2]仅解释CPM方法论，未覆盖Research-AGI的具体流程参数，属于经验事实缺来源支持。
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/50905254&rut=bef9952b3c45aea1af0a803fef88394fbcd25e32c0c3c52457d2485bc3e59881', 'type': 'ddg', 'title': '详解关键路径法，这可能是你找得到最详细的了 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/141160640&rut=ba15f62eaacc782bff986d571752b48df5f84bacc71e092f1a61255361fcc78b', 'type': 'ddg', 'title': '优思学院：一文看懂"关键路径方法cpm" - 知乎'}

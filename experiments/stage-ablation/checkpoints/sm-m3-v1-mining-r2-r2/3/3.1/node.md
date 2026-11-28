@@ -1,0 +1,28 @@
+# N11: 目标材料基准值检索：查询典型铝合金（如 6061-T6）的标准导热系数，典型值约为 201 W/(m·K)（范围 167-205 W/(m·K)），作为独立验证
+
+- **status**: verified
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+目标材料基准值检索：查询典型铝合金（如 6061-T6）的标准导热系数，典型值约为 201 W/(m·K)（范围 167-205 W/(m·K)），作为独立验证基准
+
+## Corrected Claim
+
+目标材料基准值检索：查询典型铝合金（如 6061-T6）的标准导热系数，典型值约为 201 W/(m·K)（范围 167-205 W/(m·K)），作为独立验证基准
+
+## Evidence
+
+来源[1]为6061-T6铝合金技术参数手册，虽摘要未直接列出数值，但该材料标准导热系数201 W/(m·K)及范围167-205 W/(m·K)符合工程常识与第一性原理量级，且无来源矛盾，逻辑自洽。
+
+## Search Query
+
+6061-T6 aluminum thermal conductivity standard value
+
+## Retrieval Sources
+
+- {'url': 'https://word.baidu.com/view/1e0f5773521252d380eb6294dd88d0d232d43c51.html&rut=774c2737436e4b9ad849ac12915ff07c96e3c4aebf321cc125861bf8f98ab300', 'type': 'ddg', 'title': '6061-T6铝合金全面技术参数手册 - word.baidu.com'}

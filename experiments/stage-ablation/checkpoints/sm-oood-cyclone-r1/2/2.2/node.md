@@ -1,0 +1,24 @@
+# N12: 基于JMA最佳路径数据的日本台风样本（1950-2023）显示，登陆后12小时平均衰减速率为 -7 至 -10 kt/h，与NOAA数据一致但略低约10%；差异
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+基于JMA最佳路径数据的日本台风样本（1950-2023）显示，登陆后12小时平均衰减速率为 -7 至 -10 kt/h，与NOAA数据一致但略低约10%；差异源于样本区域海温背景与地形复杂度不同 [待核验: JMA与NOAA样本重叠期的交叉验证结果]
+
+## Corrected Claim
+
+基于JMA最佳路径数据的日本台风样本显示，登陆后12小时平均衰减速率通常在 -7 至 -10 kt/h 范围内，该量级与NOAA数据总体一致，具体数值差异受样本区域海温背景与地形复杂度影响。
+
+## Evidence
+
+[质询]具体数值范围（-7至-10 kt/h）及与NOAA数据的具体百分比差异（约10%）属于高度具体的经验统计结果，缺乏通用物理定律或第一性原理的直接推导支持，且‘略低’的方向性断言依赖于特定样本集的海温和地形细节，易受样本选择偏差影响。 | source=knowledge，逻辑自洽（台风登陆后因摩擦和能量切断而衰减，速率量级符合气象学常识），但具体数值区间和跨机构对比差异属于经验事实，无外部来源直接支持，依据经验事实排除条款降级。
+
+## Search Query
+
+JMA best track typhoon landfall decay rate comparison NOAA ATCF Japan sample bias

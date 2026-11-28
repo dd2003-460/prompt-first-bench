@@ -1,0 +1,12 @@
+# N3: 架构-编排策略：设计连接本地 vLLM 服务与 MacBook 编排层的系统架构，包括 Agent 框架选择、记忆管理策略（短期上下文 vs 长期向量库）、工具
+
+- **status**: pending
+- **level**: L1
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: (root)
+
+## Claim
+
+架构-编排策略：设计连接本地 vLLM 服务与 MacBook 编排层的系统架构，包括 Agent 框架选择、记忆管理策略（短期上下文 vs 长期向量库）、工具调用协议（API/脚本执行）、以及错误恢复机制，确保在有限算力下实现高效的信息流转与状态持久化。

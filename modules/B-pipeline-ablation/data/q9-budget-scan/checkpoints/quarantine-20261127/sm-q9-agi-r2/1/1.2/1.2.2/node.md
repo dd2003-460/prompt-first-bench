@@ -1,0 +1,24 @@
+# N35: 在 Decode 阶段（内存带宽受限），V100 的 HBM2 带宽为 900GB/s/卡；NVFP4 权重加载量减半（相比 FP16），理论上可将 Decod
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N8
+
+## Claim
+
+在 Decode 阶段（内存带宽受限），V100 的 HBM2 带宽为 900GB/s/卡；NVFP4 权重加载量减半（相比 FP16），理论上可将 Decode 速度上限从 FP16 的 ~33 tokens/s (理想) 提升至 ~66 tokens/s；但由于 V100 缺乏 FP4 Tensor Core，反量化操作增加了计算单元负载，实际有效加速比受限于 '带宽节省增益' 与 '计算反量化损耗' 的比值，预计实际加速比为 1.2x-1.5x（相对 FP16 同 Batch 配置）。
+
+## Corrected Claim
+
+在 Decode 阶段（内存带宽受限），V100 的 HBM2 带宽为 900GB/s/卡；NVFP4 权重加载量减半（相比 FP16），理论上可将 Decode 速度上限从 FP16 的 ~33 tokens/s (理想) 提升至 ~66 tokens/s；但由于 V100 缺乏 FP4 Tensor Core，反量化操作增加了计算单元负载，实际有效加速比受限于 '带宽节省增益' 与 '计算反量化损耗' 的比值，预计实际加速比为 1.2x-1.5x（相对 FP16 同 Batch 配置）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 HBM2带宽900GB/s符合规格；FP4相比FP16数据量减半，理论带宽上限翻倍（33->66 tokens/s）符合线性关系；V100无原生FP4 Tensor Core需反量化，导致实际加速低于理论值，1.2x-1.5x的估计符合工程直觉。
+
+## Search Query
+
+FP4 inference speedup on V100 memory bound decode phase

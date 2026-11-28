@@ -1,0 +1,20 @@
+# N25: 合规输出的数值表达规范：热流量 Q 必须标注为条件值 Q_cond = 36,000 W | k=450 W/(m·K)，并附加置信度警告 tag='unver
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N14
+
+## Claim
+
+合规输出的数值表达规范：热流量 Q 必须标注为条件值 Q_cond = 36,000 W | k=450 W/(m·K)，并附加置信度警告 tag='unverified_parameter'，禁止输出无条件绝对值 Q_abs = 36,000 W。
+
+## Corrected Claim
+
+合规输出的数值表达规范：热流量 Q 必须标注为条件值 Q_cond = 36,000 W | k=450 W/(m·K)，并附加置信度警告 tag='unverified_parameter'，禁止输出无条件绝对值 Q_abs = 36,000 W。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：该陈述定义了合规输出的格式规范，逻辑自洽且符合工程数据标注的最佳实践（区分条件值与绝对值，并标记未验证参数）。

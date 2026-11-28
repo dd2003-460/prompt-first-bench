@@ -1,0 +1,24 @@
+# N26: 黑盒变量 1：27b 模型在特定垂直领域（如生物信息学/粒子物理）的知识截止与幻觉率。验证计划：构建 100 道领域特化事实题，测量幻觉率 H_domain。若
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5, N6
+
+## Claim
+
+黑盒变量 1：27b 模型在特定垂直领域（如生物信息学/粒子物理）的知识截止与幻觉率。验证计划：构建 100 道领域特化事实题，测量幻觉率 H_domain。若 H_domain > 15%，则该领域必须强制启用 RAG Hook（N9），否则不可信。置信度评估：使用 Bootstrap 重抽样计算 H_domain 的 95% 置信区间。
+
+## Corrected Claim
+
+黑盒变量 1：27b 模型在特定垂直领域（如生物信息学/粒子物理）的知识截止与幻觉率。验证计划：构建 100 道领域特化事实题，测量幻觉率 H_domain。若 H_domain > 15%，则该领域必须强制启用 RAG Hook（N9），否则不可信。置信度评估：使用 Bootstrap 重抽样计算 H_domain 的 95% 置信区间。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+domain specific hallucination rate LLM benchmark

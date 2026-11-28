@@ -1,0 +1,24 @@
+# N44: NVIDIA A10 的显存带宽为 600 GB/s (GDDR6 ECC)，TDP 150W，支持 FP8/INT8 Tensor Cores，二手/租赁市场
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+NVIDIA A10 的显存带宽为 600 GB/s (GDDR6 ECC)，TDP 150W，支持 FP8/INT8 Tensor Cores，二手/租赁市场价格约 $2,500-$4,000 (2024 Q3-Q4 均价)。
+
+## Corrected Claim
+
+NVIDIA A10 的显存带宽约为 600 GB/s (GDDR6 ECC)，TDP 150W，支持 FP8/INT8 Tensor Cores，二手/租赁市场价格在 2024 Q3-Q4 期间大致处于 $2,000-$4,500 区间（具体价格随市场波动）。
+
+## Evidence
+
+[质询]显存带宽数值存疑：NVIDIA A10 官方规格通常标注为 600 GB/s，但部分资料指出其实际有效带宽或特定配置下可能略有差异，且 TDP 150W 是标准值，但二手市场价格波动大，$2,500-$4,000 的范围在 2024 Q3-Q4 可能偏高或偏低，取决于具体渠道和成色。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+NVIDIA A10 datasheet memory bandwidth price 2024

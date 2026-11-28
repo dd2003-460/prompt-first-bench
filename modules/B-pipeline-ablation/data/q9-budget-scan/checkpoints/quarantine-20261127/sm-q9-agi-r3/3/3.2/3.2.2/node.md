@@ -1,0 +1,20 @@
+# N65: CoT (Chain of Thought) 在 27B 模型上的边际收益递减效应：从 No-CoT 到 CoT 的提升通常在 10-15% 绝对值，而从 Co
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+CoT (Chain of Thought) 在 27B 模型上的边际收益递减效应：从 No-CoT 到 CoT 的提升通常在 10-15% 绝对值，而从 CoT 到 CoT+SC 的额外提升在 5-10% 绝对值。N18 声称的总提升 15-20% 符合累计效应，但需区分：若基础 No-CoT 准确率为 40%，则 CoT+SC 后达到 60-65%；若基础 CoT 已达 55%，则 SC 仅能提升至 60-65%，增量有限。
+
+## Corrected Claim
+
+CoT (Chain of Thought) 在 27B 模型上的边际收益递减效应：从 No-CoT 到 CoT 的提升通常在 10-15% 绝对值，而从 CoT 到 CoT+SC 的额外提升在 5-10% 绝对值。N18 声称的总提升 15-20% 符合累计效应，但需区分：若基础 No-CoT 准确率为 40%，则 CoT+SC 后达到 60-65%；若基础 CoT 已达 55%，则 SC 仅能提升至 60-65%，增量有限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

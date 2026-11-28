@@ -1,0 +1,26 @@
+# N31: 反馈闭环的关键迭代参数是‘负样本注入率’：将人工标记为‘无效’或‘逻辑错误’的研究结论以 5-10% 的概率重新注入 Prompt 上下文作为 Few-Shot
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+反馈闭环的关键迭代参数是‘负样本注入率’：将人工标记为‘无效’或‘逻辑错误’的研究结论以 5-10% 的概率重新注入 Prompt 上下文作为 Few-Shot 负面示例 (Negative Examples)，可使后续同类错误的复发率降低 30-40%。
+
+## Corrected Claim
+
+在反馈闭环中，将人工标记的错误结论以一定概率（如5-10%）作为Few-Shot负面示例注入Prompt，有助于降低后续同类错误的复发率，但具体效果取决于模型与任务场景。
+
+## Evidence
+
+[质询]具体的数值参数（5-10%注入率、30-40%复发率降低）缺乏通用性，属于特定实验条件下的经验数据，不同模型、任务难度及Prompt结构下差异极大，直接断言为固定区间存在过度泛化风险。 | 来源[1][2][3]均讨论了反馈闭环的概念和重要性，但未提供关于‘负样本注入率’具体数值及其对错误复发率影响的具体量化数据，属于经验事实且缺来源直接支持。
+
+## Retrieval Sources
+
+- {'url': 'https://devpress.csdn.net/v1/article/detail/97166572&rut=c8c22536b2fa8fa1f103f8d296935a3b2b68935083c6526f1488f2526a03563d', 'type': 'ddg', 'title': '大模型测试中的反馈闭环机制与工程实践_weixin_30254435-AI编程社区'}
+- {'url': 'https://devpress.csdn.net/aibjcy/69ff46a90a2f6a37c5a8c8f4.html&rut=98cdc9fa59081e172240ec2ef3ac286eb9e7b9185ab8ca400239d09c77745a81', 'type': 'ddg', 'title': '构建可持续迭代的 Agent：反馈闭环怎么做_AGI大模型与大数据研究院-北京朝阳AI社区'}
+- {'url': 'https://hfl-ai-agent-lab.vercel.app/note/Engineering/agent-feedback-loop&rut=0c84d0146e70d6534438105a0adc331871b57065ff71c0f9f8ebe9485fd8c6ae', 'type': 'ddg', 'title': 'AI Agent 反馈闭环：把用户反馈变成系统迭代燃料'}

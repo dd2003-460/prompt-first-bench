@@ -1,0 +1,20 @@
+# N66: RTX 4090 不支持 NVLink，仅能通过 PCIe 4.0 x16 (31.5 GB/s 双向) 进行多卡通信。
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+RTX 4090 不支持 NVLink，仅能通过 PCIe 4.0 x16 (31.5 GB/s 双向) 进行多卡通信。
+
+## Corrected Claim
+
+RTX 4090 不支持 NVLink，仅能通过 PCIe 4.0 x16 (31.5 GB/s 双向) 进行多卡通信。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 作为消费级旗舰显卡，确实取消了 NVLink 接口，仅依赖 PCIe 4.0 x16 总线进行多卡通信，带宽数值符合 PCIe 4.0 规范。

@@ -1,0 +1,24 @@
+# N41: V100推理瓶颈切换阈值计算：当序列长度 L_seq > (FLOPs_per_token / Memory_Bandwidth) 时，瓶颈从计算转向内存。对于
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+V100推理瓶颈切换阈值计算：当序列长度 L_seq > (FLOPs_per_token / Memory_Bandwidth) 时，瓶颈从计算转向内存。对于27B模型，该阈值约为 8,000-12,000 tokens。超过此长度，每增加1k tokens，吞吐下降约5-10%。
+
+## Corrected Claim
+
+对于27B模型，在特定硬件配置下，当序列长度超过一定阈值（约8k-12k tokens）后，内存带宽成为主要瓶颈之一，但需注意Attention计算的二次方复杂度可能在极长序列下重新主导性能瓶颈，吞吐下降幅度需结合具体Batch Size和硬件实测数据确定。
+
+## Evidence
+
+[质询]阈值计算忽略了Attention机制中O(L^2)的计算复杂度增长，导致在长序列下计算瓶颈会重新出现，而非单纯线性依赖内存带宽；此外，5-10%的吞吐下降幅度缺乏具体的硬件配置和Batch Size前提，属于过度简化的经验估计。 | 逻辑校验发现模型简化过度：V100推理中Attention部分的FLOPs随序列长度平方增长，当L_seq极大时计算瓶颈会回归，原陈述假设瓶颈永久转向内存且线性下降，违背Transformer架构的基本计算特性；虽无外部来源矛盾，但内部逻辑存在显著缺陷。
+
+## Search Query
+
+V100 inference memory bound threshold sequence length

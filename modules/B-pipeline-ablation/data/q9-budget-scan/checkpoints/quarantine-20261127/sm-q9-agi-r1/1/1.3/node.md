@@ -1,0 +1,24 @@
+# N9: 并发数（max-num-seqs=8）对单用户吞吐量的影响系数：当并发请求数从1增加到8时，由于Batching优化，总吞吐量提升但单请求延迟增加；具体需测量在
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+并发数（max-num-seqs=8）对单用户吞吐量的影响系数：当并发请求数从1增加到8时，由于Batching优化，总吞吐量提升但单请求延迟增加；具体需测量在典型科研查询长度（输入2k/输出1k）下，seqs=1, 2, 4, 8时的单请求TTFT（Time To First Token）和TPOT（Time Per Output Token）变化率。
+
+## Corrected Claim
+
+并发数（max-num-seqs=8）对单用户吞吐量的影响：理论上，增加并发请求数（从1到8）利用Batching优化通常会提升系统总吞吐量，但可能导致单请求的TTFT和TPOT增加。具体数值需根据实际硬件、模型规模及负载情况测量确定。
+
+## Evidence
+
+[质询]该陈述包含具体的性能指标预期（TTFT/TPOT变化率）和特定配置下的行为描述，属于经验事实，缺乏实测数据支持，且不同硬件/模型下表现差异巨大，无法仅凭逻辑推导得出具体数值或确切的变化率趋势。 | 经验事实，逻辑自洽（Batching通常提升吞吐但增加延迟符合直觉）但缺来源支持，且检索无可用来源。
+
+## Search Query
+
+vLLM concurrent requests impact on single user latency TTFT TPOT batch size 8

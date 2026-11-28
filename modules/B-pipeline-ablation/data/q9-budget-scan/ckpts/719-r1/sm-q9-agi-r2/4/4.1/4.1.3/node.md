@@ -1,0 +1,20 @@
+# N59: 针对 Nature/Science 子刊 AI 论文中样本量 n 的要求，需基于统计功效（Power）计算：n = (Z_{1-α/2} + Z_{1-β})^
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+针对 Nature/Science 子刊 AI 论文中样本量 n 的要求，需基于统计功效（Power）计算：n = (Z_{1-α/2} + Z_{1-β})^2 * σ^2 / δ^2，其中 δ 为最小可检测效应（MDE），σ 为标准差，通常 Power=0.8 时 n 下限远高于 30。
+
+## Corrected Claim
+
+针对 Nature/Science 子刊 AI 论文中样本量 n 的要求，需基于统计功效（Power）计算：n = (Z_{1-α/2} + Z_{1-β})^2 * σ^2 / δ^2，其中 δ 为最小可检测效应（MDE），σ 为标准差，通常 Power=0.8 时 n 下限远高于 30。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式为标准的两样本均值比较功效分析公式，量纲正确，且在大效应量或高方差下，达到0.8功效所需的样本量确实常远超30（中心极限定理及统计功效基本原理）。

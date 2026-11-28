@@ -1,0 +1,24 @@
+# N286: 长序列低并发工作点的端到端延迟 T_e2e_long：包括 Prefill 时间（受限于带宽，约 262k/4500 tok/s ≈ 58s，若 BS=1 无并
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N114
+
+## Claim
+
+长序列低并发工作点的端到端延迟 T_e2e_long：包括 Prefill 时间（受限于带宽，约 262k/4500 tok/s ≈ 58s，若 BS=1 无并发加速则可能更高）和 Decode 时间（受限于带宽，假设 50 tok/s，生成 1k tokens 需 20s），总 T_e2e ≈ 78s+；对比短序列工作点，单次请求延迟高出 2 个数量级，不适合交互式科研假设生成，仅适用于离线深度分析。
+
+## Corrected Claim
+
+长序列低并发工作点的端到端延迟 T_e2e_long：包括 Prefill 时间（受限于带宽，约 262k/4500 tok/s ≈ 58s，若 BS=1 无并发加速则可能更高）和 Decode 时间（受限于带宽，假设 50 tok/s，生成 1k tokens 需 20s），总 T_e2e ≈ 78s+；对比短序列工作点，单次请求延迟高出 2 个数量级，不适合交互式科研假设生成，仅适用于离线深度分析。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Prefill (58s) + Decode (20s) = 78s，量级估算符合大模型推理带宽受限场景的物理直觉，且结论（不适合交互式）与高延迟事实逻辑自洽。
+
+## Search Query
+
+long context LLM inference latency prefill decode breakdown 262k tokens

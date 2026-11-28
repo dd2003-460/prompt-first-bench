@@ -1,0 +1,28 @@
+# N304: GSM8K 任务中，模型生成第 5-10 个 token 时的困惑度（Perplexity）方差是预测 AR 骤降的关键先行指标，若滑动窗口困惑度标准差 > 1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N108
+
+## Claim
+
+GSM8K 任务中，模型生成第 5-10 个 token 时的困惑度（Perplexity）方差是预测 AR 骤降的关键先行指标，若滑动窗口困惑度标准差 > 15%，则后续 token 的 AR 预计下降 20%，可用于动态调整 MTP 草稿长度。
+
+## Corrected Claim
+
+GSM8K 是一个用于评估语言模型多步数学推理能力的基准数据集，包含约 8.5K 道中小学数学应用题。
+
+## Evidence
+
+[质询]该陈述包含极其具体的经验性阈值（标准差>15%导致AR下降20%）及特定的因果机制（MTP动态调整策略），这属于高度专业化的工程经验数据或特定论文结论，绝非通用常识或第一性原理可推导内容。参考来源仅介绍GSM8K数据集的基本定义和用途，完全未涉及困惑度方差、AR骤降或MTP草稿长度调整的任何技术细节，无法提供支撑。此外，将‘困惑度方差’直接量化为‘AR骤降的关键先行指标’并给出精确百分比关联，缺乏普遍公认的文献支持，极可能是幻觉生成的伪科学结论。 | 参考来源[1]仅描述GSM8K数据集背景，与陈述中的具体技术指标（困惑度方差阈值、AR下降幅度、MTP调整策略）完全无关，无法支持该经验性断言；且该断言包含未经证实的具体数值因果关系，逻辑上无法从基础原理推导，属于无据可依的经验事实臆造。
+
+## Search Query
+
+perplexity variance predictor token acceptance rate speculative decoding dynamic adjustment
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/modelscope/evalscope/blob/main/docs/zh/benchmarks/gsm8k.md&rut=e7d505c6783c479752d71f7f0e01391b35a0fa2302f5d7d68dbeec0011ac6f0a', 'type': 'ddg', 'title': 'evalscope/docs/zh/benchmarks/gsm8k.md at main · modelscope ... - GitHub'}

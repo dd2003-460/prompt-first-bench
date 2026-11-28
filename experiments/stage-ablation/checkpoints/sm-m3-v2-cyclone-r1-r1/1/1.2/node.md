@@ -1,0 +1,28 @@
+# N8: 干空气卷入（Dry Air Intrusion）导致的蒸发冷却抑制：当环境相对湿度 RH < 60% 时，边界层内水汽凝结释放的潜热不足以抵消蒸发吸热，导致边界
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+干空气卷入（Dry Air Intrusion）导致的蒸发冷却抑制：当环境相对湿度 RH < 60% 时，边界层内水汽凝结释放的潜热不足以抵消蒸发吸热，导致边界层温度下降 2-5 K，进而使对流有效位能 CAPE 从 >1000 J/kg 降至 <200 J/kg，抑制深对流发展。
+
+## Corrected Claim
+
+干空气卷入（Dry Air Intrusion）通过引入低湿度空气，抑制边界层内的蒸发冷却过程，导致边界层温度降低和大气层结稳定性增加，从而显著降低对流有效位能（CAPE），抑制深对流发展。
+
+## Evidence
+
+[质询]该陈述包含具体的经验阈值（RH<60%）、具体的温度变化幅度（2-5 K）以及具体的CAPE变化范围（>1000至<200 J/kg），这些属于经验事实而非第一性原理可推导内容。参考来源仅讨论了干侵入对气旋发展的影响机制，并未提供上述具体数值参数，且干侵入通常指平流层干空气下沉，与边界层蒸发冷却抑制深对流的微观机制描述存在语境差异，缺乏直接数据支持。 | 逻辑上干空气卷入确实会抑制蒸发冷却并降低CAPE，符合大气物理直觉；但参考来源[1]仅定性讨论干侵入与气旋发展的关系，未提供RH阈值、温降幅度及CAPE具体数值，属于间接支持或无关，故降级。
+
+## Search Query
+
+dry air intrusion tropical cyclone weakening CAPE suppression
+
+## Retrieval Sources
+
+- {'url': 'https://xbna.pku.edu.cn/CN/Y2006/V42/I1/61&rut=04b3b22b03c67e6e55f43ae88ef80b10ab64ad1c87673d06c95f5cda04174954', 'type': 'ddg', 'title': '气旋发展中平流层空气干侵入现象分析 - pku.edu.cn'}

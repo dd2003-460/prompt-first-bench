@@ -1,0 +1,24 @@
+# N230: 间接不一致的数值偏差计算 RE = |gen_val - lit_val| / lit_val 需处理单位归一化问题，若生成值与文献值单位不一致（如 kg vs
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N81
+
+## Claim
+
+间接不一致的数值偏差计算 RE = |gen_val - lit_val| / lit_val 需处理单位归一化问题，若生成值与文献值单位不一致（如 kg vs g），RE 计算将失效；建议引入单位解析模块（如 Pint 库），在计算前自动转换至 SI 标准单位，解析失败则标记为‘需人工确认’。
+
+## Corrected Claim
+
+间接不一致的数值偏差计算 RE = |gen_val - lit_val| / lit_val 需处理单位归一化问题，若生成值与文献值单位不一致（如 kg vs g），RE 计算将失效；建议引入单位解析模块（如 Pint 库），在计算前自动转换至 SI 标准单位，解析失败则标记为‘需人工确认’。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：相对误差公式对量纲一致性有严格要求，单位不匹配会导致数值偏差巨大或无意义，引入单位解析库（如Pint）进行标准化是标准的工程实践，逻辑自洽且符合科学计算规范。
+
+## Search Query
+
+scientific unit normalization Python Pint library for LLM generated values

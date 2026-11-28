@@ -1,0 +1,24 @@
+# N164: 达到 90% 流水线利用率（即 Bubble_Ratio <= 0.1）所需的最小 batch_size m_min 的理论值为 10，但考虑到 PP=2 下每
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N57
+
+## Claim
+
+达到 90% 流水线利用率（即 Bubble_Ratio <= 0.1）所需的最小 batch_size m_min 的理论值为 10，但考虑到 PP=2 下每阶段需容纳 27B 模型的一半权重（~6.75GB），单张 V100 (16GB) 的剩余显存仅约 9GB，只能支持极小的 KV Cache（约 2-3 条 32k 序列），因此物理约束下 m_min 实际上限为 3-4，无法达到 10。
+
+## Corrected Claim
+
+达到 90% 流水线利用率理论上需要较大的 batch size，但在 PP=2 下，单张 V100 (16GB) 需容纳约 13.5GB 的模型权重（27B 的一半），剩余显存极少，几乎无法容纳有效的 KV Cache 和激活值，因此物理约束下实际可行的 batch size 极小（可能仅为 1-2），远达不到理论最优值。
+
+## Evidence
+
+[质询]数值量级与物理约束存在严重矛盾：27B 模型的一半权重约为 13.5GB（FP16），而非 6.75GB；即使按 6.75GB 计算，V100 16GB 显存扣除权重后仅剩 ~9GB，但 32k 序列的 KV Cache 占用极大（通常每条序列需数 GB 显存），9GB 显存难以同时支撑 3-4 条长序列及激活值，更无法支撑达到 90% 利用率所需的并发量。此外，'m_min 实际上限为 3-4' 与 '无法达到 10' 的逻辑表述略显混乱，通常 m_min 是下限，此处指最大可行 batch size 受限于显存。 | 先验知识/题面给定，逻辑校验发现权重大小估算错误（27B/2 ≈ 13.5GB > 6.75GB）且 KV Cache 容量估算过于乐观，导致结论不可靠。
+
+## Search Query
+
+V100 16GB memory limit pipeline parallelism 27b model half weights kv cache capacity

@@ -1,0 +1,20 @@
+# N259: 在 η=0.50 工作点下，MTP 验证步骤的单次 GPU 计算开销 T_verify_compute 约为 15ms（基于 V100 上 4 个头并行 att
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N103, N104, N105
+
+## Claim
+
+在 η=0.50 工作点下，MTP 验证步骤的单次 GPU 计算开销 T_verify_compute 约为 15ms（基于 V100 上 4 个头并行 attention 计算的典型延迟），占总生成周期 T_cycle=22.2ms (1/45tok/s) 的 67.5%，远高于 N103 声称的 57.1% 理论值，差异源于未计入 KV Cache 读写带宽延迟。
+
+## Corrected Claim
+
+在 η=0.50 工作点下，MTP 验证步骤的单次 GPU 计算开销 T_verify_compute 约为 15ms，占总生成周期 T_cycle=22.2ms 的 67.5%。该比例高于 57.1% 的理论值，差异可能源于未计入 KV Cache 读写带宽延迟或其他系统开销，但具体归因需进一步 profiling 确认。
+
+## Evidence
+
+[质询]数值一致性存疑：15ms / 22.2ms ≈ 67.56%，与陈述中的 67.5% 吻合，但 67.5% 远高于 57.1% 的差异归因于 'KV Cache 读写带宽延迟' 缺乏直接证据支持，且 15ms 作为单次 GPU 计算开销在 V100 上对于 4 个头并行 attention 而言可能偏高（通常 attention 计算本身较快，瓶颈常在内存带宽或 kernel launch overhead），存在将总延迟误标为纯计算延迟的风险。 | 先验知识/题面给定，逻辑校验通过（算术关系 15/22.2≈67.5% 成立），但具体延迟数值及归因属于经验事实，无外部来源支持，故降级。

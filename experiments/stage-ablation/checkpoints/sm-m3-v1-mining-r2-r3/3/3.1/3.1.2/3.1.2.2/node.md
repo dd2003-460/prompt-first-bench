@@ -1,0 +1,28 @@
+# N40: 量化测量方法对导热系数确定的影响：激光闪射法 (ASTM E1461) 测量热扩散率 α 并结合比热 C_p 计算 k=αC_p，其不确定度通常为 ±3-5%；
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+量化测量方法对导热系数确定的影响：激光闪射法 (ASTM E1461) 测量热扩散率 α 并结合比热 C_p 计算 k=αC_p，其不确定度通常为 ±3-5%；稳态热流计法 (ASTM E1225) 不确定度 ±1-2%，解释不同数据库数值的离散性
+
+## Corrected Claim
+
+激光闪射法 (ASTM E1461) 通过测量热扩散率 α 并结合比热 C_p 计算导热系数 k=αC_p；稳态热流计法 (ASTM E1225) 通常具有更高的精度。不同测量方法的不确定度差异（通常激光闪射法高于稳态法）解释了不同数据库数值的离散性。
+
+## Evidence
+
+[质询]来源仅确认了激光闪射法的原理及公式 k=αCp，但未提供具体的不确定度数值（±3-5% 和 ±1-2%），且未提及稳态热流计法（ASTM E1225）的相关数据，属于经验事实缺乏直接来源支持。 | 来源[1]直接支持激光闪射法原理及公式，但未覆盖不确定度数值及稳态法数据；作为经验事实，逻辑自洽但缺来源直接支持具体数值。
+
+## Search Query
+
+thermal conductivity measurement uncertainty laser flash method vs steady state heat flow meter ASTM standards
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1928758772567867774&rut=43a8d06709444c6bae85540b64840c5f447746471ff62745c3d11bfa39c6a4d5', 'type': 'ddg', 'title': 'Astm E1461采用激光闪射法测定热扩散速率的标准试验方法'}

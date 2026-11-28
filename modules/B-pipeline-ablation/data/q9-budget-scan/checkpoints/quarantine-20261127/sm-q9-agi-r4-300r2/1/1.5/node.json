@@ -1,0 +1,33 @@
+{
+  "id": "N10",
+  "claim": "本地推理吞吐量上限估算：基于 V100 FP8 算力 125 TFLOPS (dense) 和模型 FLOPs 估算 (≈ 2 * params * tokens)，理论 tokens/sec ≈ 125e12 / (2 * 27e9 * 4) ≈ 578 tok/s (batch=1)。考虑内存带宽瓶颈 (HBM2 900GB/s/card * 4 cards) 和 KV cache 读取，实际可持续吞吐在长上下文下预计为 50-100 tok/s/user，并发 8 用户时单用户延迟显著增加，P99 延迟可能超过 10s/token。",
+  "level": "L2",
+  "source": "search",
+  "status": "pending",
+  "evidence": "父节点级核验未通过：不完备（子节点之间存在逻辑依赖但概念上正交（硬件规格->算术强度->Roofline模型），无直接重复。然而，完备性不足：父节点明确提到了‘并发 8 用户’导致的 P99 延迟增加，这涉及多用户调度、批处理策略（Continuous Batching等）以及内存争用，而现有子节点仅覆盖了单用户（batch=1）下的硬件极限和算术强度分析，缺失了‘多用户并发对吞吐和延迟的影响机制’这一关键维度。）",
+  "corrected_claim": "V100 不支持 FP8 硬件加速，实际推理需使用 FP16 或 INT8 量化。基于 FP16 算力（约 125 TFLOPS dense）估算，理论 tokens/sec ≈ 125e12 / (2 * 27e9 * 4) ≈ 578 tok/s (batch=1, 假设无带宽瓶颈)。但受限于 HBM2 带宽及缺乏 FP8 压缩 KV Cache 的能力，实际长上下文吞吐远低于此，且并发性能下降更显著。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N1"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "vLLM V100 16GB throughput long context 262k tokens per second benchmark 27B model",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/weixin_29483277/article/details/169892454&rut=a5620ab35ba3c90d9ca87435d73ee770cdfafcc42fcfbb3d656c4a1d808ef9a9",
+      "type": "ddg",
+      "title": "V100上fp8与q4_k_m量化实测对比：硬件约束下的推理选型指南-csdn博客"
+    },
+    {
+      "url": "https://blog.csdn.net/weixin_29046035/article/details/168354881&rut=f658ffcacc3b3b49925f153e922254651f5c35291b3ea569bb6c649718ca9122",
+      "type": "ddg",
+      "title": "8卡V100跑70B模型：vLLM部署与吞吐压测实录 - CSDN博客"
+    },
+    {
+      "url": "https://tencentcloud.csdn.net/69eae4e40a2f6a37c5a59471.html&rut=67ac45ac037bff9b85f44f64453263dffc832d47a08927fb74266a0475d71f2c",
+      "type": "ddg",
+      "title": "Fp8量化导出实战：在a100上实现极致推理性能_我有特别的生活方法-腾讯云开发者社区"
+    }
+  ]
+}

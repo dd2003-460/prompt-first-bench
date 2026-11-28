@@ -1,0 +1,28 @@
+# N43: IBTrACS 数据集中，最大持续风速 (Vmax) 在 34-63 kt 范围内的热带气旋在登陆后首小时的 Vmax 绝对衰减量中位数约为 5-10 kt，显
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14
+
+## Claim
+
+IBTrACS 数据集中，最大持续风速 (Vmax) 在 34-63 kt 范围内的热带气旋在登陆后首小时的 Vmax 绝对衰减量中位数约为 5-10 kt，显著低于强台风的 10-15 kt。
+
+## Corrected Claim
+
+IBTrACS 数据显示，中等强度热带气旋（34-63 kt）登陆后的初始风速衰减幅度通常小于强台风，具体中位数需查阅详细统计分析文献。
+
+## Evidence
+
+[质询]该陈述包含具体的统计数值（中位数5-10 kt vs 10-15 kt），属于经验事实。参考来源仅提供了IBTrACS数据集的下载链接和简介，并未提供关于不同强度台风登陆后衰减量的具体统计数据或图表，无法直接验证这些具体数值。此外，'显著低于'这一比较性结论缺乏同来源下的对照组数据支持。 | 逻辑上，弱台风（34-63 kt）结构松散，登陆后因摩擦导致的能量损失绝对值通常小于强台风（>64 kt）的结构崩溃损失，量级差异符合物理直觉；但参考来源[1]仅为数据集介绍，未包含具体统计结果，属于间接支持/无关，故降级。
+
+## Search Query
+
+IBTrACS median wind decay rate first hour landfall tropical storms 34-63 knots
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2052836562254163983&rut=27e4962ade05ffaaa5c593f07f6cc5217ada5233cfe655650aa1223be70bc91d', 'type': 'ddg', 'title': '【数据分享】全球台风（热带气旋）矢量数据集（1842-2026.6）| 含气旋编号、风速、气压、经纬度、观测时间等 - 知乎'}

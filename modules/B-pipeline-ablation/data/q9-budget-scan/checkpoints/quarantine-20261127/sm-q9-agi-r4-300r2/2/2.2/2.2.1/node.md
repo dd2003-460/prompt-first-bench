@@ -1,0 +1,20 @@
+# N48: FAISS 在 CPU-only (M1 Max) 模式下，针对 10k 维度的 768-dim 向量库，Top-5 检索的 P95 延迟基线值为 12-18m
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N12, N13, N14
+
+## Claim
+
+FAISS 在 CPU-only (M1 Max) 模式下，针对 10k 维度的 768-dim 向量库，Top-5 检索的 P95 延迟基线值为 12-18ms；若超过 50ms 阈值，需启用 IVF-PQ 索引结构将延迟压缩至 5ms 以内，但索引构建时间增加 30%。
+
+## Corrected Claim
+
+FAISS 在 CPU-only (M1 Max) 模式下，针对 10k 条 768-dim 向量库，Top-5 检索的 P95 延迟基线值约为 12-18ms；若超过 50ms 阈值，启用 IVF-PQ 索引结构可将延迟压缩至 5ms 以内，但索引构建时间可能增加约 30%。
+
+## Evidence
+
+[质询]数值量级与具体参数缺乏通用基准支持：FAISS在CPU-only模式下对768维向量的P95延迟受硬件具体配置、数据分布及索引参数影响极大，12-18ms的基线值及IVF-PQ带来的30%构建时间增加属于特定实验条件下的经验数据，非普适真理，且‘10k维度’表述存在歧义（通常指向量数量而非维度，此处应为10k条768维向量）。 | 先验知识/题面给定，逻辑校验通过，但具体数值为经验事实，无外部来源直接支持，故降级。

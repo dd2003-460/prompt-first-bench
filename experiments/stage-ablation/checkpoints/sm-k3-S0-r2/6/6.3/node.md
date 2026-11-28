@@ -1,0 +1,24 @@
+# N30: V100-SXM2-16GB 集群在 max_model_len=262144 下的 KV Cache 内存压力：TP=4 下每 GPU 可用 KV Cache
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+V100-SXM2-16GB 集群在 max_model_len=262144 下的 KV Cache 内存压力：TP=4 下每 GPU 可用 KV Cache 空间 ≈ (16GB - Model_Weight_Share) / Num_Seqs。[待核验] 需计算 27B 模型 FP8 KV Cache 下实际支持的并发序列数 N_seqs_effective，若 N_seqs_effective < max-num-seqs=8，则需动态调整 batch size 以避免 OOM 崩溃，量化 OOM 发生概率 P_oom 与显存占用率 ρ_mem 的关系。
+
+## Corrected Claim
+
+V100-SXM2-16GB 集群在 max_model_len=262144 下，TP=4 时每 GPU 的 KV Cache 可用空间受限于模型权重占用后的剩余显存。需根据实际模型大小和精度计算有效并发序列数 N_seqs_effective；若该值低于设定的 max-num-seqs，应动态调整 batch size 以防止 OOM。OOM 风险随显存占用率 ρ_mem 接近 1.0 而显著增加。
+
+## Evidence
+
+[质询]该陈述包含具体的工程经验参数（如V100 SXM2在特定配置下的KV Cache剩余空间估算、OOM概率与显存占用率的量化关系），这些属于经验事实而非第一性原理可推导内容。由于缺乏外部来源支持，无法验证其数值准确性及具体阈值（如N_seqs_effective的具体计算结果）。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+V100 SXM2 16GB vLLM Qwen27B FP8 KV cache memory limit max model length 262144

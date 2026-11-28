@@ -1,0 +1,24 @@
+# N135: Critic 在 GSM8K 任务上的错误率下降幅度 ΔE_gsm 依赖于 Critic 模型的参数规模 M_critic 与任务难度等级 D_gsm，经验公式
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+Critic 在 GSM8K 任务上的错误率下降幅度 ΔE_gsm 依赖于 Critic 模型的参数规模 M_critic 与任务难度等级 D_gsm，经验公式为 ΔE_gsm ≈ k * (1/D_gsm) * log(M_critic)，其中 k 为校准常数；对于 27B 模型在中等难度 GSM8K 上，ΔE_gsm 通常落在 2%-5% 区间 [待核验]
+
+## Corrected Claim
+
+Critic 在 GSM8K 任务上的错误率下降幅度 ΔE_gsm 受 Critic 模型参数规模 M_critic 影响，但具体的经验公式 ΔE_gsm ≈ k * (1/D_gsm) * log(M_critic) 及 27B 模型在中等难度下 2%-5% 的下降区间缺乏通用理论支持或公开文献验证，需依赖特定实验数据确认。
+
+## Evidence
+
+[质询]该陈述包含具体的经验公式（ΔE_gsm ≈ k * (1/D_gsm) * log(M_critic)）和特定的数值区间（2%-5%），属于典型的经验事实/工程参数，无法从第一性原理或数学公理中严格推导出来。此外，GSM8K 是一个固定的基准测试集，其“难度等级 D_gsm”的定义以及 Critic 模型参数规模与错误率下降之间的对数关系缺乏通用的理论共识或标准文献支持，极可能是特定实验条件下的拟合结果或虚构的通用规律。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体公式及数值区间无法从第一性原理推出，符合经验事实排除条款）
+
+## Search Query
+
+GSM8K critic model error rate reduction scaling law LLM

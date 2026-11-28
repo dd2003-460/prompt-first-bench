@@ -1,0 +1,20 @@
+# N19: 恒功率边界条件下的反例推导：若热源功率 P 恒定，则新温差 ΔT_new = P·d_new/(k·A) = ΔT_old/2 = 40 K，此时散热流量 Q 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N11
+
+## Claim
+
+恒功率边界条件下的反例推导：若热源功率 P 恒定，则新温差 ΔT_new = P·d_new/(k·A) = ΔT_old/2 = 40 K，此时散热流量 Q 保持 P 不变而非翻倍，证明原结论仅在恒温边界下成立
+
+## Corrected Claim
+
+恒功率边界条件下的反例推导：若热源功率 P 恒定，则新温差 ΔT_new = P·d_new/(k·A) = ΔT_old/2 = 40 K，此时散热流量 Q 保持 P 不变而非翻倍，证明原结论仅在恒温边界下成立
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：根据傅里叶热传导定律 Q = kAΔT/L，在恒功率 P 条件下，Q=P 恒定，故 ΔT ∝ d。若 d_new = d_old/2，则 ΔT_new = ΔT_old/2 = 40K，推导符合物理定律。

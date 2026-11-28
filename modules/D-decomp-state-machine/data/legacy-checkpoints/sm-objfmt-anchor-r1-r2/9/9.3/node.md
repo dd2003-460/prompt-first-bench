@@ -1,0 +1,24 @@
+# N112: 负载不均衡导致的加速比损失 ΔT_load 源于两卡间时钟漂移 (Clock Drift) 和内存访问竞争；在缺乏硬件级同步屏障 (如 NVLink P2P) 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+负载不均衡导致的加速比损失 ΔT_load 源于两卡间时钟漂移 (Clock Drift) 和内存访问竞争；在缺乏硬件级同步屏障 (如 NVLink P2P) 的情况下，慢卡等待时间平均为快卡执行时间的 5-10%，即 Speedup_Factor = 2 / (1 + Imbalance_Ratio)，其中 Imbalance_Ratio 需通过微基准测试 (Micro-benchmark) 测定，典型值为 0.05-0.15。
+
+## Corrected Claim
+
+负载不均衡导致的加速比损失通常源于计算或内存访问的不平衡；在缺乏高效硬件同步机制的情况下，慢卡等待时间会显著降低整体加速比，具体比例取决于系统架构和负载特性，需通过微基准测试测定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（5-10%等待时间、0.05-0.15不平衡比率）和特定的硬件机制归因（NVLink P2P作为同步屏障），这些属于经验事实而非第一性原理可推导内容，且缺乏来源支持其具体数值的普适性或准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+GPU tensor parallelism load imbalance clock drift speedup factor penalty

@@ -1,0 +1,24 @@
+# N41: 针对 Qwen3.8-27B 模型，使用 BGE-large-en-v1.5 向量嵌入 + HNSW 索引检索 Top-5 文档的 Recall@5 基线值，并
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10, N11, N12
+
+## Claim
+
+针对 Qwen3.8-27B 模型，使用 BGE-large-en-v1.5 向量嵌入 + HNSW 索引检索 Top-5 文档的 Recall@5 基线值，并与 BM25 对比以确定混合检索权重（需实测）
+
+## Corrected Claim
+
+针对 Qwen3.8-27B 模型，需通过实测确定 BGE-large-en-v1.5 向量嵌入 + HNSW 索引检索 Top-5 文档的 Recall@5 基线值，并与 BM25 对比以校准混合检索权重。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性指标（Recall@5基线值）和特定模型组合（Qwen3.8-27B + BGE-large-en-v1.5），属于无法从第一性原理推导的经验事实，且缺乏任何实测数据或文献支持。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值或基线有效性）
+
+## Search Query
+
+Hybrid Search BM25 Vector DB Recall@5 comparison scientific domain

@@ -1,0 +1,24 @@
+# N27: 热稳定性压力测试：对 4x V100 集群进行 72 小时满载推理测试（持续生成 262k tokens）。监测 GPU 核心温度 $T_{core}$ 和降频
+
+- **status**: verified
+- **level**: L2
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6
+
+## Claim
+
+热稳定性压力测试：对 4x V100 集群进行 72 小时满载推理测试（持续生成 262k tokens）。监测 GPU 核心温度 $T_{core}$ 和降频频率 $F_{down}$。若 $T_{core} > 85^\circ C$ 持续超过 10 分钟，或 $F_{down} > 5\%$，则判定硬件不可靠。需建立线性回归模型预测温度漂移：$T(t) = T_0 + k \cdot t$，其中 $k$ 为老化系数。
+
+## Corrected Claim
+
+热稳定性压力测试：对 4x V100 集群进行 72 小时满载推理测试（持续生成 262k tokens）。监测 GPU 核心温度 $T_{core}$ 和降频频率 $F_{down}$。若 $T_{core} > 85^\circ C$ 持续超过 10 分钟，或 $F_{down} > 5\%$，则判定硬件不可靠。需建立线性回归模型预测温度漂移：$T(t) = T_0 + k \cdot t$，其中 $k$ 为老化系数。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100 满载 72 小时产生 262k tokens 的量级合理（约 3.6 tokens/s，符合低并发或长上下文场景）；85°C 阈值符合 NVIDIA 官方热保护机制常识；线性回归模型用于短期温度漂移预测在工程上可行且逻辑自洽。
+
+## Search Query
+
+Tesla V100 thermal throttling long duration inference stability

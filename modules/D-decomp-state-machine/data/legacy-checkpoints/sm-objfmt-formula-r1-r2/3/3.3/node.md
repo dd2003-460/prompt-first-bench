@@ -1,0 +1,28 @@
+# N15: 运维复杂度与故障率导致的隐性成本(TCO_Ops)：MTBF(Mean Time Between Failures)对比及替换成本，消费卡保修期(通常2-3年)
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+运维复杂度与故障率导致的隐性成本(TCO_Ops)：MTBF(Mean Time Between Failures)对比及替换成本，消费卡保修期(通常2-3年) vs 数据卡企业保修(5年+)对残值率和维护人力投入的影响
+
+## Corrected Claim
+
+运维复杂度与故障率导致的隐性成本(TCO_Ops)：消费卡通常具有较短的保修期（约2-3年）和较高的故障率，而数据卡提供更长企业保修（5年+）及更高可靠性，导致两者在残值率和维护人力投入上存在显著差异。
+
+## Evidence
+
+[质询]参考来源仅讨论自动化巡检对TCO的宏观影响，完全未涉及消费卡与数据卡在MTBF、保修期（2-3年 vs 5年+）及残值率方面的具体对比数据，属于来源缺失而非矛盾，但缺乏直接证据支持具体数值。 | 逻辑自洽：消费级硬件通常设计寿命和保修期短于企业级，符合行业常识；但参考来源[1]仅提及TCO概念，未提供MTBF或保修期的具体对比数据，属间接/无关支持，依据经验事实排除条款降级。
+
+## Search Query
+
+consumer GPU vs datacenter GPU MTBF failure rate warranty period total cost of ownership inference
+
+## Retrieval Sources
+
+- {'url': 'https://www.sohu.com/a/1028729852_122639346&rut=0eb8150e8cffb9ca7fcab34d61fc68c7cb2f9eb45310a899a8164a7e53b0e100', 'type': 'ddg', 'title': '超自动化巡检：降低运维总成本（TCO）的有效路径'}

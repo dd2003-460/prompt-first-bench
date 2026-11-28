@@ -1,0 +1,24 @@
+# N7: KV Cache 显存占用公式：Bytes/KV = (2 * num_layers * num_kv_heads * head_dim * seq_len *
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+KV Cache 显存占用公式：Bytes/KV = (2 * num_layers * num_kv_heads * head_dim * seq_len * batch_size * dtype_bytes)，其中 dtype_bytes=1 (FP8)。对于 Qwen3.8-27B (假设 64 layers, GQA 8 heads, 128 dim)，单请求 262k 上下文需约 64*8*128*262144*1 ≈ 17.2 GB，远超单卡剩余空间，必须通过 TP=4 分摊至每卡 4.3GB，且 max-num-seqs=8 时总 KV 需求达 34.4GB/4卡=8.6GB/卡，逼近显存上限。
+
+## Corrected Claim
+
+KV Cache 显存占用公式：Bytes/KV = (2 * num_layers * num_kv_heads * head_dim * seq_len * batch_size * dtype_bytes)，其中 dtype_bytes=1 (FP8)。对于 Qwen3.8-27B (假设 64 layers, GQA 8 heads, 128 dim)，单请求 262k 上下文需约 64*8*128*262144*1 ≈ 17.2 GB，远超单卡剩余空间，必须通过 TP=4 分摊至每卡 4.3GB，且 max-num-seqs=8 时总 KV 需求达 34.4GB/4卡=8.6GB/卡，逼近显存上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构正确（2代表K和V），数值计算准确（64*8*128*262144*1 ≈ 17.18GB），TP分摊及多序列累加逻辑自洽。
+
+## Search Query
+
+Qwen3 27B architecture parameters num layers kv heads head dim

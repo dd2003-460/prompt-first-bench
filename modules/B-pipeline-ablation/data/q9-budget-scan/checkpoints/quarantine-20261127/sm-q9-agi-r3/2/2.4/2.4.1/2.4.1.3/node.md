@@ -1,0 +1,28 @@
+# N137: 信息密度评估的基准对照集应包含10篇顶刊（Nature/Science/Cell）摘要的标准化文本，计算其平均信息熵 H_ref ≈ 3.8 bits/toke
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N47, N48, N49
+
+## Claim
+
+信息密度评估的基准对照集应包含10篇顶刊（Nature/Science/Cell）摘要的标准化文本，计算其平均信息熵 H_ref ≈ 3.8 bits/token 和突破点密度 D_ref ≈ 3.5；本地生成的SOTA摘要若H(X)/H_ref < 0.8，则标记为低效传递，需重新生成。
+
+## Corrected Claim
+
+信息密度评估可建立基于顶刊摘要的基准对照集，通过计算平均信息熵和关键信息密度来量化摘要效率；若本地生成摘要的信息熵显著低于基准值（例如低于基准值的80%），可视为低效传递并触发重新生成机制。具体阈值需根据实际数据集校准。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值阈值（H_ref ≈ 3.8 bits/token, D_ref ≈ 3.5, 比率 < 0.8），这些并非从第一性原理或数学公理中严格推导出的必然结论，而是依赖于特定数据集、分词器（tokenizer）和评估模型的实证统计结果。不同领域的顶刊摘要信息熵差异巨大，且“突破点密度”的定义模糊，缺乏通用标准。 | 参考来源[1]讨论的是期刊对AI使用的政策规定（如署名、披露），与信息密度评估的具体量化指标（熵值、密度阈值）完全无关，属于主题不匹配。该事实属于经验事实，逻辑上自洽（作为评估框架的设计是合理的），但缺乏来源直接支持具体数值，故降级。
+
+## Search Query
+
+average information entropy of Nature Science abstracts tokens per breakthrough
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2023333825795617685&rut=c61746b72886b1b102ffc73a2a03c6f7167f9636d88e99ac4b2adc4312a0a0e1', 'type': 'ddg', 'title': '国内外期刊AI率要求情况文本整理（2026年最新）'}

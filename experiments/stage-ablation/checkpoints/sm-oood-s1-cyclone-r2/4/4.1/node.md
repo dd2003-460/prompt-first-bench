@@ -1,0 +1,24 @@
+# N18: 垂直风切变（VWS）对气旋衰减的量化影响：当底层VWS > 10 kt时，核心结构倾斜导致眼墙断裂，最大持续风速（Vmax）在登陆后24小时内额外衰减约20-3
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4
+
+## Claim
+
+垂直风切变（VWS）对气旋衰减的量化影响：当底层VWS > 10 kt时，核心结构倾斜导致眼墙断裂，最大持续风速（Vmax）在登陆后24小时内额外衰减约20-30%；公式表达为 ΔVmax/Vmax ≈ -0.02 * (VWS - 10) (kt⁻¹) for VWS > 10 kt。
+
+## Corrected Claim
+
+垂直风切变（VWS）会加剧气旋衰减：当底层VWS显著增强（通常>10 kt）时，核心结构倾斜导致眼墙断裂，加速最大持续风速（Vmax）的衰减，但具体衰减比例和线性关系需依据具体气象模型或观测数据确定，不宜简单套用固定公式。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（20-30%衰减幅度、线性系数-0.02），属于气象学经验事实而非第一性原理可推导内容；且缺乏权威文献支持该特定线性公式及阈值效应的普适性，不同研究对VWS影响强度的量化结论存在差异。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值系数和百分比范围）
+
+## Search Query
+
+vertical wind shear impact on tropical cyclone decay rate after landfall quantitative study

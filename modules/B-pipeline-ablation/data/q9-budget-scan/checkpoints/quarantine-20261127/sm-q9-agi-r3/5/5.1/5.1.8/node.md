@@ -1,0 +1,20 @@
+# N71: 错误类型分类体系与权重：定义三类错误的严重度权重 W = {事实错误: 1.0, 逻辑跳跃: 0.8, 引用缺失: 0.5}，加权错误率 E_weighted 
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N24, N25, N26
+
+## Claim
+
+错误类型分类体系与权重：定义三类错误的严重度权重 W = {事实错误: 1.0, 逻辑跳跃: 0.8, 引用缺失: 0.5}，加权错误率 E_weighted = Σ(W_i * Count_i) / Total_Samples；需基于前 100 次抽查的数据分布，计算各类错误的实际占比及加权总分。
+
+## Corrected Claim
+
+错误类型分类体系与权重：定义三类错误的严重度权重 W = {事实错误: 1.0, 逻辑跳跃: 0.8, 引用缺失: 0.5}，加权错误率 E_weighted = Σ(W_i * Count_i) / Total_Samples；需基于前 100 次抽查的数据分布，计算各类错误的实际占比及加权总分。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

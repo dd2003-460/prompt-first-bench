@@ -1,0 +1,24 @@
+# N68: 单卡方案（1x H100 PCIe 80GB）的基础平台硬件成本估算：CPU (Xeon W-3400/EPYC 9004 或 i9-14900K) $500-
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+单卡方案（1x H100 PCIe 80GB）的基础平台硬件成本估算：CPU (Xeon W-3400/EPYC 9004 或 i9-14900K) $500-$1200 + 主板 (C621/WRX90/高端Z790) $300-$800 + RAM (64-128GB DDR5 ECC) $200-$500 + 电源 (1200W-1600W 80+ Platinum) $150-$300，总计约 $1150-$2800 [待核验具体型号实时价格]
+
+## Corrected Claim
+
+单卡方案（1x H100 PCIe 80GB）的基础平台硬件成本估算：CPU (Xeon W-3400/EPYC 9004 或 i9-14900K) 约 $500-$1200 + 主板 (C621/WRX90/高端Z790) 约 $300-$800 + RAM (64-128GB DDR5 ECC) 约 $200-$500 + 电源 (1200W-1600W 80+ Platinum) 约 $150-$300，总计约 $1150-$2800（注：价格为历史参考区间，实际采购需查询实时报价）
+
+## Evidence
+
+[质询]缺乏实时市场数据支持，具体价格区间可能随时间波动，且不同品牌/渠道价格差异较大，无法确认当前精确成本。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+single GPU H100 workstation base cost CPU motherboard RAM power supply

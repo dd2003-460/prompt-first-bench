@@ -1,0 +1,30 @@
+# N116: 事实性错误率 (FER) 的 RAG 检索比对基准应基于 arXiv/Semantic Scholar 的最新文献快照，FER = (Hallucinated_
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+事实性错误率 (FER) 的 RAG 检索比对基准应基于 arXiv/Semantic Scholar 的最新文献快照，FER = (Hallucinated_Facts / Total_Claims) * 100%，其中 Hallucinated_Fact 定义为与检索到的 Top-3 高置信度引用冲突的陈述，顶刊隐含的可接受 FER 上限约为 0.5%-1.0%（即 99.0%-99.5% 准确率），远低于 N31 提出的 0.05% 理想值。
+
+## Corrected Claim
+
+事实性错误率 (FER) 的 RAG 检索比对基准通常基于最新文献快照，FER = (Hallucinated_Facts / Total_Claims) * 100%。虽然具体可接受的 FER 上限（如 0.5%-1.0%）取决于特定领域和评估标准，但一般认为高质量系统需将幻觉率控制在极低水平。
+
+## Evidence
+
+[质询]陈述中关于“顶刊隐含的可接受 FER 上限约为 0.5%-1.0%”以及“N31 提出的 0.05% 理想值”属于具体的经验性阈值或特定上下文设定，并非 RAG 评估领域的通用标准或第一性原理可推导结论。现有参考来源主要讨论 RAG 评估的挑战和方法论，并未提供具体的 FER 数值基准或顶刊隐含阈值的直接证据。 | 来源 [1] 和 [2] 确认了 RAG 评估涉及事实准确性挑战，但未提供具体的 FER 数值范围（0.5%-1.0%）或 N31 的具体定义，属于经验事实缺乏直接来源支持。
+
+## Search Query
+
+large language model factual error rate benchmark scientific literature hallucination threshold
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/abs/2405.07437&rut=ca5cd1bc2d5369560b69beeb3217635778daa603c5226442547396617fee3f62', 'type': 'ddg', 'title': 'Evaluation of Retrieval-Augmented Generation: A Survey'}
+- {'url': 'https://arxiv.org/abs/2504.04062&rut=ac0f6acaa3b73c8323435ab1c4a96a9f4bf55906911a752008dd9df152e1f70b', 'type': 'ddg', 'title': '[2504.04062] QE-RAG: A Robust Retrieval-Augmented ... - arXiv.org'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2018070071059198744&rut=799712d3b64e3022bb44bf4086dfd35ac207fbdc31e2b0754a52623a1bb86b42', 'type': 'ddg', 'title': 'Rag 评估体系 - 全网最全解析 - 知乎'}

@@ -1,0 +1,24 @@
+# N148: C_retrieval=0.1 unit 的物理映射：对应单次文献检索的 API 成本与延迟，具体为 C_retrieval = Latency_ms * Co
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+C_retrieval=0.1 unit 的物理映射：对应单次文献检索的 API 成本与延迟，具体为 C_retrieval = Latency_ms * Cost_per_ms + Query_Complexity_Factor；若使用 Semantic Scholar API，Latency≈200ms, Cost_per_ms≈$0.000005 (免费层无直接费用，计入时间机会成本)
+
+## Corrected Claim
+
+C_retrieval=0.1 unit 的物理映射：对应单次文献检索的 API 成本与延迟，具体为 C_retrieval = Latency_ms * Cost_per_ms + Query_Complexity_Factor；若使用 Semantic Scholar API，Latency通常在数百毫秒量级，Cost_per_ms需根据实际计费策略或时间机会成本估算。
+
+## Evidence
+
+[质询]具体数值（200ms延迟、$0.000005/ms成本）属于经验事实，缺乏权威来源支持，且Semantic Scholar API的实际延迟和成本结构随版本和负载波动，固定值可能不准确。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Semantic Scholar API latency cost per query free tier

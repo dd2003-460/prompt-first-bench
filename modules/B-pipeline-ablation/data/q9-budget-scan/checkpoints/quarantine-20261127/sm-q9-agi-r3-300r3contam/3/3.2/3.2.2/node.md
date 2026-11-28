@@ -1,0 +1,28 @@
+# N56: Agent 间相关性系数 ρ 的估计方法：通过在同一提示下运行 3 个独立 Agent，计算其输出结论的一致率 I，则 ρ = (I - P_single) /
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+Agent 间相关性系数 ρ 的估计方法：通过在同一提示下运行 3 个独立 Agent，计算其输出结论的一致率 I，则 ρ = (I - P_single) / (1 - P_single)；在科研任务中，由于共享训练数据偏差，ρ 通常高于代码生成场景
+
+## Corrected Claim
+
+Agent 间相关性系数 ρ 的一种估计方法是通过计算同一提示下多个独立 Agent 输出结论的一致率 I 及单 Agent 正确率 P_single，利用公式 ρ = (I - P_single) / (1 - P_single) 进行归一化调整；关于不同任务场景（如科研 vs 代码生成）中 ρ 的具体高低对比，需依赖特定实证研究数据，不宜作为通用定论。
+
+## Evidence
+
+[质询]公式 ρ = (I - P_single) / (1 - P_single) 并非标准的统计学定义（标准 Cohen's Kappa 或 Intraclass Correlation 公式不同），且“科研任务中 ρ 通常高于代码生成场景”属于缺乏普遍共识的经验性断言，易受具体任务复杂度影响，存在将特定实验结果过度泛化的风险。 | 参考来源 [1] 仅介绍 Spearman 秩相关系数的定义，与本节点描述的基于一致率 I 和单 Agent 概率 P_single 的自定义估计方法无关，属于无关来源；该陈述包含具体的经验性比较结论，缺乏直接来源支持，故降级。
+
+## Search Query
+
+multi-agent debate correlation coefficient hallucination rate estimation method
+
+## Retrieval Sources
+
+- {'url': 'https://www.zhihu.com/column/c_1689962693795295232&rut=f6e43c395b33a1663b0901dea7175ff9f2af89890202c56de3c921f90a31d449', 'type': 'ddg', 'title': '相关性检验 - 知乎'}

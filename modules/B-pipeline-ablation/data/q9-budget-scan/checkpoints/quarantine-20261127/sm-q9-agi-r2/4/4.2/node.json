@@ -1,0 +1,17 @@
+{
+  "id": "N18",
+  "claim": "长上下文处理瓶颈与分段策略：Qwen3.8-27B 在 max_model_len=262144 下，KV Cache 占用率随序列长度线性增长，V100 16GB 显存限制下，单请求最大并发数 N_max = floor((VRAM_total - Model_Weight_FP4 - Activation_Overhead) / (KV_Per_Token * Seq_Len))。对于 262k 上下文，KV_Per_Token≈0.0001GB/token (FP8)，Model_Weight_FP4≈13.5GB，剩余显存≈2.5GB，导致 N_max≈0（不可行）或需极大 Batch 拆分；实际可行最大有效上下文约为 32k tokens（此时 N_max≥2），超过 32k 需采用滑动窗口或 Map-Reduce 摘要策略，引入额外推理延迟 ΔT≈0.5-2s/chunk。",
+  "level": "L2",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与硬件常识存在显著偏差：1. V100 原生不支持 FP4 量化（通常需 A100/H100 或特定软件模拟），且 27B 模型 FP4 权重约 13.5GB 虽在量级上合理，但 V100 16GB 显存扣除权重后仅剩 2.5GB，难以容纳 262k 上下文的 KV Cache（即使 FP8，262k tokens 的 KV Cache 远超 2.5GB，计算出的 N_max=0 结论正确，但前提中‘V100 运行 FP4’及‘KV_Per_Token≈0.0001GB’的具体参数缺乏通用标准支持，属于特定实验假设而非通用事实）；2. ‘实际可行最大有效上下文约为 32k’这一结论高度依赖于具体的 Batch Size 和 Attention 实现细节，并非 V100 16GB 的硬性物理极限（例如通过 PagedAttention 或更激进的量化可能不同），将其表述为绝对事实过于武断。 | 先验知识/题面给定，逻辑校验通过：虽然 V100 运行 FP4 和具体 KV 参数属于特定配置假设，但基于给定参数（16GB 总显存 - 13.5GB 权重 = 2.5GB 剩余）推导 N_max 接近 0 以及 32k 上下文的可行性边界在逻辑上是自洽的。由于 source 为 knowledge，且无外部来源矛盾，但考虑到具体硬件兼容性（V100+FP4）和特定阈值（32k）的经验性，降级为 degraded 以反映其依赖特定假设的特性。",
+  "corrected_claim": "在假设 Qwen3.8-27B 以 FP4 量化部署于 V100 16GB 显存，且 KV Cache 使用 FP8 的条件下，由于模型权重占用大部分显存，剩余显存不足以支持 262k 上下文的单请求并发，实际可行上下文长度受限于剩余显存与 KV Cache 单位开销之比，通常远低于 262k（如 32k 左右需视具体 Batch 策略而定），超长上下文需采用分段或摘要策略。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N4"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

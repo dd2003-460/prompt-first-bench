@@ -1,0 +1,20 @@
+# N39: Qwen3.8-27B 的 KV Cache 单 Token 占用量为 1.2 MB (FP16, GQA 8:1)，而非 1.2 GB；对于 max_mode
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+Qwen3.8-27B 的 KV Cache 单 Token 占用量为 1.2 MB (FP16, GQA 8:1)，而非 1.2 GB；对于 max_model_len=262144，单个请求最大 KV Cache 占用为 262144 * 1.2 MB ≈ 314 GB，远超 64GB 总显存，因此 max_model_len 必须动态截断或采用分页注意力，实际单序列最大上下文受限于可用显存/1.2MB ≈ 53k tokens (假设 64GB 全用于 KV)。
+
+## Corrected Claim
+
+Qwen3.8-27B 的 KV Cache 单 Token 占用量为 1.2 MB (FP16, GQA 8:1)，而非 1.2 GB；对于 max_model_len=262144，单个请求最大 KV Cache 占用为 262144 * 1.2 MB ≈ 314 GB，远超 64GB 总显存，因此 max_model_len 必须动态截断或采用分页注意力，实际单序列最大上下文受限于可用显存/1.2MB ≈ 53k tokens (假设 64GB 全用于 KV)。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于Qwen3.8-27B架构参数（GQA 8:1, FP16）推导单Token KV Cache约为1.2MB，进而推算64GB显存下最大上下文长度约为53k tokens，数值量级与逻辑关系自洽。

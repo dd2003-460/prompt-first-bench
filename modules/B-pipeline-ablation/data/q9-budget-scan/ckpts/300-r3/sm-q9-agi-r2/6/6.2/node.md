@@ -1,0 +1,28 @@
+# N29: 投机解码在科研场景下的加速比波动范围：测量 MTP×4 投机解码在两种典型负载下的实际 Speedup Ratio：(1) 短指令/代码生成（高接受率），(2)
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+投机解码在科研场景下的加速比波动范围：测量 MTP×4 投机解码在两种典型负载下的实际 Speedup Ratio：(1) 短指令/代码生成（高接受率），(2) 长文本推理/数学推导（低接受率）。量化接受率 < 50% 时，投机解码是否反而因验证开销导致负加速（Speedup < 1.0）
+
+## Corrected Claim
+
+投机解码在低接受率场景下可能因验证开销导致加速效果减弱甚至失效（Speedup接近或小于1.0），具体阈值取决于模型架构、硬件配置及草稿模型质量，需实测确定。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间逻辑清晰且互不重叠（正交性良好），无冗余。但存在两个主要问题：1. 完备性缺失：父节点要求量化‘负加速’（Speedup < 1.0），但子节点仅定义了公式和基准测试，未包含‘临界接受率分析’或‘负加速判定阈值计算’这一关键推导环节；2. 术语不一致：子节点中混用了‘Prefill’（通常指输入阶段）和‘Forward pass per token’（解码阶段），在投机解码验证上下文中，验证是并行解码过程，使用 Prefill 描述验证开销在技术上是不准确的，应修正为 Batch Decode 或 Parallel Verification cost。）
+
+## Search Query
+
+Speculative decoding speedup ratio acceptance rate variance scientific reasoning tasks
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2015477328139015208&rut=c2d371f164e140c677501d34026347c1dbe801d26289f68eaac50c488c496f24', 'type': 'ddg', 'title': '投机采样（Speculative Decoding）深度解析：算法推导、系统实现与性能边界 - 知乎'}

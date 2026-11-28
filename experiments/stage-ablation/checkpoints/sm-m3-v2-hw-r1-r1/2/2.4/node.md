@@ -1,0 +1,20 @@
+# N18: 在max_model_len=262144的长上下文场景下，KV cache占用内存 M_kv = num_layers * num_heads * head_
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+在max_model_len=262144的长上下文场景下，KV cache占用内存 M_kv = num_layers * num_heads * head_dim * seq_len * sizeof(fp8) * num_seqs，其中 num_layers=32, num_heads=32, head_dim=128, sizeof(fp8)=1 byte
+
+## Corrected Claim
+
+在max_model_len=262144的长上下文场景下，KV cache占用内存 M_kv = num_layers * num_heads * head_dim * seq_len * sizeof(fp8) * num_seqs，其中 num_layers=32, num_heads=32, head_dim=128, sizeof(fp8)=1 byte
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

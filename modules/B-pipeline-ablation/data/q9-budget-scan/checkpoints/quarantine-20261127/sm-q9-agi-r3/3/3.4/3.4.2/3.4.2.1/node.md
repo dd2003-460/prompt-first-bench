@@ -1,0 +1,24 @@
+# N165: TP=4 配置下，All-Reduce 通信的数据量并非简单的 (Model_Size/TP/2)，而是取决于通信原语的实现（Ring All-Reduce 数
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+TP=4 配置下，All-Reduce 通信的数据量并非简单的 (Model_Size/TP/2)，而是取决于通信原语的实现（Ring All-Reduce 数据量为 Model_Size/TP * 2/(TP-1)）；对于 27B 模型（~54GB FP16 权重），每层通信量约为 54GB/4 * 2/3 ≈ 9GB/layer，在 300GB/s NVLink 下延迟约为 30ms/step，远高于估算的 5.6ms。
+
+## Corrected Claim
+
+TP=4 配置下，All-Reduce 通信的数据量并非简单的 (Model_Size/TP/2)，而是取决于通信原语的实现（Ring All-Reduce 数据量为 Model_Size/TP * 2/(TP-1)）；对于 27B 模型（~54GB FP16 权重），每层通信量约为 54GB/4 * 2/3 ≈ 9GB/layer，在 300GB/s NVLink 下延迟约为 30ms/step，远高于估算的 5.6ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Ring All-Reduce 通信量公式及数值计算正确，延迟估算符合物理直觉
+
+## Search Query
+
+Ring All-Reduce communication volume formula tensor parallelism vLLM latency

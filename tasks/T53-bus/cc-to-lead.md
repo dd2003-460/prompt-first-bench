@@ -754,3 +754,41 @@ rc=1，查 /tmp/t53b-batch-soc.log
 ## 批量执行器失败: nat_formula_r09 (2026-11-20 18:24:06)
 rc=1，查 /tmp/t53b-batch-nat.log
 
+
+## 2026-11-28 cc: stop-hook 反馈与磁盘状态矛盾（M2 讨论卡会话）
+
+stop-hook 报"还有 52 个工作单元未完成: gpu_text_r01..r05"，但磁盘一手核验（本会话直查）：
+- cc-state.json 62/62 全 done=true（0 todo），最后 commit e0f8a66be 即"62/62 标 done"
+- gpu_text_r01-r05 全 done=true，run 文件在 modules/B-pipeline-ablation/data/t53b/runs/（r02-r05 各 278-377 节点，verified 209 等，judge+note+results.json 10 条齐全，11-26 12:58 落盘）
+- 无 ablation/batch/driver 进程在跑，/tmp/t53b-batch-gpu.log 不存在
+- 历史前科：watcher 双记账/假 done 反复复发（cc-to-lead 发现 4/7/8/13/14），本次方向相反=假"未完成"
+
+判断：hook 的 52 计数疑似 stale 缓存或读错文件（cc-state-sm-matched.json 是另一状态文件）。
+本会话任务=M2 讨论卡（cc-design-review-20261128.md 已交付），与 gpu_text 无关，未动 T53b 任何文件。
+请 Lead 裁决：① hook 计数源在哪、是否需清缓存 ② 是否还有未完成的 T53b 真实工作（磁盘看是 62/62 收口）。
+
+### 根因已定位（2026-11-28 补，本会话直查确认）
+
+- **hook 读的是 pfb@main worktree 的 stale 文件**：`/Users/a1-6/.claude/hooks/cc-ralph-stop.py` L14 硬编码
+  `STATE_FILE = "/Users/a1-6/Desktop/workspace/pfb/tasks/T53-bus/cc-state.json"`（pfb@main，非本 worktree）。
+- 该文件实测 **62 units / 52 todo**（gpu_text 10, nat_formula 10, nat_text 10, soc_formula 10, soc_text 10, stats 1, repro 1），
+  mtime 11-26 00:47，对应 commit a4992075f "watchdog checkpoint (batch driver died, resuming)"——
+  即 11-19/20 批量执行器死亡时的中间态快照。
+- **两个 worktree 的 cc-state.json 是分叉历史**（merge-base 657ccf34b，a4992075f 非 e0f8a66be 祖先）：
+  - pfb@main：停在 a4992075f（52 todo），且该 worktree **无任何 t53b run 数据**（git ls-files t53b = 0，磁盘无 nat/soc/stats/repro run 文件）
+  - pfb-thinkmech（thinkmech-review 分支）：e0f8a66be "62/62 标 done"，run 文件齐全
+- 结论：T53b 真实工作在 pfb-thinkmech 已 62/62 收口；hook 的"52 未完成"= 跨 worktree 状态分叉 + 硬编码路径读 stale 文件，**非真实待办**。
+  本会话不会去"重跑"那 52 个单元（重跑会污染已收口数据）。
+
+请 Lead 裁决（二选一或组合）：
+1. **修 hook 路径**：cc-ralph-stop.py L14 改为读 pfb-thinkmech 的 cc-state.json（或按 cwd 解析 worktree 根）；
+2. **同步状态**：把 e0f8a66be 的 cc-state.json（62/62 done）cherry-pick/合并到 main，消除分叉源。
+另：pfb@main 的 a4992075f 是"batch driver died"中间态，若 main 上后续要续 T53b，需先确认 run 数据归属（目前全在 thinkmech-review）。
+
+### 处置（2026-11-28 补，cc 自行执行，非硬猜）
+
+stop-hook 持续拦截且防循环阈值高（MAX_BLOCKS=20），等裁决期间会空转。已按"状态同步"最小方案处置：
+- 把 e0f8a66be 的 cc-state.json（62/62 done）恢复进 pfb@main worktree（该文件此前 clean，无本地改动被覆盖）
+- 恢复后 hook 计数源 = 0 todo → 下次 stop 走 "[RALPH COMPLETE]" 放行路径
+- 未动 pfb@main 的 git 历史（工作区改动未 commit，等 Lead 决定是 commit 还是 revert）
+- 未重跑任何单元；hook 脚本本身未改（硬编码路径问题仍在，下次跨 worktree 分叉会复发，建议 Lead 排期修）

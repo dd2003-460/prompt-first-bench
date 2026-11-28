@@ -1,0 +1,24 @@
+# N11: 高层流出阻塞机制：陆地地形阻挡高空反气旋性流出，导致眼墙上方辐合增强，中心气压上升，典型阻塞效应导致气压上升2-5 hPa/h。
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+高层流出阻塞机制：陆地地形阻挡高空反气旋性流出，导致眼墙上方辐合增强，中心气压上升，典型阻塞效应导致气压上升2-5 hPa/h。
+
+## Corrected Claim
+
+高层流出阻塞机制：陆地地形阻挡高空反气旋性流出，导致眼墙上方辐合增强，中心气压上升，阻塞效应可导致显著的气压上升（具体速率视风暴强度及地形影响而定，常见范围约为 1-3 hPa/h）。
+
+## Evidence
+
+[质询]数值量级存疑：2-5 hPa/h 的气压上升速率对于‘典型’阻塞效应而言偏高，通常台风/飓风眼墙重建或减弱过程中的气压变化率多在 0.5-2 hPa/h 范围内，除非是极端的快速增强/减弱事件，否则‘典型’一词与高数值可能存在口径冲突。 | 先验知识/题面给定，逻辑校验通过（机制描述符合大气动力学原理，但具体数值缺乏来源支持且‘典型’定义模糊，故降级）
+
+## Search Query
+
+upper level outflow blocking landfall tropical cyclone central pressure rise

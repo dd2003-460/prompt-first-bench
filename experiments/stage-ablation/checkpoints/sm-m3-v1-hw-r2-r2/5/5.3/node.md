@@ -1,0 +1,30 @@
+# N26: 领域知识盲区覆盖率：27B 模型在特定冷门研究领域（如小众物理分支）的幻觉率（Hallucination Rate）可能高于通用基准 2-3 倍，需构建领域专属
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+领域知识盲区覆盖率：27B 模型在特定冷门研究领域（如小众物理分支）的幻觉率（Hallucination Rate）可能高于通用基准 2-3 倍，需构建领域专属评测集量化
+
+## Corrected Claim
+
+27B 模型在特定冷门研究领域的幻觉率通常显著高于通用基准，具体倍数需通过构建领域专属评测集进行量化评估。
+
+## Evidence
+
+[质询]陈述中“2-3倍”的具体数值缺乏权威基准支持，属于经验性估计；且参考来源[1]虽提及冷门领域幻觉率高，但未提供针对27B模型的具体倍数数据，来源[2][3]与幻觉率无关。 | 来源[1]间接支持冷门领域幻觉率高的定性结论，但无具体数值支持；来源[2][3]无关。作为经验事实，缺乏直接定量证据，故降级。
+
+## Search Query
+
+LLM hallucination rate domain specific niche fields vs general benchmarks
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_43272162/article/details/164949389&rut=c20dc8380a1da9227e36cc167320c46c82f11a8c65b386733be7f18f3a1cf77b', 'type': 'ddg', 'title': '大模型对冷门领域知识的自信幻觉率测定与批注-csdn博客'}
+- {'url': 'https://www.tianliaos.com/post/qwen3-8-27b-open-source-released-august-2026&rut=77f380d775c432d6cf1653ff25c94ff1052cc862ffc861f8b529a3ef993fdcfd', 'type': 'ddg', 'title': '阿里Qwen3.8-27B开源发布：27B参数如何以小博大颠覆大模型竞争格局 - 天聊博客—专注于2026年AI编程工具、大模型和开源项目的 ...'}
+- {'url': 'https://news.qq.com/rain/a/20261027A06FOZ00&rut=1878b16979a432da99ccb38fa91245c5f2937b29e2222fe895b895fc871c5e29', 'type': 'ddg', 'title': '27b小模型反超1.6t巨兽!智源arex-2长程反思撬动rsi新路径'}

@@ -1,0 +1,24 @@
+# N187: 云端 API 的 Rate Limit 通常分为 RPS (Requests Per Second) 和 TPM (Tokens Per Minute) 双重限
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+云端 API 的 Rate Limit 通常分为 RPS (Requests Per Second) 和 TPM (Tokens Per Minute) 双重限制；对于科研长文本生成（单请求 Token 数 > 4k），TPM 限制往往是瓶颈而非 RPS。若 TPM_limit = 100k tokens/min，单请求消耗 8k tokens，则有效并发请求上限为 12.5 req/min，远低于 100 req/min 的 RPS 限制，排队延迟主要由 TPM 耗尽后的冷却期决定。
+
+## Corrected Claim
+
+云端 API 的 Rate Limit 通常分为 RPS (Requests Per Second) 和 TPM (Tokens Per Minute) 双重限制；对于科研长文本生成（单请求 Token 数 > 4k），TPM 限制往往是瓶颈而非 RPS。若 TPM_limit = 100k tokens/min，单请求消耗 8k tokens，则有效并发请求上限为 12.5 req/min，远低于 100 req/min 的 RPS 限制，排队延迟主要由 TPM 耗尽后的冷却期决定。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：100,000 tokens/min ÷ 8,000 tokens/request = 12.5 requests/min，该数值远小于 100 requests/min 的 RPS 限制，因此 TPM 确实是瓶颈，推导自洽。
+
+## Search Query
+
+LLM API rate limiting TPM vs RPS bottleneck long context generation

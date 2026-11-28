@@ -1,0 +1,179 @@
+{
+  "qid": "q9-agi",
+  "question": "目标：在我的硬件条件下，以性价比最高、速度最快且可靠的方式，达到 research-AGI。\n\n**research-AGI 的操作化定义**（待 D 确认，v0 用 D 的 autoresearch 系统作锚）：\n一个 AI 系统能在我指定的研究方向上，独立完成\"提出假设 → 设计实验 → 执行（含检索/计算）→ 分析 → 得出可验证结论 → 更新自身知识\"的完整科研循环，且产出的研究结论经人工抽查达到\"可发表级\"（对标顶刊同题材论文的标准），无需人类逐步指导。\n\n**我的硬件条件**（v0，2026-11-22 服务器实测，待 D 确认精确边界）：\n- 推理平台：一台固定服务器，4× Tesla V100-SXM2-16GB（compute cap 7.0），不可更换\n- 当前部署：vLLM 服务 qwen3.8-27b（NVFP4 量化，TP=4，MTP×4 投机解码，fp8 KV cache，max_model_len=262144，max-num-seqs=8，端口 8787 代理）\n- 开发机：MacBook Pro（Apple M1 Max），跑编排/检索/分析，不跑 27b 推理\n- 约束：不改模型权重（prompt + hook + 外部记忆/工具）\n- 预算约束：时间 + 电费 + （可选）云端 API 费用\n\n任务：给出达到上述目标的最优路径分解。要求：\n1. 自行识别并完整覆盖所有影响\"最快可靠达到\"的贡献因子，不遗漏（因子清单由模型识别，题面不预列——预列=泄露 gold 骨架）\n2. 每个因子给出量化依据（数值/公式/可检索事实），标 conf\n3. 指出当前硬件条件下的能力上限（27b 本地模型能到哪一层，瓶颈在哪）\n4. 给出预算-质量权衡：不同投入档位下能达到的能力边界\n5. 把\"不确定、需要进一步查证\"的点收进黑盒表",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "F1: 能力达成度 (Capability Achievement): 系统独立闭环科研任务的成功率及产出结论的'可发表级'合规率（二元判定：通过/未通过人工抽查标准）",
+      "F2: 时间效率 (Time Efficiency): 达到F1阈值所需的日历时间周期（天数/周数）",
+      "F3: 经济成本 (Economic Cost): 总货币支出（电费折算 + 可选云端API费用 + 算力机会成本）",
+      "F4: 可靠性 (Reliability): 在长周期运行中，系统保持功能正常且无致命逻辑死锁/幻觉导致的流程中断的概率"
+    ],
+    "composition": "min( F2 + λ * F3 ) subject to ( F1 >= Threshold_Publishable AND F4 >= Threshold_Reliability )",
+    "rationale": "该函数将'可发表级'和'可靠'设为硬性可行性门槛（Filter），在此前提下最小化时间与金钱的加权总和，精准对应题目要求的'性价比最高、速度最快且可靠'。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N7",
+      "claim": "Qwen3.8-27B (NVFP4) 在学术基准（如MMLU-Pro, HumanEval, ARC-Challeng",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源仅提供了550题基准的平均分差（0.70个百分点），并未提供MMLU-Pro、HumanEval、ARC-Challenge等具体学术基准的详细准确"
+    },
+    {
+      "node_id": "N8",
+      "claim": "模型在超过 32K tokens 上下文长度时的注意力衰减率（Attention Decay Rate）与关键信息召回失",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中提到的“注意力衰减率”和“关键信息召回失败率”是具体的量化指标，但参考来源并未提供这些特定指标的数值或定义，仅提供了性能下降的定性描述或VRAM计"
+    },
+    {
+      "node_id": "N9",
+      "claim": "NVFP4 量化相对于 FP16/BF16 基准在数学推理与逻辑一致性任务上的性能损失百分比（Performance D",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源仅提及推理加速比（2.3x），未提供具体的性能损失百分比数据，且‘数学推理与逻辑一致性’的具体退化幅度属于经验事实，无法从第一性原理推导，需依赖特定"
+    },
+    {
+      "node_id": "N10",
+      "claim": "基于 RAG (Retrieval-Augmented Generation) 的外部记忆系统中，针对科研文献的向量检索",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述声称存在针对‘科研文献’这一特定领域的‘量化指标’（具体数值或标准基准），但提供的参考来源均为通用RAG综述或定义，未包含任何具体的Recall@"
+    },
+    {
+      "node_id": "N11",
+      "claim": "ReAct (Reasoning + Acting) 或类似 Agent 框架中，工具调用链路（如代码执行器、文献搜索A",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述描述的是一个具体的经验性关系曲线（Latency vs Success Rate），这属于经验事实。提供的参考来源 [1] 和 [2] 主要介绍 "
+    },
+    {
+      "node_id": "N12",
+      "claim": "多智能体协作（Multi-Agent Orchestration）中，'批判者-执行者'角色分离对最终研究结论有效性的提",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述声称存在具体的“有效性提升幅度”和“Token开销倍数”，但参考来源仅涉及多智能体协作的概念定义，未提供具体的量化实验数据或基准测试结果，属于缺乏"
+    },
+    {
+      "node_id": "N13",
+      "claim": "4x V100-SXM2-16GB (TP=4) 运行 Qwen3.8-27B NVFP4 时的实际 Tokens/s/",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的硬件配置（4x V100）、模型版本（Qwen3.8-27B NVFP4）及量化后的具体吞吐量数值，属于高度依赖特定环境、软件栈和硬件拓"
+    },
+    {
+      "node_id": "N14",
+      "claim": "在 max-num-seqs=8 并发设置下，KV Cache (FP8) 占用显存占比与最大可容纳序列长度的关系，以及",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验参数（max-num-seqs=8, FP8, 具体OOM阈值），属于经验事实，无法从第一性原理直接推出，且参考来源未提供针对此特定"
+    },
+    {
+      "node_id": "N15",
+      "claim": "MTPx4 (Multi-Token Prediction x4) 投机解码在 V100 架构上的接受率（Accepta",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值指标（接受率、加速比）及特定硬件（V100）和场景（复杂科研推理）下的表现，这些属于经验事实，无法从第一性原理推导。提供的参考"
+    },
+    {
+      "node_id": "N16",
+      "claim": "定义‘可发表级’结论的自动化校验基准：选取3篇Nature/Science子刊近1年AI相关论文，提取其核心统计指标（p",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将特定统计指标（p<0.05, effect size>0.2, n>30）定义为“可发表级”的通用硬约束，这忽略了不同学科（如生物学、物理学、计"
+    },
+    {
+      "node_id": "N17",
+      "claim": "建立幻觉检测的定量基线：在Qwen3.8-27B本地部署环境下，对50个已知事实性陈述进行零样本评估，计算幻觉率（Fal",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的实验设计参数（50个样本、零样本评估、<5%阈值），属于经验性操作规范或特定项目设定，无法从第一性原理推导，且参考来源中未提及此具体测试"
+    },
+    {
+      "node_id": "N19",
+      "claim": "工作点A（低成本高可靠）：纯本地V100集群运行Qwen3.8-27B，每日推理成本≈$12（基于0.15 kWh/$，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与成本计算存在严重逻辑矛盾：4x V100 功耗 250W 意味着单卡仅 62.5W，远低于 V100 实际 TDP（约 250W/卡，4卡应为"
+    },
+    {
+      "node_id": "N20",
+      "claim": "工作点B（中成本最优性价比）：混合架构（本地V100处理80%常规任务+云端API处理20%复杂推理），每日总成本≈$3",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（每日成本$35、幻觉率<3%、MTTR<15min），这些并非第一性原理可推导的数学或物理事实，而是依赖于特定业务负载、模型"
+    },
+    {
+      "node_id": "N21",
+      "claim": "工作点C（高成本高性能）：全云端大模型（如GPT-4o/Claude-3.5）处理所有任务，每日成本≈$150，幻觉率<",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（每日成本$150、MTTR<5min、幻觉率<1%）缺乏通用标准，高度依赖具体业务场景、调用频率及模型版本（如GPT-4o vs GPT-5."
+    },
+    {
+      "node_id": "N22",
+      "claim": "识别关键未验证假设1：Qwen3.8-27B在长上下文（>32k tokens）下的注意力衰减系数，需通过消融实验测定，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（性能下降>15%）和特定技术细节（注意力衰减系数），属于经验事实。参考来源[1]主要关注V100部署、量化基准和生产日志，并"
+    },
+    {
+      "node_id": "N23",
+      "claim": "识别关键未验证假设2：V100集群在持续高负载（>72小时）下的硬件故障率，历史数据表明GPU ECC错误率约为0.01",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值“0.01%/天”缺乏权威来源直接支持，且不同集群规模、负载类型及硬件批次下ECC错误率波动较大，该特定数值可能仅为某次特定测试或估算值，不具备"
+    },
+    {
+      "node_id": "N24",
+      "claim": "识别关键未验证假设3：Prompt工程对Qwen3.8-27B科研任务成功率的敏感度系数，需通过A/B测试（100组不同",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性预测数值（预期方差>20%）和特定的实验设计参数（100组变体），这些属于经验事实，无法从第一性原理推导，且参考来源中完全缺乏关于"
+    },
+    {
+      "node_id": "N25",
+      "claim": "在 vLLM 中启用 PagedAttention 后，针对 Qwen3.8-27B (NVFP4) 在 4x V100",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]硬件兼容性错误：V100 GPU 不支持 NVFP4 (4-bit floating point) 精度计算，该格式通常依赖更新的硬件架构（如 Hopp"
+    },
+    {
+      "node_id": "N26",
+      "claim": "针对‘不改权重’约束，采用 LangChain/LlamaIndex 构建的 Hybrid Search（BM25 + ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的性能指标（MRR > 0.75, 延迟 < 200ms），属于经验事实。这些数值并非由第一性原理或逻辑必然推出，而是依赖于具体的数据集规"
+    },
+    {
+      "node_id": "N27",
+      "claim": "在 Hook 增强架构中，引入 Code Interpreter 工具执行 Python 脚本进行数值验证时，沙箱环境（",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的工程性能指标（沙箱启动时间<5s，首次修正成功率>80%），这些属于经验性设计目标或特定系统的实测数据，并非通用物理定律或数学公理，无法"
+    },
+    {
+      "node_id": "N28",
+      "claim": "独立科研闭环中的‘自我迭代’模块，通过对比当前假设与实验结果的 KL 散度（KL Divergence）来量化认知偏差，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中具体的阈值（KL散度>0.1）和性能指标（平均迭代收敛步数<5）属于特定的工程实现细节或经验参数，参考来源仅描述了Robin系统的闭环流程（生成-"
+    },
+    {
+      "node_id": "N29",
+      "claim": "实验执行引擎在处理大规模数值模拟（如蒙特卡洛模拟）时，利用 NumPy/JAX 向量化操作相比纯 Python 循环的性",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]数值量级与具体阈值缺乏普适性：50x-100x的加速比高度依赖于具体算法复杂度及硬件配置（如CPU vs GPU），并非固定常数；16GB内存限制是特定"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 29
+}

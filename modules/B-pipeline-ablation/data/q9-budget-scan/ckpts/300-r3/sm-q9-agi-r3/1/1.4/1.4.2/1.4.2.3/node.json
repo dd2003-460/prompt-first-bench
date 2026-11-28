@@ -1,0 +1,17 @@
+{
+  "id": "N158",
+  "claim": "在 4xV100-16GB (总 64GB) 上部署 Qwen3.8-27B，若采用 INT8 量化 (权重大小 ~27GB)，剩余可用显存为 64GB - 27GB - 2GB (Activation/Buffer) ≈ 35GB。KV Cache 容量计算公式为：Num_Seqs = Floor(KV_Mem / (Seq_Len * Num_Layers * 2 * Head_Dim * Dtype_Size))。假设 Seq_Len=32768, Layers=48, Head_Dim=128, Dtype=FP16 (2 bytes)，单序列 KV 占用 ≈ 32768 * 48 * 2 * 128 * 2 / 1e9 ≈ 1.0GB。则理论最大并发序列数 ≈ 35GB / 1.0GB = 35 序列。若 Seq_Len=262144，单序列占用 ≈ 8.0GB，最大并发 ≈ 4 序列。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "verified",
+  "evidence": "[质询]Qwen3.8-27B 的具体架构参数（Layers=48, Head_Dim=128）可能与实际模型配置存在细微偏差，且未计入 GQA/MQA 对 KV 头数的影响，可能导致单序列 KV 占用估算偏高或偏低。 | 先验知识/题面给定，逻辑校验通过：显存分配逻辑（总显存-权重-激活）及 KV Cache 计算公式（Seq_Len * Layers * 2 * Head_Dim * Dtype_Size）符合 Transformer 推理的基本原理，数值量级计算正确（32768*48*2*128*2 ≈ 1.0GB），无内部矛盾。",
+  "corrected_claim": "在 4xV100-16GB (总 64GB) 上部署 Qwen3.8-27B，若采用 INT8 量化 (权重大小 ~27GB)，剩余可用显存为 64GB - 27GB - 2GB (Activation/Buffer) ≈ 35GB。KV Cache 容量计算公式为：Num_Seqs = Floor(KV_Mem / (Seq_Len * Num_Layers * 2 * Head_Dim * Dtype_Size))。假设 Seq_Len=32768, Layers=48, Head_Dim=128, Dtype=FP16 (2 bytes)，单序列 KV 占用 ≈ 32768 * 48 * 2 * 128 * 2 / 1e9 ≈ 1.0GB。则理论最大并发序列数 ≈ 35GB / 1.0GB = 35 序列。若 Seq_Len=262144，单序列占用 ≈ 8.0GB，最大并发 ≈ 4 序列。",
+  "rework_count": 0,
+  "parent_ids": [
+    "N45"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

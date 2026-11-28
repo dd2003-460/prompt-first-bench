@@ -1,0 +1,24 @@
+# N17: 不同位宽的典型质量损耗范围：INT8 (W8A8) 通常导致 <1% 的基准分数下降，INT4 (W4A16) 导致 2-5% 下降，NVFP4 介于两者之间但
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+不同位宽的典型质量损耗范围：INT8 (W8A8) 通常导致 <1% 的基准分数下降，INT4 (W4A16) 导致 2-5% 下降，NVFP4 介于两者之间但接近 INT4，具体数值需根据 Qwen3-27B 的校准数据集分布进行实证 [待核验: Qwen3-27B 具体量化报告]
+
+## Corrected Claim
+
+不同位宽的典型质量损耗范围：INT8 (W8A8) 通常导致 <1% 的基准分数下降，INT4 (W4A16) 导致 2-5% 下降，NVFP4 介于两者之间但接近 INT4，具体数值需根据 Qwen3-27B 的校准数据集分布进行实证 [待核验: Qwen3-27B 具体量化报告]
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+W8A8 W4A16 NVFP4 accuracy drop percentage LLM benchmark

@@ -1,0 +1,30 @@
+# N60: 引用校验的召回率与精确率权衡：基于 DOI 匹配，精确率 P>0.95（误报低），但召回率 R 受限于数据库覆盖率，对于预印本或非主流期刊，R 可能降至 0.6
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16
+
+## Claim
+
+引用校验的召回率与精确率权衡：基于 DOI 匹配，精确率 P>0.95（误报低），但召回率 R 受限于数据库覆盖率，对于预印本或非主流期刊，R 可能降至 0.6-0.8；虚构引用检测需结合语义相似度阈值 θ，θ 过高导致漏检，θ 过低导致误杀
+
+## Corrected Claim
+
+引用校验中，基于DOI匹配通常具有较高的精确率，但召回率受限于数据库覆盖率，对于预印本或非主流期刊可能显著降低；虚构引用检测需权衡语义相似度阈值以避免漏检或误杀。
+
+## Evidence
+
+[质询]具体数值（P>0.95, R 0.6-0.8）属于特定系统或数据集的经验统计结果，并非普适真理，不同数据库（CrossRef, PubMed, Scopus）和匹配算法下数值差异巨大，缺乏通用性。 | 来源[1][2][3]仅解释精确率/召回率定义及权衡原理，未提供DOI匹配的具体数值支持；该事实为经验数据，逻辑自洽但缺来源直接支持。
+
+## Search Query
+
+citation verification precision recall DOI matching semantic similarity threshold
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/baidu_38225647/article/details/158326183&rut=3e433ab3a3d6267a278ab3879c7945d75f434e112640e3d79b3daa6001c3f960', 'type': 'ddg', 'title': '精确率(Precision)、召回率(Recall) 超详细图解-CSDN博客'}
+- {'url': 'https://blog.csdn.net/qq_62223405/article/details/149184004&rut=8e93777ef5f8d137ee45742b7015cbb5ded4e5a5b5c72cd6a228ba4ce15c9792', 'type': 'ddg', 'title': '【机器学习&深度学习】 精确率 vs 召回率：模型评估的权衡艺术_深度学习的召回率-CSDN博客'}
+- {'url': 'https://www.datacamp.com/zh/tutorial/precision-vs-recall&rut=72a514d2226939679d3b86593ecf4337c29c46c76e44d1b395e099177e6fbb39', 'type': 'ddg', 'title': '精确率 vs 召回率：机器学习必读指南 | DataCamp'}

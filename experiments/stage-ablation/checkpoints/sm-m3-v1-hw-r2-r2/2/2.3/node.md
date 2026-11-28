@@ -1,0 +1,30 @@
+# N13: '分析'环节涉及统计显著性检验 (p-value, effect size)，Qwen3-27B 可能产生数学计算幻觉 (math hallucination)
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+'分析'环节涉及统计显著性检验 (p-value, effect size)，Qwen3-27B 可能产生数学计算幻觉 (math hallucination)，在复杂统计推断中错误率高达 15-30% [待核验]，需外接 SciPy/Pandas 进行确定性计算
+
+## Corrected Claim
+
+'分析'环节涉及统计显著性检验 (p-value, effect size)，Qwen3-27B 可能产生数学计算幻觉 (math hallucination)，在复杂统计推断中存在一定错误率，建议外接 SciPy/Pandas 进行确定性计算以确保准确性
+
+## Evidence
+
+[质询]陈述中关于 Qwen3-27B 在复杂统计推断中错误率高达 15-30% 的具体数值缺乏权威基准测试支持，属于未经证实的经验性断言，且不同模型版本和测试集下该数值波动较大，直接引用固定区间易产生误导。 | 来源 [1][2][3] 确认了统计显著性检验（p-value, effect size）是分析环节的核心内容，但未提供 Qwen3-27B 的具体错误率数据；该错误率数值为经验事实，逻辑上合理（LLM 存在数学幻觉）但缺乏直接来源支持，故降级。
+
+## Search Query
+
+llm statistical analysis error rate math hallucination benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/2401_85575345/article/details/162045946&rut=f8603a7d365e5fb8d9f3ae44c9432686cbd2e68db3e988d4a139bbd4264e9cda', 'type': 'ddg', 'title': '统计分析方法实战：从假设检验到效应量的严谨推断全流程_统计分析中的效应量怎么算-csdn博客'}
+- {'url': 'https://www.bohrium.com/sciencepedia/feynman/translational_medicine_graduate-hypothesis_testing_p-values_confidence_intervals_effect_size_and_statistical_significance&rut=d5e1b35b4116b2e26cc88ec67484427c103ecff81521391ac0ab7436ee2f9d31', 'type': 'ddg', 'title': '假设检验、P值、置信区间、效应大小与统计显著性 | Bohrium'}
+- {'url': 'https://blog.csdn.net/qq_38412868/article/details/134341264&rut=cc8c2c966ec6fe44a565447c5445d66206e1b094c8a519dd559ac256b163358f', 'type': 'ddg', 'title': 'Ab实验_如何计算p值、效应量和统计功效 - Csdn博客'}

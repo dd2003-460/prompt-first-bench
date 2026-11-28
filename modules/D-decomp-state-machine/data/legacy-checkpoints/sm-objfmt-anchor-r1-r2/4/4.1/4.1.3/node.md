@@ -1,0 +1,24 @@
+# N75: AMD MI300X 128GB HBM3 的 MSRP 约为 $12,000-$13,000 USD，主要面向数据中心，消费级渠道稀缺，价格透明度低，需通过企
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+AMD MI300X 128GB HBM3 的 MSRP 约为 $12,000-$13,000 USD，主要面向数据中心，消费级渠道稀缺，价格透明度低，需通过企业采购渠道或专业硬件零售商报价确认 [待核验]。
+
+## Corrected Claim
+
+AMD MI300X 128GB HBM3 的市场参考价格约为 $12,000-$13,000 USD，主要面向数据中心，消费级渠道稀缺，价格透明度低，需通过企业采购渠道或专业硬件零售商报价确认。
+
+## Evidence
+
+[质询]MSRP（建议零售价）通常指厂商公开标价，而AMD MI300X作为高端数据中心GPU，其价格往往随供需波动且主要通过企业合同成交，缺乏统一的公开MSRP，$12,000-$13,000可能是市场均价或早期报价而非严格意义上的MSRP，存在口径混淆风险。 | 经验事实，逻辑自洽但缺来源支持（本轮检索无可用来源，无法验证具体价格区间及MSRP定义准确性）
+
+## Search Query
+
+AMD MI300X price list 2024 enterprise purchase cost

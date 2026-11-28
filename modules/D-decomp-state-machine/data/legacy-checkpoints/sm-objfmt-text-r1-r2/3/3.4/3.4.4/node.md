@@ -1,0 +1,20 @@
+# N64: A100 80GB 在 32K 上下文长度下的 Prefill 阶段 FLOPs 需求约为 2 * 27B * 32K * 2 (BF16) ≈ 3.4 TFL
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N19
+
+## Claim
+
+A100 80GB 在 32K 上下文长度下的 Prefill 阶段 FLOPs 需求约为 2 * 27B * 32K * 2 (BF16) ≈ 3.4 TFLOPs，其 312 TFLOPS 算力可在 ~11ms 内完成，而 RTX 4090 (82.6 TFLOPS) 需 ~41ms，导致 A100 在高并发或长上下文场景下的 TTFT 优势转化为更高的每秒请求处理能力 (RPS)，进而摊薄固定成本。
+
+## Corrected Claim
+
+A100 80GB 在 32K 上下文长度下的 Prefill 阶段 FLOPs 需求约为 2 * 27B * 32K * 2 (BF16) ≈ 3.4 TFLOPs，其 312 TFLOPS 算力可在 ~11ms 内完成，而 RTX 4090 (82.6 TFLOPS) 需 ~41ms，导致 A100 在高并发或长上下文场景下的 TTFT 优势转化为更高的每秒请求处理能力 (RPS)，进而摊薄固定成本。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A100 80GB BF16 峰值算力约 312 TFLOPS，RTX 4090 约 82.6 TFLOPS，Prefill FLOPs 估算公式 2*N*L 符合 Transformer 架构基本原理，时间计算 (3.4T/312T ≈ 11ms, 3.4T/82.6T ≈ 41ms) 量级正确且逻辑自洽。

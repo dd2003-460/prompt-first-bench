@@ -1,0 +1,26 @@
+# N20: TCO 中的电力成本计算公式为 Annual_Energy_Cost = (GPU_TDP_Watts * 1.1) * Hours_Per_Year * El
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+TCO 中的电力成本计算公式为 Annual_Energy_Cost = (GPU_TDP_Watts * 1.1) * Hours_Per_Year * Electricity_Rate_per_kWh，其中 1.1 代表 PSU 效率损耗及风扇/主板附加功耗；例如 RTX 4090 (450W) 年耗电约 4400 kWh，若电价为 $0.1/kWh，年电费约 $440。
+
+## Corrected Claim
+
+TCO 中的电力成本通常估算为 GPU 功耗乘以效率损耗系数（如1.1）再乘以运行小时数和电价；以 RTX 4090 (450W) 为例，年耗电约 4300-4400 kWh，若电价为 $0.1/kWh，年电费约 $430-$440。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点存在显著冗余和逻辑不一致。子节点2和3本质上都是对同一公式在不同运行时间（Hours_Per_Year）下的实例化计算，属于同一维度的参数变化，应合并或抽象为通用公式而非独立节点。此外，子节点1中关于PSU效率系数的解释与父节点定义的固定系数1.1存在潜在矛盾（父节点将1.1定义为包含风扇/主板的综合损耗，而子节点1将其拆解为纯PSU效率并暗示可变，导致概念混淆）。）
+
+## Retrieval Sources
+
+- {'url': 'https://www.ibm.com/cn-zh/think/topics/total-cost-of-ownership&rut=81403ae2051e200dd0580f89292ea85ee9d8734f3d60c746ac6d2ab3e80b3a6c', 'type': 'ddg', 'title': '什么是总体拥有成本 (Tco)？| Ibm'}
+- {'url': 'https://yunqi.qq.com/read/680958/56&rut=761adb46169584a8015fb95cd2185148cec80bf29cd27a1943e004503c800b56', 'type': 'ddg', 'title': '新一代绿色数据中心的规划与设计 第56章_5.3.1 数据中心总拥有成本法（Tco）-云起书院'}
+- {'url': 'https://www.mt.com/cn/zh/home/library/white-papers/product-inspection/pi-total-cost-of-ownership.html&rut=4a0b2cac887aedfa432422fc7c3491e440422f08c9606ca28e934ca79ce7b377', 'type': 'ddg', 'title': '总拥有成本_tco_资本设备-梅特勒托利多官网 - Mettler Toledo'}

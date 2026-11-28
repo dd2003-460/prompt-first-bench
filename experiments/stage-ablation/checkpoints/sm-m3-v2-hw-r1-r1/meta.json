@@ -1,0 +1,91 @@
+{
+  "qid": "m3-v2-hw-r1",
+  "question": "目标：在我的硬件条件下，以性价比最高、速度最快且可靠的方式，达到 research-AGI。\n\n**research-AGI 的操作化定义**（待 D 确认，v0 用 D 的 autoresearch 系统作锚）：\n一个 AI 系统能在我指定的研究方向上，独立完成\"提出假设 → 设计实验 → 执行（含检索/计算）→ 分析 → 得出可验证结论 → 更新自身知识\"的完整科研循环，且产出的研究结论经人工抽查达到\"可发表级\"（对标顶刊同题材论文的标准），无需人类逐步指导。\n\n**我的硬件条件**（v0，2026-11-22 服务器实测，待 D 确认精确边界）：\n- 推理平台：一台固定服务器，4× Tesla V100-SXM2-16GB（compute cap 7.0），不可更换\n- 当前部署：vLLM 服务 qwen3.8-27b（NVFP4 量化，TP=4，MTP×4 投机解码，fp8 KV cache，max_model_len=262144，max-num-seqs=8，端口 8787 代理）\n- 开发机：MacBook Pro（Apple M1 Max），跑编排/检索/分析，不跑 27b 推理\n- 约束：不改模型权重（prompt + hook + 外部记忆/工具）\n- 预算约束：时间 + 电费 + （可选）云端 API 费用\n\n任务：给出达到上述目标的最优路径分解。要求：\n1. 自行识别并完整覆盖所有影响\"最快可靠达到\"的贡献因子，不遗漏（因子清单由模型识别，题面不预列——预列=泄露 gold 骨架）\n2. 每个因子给出量化依据（数值/公式/可检索事实），标 conf\n3. 指出当前硬件条件下的能力上限（27b 本地模型能到哪一层，瓶颈在哪）\n4. 给出预算-质量权衡：不同投入档位下能达到的能力边界\n5. 把\"不确定、需要进一步查证\"的点收进黑盒表",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "可行性达标率 (P_success): 在给定硬件与预算约束下，系统能够稳定运行'假设-实验-结论'全闭环且产出达到'可发表级'阈值的概率 (0-1)",
+      "迭代收敛速度 (T_convergence): 从初始状态到首次产生可验证结论所需的时间周期数或实际挂钟时间 (越低越好)",
+      "单位有效产出成本 (C_effective): 达到特定质量等级所需的总资源消耗（电费+API费+人力校准时间） (越低越好)"
+    ],
+    "composition": "Score = P_success × T_convergence^(-α) / C_effective^β, 其中 α, β > 0 为权重系数。逻辑为：首先必须满足可行性硬约束（P_success > ε），否则得分为0；在可行域内，速度与成本构成帕累托前沿，需通过加权倒数进行性价比优化。",
+    "rationale": "因为'性价比最高、速度最快且可靠'是一个多目标优化问题，其中'可靠'是生存底线（乘积项，一票否决），而'快'和'性价比'是竞争目标（倒数/除法项，体现边际效用递减），只有将可行性作为前置过滤器，才能在剩余空间中正确权衡速度与成本。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "parent_id": "N4",
+      "issues": [
+        "不完备"
+      ],
+      "suggestions": [
+        "增加一个子节点专门描述‘跨会话状态持久化’策略，例如使用Redis/Key-Value Store存储用户偏好、任务进度等非结构化知识，以补全‘跨会话状态保持’这一关键需求。",
+        "明确长期向量库与KV Cache的硬件资源隔离或调度策略，避免混淆‘长期知识存储’（通常为CPU内存/SSD）与‘推理时KV Cache’（GPU显存）的不同生命周期和管理目标。"
+      ],
+      "round": 0
+    },
+    {
+      "node_id": "N8",
+      "claim": "在'提出假设'步骤中，平均每个假设占用的token数 avg_token_per_hypothesis 约为 500-8",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该数值范围（500-800 tokens）缺乏明确的统计分布支撑，且高度依赖于具体的提示词工程（Prompt Engineering）策略和模型上下文窗"
+    },
+    {
+      "node_id": "N10",
+      "claim": "在'执行'步骤中，外部工具调用的频率 f_tool_call 与实验复杂度 C 成正比，f_tool_call = al",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述将‘工具调用频率’与‘实验复杂度’的关系简化为严格的线性正比关系（f = alpha * C），并给出了具体的经验系数范围 [0.5, 2.0]。"
+    },
+    {
+      "node_id": "N12",
+      "claim": "在'得出可验证结论'步骤中，结论的可验证性指标 V = (number_of_replications * statis",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式定义存在严重的量纲和逻辑错误：将'重复次数'（无量纲整数）与'统计显著性'（通常指p值本身或布尔值）相除，再除以阈值，得到的V值缺乏明确的统计学意义"
+    },
+    {
+      "node_id": "N15",
+      "claim": "在NVFP4量化与TP=4配置下，Qwen3.8-27B的单token生成延迟 T_gen 可通过公式 T_gen = ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式逻辑不自洽：T_gen 通常指单 token 生成延迟（即 T_decode），而公式右侧包含 T_prefill/n_tokens，这混淆了总推理"
+    },
+    {
+      "node_id": "N16",
+      "claim": "在V100-SXM2-16GB集群上，Qwen3.8-27B的预填充阶段耗时 T_prefill 与输入长度 L_in ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]gamma ≈ 0.05 ms/token 这一具体数值缺乏来源支持，且不同硬件配置和软件栈下该值可能存在显著差异，属于经验事实而非第一性原理可推导的常"
+    },
+    {
+      "node_id": "N23",
+      "claim": "文献检索API（如Semantic Scholar）的调用格式为 search_papers(query, max_re",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的API函数签名（search_papers）和精确的性能指标（200ms），这属于特定实现的经验事实，而非通用标准或第一性原理可推导内容"
+    },
+    {
+      "node_id": "N24",
+      "claim": "数据库查询工具的安全沙箱策略限制只能访问只读视图 read_only_view，禁止 DROP/DELETE/UPDAT",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]P_block ≈ 99.9% 是一个具体的经验性能指标，无法从“使用SQL解析器拦截”这一机制的第一性原理中严格推导出来，且不同实现（正则匹配 vs "
+    },
+    {
+      "node_id": "N40",
+      "claim": "硬件受限降级方案：当本地 KV Cache 不足或推理延迟 > 5s/token 时，启用量化降级（NVFP4 → IN",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]NVFP4到INT8的量化通常会导致精度显著下降（困惑度上升往往远超5-10%，甚至导致模型失效），且NVFP4本身已是极低比特格式，进一步量化至INT"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 40
+}

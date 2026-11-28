@@ -1,0 +1,24 @@
+# N35: 在 FP8 量化 KV Cache 下，V100 (Compute Cap 7.0) 不支持原生 FP8 Tensor Core 运算，vLLM 需在 CPU 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+在 FP8 量化 KV Cache 下，V100 (Compute Cap 7.0) 不支持原生 FP8 Tensor Core 运算，vLLM 需在 CPU 或 GPU 上进行 FP8->FP16 的反量化转换，每次注意力计算引入约 15-20% 的额外延迟开销，该开销抵消了部分 FP8 带来的显存节省优势。
+
+## Corrected Claim
+
+在 FP8 量化 KV Cache 下，V100 (Compute Cap 7.0) 不支持原生 FP8 Tensor Core 运算，vLLM 需进行 FP8->FP16 的反量化转换，这会引入额外的计算和内存访问开销，从而抵消部分 FP8 带来的显存节省优势。
+
+## Evidence
+
+[质询]15-20% 的额外延迟开销是一个具体的经验数值，缺乏通用基准测试支持，实际开销高度依赖于硬件带宽、算子实现优化程度以及 batch size，不同场景下波动极大，该固定区间可能不准确。 | 先验知识确认 V100 (CC 7.0) 不支持原生 FP8 Tensor Core，需反量化至 FP16/BF16 进行计算，逻辑自洽；但具体延迟开销百分比属于经验事实，无来源支持且难以从第一性原理精确推导，故降级。
+
+## Search Query
+
+v100 fp8 kv cache dequantization overhead latency penalty compute capability 7.0

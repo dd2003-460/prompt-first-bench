@@ -1,0 +1,30 @@
+# N274: 采用滑动窗口 (Sliding Window) 策略处理 262k 上下文时，单次推理的额外计算开销（FLOPs）增加比例为 [待核验] %，且窗口重叠区域的重
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N94
+
+## Claim
+
+采用滑动窗口 (Sliding Window) 策略处理 262k 上下文时，单次推理的额外计算开销（FLOPs）增加比例为 [待核验] %，且窗口重叠区域的重叠计算导致总推理时间延长 [待核验] 倍，需权衡召回率提升与延迟增加的 trade-off。
+
+## Corrected Claim
+
+采用滑动窗口 (Sliding Window) 策略处理 262k 上下文时，单次推理的额外计算开销（FLOPs）会增加，且窗口重叠区域的重叠计算导致总推理时间延长，需权衡召回率提升与延迟增加的 trade-off。
+
+## Evidence
+
+[质询]陈述中包含具体的量化指标（FLOPs增加比例、推理时间延长倍数），但参考来源[1]虽涉及262K上下文与Sliding Window，摘要中未提供具体的数值数据；来源[2]和[3]分别讨论时序数据滑动窗口和TCP协议，与LLM推理计算开销无关。缺乏直接来源支持具体数值，且不同实现（如窗口大小、重叠率）会导致数值差异巨大，无法从第一性原理唯一确定。 | 来源[1]主题相关但未提供具体数值，来源[2][3]无关；该事实属于经验性工程参数，逻辑上滑动窗口确实会引入额外计算和延迟，但具体倍数需依赖特定实验数据，故降级为定性描述。
+
+## Search Query
+
+sliding window attention long context inference overhead latency increase
+
+## Retrieval Sources
+
+- {'url': 'https://wenku.csdn.net/column/soelucgks5k&rut=36a9abd7da44b942fda10efa191fbe14fc8b0fd66490d9aa7db9786516380bfa', 'type': 'ddg', 'title': '262K tokens长上下文推理：Sliding Window Attention与KV缓存量化实战'}
+- {'url': 'https://blog.csdn.net/FuncFun/article/details/155877679&rut=8114865ebb65a4d9d5618d0623ab4aad97a247d4eafab8c99813f2d9066af0c9', 'type': 'ddg', 'title': '时序数据分析必学技能：滑动窗口处理全解析（实战案例+性能优化）-csdn博客'}
+- {'url': 'https://blog.csdn.net/qq_41472205/article/details/149025093&rut=016782b239485ae2aba85995b69a3826152ff1cb53b5539e6cdfa251c033bb02', 'type': 'ddg', 'title': '滑动窗口（Sliding Window）-CSDN博客'}

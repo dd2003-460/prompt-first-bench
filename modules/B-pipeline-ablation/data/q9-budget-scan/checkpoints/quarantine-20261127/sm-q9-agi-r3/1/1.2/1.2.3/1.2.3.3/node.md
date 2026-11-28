@@ -1,0 +1,20 @@
+# N134: 利用闲置显存提升并发的上限计算：若将 max_num_seqs 提升至 50，单序列 262k tokens 时总 KV 需求为 50 * 524.288 MB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N41
+
+## Claim
+
+利用闲置显存提升并发的上限计算：若将 max_num_seqs 提升至 50，单序列 262k tokens 时总 KV 需求为 50 * 524.288 MB ≈ 25.2 GB，每卡 6.3 GB，仍在 11.125GB 安全阈值内，理论上支持 50 路并发长序列而不溢出。
+
+## Corrected Claim
+
+利用闲置显存提升并发的上限计算：若将 max_num_seqs 提升至 50，单序列 262k tokens 时总 KV 需求为 50 * 524.288 MB ≈ 25.2 GB，每卡 6.3 GB，仍在 11.125GB 安全阈值内，理论上支持 50 路并发长序列而不溢出。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算正确（50 * 524.288 MB ≈ 25.2 GB，25.2 / 4 = 6.3 GB < 11.125 GB），符合显存容量规划的基本逻辑。

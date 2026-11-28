@@ -1,0 +1,20 @@
+# N59: Apple Mac Studio M3 Ultra 的统一内存带宽为 819 GB/s，CPU/GPU 共享内存池，最大可选 512GB；在 llama.cpp
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N18
+
+## Claim
+
+Apple Mac Studio M3 Ultra 的统一内存带宽为 819 GB/s，CPU/GPU 共享内存池，最大可选 512GB；在 llama.cpp 等 CPU/混合加速后端下，27B BF16 模型 (54GB) 可完全驻留，理论 Decode 吞吐率约为 819/54 ≈ 15 Tokens/s，远低于 NVIDIA GPU 的带宽优势。
+
+## Corrected Claim
+
+Apple Mac Studio M3 Ultra 的统一内存带宽为 819 GB/s，CPU/GPU 共享内存池，最大可选 512GB；在 llama.cpp 等 CPU/混合加速后端下，27B BF16 模型 (54GB) 可完全驻留，理论 Decode 吞吐率约为 819/54 ≈ 15 Tokens/s，远低于 NVIDIA GPU 的带宽优势。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：M3 Ultra 统一内存带宽确为 819 GB/s，最大内存 512GB；27B BF16 模型约 54GB 可驻留；理论 Decode 吞吐率受限于内存带宽，819/54 ≈ 15 Tokens/s 计算正确，符合大模型推理瓶颈原理。

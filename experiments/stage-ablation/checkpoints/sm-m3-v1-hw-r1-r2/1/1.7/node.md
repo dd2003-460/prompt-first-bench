@@ -1,0 +1,24 @@
+# N13: Prompt 工程需嵌入‘科研循环协议’：每个 Prompt 必须包含 [Hypothesis State], [Experiment Plan], [Evid
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+Prompt 工程需嵌入‘科研循环协议’：每个 Prompt 必须包含 [Hypothesis State], [Experiment Plan], [Evidence Log], [Conclusion Draft] 四个固定区块，模型仅在 Critic 返回 'PASS' 后允许更新 [Conclusion Draft]，否则触发重试或人工介入，防止幻觉累积
+
+## Corrected Claim
+
+Prompt 工程需嵌入‘科研循环协议’：每个 Prompt 必须包含 [Hypothesis State], [Experiment Plan], [Evidence Log], [Conclusion Draft] 四个固定区块，模型仅在 Critic 返回 'PASS' 后允许更新 [Conclusion Draft]，否则触发重试或人工介入，防止幻觉累积
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+structured prompt engineering autonomous research agent protocol

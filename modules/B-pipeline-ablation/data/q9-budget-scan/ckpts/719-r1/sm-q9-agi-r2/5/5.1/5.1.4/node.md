@@ -1,0 +1,20 @@
+# N70: 工作点B（混合架构）的成本构成公式为 Cost_B = Cost_Local_80% + Cost_Cloud_20%，其中 Cost_Local_80% 为本
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N19, N20, N21
+
+## Claim
+
+工作点B（混合架构）的成本构成公式为 Cost_B = Cost_Local_80% + Cost_Cloud_20%，其中 Cost_Local_80% 为本地处理 80% 任务的能耗成本（基于 N31 公式乘以 0.8），Cost_Cloud_20% 为云端 API 处理 20% 复杂推理任务的费用，需根据所选云端模型（如 GPT-4o）的 token 单价和输入输出长度估算
+
+## Corrected Claim
+
+工作点B（混合架构）的成本构成公式为 Cost_B = Cost_Local_80% + Cost_Cloud_20%，其中 Cost_Local_80% 为本地处理 80% 任务的能耗成本（基于 N31 公式乘以 0.8），Cost_Cloud_20% 为云端 API 处理 20% 复杂推理任务的费用，需根据所选云端模型（如 GPT-4o）的 token 单价和输入输出长度估算
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

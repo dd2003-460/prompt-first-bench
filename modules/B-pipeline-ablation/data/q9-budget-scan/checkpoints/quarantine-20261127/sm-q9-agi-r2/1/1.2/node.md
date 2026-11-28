@@ -1,0 +1,29 @@
+# N8: 在 V100 (Compute Cap 7.0) 上，NVFP4 量化带来的计算加速比相对于 FP16 基准为 [待核验]，预计为 1.5x-2.0x，主要受限
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+在 V100 (Compute Cap 7.0) 上，NVFP4 量化带来的计算加速比相对于 FP16 基准为 [待核验]，预计为 1.5x-2.0x，主要受限于 V100 缺乏原生 FP4 Tensor Core 支持，需通过软件模拟或降级至 FP8/INT8 实现部分加速。
+
+## Corrected Claim
+
+在 V100 (Compute Cap 7.0) 上，NVFP4 量化主要通过软件模拟实现，主要优势在于显存压缩（约62%），由于缺乏原生 FP4 Tensor Core 支持，其计算加速比相对于 FP16 基准不确定，可能有限或主要受限于内存带宽而非计算单元。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Unterminated string starting at: line 10 column 5 (char 775)
+
+## Search Query
+
+Tesla V100 NVFP4 inference speedup ratio tensor core support
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29048309/article/details/166879075&rut=d0b9544039a85865437ae59067f08ab9d5b87ce6193255f5dc7a49b08258244d', 'type': 'ddg', 'title': '2×V100上跑NVFP4量化模型：基于1Cat-vLLM的部署调优实录-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_29061821/article/details/171266830&rut=56a86898b076f850191174c784d2ec245ae3280ae15668e79db687a8e407b258', 'type': 'ddg', 'title': 'Qwen3.8在V100上实现1Cat吞吐的NVFP4+TP4工程实践 - CSDN博客'}

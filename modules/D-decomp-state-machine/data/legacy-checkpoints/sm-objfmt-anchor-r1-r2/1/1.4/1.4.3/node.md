@@ -1,0 +1,24 @@
+# N45: NVIDIA H100 SXM (80GB HBM3) 的显存带宽为 3.35 TB/s，TDP 700W，支持 FP8/INT4 Tensor Cores，买
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+NVIDIA H100 SXM (80GB HBM3) 的显存带宽为 3.35 TB/s，TDP 700W，支持 FP8/INT4 Tensor Cores，买断价约 $25,000-$30,000，租赁价约 $2.00-$2.50/hour。
+
+## Corrected Claim
+
+NVIDIA H100 SXM (80GB HBM3) 的显存带宽为 3.35 TB/s，TDP 700W，支持 FP8/INT4 Tensor Cores；其市场价格随供需波动，需查询最新行情确认。
+
+## Evidence
+
+[质询]买断价和租赁价属于高度波动的市场经验数据，缺乏实时来源支持，且不同渠道/时间差异巨大，容易过时或偏差。 | H100 SXM 的技术规格（3.35 TB/s, 700W, FP8/INT4）符合公开技术文档常识，逻辑自洽；但价格部分为经验事实，本轮检索无可用来源，无法验证具体数值区间，故降级。
+
+## Search Query
+
+NVIDIA H100 SXM 80GB specs price rental cost 2024

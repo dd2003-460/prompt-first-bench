@@ -1,0 +1,176 @@
+{
+  "qid": "m3-v2-hw-r2",
+  "question": "目标：在我的硬件条件下，以性价比最高、速度最快且可靠的方式，达到 research-AGI。\n\n**research-AGI 的操作化定义**（待 D 确认，v0 用 D 的 autoresearch 系统作锚）：\n一个 AI 系统能在我指定的研究方向上，独立完成\"提出假设 → 设计实验 → 执行（含检索/计算）→ 分析 → 得出可验证结论 → 更新自身知识\"的完整科研循环，且产出的研究结论经人工抽查达到\"可发表级\"（对标顶刊同题材论文的标准），无需人类逐步指导。\n\n**我的硬件条件**（v0，2026-11-22 服务器实测，待 D 确认精确边界）：\n- 推理平台：一台固定服务器，4× Tesla V100-SXM2-16GB（compute cap 7.0），不可更换\n- 当前部署：vLLM 服务 qwen3.8-27b（NVFP4 量化，TP=4，MTP×4 投机解码，fp8 KV cache，max_model_len=262144，max-num-seqs=8，端口 8787 代理）\n- 开发机：MacBook Pro（Apple M1 Max），跑编排/检索/分析，不跑 27b 推理\n- 约束：不改模型权重（prompt + hook + 外部记忆/工具）\n- 预算约束：时间 + 电费 + （可选）云端 API 费用\n\n任务：给出达到上述目标的最优路径分解。要求：\n1. 自行识别并完整覆盖所有影响\"最快可靠达到\"的贡献因子，不遗漏（因子清单由模型识别，题面不预列——预列=泄露 gold 骨架）\n2. 每个因子给出量化依据（数值/公式/可检索事实），标 conf\n3. 指出当前硬件条件下的能力上限（27b 本地模型能到哪一层，瓶颈在哪）\n4. 给出预算-质量权衡：不同投入档位下能达到的能力边界\n5. 把\"不确定、需要进一步查证\"的点收进黑盒表",
+  "round": 2,
+  "state": "rework",
+  "dropped_redundant": 15,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "Efficacy: 系统执行完整科研循环（假设→结论）且产出达到“可发表级”标准的概率 (P_success)",
+      "Speed: 从启动到达成 Efficacy 阈值所需的时间周期 (T_total)，单位：周/月",
+      "Cost: 达成过程中的总消耗，包括电费、算力机会成本及可选的云端 API 费用 (C_total)"
+    ],
+    "composition": "Minimize (T_total * λ_t + C_total * λ_c) subject to P_success ≥ Threshold_publication, Hardware_Constraints == Fixed_V100_4x16G",
+    "rationale": "该目标函数将“最快”和“性价比”转化为最小化时间与成本的加权和，同时通过硬约束确保“可靠”（达到发表级）和“硬件条件”（V100集群）不被违背，符合题面中“性价比最高、速度最快且可靠”的多目标优化逻辑。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N6",
+      "claim": "4×V100-16GB (Compute Capability 7.0) 不支持原生 FP4 算术指令集（需 CC 8.",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体性能损耗系数（~10-20%）缺乏通用基准数据支持，实际损耗高度依赖于具体的反量化实现（CPU offload vs GPU软件模拟）、内存带宽瓶颈"
+    },
+    {
+      "node_id": "N8",
+      "claim": "FP8 KV Cache 在 V100 (CC 7.0) 上同样无法原生加速，需回退至 FP16 或 INT8 KV C",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体性能下降幅度（30-50%）缺乏通用基准数据支持，且不同硬件配置和负载下波动较大，属于特定场景下的经验估计而非绝对事实。 | 先验知识/题面给定，逻"
+    },
+    {
+      "node_id": "N9",
+      "claim": "在 max_model_len=262144 且 max_num_seqs=8 的配置下，单序列最大 KV Cache ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验参数（如'16k-32k tokens'上限和'数十GB'显存占用），这些数值高度依赖于Qwen3的具体架构参数（层数、隐藏维度、头"
+    },
+    {
+      "node_id": "N10",
+      "claim": "MTP×4 投机解码在 27B 模型上的接受率（acceptance rate）取决于 draft 模型与 target",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值区间（60-75%接受率、1.5-2倍加速比）缺乏公开基准数据支持，且高度依赖具体的硬件环境、Batch Size及序列长度，直接断言固定区间存"
+    },
+    {
+      "node_id": "N12",
+      "claim": "Agent 拓扑应采用 Plan-and-Execute 架构而非 ReAct，因为科研循环中的‘提出假设’步骤需要全局",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性断言（如'27B模型易导致局部最优陷阱'），这并非从第一性原理或逻辑公理中必然推出的结论，而是依赖于特定实验数据或基准测试的经验观"
+    },
+    {
+      "node_id": "N14",
+      "claim": "Hook 机制应嵌入在‘执行’阶段，拦截模型生成的代码/实验设计，通过静态分析工具（如 linter、schema va",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]将Hook机制的额外延迟硬性限定在<50ms缺乏普适性依据，对于涉及复杂静态分析或远程Schema验证的场景，该阈值可能过于严苛或不切实际，属于经验性工"
+    },
+    {
+      "node_id": "N15",
+      "claim": "外部工具调用逻辑需遵循‘最小权限原则’，检索工具返回结果截断至 512 tokens，代码执行结果截断至 2048 to",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体的截断阈值（512/2048 tokens）和Prompt长度限制（500 tokens）属于特定系统或框架的工程配置参数，并非通用的第一性原理或绝"
+    },
+    {
+      "node_id": "N16",
+      "claim": "针对 27B 模型的推理效能最大化，需在 Prompt 中显式提供‘任务分解模板’，将复杂科研任务拆解为 <10 步的子",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中包含具体的经验性阈值（<10步、<5%幻觉率），这些数值并非从第一性原理或逻辑公理中必然推导出的常数，而是依赖于具体模型版本、任务类型及评估标准的"
+    },
+    {
+      "node_id": "N17",
+      "claim": "外部记忆库应采用混合索引策略：向量数据库（如 FAISS）存储语义相似的文献片段，结构化笔记（如 Markdown/JS",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]“提升召回精度至 >90%”是一个具体的经验性能指标，其实际数值高度依赖于数据集规模、文档质量、嵌入模型及具体业务场景，并非混合索引策略的固有属性或必然"
+    },
+    {
+      "node_id": "N21",
+      "claim": "针对Qwen3-27B在NVFP4量化下的幻觉率基线测定：在特定学术QA数据集（如TriviaQA或SQuAD v2）上",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述描述的是一个具体的实验操作和结果（测定特定的幻觉率基线值 α_local），属于经验事实。参考来源主要讨论的是模型量化后的通用性能指标（如AIME"
+    },
+    {
+      "node_id": "N24",
+      "claim": "人工抽查的‘可发表级’判定量化指标体系：定义基于BLEU-4（用于摘要/结论）和ROUGE-L（用于引用匹配）的自动初筛",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述描述了一套特定的、非通用的内部评估协议（包含具体的阈值设定、二元判定矩阵及概率公式），这属于经验性/操作性定义，而非从第一性原理可推导的客观事实。"
+    },
+    {
+      "node_id": "N26",
+      "claim": "工作点B（混合云性价比拐点）：引入云端大模型API（如GPT-4o或Claude 3.5 Sonnet）进行关键步骤（假",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性数值（边际成本$2-5、幻觉率<0.05），这些并非第一性原理可推导的数学或物理事实，而是依赖于特定任务复杂度、Token消耗量及"
+    },
+    {
+      "node_id": "N27",
+      "claim": "工作点C（高质量高成本上限）：全链路使用顶级闭源API（如GPT-4 Turbo）进行所有推理步骤，本地仅作为缓存和格式",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中包含具体的经验性数值指标（边际成本 $10-20/篇，可靠性 P>0.8），这些并非第一性原理可推导的数学或物理事实，而是依赖于具体任务复杂度、T"
+    },
+    {
+      "node_id": "N28",
+      "claim": "4×V100-SXM2-16GB 集群在 HBM2 带宽限制下，Qwen3-27B NVFP4 量化模型的实际推理吞吐量",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性能指标（40-60 tokens/s）和并发限制（2个长序列），这些数值高度依赖于具体的软件栈（如vLLM/TensorRT-LL"
+    },
+    {
+      "node_id": "N29",
+      "claim": "V100 (CC 7.0) 缺乏原生 FP8 Tensor Core 支持，vLLM 中启用 FP8 KV Cache ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "检索失败: no sources from any channel (all 5 failed)"
+    },
+    {
+      "node_id": "N30",
+      "claim": "纯本地工作点 (Workpoint A) 达到 '可发表级' 科研闭环的时间预期为 6-12 个月，主要瓶颈在于 27B",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含具体的经验性预测（6-12个月时间线、<30%成功率、3-5x重试因子），这些数值并非第一性原理可推导，而是基于特定模型版本和任务难度的经验估"
+    },
+    {
+      "node_id": "N31",
+      "claim": "混合云工作点 (Workpoint B) 的成本效率比最优区间位于：将 '假设生成' 和 '最终结论验证' 两个高幻觉风",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体的经验性数值（如单篇论文边际成本$3-8、幻觉率从~15%降至<5%、时间缩短至3-6个月），这些具体参数无法从第一性原理推导，且参考"
+    },
+    {
+      "node_id": "N32",
+      "claim": "在 '假设生成' 阶段，采用 '树状搜索 (Tree-of-Thoughts)' 替代线性 Chain-of-Thoug",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中具体的量化指标（多样性提升40%、成本增加3倍）缺乏通用基准支持，属于特定实验条件下的经验数据，不同任务、模型及超参数设置下波动极大，直接作为普适"
+    },
+    {
+      "parent_id": "N10",
+      "issues": [
+        "非正交",
+        "不完备"
+      ],
+      "suggestions": [
+        "增加一个子节点专门分析Qwen3自回归特性对MTP分布匹配度的影响，以覆盖父节点中‘接受率取决于分布匹配度’的核心论点。",
+        "重构子节点2，将其明确标记为子节点1公式在V100/TP=4场景下的具体应用实例，或在子节点1中增加对β值在不同硬件/并行策略下变化的说明，以消除潜在的概念混淆。"
+      ],
+      "round": 1
+    },
+    {
+      "node_id": "N37",
+      "claim": "FP8 KV Cache在V100上的实际带宽惩罚量化：由于缺乏原生FP8 Tensor Core，FP8存储需转换为F",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]具体数值（60-70%利用率、40-60%延迟增加）缺乏通用基准测试支持，实际性能高度依赖具体实现（如是否使用CUDA内核优化转换、内存对齐、批处理大小"
+    },
+    {
+      "node_id": "N41",
+      "claim": "V100推理瓶颈切换阈值计算：当序列长度 L_seq > (FLOPs_per_token / Memory_Bandw",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]阈值计算忽略了Attention机制中O(L^2)的计算复杂度增长，导致在长序列下计算瓶颈会重新出现，而非单纯线性依赖内存带宽；此外，5-10%的吞吐下"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 40
+}

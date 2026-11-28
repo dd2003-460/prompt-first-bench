@@ -1,0 +1,29 @@
+# N105: NVFP4 (4-bit floating point) 量化推理目前主要依赖 NVIDIA Blackwell (RTX 50xx/H200) 架构的专用 T
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N34
+
+## Claim
+
+NVFP4 (4-bit floating point) 量化推理目前主要依赖 NVIDIA Blackwell (RTX 50xx/H200) 架构的专用 Tensor Core，CUDA 12.8+ 支持该格式；在 Ampere (A100) 或 Ada (4090) 上使用 NVFP4 会导致精度回退至 INT4 或性能下降 30-50%。
+
+## Corrected Claim
+
+NVFP4 (4-bit floating point) 量化推理主要依赖 NVIDIA Blackwell 架构的专用 Tensor Core 进行原生硬件加速；在 Ampere 或 Ada 等非 Blackwell 架构上，由于缺乏原生硬件支持，通常需要通过软件模拟或转换为其他格式（如 FP8/INT8），这可能导致性能显著低于 Blackwell 架构，但具体回退机制和性能损失比例需视具体实现而定。
+
+## Evidence
+
+[质询]陈述中关于在 Ampere/Ada 架构上使用 NVFP4 会“导致精度回退至 INT4”的具体机制描述缺乏来源支持，且“性能下降 30-50%”的具体数值在提供的参考来源中未提及，属于未经证实的经验性细节。 | 来源 [1] 直接支持 NVFP4 依赖 Blackwell Tensor Core 原生支持及硬件加速的逻辑，但未提供旧架构下的具体性能损失数值或回退机制细节，故降级为定性表述。
+
+## Search Query
+
+NVIDIA NVFP4 quantization CUDA version requirements Blackwell Ampere fallback
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1944504541950248086&rut=4afc8a38dd138579ad99d3a833900671c66174471f242b7e27da8c9f347d502e', 'type': 'ddg', 'title': 'Nvfp4量化技术深度解析：4位精度下实现2.3倍推理加速 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2049244381027292133&rut=cc64f01b434da4392a6eb1cdc9addf3f6a0d56d5850ec0681c808c4207bcdb87', 'type': 'ddg', 'title': 'Nvfp4、Fp8、Bf16 大模型量化格式详解 - 知乎'}

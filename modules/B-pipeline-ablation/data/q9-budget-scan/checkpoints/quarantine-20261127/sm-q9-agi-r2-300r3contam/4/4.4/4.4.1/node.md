@@ -1,0 +1,20 @@
+# N63: 质量指标Q_pub的各维度操作化定义：Novelty = 1 - CosineSimilarity(GeneratedClaim, TopK_Retrieved
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N22
+
+## Claim
+
+质量指标Q_pub的各维度操作化定义：Novelty = 1 - CosineSimilarity(GeneratedClaim, TopK_Retrieved_Claims)，Rigor = (Number_of_Statistical_Tests_Passed / Total_Required_Tests) * 10，Clarity = BLEU_Score(Generated_Text, Reference_Paper_Style) / 10。权重w1, w2, w3初始设为0.4, 0.4, 0.2，需通过网格搜索在基准集上最大化ρ。
+
+## Corrected Claim
+
+质量指标Q_pub的各维度操作化定义：Novelty = 1 - CosineSimilarity(GeneratedClaim, TopK_Retrieved_Claims)，Rigor = (Number_of_Statistical_Tests_Passed / Total_Required_Tests) * 10，Clarity = BLEU_Score(Generated_Text, Reference_Paper_Style) / 10。权重w1, w2, w3初始设为0.4, 0.4, 0.2，需通过网格搜索在基准集上最大化ρ。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,28 @@
+# N252: MTP 加速比随上下文长度衰减的非线性模型：加速比 Speedup(L) = Speedup_base * (1 - α * log2(L/L_base))，其
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N87
+
+## Claim
+
+MTP 加速比随上下文长度衰减的非线性模型：加速比 Speedup(L) = Speedup_base * (1 - α * log2(L/L_base))，其中 L_base=65k 时 Speedup=1.8x，α 为衰减系数（通常 0.1-0.2），当 L=131k 时 Speedup 预计降至 1.5-1.6x，需实测 α 以精确预测拐点。
+
+## Corrected Claim
+
+MTP加速比通常随上下文长度增加而衰减，具体衰减曲线（如对数模型 Speedup(L) = Speedup_base * (1 - α * log2(L/L_base))）及参数（如 L_base=65k 时 1.8x，L=131k 时 1.5-1.6x）需根据特定模型和硬件实测确定，通用理论中无固定标准值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（L_base=65k, Speedup=1.8x, α范围, L=131k时的预测值），这些并非第一性原理可推导的数学或物理常数，而是依赖于特定硬件、模型架构和实现细节的经验观测值。参考来源仅提及MTP概念，未提供此具体非线性衰减模型及参数，因此缺乏直接来源支持。 | 逻辑上自洽（对数衰减符合长上下文性能下降的直觉），但作为经验事实，参考来源[1]仅介绍MTP定义，未覆盖具体加速比模型及参数，属于间接/无关支持，故降级。
+
+## Search Query
+
+multi token prediction mtp speedup decay long context vllm
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Transformer_%28deep_learning%29', 'type': 'wikipedia', 'title': 'Transformer (deep learning)'}

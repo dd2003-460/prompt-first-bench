@@ -1,0 +1,20 @@
+# N205: 平均查询令牌数 Avg_tokens_per_query 的估算：对于科研辅助任务，输入平均 2,000 tokens（含上下文），输出平均 500 token
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+平均查询令牌数 Avg_tokens_per_query 的估算：对于科研辅助任务，输入平均 2,000 tokens（含上下文），输出平均 500 tokens，总令牌数 ≈ 2,500 tokens/query；若启用 RAG，输入可能增至 5,000 tokens，总令牌数 ≈ 5,500 tokens/query，此参数直接决定 N_max 的值。
+
+## Corrected Claim
+
+平均查询令牌数 Avg_tokens_per_query 的估算：对于科研辅助任务，输入平均 2,000 tokens（含上下文），输出平均 500 tokens，总令牌数 ≈ 2,500 tokens/query；若启用 RAG，输入可能增至 5,000 tokens，总令牌数 ≈ 5,500 tokens/query，此参数直接决定 N_max 的值。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

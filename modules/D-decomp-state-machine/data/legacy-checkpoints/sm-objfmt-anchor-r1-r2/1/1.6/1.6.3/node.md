@@ -1,0 +1,24 @@
+# N52: Apple Silicon (M2/M3 Ultra) 的软件栈成熟度量化指标：MLX 框架支持 Qwen3-27B 推理，但缺乏 PagedAttention
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+Apple Silicon (M2/M3 Ultra) 的软件栈成熟度量化指标：MLX 框架支持 Qwen3-27B 推理，但缺乏 PagedAttention 等高级内存管理技术，导致长上下文 (32K+) 场景下显存碎片化率 >20%，实际可用带宽利用率仅为理论值的 60-70% [待核验]。
+
+## Corrected Claim
+
+Apple Silicon (M2/M3 Ultra) 上的 MLX 框架虽支持大模型推理，但在长上下文场景下的内存管理效率及带宽利用率相较于具备 PagedAttention 等高级技术的方案可能存在显著差距，具体量化指标需依赖特定基准测试验证。
+
+## Evidence
+
+[质询]具体数值指标（显存碎片化率>20%、带宽利用率60-70%）缺乏公开基准测试支持，且MLX作为Apple官方框架，其内存管理机制与PagedAttention的对比及具体性能损耗数据属于高度具体的经验事实，极易出现数值臆造或口径混淆。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体性能参数无法从第一性原理推导）
+
+## Search Query
+
+MLX framework PagedAttention memory fragmentation long context performance benchmark M2 Ultra

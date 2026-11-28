@@ -1,0 +1,24 @@
+# N284: 短序列高并发工作点的能效比 EER_short：定义为 Tokens/Joule，基于 V100 TDP=250W 和实际吞吐 3500 tok/s，EER_s
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N113
+
+## Claim
+
+短序列高并发工作点的能效比 EER_short：定义为 Tokens/Joule，基于 V100 TDP=250W 和实际吞吐 3500 tok/s，EER_short ≈ 3500/250 = 14 tok/J；对比长序列低并发工作点（N114），若其吞吐仅 50 tok/s，则 EER_long ≈ 0.2 tok/J，表明短序列并发模式在单位能耗下的产出效率高 70 倍，适合批量预处理或简单问答环节。
+
+## Corrected Claim
+
+短序列高并发工作点的能效比 EER_short：定义为 Tokens/Joule，基于 V100 TDP=250W 和实际吞吐 3500 tok/s，EER_short ≈ 3500/250 = 14 tok/J；对比长序列低并发工作点（N114），若其吞吐仅 50 tok/s，则 EER_long ≈ 0.2 tok/J，表明短序列并发模式在单位能耗下的产出效率高 70 倍，适合批量预处理或简单问答环节。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 3500/250=14 和 50/250=0.2 正确，比值 14/0.2=70 正确，定义与计算过程自洽。
+
+## Search Query
+
+GPU inference energy efficiency tokens per joule batch size impact

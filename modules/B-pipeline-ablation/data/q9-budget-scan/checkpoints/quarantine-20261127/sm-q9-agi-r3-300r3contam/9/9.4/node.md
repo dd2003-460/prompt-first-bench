@@ -1,0 +1,24 @@
+# N86: 显存溢出 (OOM) 风险的量化边界：在 max-num-seqs=8 且启用 FP8 KV Cache 的情况下，27B 模型的 KV Cache 占用显存随
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+显存溢出 (OOM) 风险的量化边界：在 max-num-seqs=8 且启用 FP8 KV Cache 的情况下，27B 模型的 KV Cache 占用显存随上下文长度线性增长。计算表明，当 max_model_len 超过 100k 时，KV Cache 占用显存超过 12GB/GPU，加上模型权重 (NVFP4 ~14GB) 和激活值缓冲，总显存需求逼近 16GB 物理极限，OOM 概率在 131k 长度下超过 50%。
+
+## Corrected Claim
+
+在 max-num-seqs=8 且启用 FP8 KV Cache 的情况下，27B 模型的 KV Cache 占用显存随上下文长度线性增长。随着 max_model_len 增加，KV Cache 占用显著上升，在长上下文（如 131k）场景下，总显存需求极易超出常规单卡或双卡配置（如 16GB/32GB）的物理极限，导致 OOM 风险极高。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点存在严重的数值矛盾与逻辑冲突。子节点1计算得出单序列KV占用为17.2GB（TP=4下4.3GB），而子节点3声称131k长度下单序列KV仅为~8.6GB，这与子节点1中基于262k长度算出的4.3GB/seq（对应131k应为2.15GB）严重不符，数据自相矛盾。此外，子节点2和子节点3都在计算总显存需求并判断OOM临界点，内容高度重叠，属于同一计算过程的不同片段，缺乏正交性。）
+
+## Search Query
+
+vllm kv cache memory footprint calculation 27b model fp8 quantization

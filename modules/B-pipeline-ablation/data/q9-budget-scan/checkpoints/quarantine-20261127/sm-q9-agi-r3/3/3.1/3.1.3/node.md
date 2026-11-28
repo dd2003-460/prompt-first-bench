@@ -1,0 +1,24 @@
+# N52: MTP×4 投机解码的接受率 α 与目标 token 分布的 KL 散度 D_KL(P_target || P_draft) 呈负相关；当 D_KL < 0.0
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N16, N17, N18
+
+## Claim
+
+MTP×4 投机解码的接受率 α 与目标 token 分布的 KL 散度 D_KL(P_target || P_draft) 呈负相关；当 D_KL < 0.05 bits/token 时，α ≈ 0.65；当 D_KL > 0.15 bits/token 时，α 降至 0.40 以下，导致净加速比从 2.5x 降至 1.5x。
+
+## Corrected Claim
+
+MTP×4 投机解码的接受率 α 与目标 token 分布的 KL 散度 D_KL(P_target || P_draft) 呈负相关；随着 D_KL 增大，α 显著下降，进而导致净加速比降低。
+
+## Evidence
+
+[质询]具体数值阈值（D_KL=0.05/0.15）与对应的接受率（0.65/0.40）及加速比（2.5x/1.5x）缺乏通用理论支撑，高度依赖特定模型规模、上下文长度及硬件配置，属于经验性参数而非普适物理/数学定律。 | 先验知识/题面给定，逻辑校验通过（KL散度增大导致分布差异变大，接受率下降符合投机解码基本原理），但具体数值映射关系为经验事实，无来源支持且非第一性原理可严格推导，故降级。
+
+## Search Query
+
+speculative decoding acceptance rate KL divergence threshold

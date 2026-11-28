@@ -1,0 +1,30 @@
+# N193: 逻辑错误重写耗时 T_rewrite_logic：基于50个样本实测，平均每次修复逻辑一致性错误的耗时，单位：分钟，预期范围10-20分钟（需验证推理链断裂点）
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N67
+
+## Claim
+
+逻辑错误重写耗时 T_rewrite_logic：基于50个样本实测，平均每次修复逻辑一致性错误的耗时，单位：分钟，预期范围10-20分钟（需验证推理链断裂点）
+
+## Corrected Claim
+
+逻辑错误重写耗时 T_rewrite_logic：基于50个样本实测，平均每次修复逻辑一致性错误的耗时，单位：分钟，预期范围10-20分钟（需验证推理链断裂点）
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数据（50个样本、10-20分钟耗时），属于经验事实，无法从第一性原理推导，且参考来源均未提供此类实证数据支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2][3]均为理论或算法介绍，未涉及具体修复耗时实测数据）
+
+## Search Query
+
+human editing time for llm logical inconsistencies minutes
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/qq_36745372/article/details/119760665&rut=a435273b20c63fbe5222b10bcbf3c184f8d149127ec01abb5a7ce82e03a655be', 'type': 'ddg', 'title': '重写逻辑（Rewriting Logic）_项重写 term rewriting-CSDN博客'}
+- {'url': 'https://maude.cs.illinois.edu/rewriting-logic&rut=7b6b16de73e0b87012bfe1a083f60a831afed252cf86fe6f15860f0a22a33a0d', 'type': 'ddg', 'title': 'Rewriting logic | Maude'}
+- {'url': 'https://blog.csdn.net/weixin_44378800/article/details/129333125&rut=8089ea22a2e777429aa64bc82d4627322ff246386c2e03efa276708bbc761788', 'type': 'ddg', 'title': '逻辑优化基础-rewrite_rewrite eda算法-CSDN博客'}

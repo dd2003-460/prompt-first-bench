@@ -1,0 +1,23 @@
+{
+  "id": "N19",
+  "claim": "多卡方案的通信开销惩罚因子：在 PCIe 互联下，模型并行导致的 AllReduce 延迟占总推理时间的百分比估算（相对于单卡理想吞吐量的损耗）。",
+  "level": "L2",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该陈述试图给出一个具体的“百分比估算”数值，但通信开销占比高度依赖于模型架构（如Transformer层数、隐藏层维度）、Batch Size、序列长度以及具体的PCIe代际（Gen3/Gen4/Gen5）和拓扑结构（P2P是否开启）。缺乏这些具体上下文，任何单一的固定百分比都是不准确的经验概括，且参考来源仅讨论原理和代码实现，未提供通用的量化基准数据。 | 来源[1]讨论了PCIe拓扑对AllReduce性能的影响机制，证实了通信开销的存在及其受拓扑影响，但未提供具体的“占总推理时间百分比”的通用估算值，属于间接支持机制但缺乏具体数值支撑。",
+  "corrected_claim": "在PCIe互联下，模型并行导致的AllReduce通信开销会显著增加推理延迟，其占总推理时间的比例取决于模型规模、Batch Size及PCIe拓扑配置，通常在小Batch或大模型场景下占比更高，具体数值需根据实际硬件和负载实测确定。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N3"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "multi-GPU inference latency penalty PCIe allreduce overhead LLM serving",
+  "retrieval_sources": [
+    {
+      "url": "https://zhuanlan.zhihu.com/p/2036554187035644932&rut=039ee20f692c3878011afed35a46112ff9f98cee1ecdbd23b353c04fa01a6c91",
+      "type": "ddg",
+      "title": "以vLLM Custom AllReduce 为基础，理解多卡通信与拓扑优化"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+# N36: V100-SXM2 的 NVLink 3.0 双向聚合带宽为 300 GB/s，但在 TP=4 环形 AllReduce 算法中，有效单向带宽利用率通常仅为理论
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+V100-SXM2 的 NVLink 3.0 双向聚合带宽为 300 GB/s，但在 TP=4 环形 AllReduce 算法中，有效单向带宽利用率通常仅为理论值的 60-70%（约 180-210 GB/s），受限于 PCIe/NVLink 拓扑路由开销。
+
+## Corrected Claim
+
+V100-SXM2 的 NVLink 3.0 双向聚合带宽为 300 GB/s，在 TP=4 环形 AllReduce 算法中，受限于网络拓扑和通信协议开销，有效单向带宽利用率通常低于理论峰值，具体数值取决于集群配置和软件栈优化。
+
+## Evidence
+
+[质询]将NVLink拓扑路由开销归因为PCIe限制存在技术混淆，且60-70%的利用率范围缺乏特定硬件代际的通用基准支持，属于经验性估计而非固定物理常数。 | 先验知识/题面给定，逻辑校验通过；但作为经验性能指标，缺乏直接来源支持且存在拓扑描述瑕疵，故降级。
+
+## Search Query
+
+NVLink 3.0 effective bandwidth utilization AllReduce ring algorithm

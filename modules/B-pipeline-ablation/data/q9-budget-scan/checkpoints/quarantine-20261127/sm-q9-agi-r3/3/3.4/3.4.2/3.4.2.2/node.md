@@ -1,0 +1,28 @@
+# N166: PP=2 相比 TP=4 的单步推理延迟差异 Delta_Latency 主要由流水线气泡和同步等待决定；在 seq_len=32k 且 batch_size=
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N58
+
+## Claim
+
+PP=2 相比 TP=4 的单步推理延迟差异 Delta_Latency 主要由流水线气泡和同步等待决定；在 seq_len=32k 且 batch_size=1 的极端低吞吐场景下，PP=2 的延迟约为 TP=4 的 1.5-2 倍，因为 TP 的计算并行性掩盖了通信延迟，而 PP 的串行依赖导致第一级完成前第二级空闲。
+
+## Corrected Claim
+
+PP=2 相比 TP=4 的单步推理延迟通常更高，主要源于流水线气泡和同步等待；在长序列低批量场景下，PP的串行依赖往往导致其延迟显著高于TP，但具体倍数取决于硬件与模型架构，一般认为TP在低延迟场景更具优势。
+
+## Evidence
+
+[质询]具体数值倍数（1.5-2倍）缺乏通用理论支撑，高度依赖于硬件互联带宽、模型层数及具体实现细节，属于经验性数据而非普适物理/逻辑必然；且来源摘要未提供该具体数值对比。 | 逻辑上PP串行依赖导致的气泡延迟确实通常高于TP的通信开销，方向正确；但来源[1]仅讨论选型原则，未提供seq_len=32k下PP=2 vs TP=4的具体延迟倍数数据，属经验事实缺直接来源支持。
+
+## Search Query
+
+pipeline parallelism vs tensor parallelism single request latency comparison 27b model
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2077865855866750082&rut=ee0143bfc198b7235c97be42a31f5076dc2d119b4e25f52acb28f4a22c7d1c58', 'type': 'ddg', 'title': 'Tp 还是 Pp：多卡推理并行策略选型，为什么不能只盯着显存放得下'}

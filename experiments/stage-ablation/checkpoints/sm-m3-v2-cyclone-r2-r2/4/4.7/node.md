@@ -1,0 +1,30 @@
+# N17: 垂直风切变矢量 |S| 的典型范围：无切变环境 |S| < 5 m/s，强切变环境 |S| > 10 m/s；|S| 对气旋结构倾斜角 θ 的影响公式 tanθ
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N4, N5
+
+## Claim
+
+垂直风切变矢量 |S| 的典型范围：无切变环境 |S| < 5 m/s，强切变环境 |S| > 10 m/s；|S| 对气旋结构倾斜角 θ 的影响公式 tanθ ≈ S/(f·H)，其中 f 为科氏参数，H 为对流层高度；具体值需根据当地高空风场数据查证
+
+## Corrected Claim
+
+垂直风切变矢量 |S| 的大小随环境而异，通常无切变环境较小，强切变环境较大；气旋结构倾斜角 θ 受风切变影响，近似关系可表示为 tanθ ∝ S/(f·H)，具体数值需结合当地高空风场数据及更详细的热力学方程计算。
+
+## Evidence
+
+[质询]具体数值阈值（<5 m/s 和 >10 m/s）缺乏通用标准支持，且公式 tanθ ≈ S/(f·H) 为简化的一阶近似，忽略了热力学效应（如温度梯度导致的静力平衡调整），在复杂大气环境中精度有限。 | 来源[1][2][3]确认了垂直风切变的定义及其对天气系统的影响，但未提供具体的数值阈值范围或倾斜角计算公式；该事实包含经验参数和简化物理模型，逻辑自洽但缺乏直接来源支持。
+
+## Search Query
+
+vertical wind shear vector magnitude hurricane tilt angle formula f H typical values 5 10 m/s
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E9%A3%8E%E7%9A%84%E5%9E%82%E7%9B%B4%E5%88%87%E5%8F%98/5002545&rut=6707b3bc5cdf0a96da2b16acc0a422c578c63db45372b34e2e2f5d6ca30c4ca7', 'type': 'ddg', 'title': '风的垂直切变 - 百度百科'}
+- {'url': 'https://baike.baidu.com/item/%E9%AB%98%E7%A9%BA%E9%A3%8E%E5%88%87%E5%8F%98/22804080&rut=0be53cfab2de62ac210e1efe5dbd0d0db70ec96e8325a3c35869fa78786a4cea', 'type': 'ddg', 'title': '高空风切变_百度百科'}
+- {'url': 'https://zh.wikipedia.org/wiki/%E9%A3%8E%E5%88%87%E5%8F%98&rut=bf59f9842b81d445fc6c4183998b2a7bb36df4838495daca9e6a213b2b0889ea', 'type': 'ddg', 'title': '风切变 - 维基百科，自由的百科全书'}

@@ -1,0 +1,20 @@
+# N39: 湍流混合造成的角动量外输通量：定义为 $M_{mix} = \int_{BL} \rho \overline{v_r v_\theta} dr$。登陆后由于粗糙
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N9
+
+## Claim
+
+湍流混合造成的角动量外输通量：定义为 $M_{mix} = \int_{BL} \rho \overline{v_r v_\theta} dr$。登陆后由于粗糙度 $z_0$ 增加，湍流强度 $\sigma_w$ 增加，导致 $M_{mix}$ 较海洋上增加 2-3 倍，直接将高角动量空气推向眼墙以外，削弱切向风。
+
+## Corrected Claim
+
+湍流混合造成的角动量外输通量：定义为 $M_{mix} = \int_{BL} \rho \overline{v_r v_\theta} dr$。登陆后由于粗糙度 $z_0$ 增加，湍流强度 $\sigma_w$ 增加，导致 $M_{mix}$ 较海洋上增加 2-3 倍，直接将高角动量空气推向眼墙以外，削弱切向风。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：登陆后地表粗糙度增加导致湍流增强，进而显著增加角动量向外输送的通量，符合大气边界层物理机制及台风登陆减弱的基本原理。

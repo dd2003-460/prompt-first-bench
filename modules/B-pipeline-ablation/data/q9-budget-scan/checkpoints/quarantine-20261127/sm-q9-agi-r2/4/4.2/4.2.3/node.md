@@ -1,0 +1,28 @@
+# N67: local_27b 预估准确率 P_fail_local 的近似计算基于 N33 的首次通过率基准：若任务类型属于'复杂数值模拟'，P_fail_local ≈
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22
+
+## Claim
+
+local_27b 预估准确率 P_fail_local 的近似计算基于 N33 的首次通过率基准：若任务类型属于'复杂数值模拟'，P_fail_local ≈ 0.4-0.5；若属于'文献综述整合'，P_fail_local ≈ 0.1-0.2；具体数值需通过 20 个典型任务的 A/B 测试标定。
+
+## Corrected Claim
+
+local_27b 预估准确率 P_fail_local 的近似计算基于 N33 的首次通过率基准：通常‘复杂数值模拟’类任务的失败率显著高于‘文献综述整合’类任务；具体数值需通过实际任务的 A/B 测试进行标定。
+
+## Evidence
+
+[质询]具体数值区间（0.4-0.5 和 0.1-0.2）及“20个任务A/B测试”的标定方法属于特定实验设定下的经验数据，缺乏通用性，且参考来源未提供这些具体数值的支持。 | 逻辑上复杂任务失败率高于简单任务符合直觉，但参考来源[1]仅涉及模型部署性能测评，未包含任务准确率的具体数值或标定方法，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+Qwen3-27B vs GPT-4o code generation pass rate benchmark scientific simulation
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2091086992138413769&rut=f53fc07a8a4576756cad5d714f60a1f2466b98ee0a28fff17efcad359c9cd0be', 'type': 'ddg', 'title': '本地模型Qwen3.8 (27B /还是 flash-next-strata) 测评'}

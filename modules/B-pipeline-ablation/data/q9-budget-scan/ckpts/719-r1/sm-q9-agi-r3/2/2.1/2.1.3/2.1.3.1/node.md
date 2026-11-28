@@ -1,0 +1,20 @@
+# N150: 引用文献的 Token 开销量化：Top-5 引用平均注入约 1500 tokens（假设每篇摘要 300 tokens），占 max_model_len=26
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+引用文献的 Token 开销量化：Top-5 引用平均注入约 1500 tokens（假设每篇摘要 300 tokens），占 max_model_len=262144 的 0.57%，对 KV Cache 显存占用增加约 26MB（基于 N87 每 token 17.4MB 估算），对吞吐量的边际影响需通过 vLLM 压测验证是否低于 2%
+
+## Corrected Claim
+
+引用文献的 Token 开销量化：Top-5 引用平均注入约 1500 tokens（假设每篇摘要 300 tokens），占 max_model_len=262144 的 0.57%，对 KV Cache 显存占用增加约 26MB（基于 N87 每 token 17.4MB 估算），对吞吐量的边际影响需通过 vLLM 压测验证是否低于 2%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：1500/262144≈0.57%计算正确；1500*17.4MB≈26.1MB估算合理；基于knowledge源标记，逻辑自洽即视为verified。

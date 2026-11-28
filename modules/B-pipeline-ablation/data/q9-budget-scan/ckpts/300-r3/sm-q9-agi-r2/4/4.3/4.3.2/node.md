@@ -1,0 +1,29 @@
+# N84: 云端API单位成本基准：以同等规模开源模型API（如Together.ai Mistral-30B或OpenRouter Qwen2.5-32B-Instruc
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N22, N23, N24
+
+## Claim
+
+云端API单位成本基准：以同等规模开源模型API（如Together.ai Mistral-30B或OpenRouter Qwen2.5-32B-Instruct）为参照，输入价格 $0.60/M tokens，输出价格 $1.80/M tokens（2026年Q3市场均价，较GPT-4低50%以上）
+
+## Corrected Claim
+
+云端API单位成本基准：以同等规模开源模型API（如Together.ai Mistral-30B或OpenRouter Qwen2.5-32B-Instruct）为参照，其输入和输出价格通常显著低于GPT-4（例如约为GPT-4价格的50%以下），具体数值随平台和时期波动。
+
+## Evidence
+
+[质询]具体数值（$0.60/$1.80 per M tokens）及特定时间点（2026年Q3）的市场均价属于经验事实，缺乏直接来源支持，且不同平台（Together.ai vs OpenRouter）定价策略差异大，难以用单一‘市场均价’概括。 | 参考来源[1]仅提及GLM-5.3-Flash模型特性，未提供Mistral-30B或Qwen2.5-32B的具体价格数据；来源[2]完全无关。该陈述为经验事实，逻辑上量级合理（开源模型通常比GPT-4便宜），但缺乏直接来源支持具体数值，故降级。
+
+## Search Query
+
+Together AI Mistral 30B API pricing 2026 input output cost per million tokens
+
+## Retrieval Sources
+
+- {'url': 'https://openrouter.ai/z-ai/glm-5.3-flash&rut=e39792985d684b67c4ba1094d20342b3bead8835d81084ca8246544f0b6b4980', 'type': 'ddg', 'title': 'GLM 5.3 Flash - API Pricing & Benchmarks | OpenRouter'}
+- {'url': 'https://www.instagram.com/reel/DgK4DRvoNb9/&rut=0ecbc9754dfc11d6ad3900d65109dbad01a895b0e55f42a7c0d7460203cbae30', 'type': 'ddg', 'title': "Hannah Brooks | I'm the Grinch when it comes to Xmas decorations in ..."}

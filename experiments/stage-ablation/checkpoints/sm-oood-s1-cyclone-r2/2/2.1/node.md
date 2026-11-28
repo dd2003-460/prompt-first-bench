@@ -1,0 +1,30 @@
+# N12: 登陆后24小时内最大风速衰减率统计：强台风(V_max>50m/s)平均衰减8-12节/小时，飓风(V_max 33-50m/s)平均衰减5-8节/小时，热带风
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+登陆后24小时内最大风速衰减率统计：强台风(V_max>50m/s)平均衰减8-12节/小时，飓风(V_max 33-50m/s)平均衰减5-8节/小时，热带风暴(V_max<33m/s)平均衰减3-5节/小时。
+
+## Corrected Claim
+
+登陆后热带气旋的风速会迅速衰减，强台风衰减速度通常快于弱热带风暴，但具体平均衰减率（如8-12节/小时）需依据特定气象数据集统计，此处数值仅为一般性估计，非精确统计定值。
+
+## Evidence
+
+[质询]数值量级存疑：登陆后24小时内的平均衰减率通常远高于此（强台风登陆后往往在几小时内显著减弱，平均衰减率常达10-20节/小时甚至更高，取决于环境风切变和地形摩擦），且不同强度等级的衰减率差异并非如此线性平滑，该具体统计区间缺乏权威气象学共识支持，可能混淆了特定案例或长期平均趋势。 | 参考来源[1][2][3]均未提供登陆后风速衰减的具体统计数据，属于经验事实且缺乏直接来源支持，逻辑上虽自洽但无法验证具体数值区间。
+
+## Search Query
+
+typical decay rate tropical cyclone landfall knots per hour by intensity
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/List_of_Mediterranean_tropical-like_cyclones', 'type': 'wikipedia', 'title': 'List of Mediterranean tropical-like cyclones'}
+- {'url': 'https://en.wikipedia.org/wiki/Atlantic_hurricane', 'type': 'wikipedia', 'title': 'Atlantic hurricane'}
+- {'url': 'https://en.wikipedia.org/wiki/Tornado', 'type': 'wikipedia', 'title': 'Tornado'}

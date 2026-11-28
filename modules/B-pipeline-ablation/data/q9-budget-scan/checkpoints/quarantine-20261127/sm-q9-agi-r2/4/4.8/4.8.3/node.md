@@ -1,0 +1,28 @@
+# N88: 在 4x V100 上启用 vLLM 的 Logprobs 返回功能以计算 HR 指数，额外增加的 GPU 显存占用约为 2-4 GB（取决于 batch si
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+在 4x V100 上启用 vLLM 的 Logprobs 返回功能以计算 HR 指数，额外增加的 GPU 显存占用约为 2-4 GB（取决于 batch size 和序列长度），且导致推理吞吐量下降约 5-10%，需在 max-num-seqs=8 配置下实测对端到端延迟的影响。
+
+## Corrected Claim
+
+在 4x V100 上启用 vLLM 的 Logprobs 返回功能会增加额外的 GPU 显存占用并导致推理吞吐量下降，具体数值取决于 batch size、序列长度及模型规模，建议在 max-num-seqs=8 配置下实测对端到端延迟的影响。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性能数据（显存增加2-4GB，吞吐量下降5-10%），这些数值高度依赖于具体的模型大小、序列长度、Batch Size以及vLLM版本，并非固定常数。参考来源仅讨论logprobs参数的用法，未提供这些具体的性能开销数据，因此无法验证其准确性，且不同配置下波动可能很大。 | 逻辑上自洽（开启logprobs需存储额外概率分布，必然增加显存和计算量），但参考来源[1]仅涉及参数用法，未提供具体的显存和吞吐量量化数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+vLLM logprobs overhead memory usage inference latency impact throughput
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/vllm-project/vllm/discussions/1203&rut=d82ce73adb3ae0861a9a80c0ff7d4e250eeed2542deb631f6105fd894be6d354', 'type': 'ddg', 'title': 'How to use logprobs hyperparameters? · vllm-project vllm · Discussion ...'}

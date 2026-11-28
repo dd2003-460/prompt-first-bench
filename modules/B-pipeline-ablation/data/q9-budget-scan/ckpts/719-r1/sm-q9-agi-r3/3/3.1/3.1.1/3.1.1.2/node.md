@@ -1,0 +1,28 @@
+# N173: NVFP4 量化在 V100 上的计算路径：由于 V100 硬件不支持原生 FP4 计算，vLLM 需将 FP4 权重反量化为 FP16 或使用 INT8/FP
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N48
+
+## Claim
+
+NVFP4 量化在 V100 上的计算路径：由于 V100 硬件不支持原生 FP4 计算，vLLM 需将 FP4 权重反量化为 FP16 或使用 INT8/FP8 近似路径，导致有效算力从 156 TFLOPS 降至 ~78 TFLOPS (INT8) 或更低，且引入额外的反量化计算开销 (Dequantization Overhead) 约为 5-10% 的总计算时间 [待核验]
+
+## Corrected Claim
+
+NVFP4 量化在 V100 上需通过软件模拟或反量化至更高精度（如 FP16/INT8）进行计算，这引入了额外的反量化计算开销并限制了有效算力，具体性能损失取决于实现细节，通常显著低于原生 FP4 硬件加速路径。
+
+## Evidence
+
+[质询]具体数值（~78 TFLOPS 和 5-10% 开销）缺乏通用基准支持，V100 的 INT8 峰值算力通常标称为 130 TOPS (非 TFLOPS 单位混淆风险) 或等效 FP16 性能的一半左右，且反量化开销高度依赖具体算子实现和内存带宽瓶颈，5-10% 是一个未经证实的经验估计值。 | 来源 [1] 确认了 V100 硬件不支持原生 FP4 且需要软件模拟/反量化路径，支持了定性结论（需反量化、有额外开销），但未提供具体的 TFLOPS 数值或精确的百分比开销数据，属于间接支持。
+
+## Search Query
+
+vLLM FP4 quantization V100 dequantization overhead compute cost FP16 fallback
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/maco1979/nvfp4-v100&rut=5a7e0ee1d0c6416ebd714e824c011aff9a22adc3e62fba40a41f3ed9ccc8613b', 'type': 'ddg', 'title': 'GitHub - maco1979/nvfp4-v100: Software-simulated NVFP4 (E2M1+E8M0 ...'}

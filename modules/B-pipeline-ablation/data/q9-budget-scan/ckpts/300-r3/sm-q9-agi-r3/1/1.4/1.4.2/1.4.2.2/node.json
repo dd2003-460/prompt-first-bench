@@ -1,0 +1,23 @@
+{
+  "id": "N157",
+  "claim": "NVFP4 量化在 V100 上的实际执行路径并非 'Dequantize-to-FP16 导致 12-15% 开销'，而是取决于 vLLM 版本对 NVFP4 的支持程度：早期版本完全不支持 NVFP4 加载（报错），后期版本可能通过自定义 CUDA Kernel 实现 Dequant 到 FP16 进行矩阵乘法；需实测加载 qwen3.8-27b-nvfp4 模型时的 GPU 内存占用及首 token 延迟，以量化 Dequant 开销对 T_inference 的实际影响系数 α_dequant。",
+  "level": "L4",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]陈述中关于 vLLM 版本演进的具体细节（早期报错、后期自定义 Kernel）属于经验性断言，缺乏通用文档支持，且将特定仓库（maco1979/nvfp4-v100）的软件模拟方案泛化为 vLLM 的标准执行路径可能存在偏差；此外，'12-15% 开销'这一具体数值在来源中未出现，属于未经证实的经验数据。 | 来源 [1] 确认了 V100 缺乏硬件支持 NVFP4 且需软件模拟（间接支持'非原生执行'的逻辑），但未提供 vLLM 具体版本行为或 12-15% 开销的数据，故仅为间接支持。",
+  "corrected_claim": "NVFP4 量化在 V100 上的执行依赖于软件模拟或自定义 Kernel（因 V100 无硬件支持），具体开销取决于实现方式（如 vLLM 版本或第三方库），需实测确定 Dequant 对推理延迟的影响，而非固定为 12-15%。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N45"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM NVFP4 quantization V100 support dequantize overhead benchmark",
+  "retrieval_sources": [
+    {
+      "url": "https://github.com/maco1979/nvfp4-v100&rut=5a7e0ee1d0c6416ebd714e824c011aff9a22adc3e62fba40a41f3ed9ccc8613b",
+      "type": "ddg",
+      "title": "GitHub - maco1979/nvfp4-v100: Software-simulated NVFP4 (E2M1+E8M0 ..."
+    }
+  ]
+}

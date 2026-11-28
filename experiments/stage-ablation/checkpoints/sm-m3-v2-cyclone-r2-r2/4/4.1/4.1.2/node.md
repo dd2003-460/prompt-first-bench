@@ -1,0 +1,24 @@
+# N39: 超过 V_crit 后结构失稳加速衰减的量化表现为：眼墙收缩/外扩周期 T_cycle ≈ 2π√(r_eye/g_eff)，其中 g_eff 为有效重力（考虑
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+超过 V_crit 后结构失稳加速衰减的量化表现为：眼墙收缩/外扩周期 T_cycle ≈ 2π√(r_eye/g_eff)，其中 g_eff 为有效重力（考虑浮力修正），V_max > 65 m/s 时 T_cycle 缩短至 1-3 小时，每次循环导致最大风速下降 2-5 kt，累计衰减速率显著高于亚临界状态。
+
+## Corrected Claim
+
+超过 V_crit 后，台风眼墙结构失稳导致眼墙收缩/外扩周期显著缩短（通常为数小时量级），这种高频振荡加剧了核心区的能量耗散和摩擦效应，导致最大风速以每次循环 2-5 kt 的速率加速衰减，累计衰减速率显著高于亚临界状态。
+
+## Evidence
+
+[质询]该陈述将台风眼墙动力学简化为类似单摆或简谐振动的公式 T_cycle ≈ 2π√(r_eye/g_eff)，这在流体力学和气象学上缺乏理论依据。台风眼墙的收缩/扩张是由角动量守恒、径向风场平衡及潜热释放共同决定的复杂非线性过程，并非由“有效重力”主导的机械振荡。此外，g_eff 作为重力加速度量级（~9.8 m/s²），代入公式计算出的周期通常为分钟级（例如 r=1km, T≈20min），与声称的 1-3 小时量级存在数量级上的矛盾，除非 g_eff 被重新定义为极小的等效参数，但这违背了“有效重力”的物理定义。 | 先验知识/题面给定，逻辑校验发现物理模型类比错误且量级不自洽（重力主导的振荡周期远短于气象尺度），故降级。
+
+## Search Query
+
+eyewall replacement cycle period intensity dependence tropical cyclone rapid weakening

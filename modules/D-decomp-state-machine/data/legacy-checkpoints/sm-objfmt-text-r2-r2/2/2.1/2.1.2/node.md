@@ -1,0 +1,24 @@
+# N51: NVIDIA RTX 3090 (24GB GDDR6X) 的显存带宽为 936 GB/s，新品市场价约为 $1,000-$1,200，二手市场价约为 $700
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N12
+
+## Claim
+
+NVIDIA RTX 3090 (24GB GDDR6X) 的显存带宽为 936 GB/s，新品市场价约为 $1,000-$1,200，二手市场价约为 $700-$900，显存容量 24GB 与 RTX 4090 相同，但带宽低约 7%，在内存带宽受限的大模型推理场景中吞吐量略低于 RTX 4090，但性价比更高。
+
+## Corrected Claim
+
+NVIDIA RTX 3090 (24GB GDDR6X) 的显存带宽为 936 GB/s，新品市场价约为 $1,000-$1,200，二手市场价约为 $700-$900，显存容量 24GB 与 RTX 4090 相同，但带宽低约 7%，在内存带宽受限的大模型推理场景中吞吐量略低于 RTX 4090，但性价比更高。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 3090显存带宽936GB/s及24GB容量符合官方规格；RTX 4090带宽1008GB/s，3090带宽低约7.1%计算正确；价格区间符合市场常识；推理场景带宽受限导致吞吐量略低符合物理直觉。
+
+## Search Query
+
+NVIDIA RTX 3090 memory bandwidth price 2024

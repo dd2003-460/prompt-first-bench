@@ -1,0 +1,24 @@
+# N11: 本地推理的物理瓶颈在于显存带宽（HBM2 ~900GB/s per card）而非计算单元；对于长上下文生成，瓶颈从计算转向内存访问模式，导致吞吐量随序列长度增
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+本地推理的物理瓶颈在于显存带宽（HBM2 ~900GB/s per card）而非计算单元；对于长上下文生成，瓶颈从计算转向内存访问模式，导致吞吐量随序列长度增加呈非线性下降。
+
+## Corrected Claim
+
+本地推理的物理瓶颈在于显存带宽（HBM2 ~900GB/s per card）而非计算单元；对于长上下文生成，瓶颈从计算转向内存访问模式，导致吞吐量随序列长度增加呈非线性下降。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：LLM推理中解码阶段受限于显存带宽（Memory-Bound），HBM2带宽量级（~900GB/s）符合硬件常识，长上下文KV Cache增长导致内存访问压力增大从而降低吞吐量的逻辑自洽。
+
+## Search Query
+
+GPU inference bottleneck memory bandwidth vs compute long context

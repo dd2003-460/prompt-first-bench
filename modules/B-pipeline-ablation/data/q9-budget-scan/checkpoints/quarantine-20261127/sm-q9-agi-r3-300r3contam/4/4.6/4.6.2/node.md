@@ -1,0 +1,28 @@
+# N69: 工作点B的混合云成功率提升量化模型：P_success_B = P_success_A + α × (S_task - S_threshold) × β_clo
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N24
+
+## Claim
+
+工作点B的混合云成功率提升量化模型：P_success_B = P_success_A + α × (S_task - S_threshold) × β_cloud，其中 α 为复杂度敏感度系数（需实测，预期 0.05-0.15），β_cloud 为云端模型相对于本地模型的质量增益倍数（预期 2.0-3.0），当 S_task > S_threshold 时，成功率从 <10% 提升至 30-40% 的条件是 α×β_cloud > 0.5，否则需增加 Self-Critique 轮数 K 以补偿。
+
+## Corrected Claim
+
+工作点B的混合云成功率提升可通过引入复杂度敏感度系数α和云端质量增益倍数β_cloud进行建模，具体数值需根据实际任务集实测确定，不存在通用的固定阈值条件。
+
+## Evidence
+
+[质询]该公式为特定场景下的经验拟合模型，其中的系数范围（α: 0.05-0.15, β: 2.0-3.0）及阈值条件（α×β > 0.5）缺乏通用理论支撑，属于高度依赖具体任务分布和模型架构的经验参数，无法从第一性原理推导，且不同场景下数值可能剧烈波动。 | 参考来源[1]讨论的是INT8量化精度问题，与本节点关于混合云成功率量化模型的公式及参数完全无关，无可用外部证据支持；该陈述为经验事实，逻辑结构自洽但缺乏来源支持，故降级。
+
+## Search Query
+
+hybrid cloud LLM routing success rate improvement benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2041553771549946321&rut=cd1251ab35ccbdbc82c9286f69f5662e7bc7c6d18e4e8c5250076146abaa3a4f', 'type': 'ddg', 'title': '算能模型部署高阶篇：BModel 混合精度量化，从原理到落地，彻底解决 INT8 精度掉点问题'}

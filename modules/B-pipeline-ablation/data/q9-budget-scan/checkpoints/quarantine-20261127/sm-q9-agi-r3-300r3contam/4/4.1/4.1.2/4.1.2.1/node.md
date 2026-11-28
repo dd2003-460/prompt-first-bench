@@ -1,0 +1,24 @@
+# N162: 工作点A（高吞吐低成本）：选用 DeepSeek-V3 类开源权重托管 API（如 Together.ai 或 Fireworks），P_in=$0.28/M,
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N63
+
+## Claim
+
+工作点A（高吞吐低成本）：选用 DeepSeek-V3 类开源权重托管 API（如 Together.ai 或 Fireworks），P_in=$0.28/M, P_out=$1.10/M，适用场景为批量文献摘要生成（L_in/L_out=4:1），单任务成本 C_task = 0.28*L_in/M + 1.10*L_out/M，相比 GPT-4o 降本约 60%
+
+## Corrected Claim
+
+工作点A（高吞吐低成本）：选用 DeepSeek-V3 类开源权重托管 API（如 Together.ai 或 Fireworks），其输入/输出单价通常显著低于 GPT-4o，适用于批量文献摘要生成等高吞吐场景，预计可实现显著的成本降低（具体比例需根据实时报价计算）。
+
+## Evidence
+
+[质询]价格数据具有高度时效性和波动性，且不同供应商（Together.ai vs Fireworks）及不同时期定价差异巨大，$0.28/$1.10 的具体数值可能已过时或不准确；此外，GPT-4o 的价格也在变动，60% 的降本比例依赖于具体的对比基准，缺乏实时数据支撑。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体价格数值及降本比例的准确性）
+
+## Search Query
+
+DeepSeek V3 API pricing per million tokens Together AI Fireworks 2024

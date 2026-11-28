@@ -1,0 +1,20 @@
+# N9: 在max_model_len=262144且max-num-seqs=8的设定下，理论最大KV Cache需求为8 * 262144 * 4KB ≈ 8.0GB
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+在max_model_len=262144且max-num-seqs=8的设定下，理论最大KV Cache需求为8 * 262144 * 4KB ≈ 8.0GB，远低于48.5GB可用内存，因此长上下文长度并非内存瓶颈，而是受限于attention计算复杂度
+
+## Corrected Claim
+
+在 max_model_len=262144 且 max-num-seqs=8 的设定下，理论最大 KV Cache 需求取决于模型架构（层数 L、头数 H、隐藏维度 D）。若以典型 LLM 为例（假设 L=32, H=32, D=128, FP32），单 token KV 大小约为 1MB，总需求约为 8 * 262144 * 1MB ≈ 2TB，远超 48.5GB 可用内存。因此，长上下文长度极可能是内存瓶颈，除非使用量化或 PagedAttention 等优化技术。
+
+## Evidence
+
+[质询]数值量级严重错误：4KB 仅为单个 token 在特定配置下的极小估算值（甚至低于单个 float32 向量大小），实际 KV Cache 需求需乘以层数（L）、头数（H）和隐藏维度（D）。对于典型大模型（如 L=32, H=32, D=128），单 token KV 大小约为 2 * L * H * D * 4 bytes ≈ 1MB，总需求应为 8 * 262144 * 1MB ≈ 2TB，远超 48.5GB。原陈述忽略了模型架构参数，导致低估了约 256 倍。 | 逻辑校验失败：KV Cache 计算公式缺失关键架构参数（层数、头数、维度），导致数量级错误（8GB vs 实际可能的 TB 级），与基本内存管理直觉矛盾。

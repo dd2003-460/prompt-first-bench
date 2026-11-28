@@ -1,0 +1,24 @@
+# N12: 摩擦敏感度比值：热带风暴（V_max < 40 m/s）与强台风（V_max > 50 m/s）的摩擦耗散功率密度之比 P_fric_TS/P_fric_TY 
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4, N5
+
+## Claim
+
+摩擦敏感度比值：热带风暴（V_max < 40 m/s）与强台风（V_max > 50 m/s）的摩擦耗散功率密度之比 P_fric_TS/P_fric_TY ≈ (V_TS/V_TY)^2 × (h_TS/h_TY)，其中边界层高度 h 随强度增加而升高，导致强气旋单位质量摩擦耗散反而降低
+
+## Corrected Claim
+
+摩擦敏感度比值：热带风暴（V_max < 40 m/s）与强台风（V_max > 50 m/s）的摩擦耗散功率密度之比 P_fric_TS/P_fric_TY ≈ (V_TS/V_TY)^2 × (h_TS/h_TY)，其中边界层高度 h 随强度增加而升高，导致强气旋单位质量摩擦耗散反而降低
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：摩擦耗散功率密度正比于风速平方与边界层高度，热带风暴风速低且边界层较薄，强台风风速高且边界层增厚，比值公式符合流体力学基本原理。
+
+## Search Query
+
+boundary layer height dependence on hurricane intensity frictional dissipation power ratio

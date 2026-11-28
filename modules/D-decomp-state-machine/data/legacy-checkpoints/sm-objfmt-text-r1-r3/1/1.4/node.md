@@ -1,0 +1,20 @@
+# N10: 基于 32K context 窗口和 BF16 KV Cache，Qwen3-27B 的单请求 KV Cache 峰值显存占用约为 [待核验: 需代入 N9 参
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+基于 32K context 窗口和 BF16 KV Cache，Qwen3-27B 的单请求 KV Cache 峰值显存占用约为 [待核验: 需代入 N9 参数计算，预计 10-20GB 量级]，加上权重后总需求决定最小显存档位
+
+## Corrected Claim
+
+基于 32K context 窗口和 BF16 KV Cache，Qwen3-27B 的单请求 KV Cache 峰值显存占用约为 [待核验: 需代入 N9 参数计算，预计 10-20GB 量级]，加上权重后总需求决定最小显存档位
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在逻辑上正交（分别涵盖参数、KV计算、BF16总需、FP8总需），无矛盾或重复。但存在两个主要缺陷：1. 完备性不足，父节点明确限定为“BF16 KV Cache”，而子节点4引入了“FP8/INT8精度”下的需求，这超出了父节点定义的特定场景范围，属于过度泛化；2. 数据准确性存疑，Qwen3-27B若为27B参数，BF16权重应为~54GB（正确），但通常27B模型在48GB显卡上无法以BF16运行（需66GB+），子节点3指出64-66GB需求与子节点4中48GB可行性结论在逻辑上虽不矛盾（因为精度不同），但父节点仅讨论BF16场景时引入FP8作为子节点破坏了上下文的聚焦性。）

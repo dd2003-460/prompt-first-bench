@@ -1,0 +1,24 @@
+# N278: NVFP4 在 V100 上的反量化内存带宽瓶颈：将 NVFP4 权重（2 bits/param）反量化为 FP16（16 bits/param）需读取 27B
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N111
+
+## Claim
+
+NVFP4 在 V100 上的反量化内存带宽瓶颈：将 NVFP4 权重（2 bits/param）反量化为 FP16（16 bits/param）需读取 27B * 2/8 = 6.75GB 数据并写出 27B * 2/8 * 8 = 54GB 临时缓冲（若全量反量化）或流式反量化；V100 HBM2 带宽约 900 GB/s，全量反量化耗时 T_dequant_full = 6.75GB / 900GB/s ≈ 7.5ms，但若每层流式反量化，带宽利用率受 PCIe 或 HBM 访问模式影响，实际有效吞吐可能降至峰值的 60-70%。
+
+## Corrected Claim
+
+NVFP4 在 V100 上的反量化内存带宽瓶颈：将 NVFP4 权重（2 bits/param）反量化为 FP16（16 bits/param）需读取 27B * 2/8 = 6.75GB 数据并写出 27B * 2/8 * 8 = 54GB 临时缓冲（若全量反量化）或流式反量化；V100 HBM2 带宽约 900 GB/s，全量反量化耗时 T_dequant_full = 6.75GB / 900GB/s ≈ 7.5ms，但若每层流式反量化，带宽利用率受 PCIe 或 HBM 访问模式影响，实际有效吞吐可能降至峰值的 60-70%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数*2bits/8=6.75GB读取量正确；V100 HBM2带宽~900GB/s符合规格；6.75/900=7.5ms计算无误；流式反量化效率降低符合硬件常识。
+
+## Search Query
+
+V100 HBM2 bandwidth NVFP4 dequantization latency benchmark

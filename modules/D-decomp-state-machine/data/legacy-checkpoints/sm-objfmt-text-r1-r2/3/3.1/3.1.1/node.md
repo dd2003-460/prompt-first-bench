@@ -1,0 +1,20 @@
+# N51: RTX 4090 的 BF16 理论峰值算力为 82.6 TFLOPS，FP8 峰值算力为 165.2 TFLOPS，其显存容量 24GB 恰好覆盖 27B 模
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N16
+
+## Claim
+
+RTX 4090 的 BF16 理论峰值算力为 82.6 TFLOPS，FP8 峰值算力为 165.2 TFLOPS，其显存容量 24GB 恰好覆盖 27B 模型 W4/FP8 权重 (13.5-27GB) 但无法容纳 BF16 权重 (54GB) 加上 32K 上下文的 KV Cache (约 15-20GB)，因此仅支持低精度推理。
+
+## Corrected Claim
+
+RTX 4090 的 BF16 理论峰值算力为 82.6 TFLOPS，FP8 峰值算力为 165.2 TFLOPS，其显存容量 24GB 恰好覆盖 27B 模型 W4/FP8 权重 (13.5-27GB) 但无法容纳 BF16 权重 (54GB) 加上 32K 上下文的 KV Cache (约 15-20GB)，因此仅支持低精度推理。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：RTX 4090 拥有 82.6 TFLOPS BF16 和 165.2 TFLOPS FP8 算力，24GB 显存足以容纳 27B 模型的 W4/FP8 权重（约 13.5-27GB），但无法同时容纳 BF16 权重（54GB）及长上下文 KV Cache，故仅支持低精度推理。

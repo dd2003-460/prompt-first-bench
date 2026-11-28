@@ -1,0 +1,20 @@
+# N219: 分子项（正确引用数）的量化判定依赖于自动匹配算法：采用 Sentence-BERT (all-MiniLM-L6-v2) 计算生成引用与 Ground Trut
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N77
+
+## Claim
+
+分子项（正确引用数）的量化判定依赖于自动匹配算法：采用 Sentence-BERT (all-MiniLM-L6-v2) 计算生成引用与 Ground Truth 文献标题/摘要的余弦相似度，设定阈值 Sim > 0.85 判定为匹配成功；在标准学术引用格式下，该方法的 False Positive Rate (FPR) 预计低于 5%，但需处理多义词歧义导致的误匹配。
+
+## Corrected Claim
+
+分子项（正确引用数）的量化判定依赖于自动匹配算法：通常采用 Sentence-BERT (如 all-MiniLM-L6-v2) 计算生成引用与 Ground Truth 文献标题/摘要的余弦相似度，并设定特定阈值（例如 0.85）判定为匹配成功；该方法的有效性取决于具体阈值设置及数据分布，需处理多义词歧义导致的误匹配。
+
+## Evidence
+
+[质询]阈值 0.85 和 FPR < 5% 是具体的经验参数，缺乏通用标准支持，不同数据集和任务下表现差异巨大，属于特定实验配置而非普适事实。 | 经验事实，逻辑自洽但缺来源支持

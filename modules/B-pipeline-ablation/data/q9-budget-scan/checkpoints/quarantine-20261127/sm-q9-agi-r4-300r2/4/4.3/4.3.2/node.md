@@ -1,0 +1,30 @@
+# N69: 云端 API 边际成本 C_cloud(L) = L * (C_input + C_output)，其中 C_input ≈ $0.05/M tokens, C
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+云端 API 边际成本 C_cloud(L) = L * (C_input + C_output)，其中 C_input ≈ $0.05/M tokens, C_output ≈ $0.2/M tokens (以 Qwen/Turbo 级模型为例)，需按实际供应商定价替换
+
+## Corrected Claim
+
+云端 API 边际成本 C_cloud(L) = L * (C_input + C_output)，其中 C_input 和 C_output 取决于具体模型层级（例如 Qwen 旗舰版输入约为 $0.41/M tokens [1]，DeepSeek 约为 $0.28/M tokens [3]），需按实际供应商及模型版本定价替换。
+
+## Evidence
+
+[质询]具体数值（$0.05/$0.2）缺乏来源直接支持，且参考来源[1]提到的Qwen旗舰模型输入价格($0.41/M)远高于声称的$0.05/M，存在量级差异风险；虽然声称是'Turbo级'，但来源未提供该特定低配版本的定价数据。 | 公式逻辑自洽，但具体价格属于经验事实，参考来源[1][3]提供了其他模型/版本的价格（如$0.41, $0.28），未直接支持$0.05/$0.2这一特定数值，故降级。
+
+## Search Query
+
+cloud LLM API pricing per million tokens input output 2024 2025
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Qwen', 'type': 'wikipedia', 'title': 'Qwen'}
+- {'url': 'https://en.wikipedia.org/wiki/Claude_%28AI%29', 'type': 'wikipedia', 'title': 'Claude (AI)'}
+- {'url': 'https://en.wikipedia.org/wiki/DeepSeek_%28AI%29', 'type': 'wikipedia', 'title': 'DeepSeek (AI)'}

@@ -1,0 +1,20 @@
+# N19: 假设生成模块的输出格式为JSON对象，包含hypothesis_statement, expected_effect_size, testable_predic
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+假设生成模块的输出格式为JSON对象，包含hypothesis_statement, expected_effect_size, testable_prediction, required_resources 4个字段，生成置信度通过自我评估（self-consistency sampling n=5）计算，置信度<0.7的假设自动丢弃。
+
+## Corrected Claim
+
+假设生成模块的输出格式为JSON对象，包含hypothesis_statement, expected_effect_size, testable_prediction, required_resources 4个字段，生成置信度通过自我评估（self-consistency sampling n=5）计算，置信度<0.7的假设自动丢弃。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

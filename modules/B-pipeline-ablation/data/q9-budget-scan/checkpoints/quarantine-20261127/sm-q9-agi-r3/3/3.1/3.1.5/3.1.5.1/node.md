@@ -1,0 +1,20 @@
+# N155: 在 fp8 KV cache 配置下，bytes_per_element 从 2 (FP16) 降为 1，导致单条序列每 1k tokens 的 KV cach
+
+- **status**: verified
+- **level**: L4
+- **source**: given
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N54
+
+## Claim
+
+在 fp8 KV cache 配置下，bytes_per_element 从 2 (FP16) 降为 1，导致单条序列每 1k tokens 的 KV cache 增量从 4 MB 降至 2 MB，这是 N54 中 4 MB 数值的基准条件。
+
+## Corrected Claim
+
+在 fp8 KV cache 配置下，bytes_per_element 从 2 (FP16) 降为 1，导致单条序列每 1k tokens 的 KV cache 增量从 4 MB 降至 2 MB，这是 N54 中 4 MB 数值的基准条件。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：FP16为2字节，FP8为1字节，比例1:2，故4MB降至2MB符合线性缩放逻辑。

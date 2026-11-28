@@ -1,0 +1,20 @@
+# N36: Qwen3-27B 中实际存储 KV Cache 的层数 n_kv_layers 等于总层数 64 层（Qwen3 系列未采用混合注意力架构，所有 Transf
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N7
+
+## Claim
+
+Qwen3-27B 中实际存储 KV Cache 的层数 n_kv_layers 等于总层数 64 层（Qwen3 系列未采用混合注意力架构，所有 Transformer 层均需计算并存储 KV Cache，不存在部分层省略 KV 存储的情况）。
+
+## Corrected Claim
+
+Qwen3-27B 中实际存储 KV Cache 的层数 n_kv_layers 等于总层数 64 层（Qwen3 系列未采用混合注意力架构，所有 Transformer 层均需计算并存储 KV Cache，不存在部分层省略 KV 存储的情况）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

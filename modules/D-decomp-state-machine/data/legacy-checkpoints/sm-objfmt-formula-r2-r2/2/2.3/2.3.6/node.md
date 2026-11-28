@@ -1,0 +1,24 @@
+# N78: W4 权重量化对 KV Cache 精度的间接影响：W4 权重本身不改变 KV Cache 的数据类型，但若结合 FP8/INT8 KV Cache 使用，需评
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N15
+
+## Claim
+
+W4 权重量化对 KV Cache 精度的间接影响：W4 权重本身不改变 KV Cache 的数据类型，但若结合 FP8/INT8 KV Cache 使用，需评估权重量化误差与 KV Cache 量化误差的叠加效应，通常建议 W4 搭配 INT8 KV Cache 而非 FP8 以保持数值稳定性。
+
+## Corrected Claim
+
+W4 权重量化本身不改变 KV Cache 的数据类型，但会引入额外的权重近似误差。当结合低精度 KV Cache（如 FP8/INT8）使用时，需评估两者量化误差的叠加对最终输出精度的影响。具体选择 INT8 还是 FP8 作为 KV Cache 格式，取决于目标硬件的算子支持及具体模型的敏感度测试结果，并非绝对固定。
+
+## Evidence
+
+[质询]该陈述包含具体的工程实践建议（W4搭配INT8优于FP8以保持数值稳定性），这属于经验性结论而非第一性原理可推导的数学或物理事实。虽然逻辑上误差叠加是存在的，但‘INT8比FP8更稳定’这一具体偏好缺乏普适的理论必然性，且不同硬件架构和模型结构下结论可能不同，存在将特定场景经验泛化的风险。 | source=knowledge，逻辑自洽（误差叠加效应存在），但该具体搭配建议属于经验事实，无外部来源支持，且非第一性原理可严格推导，故降级。
+
+## Search Query
+
+W4 weight quantization impact on KV cache precision stability vLLM

@@ -1,0 +1,24 @@
+# N27: 地形抬升（Orographic Lift）对衰减速率的量化影响：当登陆点海拔超过 500 m 时，地形强迫上升气流导致边界层不稳定度增加，使得最大风速衰减速率额
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+地形抬升（Orographic Lift）对衰减速率的量化影响：当登陆点海拔超过 500 m 时，地形强迫上升气流导致边界层不稳定度增加，使得最大风速衰减速率额外增加 15-25%；典型山区登陆的气旋在越过山脉后的 6 小时内，风速衰减比平原登陆快 3-5 kt/h。
+
+## Corrected Claim
+
+地形抬升（Orographic Lift）通过强迫上升气流增加边界层不稳定度并促进能量耗散，通常会导致登陆气旋的最大风速衰减速率加快，但具体加速幅度取决于地形高度、坡度及气旋初始强度，并非固定的15-25%或3-5 kt/h。
+
+## Evidence
+
+[质询]陈述中具体的量化数值（15-25%额外增加、3-5 kt/h差异）缺乏普遍适用的科学共识支持，不同气旋强度、地形形态及环境背景下的衰减率差异极大，固定数值范围过于绝对且可能混淆了特定案例与一般规律。 | 来源[1]仅定性描述了地形抬升导致空气冷却和云雨形成的机制，未提供关于风速衰减速率的具体量化数据（如百分比或kt/h），属于间接支持机制存在但无法验证具体数值，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Orographic_lift&rut=260fd1c93ec2654dd0334e6d9f988b5400566fbaf6c798a3fa44a0736e996ea3', 'type': 'ddg', 'title': 'Orographic lift - Wikipedia'}

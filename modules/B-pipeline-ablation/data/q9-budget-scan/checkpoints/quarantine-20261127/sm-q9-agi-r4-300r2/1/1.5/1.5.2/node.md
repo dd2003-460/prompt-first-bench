@@ -1,0 +1,20 @@
+# N43: 算术强度(Arithmetic Intensity)计算：AI = FLOPs/MemBytes = 2*P / (P + KV_cache_read)。在长上
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+算术强度(Arithmetic Intensity)计算：AI = FLOPs/MemBytes = 2*P / (P + KV_cache_read)。在长上下文(262k)下，KV读取占主导，AI < 1，处于内存带宽受限区(Memory-bound)
+
+## Corrected Claim
+
+算术强度(Arithmetic Intensity)计算：AI = FLOPs/MemBytes = 2*P / (P + KV_cache_read)。在长上下文(262k)下，KV读取占主导，AI < 1，处于内存带宽受限区(Memory-bound)
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点是同一公式在不同参数（Batch Size, Sequence Length）下的特例，存在高度冗余；且父节点强调'长上下文'特性，子节点引入短序列案例偏离了父节点的核心限定范围，导致覆盖不全且逻辑分散。）

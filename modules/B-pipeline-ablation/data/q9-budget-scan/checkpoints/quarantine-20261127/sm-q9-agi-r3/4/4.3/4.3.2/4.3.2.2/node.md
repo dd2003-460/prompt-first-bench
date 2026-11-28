@@ -1,0 +1,20 @@
+# N198: 本地推理的边际电力成本修正：需扣除空闲功耗，实际增量功耗 Delta_Power = Load_Power - Idle_Power；若 Load=1000W,
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N70
+
+## Claim
+
+本地推理的边际电力成本修正：需扣除空闲功耗，实际增量功耗 Delta_Power = Load_Power - Idle_Power；若 Load=1000W, Idle=250W，则 Delta_Power=750W；单次成本修正为 (750W/3600s) * 5s * 0.5元/kWh ≈ 0.00052 元，较原估算 0.0007 元降低 25%。
+
+## Corrected Claim
+
+本地推理的边际电力成本修正：需扣除空闲功耗，实际增量功耗 Delta_Power = Load_Power - Idle_Power；若 Load=1000W, Idle=250W，则 Delta_Power=750W；单次成本修正为 (750W/3600s) * 5s * 0.5元/kWh ≈ 0.00052 元，较原估算 0.0007 元降低 25%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算准确（750W/3600s * 5s * 0.5元/kWh ≈ 0.00052元），降幅比例正确（(0.0007-0.00052)/0.0007 ≈ 25.7%，约25%），物理逻辑自洽。

@@ -1,0 +1,28 @@
+# N26: 物理空间与散热约束（Physical & Thermal Constraints）：本地工作站机箱需容纳多张全高显卡及相应风扇/水冷。Constraint_Ch
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+物理空间与散热约束（Physical & Thermal Constraints）：本地工作站机箱需容纳多张全高显卡及相应风扇/水冷。Constraint_Check: Chassis_Space_Required > Available_Space? 若双卡，需验证主板插槽间距是否支持2x Full-Height Cards（通常需4-slot间距以上 [待核验]）。散热不足导致的降频（Thermal Throttling）会使实际性能低于标称值，等效于降低算力密度，需在TCO的性能分母中打折处理。
+
+## Corrected Claim
+
+本地工作站机箱需容纳多张全高显卡及相应散热组件。需验证主板插槽间距是否支持双卡安装（具体间距取决于主板布局与显卡厚度，通常需预留足够空间以避免干涉）。散热不足导致的降频会降低实际算力，需在TCO计算中予以考量。
+
+## Evidence
+
+[质询]具体数值“4-slot间距”属于特定硬件规格的经验事实，不同主板和显卡设计差异巨大，并非通用物理定律或第一性原理可推导的绝对标准，且参考来源完全无关。 | 逻辑自洽（散热影响性能符合物理直觉），但参考来源[1]关于3D打印路径规划，与GPU机箱散热无关，属无关来源；具体插槽间距为经验事实，缺乏直接来源支持。
+
+## Search Query
+
+dual RTX 4090 motherboard slot spacing requirement chassis clearance
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2007.09626.pdf&rut=fa0d8be4f93e844feb46f40d16d4deb23416f8c7825cd7148eedb69d51980681', 'type': 'ddg', 'title': 'PDF thermal constraints - arXiv.org'}

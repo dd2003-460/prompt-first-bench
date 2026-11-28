@@ -1,0 +1,21 @@
+{
+  "id": "N23",
+  "claim": "吞吐量 (Throughput) 与硬件参数的映射：在 Batch Size = 1 时，Throughput ≈ Memory_Bandwidth / Weight_Size_GB；当 Batch Size 增大至饱和点 (Batch_Saturation) 时，Throughput 转为 Compute-Bound，公式变为 Throughput ≈ GPU_FLOPS / (Model_Size * Seq_Len * 2)。RTX 4090 的 Batch_Saturation 通常低于 A100/H100，意味着多用户并发场景下 4090 的边际收益下降更快。",
+  "level": "L2",
+  "source": "search",
+  "status": "verified",
+  "evidence": "父节点级核验通过：正交+完备+无冗余（四个子节点分别对应了父节点中提到的四个核心维度：1. 低负载（BS=1）下的内存带宽瓶颈及具体数值；2. 从内存瓶颈转向计算瓶颈的转折点（Batch_Saturation）估算；3. 高并发（Compute-Bound）下的吞吐量公式及成本优势；4. 物理显存容量对最大并发的硬性限制。这四个维度在逻辑上层层递进且互不重叠（分别关注带宽、转折点、算力效率、显存容量），共同完整覆盖了父节点关于吞吐量与硬件参数映射的全部论述，未发现冗余或矛盾。）",
+  "corrected_claim": "吞吐量与硬件参数的映射关系取决于具体模型架构和实现细节。在 Memory-Bound 阶段，吞吐量受限于内存带宽与权重加载量；在 Compute-Bound 阶段，吞吐量近似等于 GPU 算力除以每 Token 所需的浮点运算次数（FLOPs/Token）。RTX 4090 由于显存带宽和容量限制，其达到计算饱和所需的 Batch Size 通常小于 A100/H100，但在高并发场景下的边际收益需结合具体模型大小评估。",
+  "rework_count": 1,
+  "parent_ids": [],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": [
+    {
+      "url": "https://www.zhihu.com/question/596311688&rut=69014751954fea5b996fefe14381eee636fe7f86ad57a332d2241bf385cc9abf",
+      "type": "ddg",
+      "title": "大模型训练的性能指标：吞吐率 Throughput 是指什么？"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# N297: Info_Density 的量化定义与测量方法：Info_Density = H(X|Context) / L_tokens，其中 H(X|Context) 为
+
+- **status**: degraded
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N120
+
+## Claim
+
+Info_Density 的量化定义与测量方法：Info_Density = H(X|Context) / L_tokens，其中 H(X|Context) 为任务解相对于上下文的条件熵（bits）；在 GSM8K 中，纯算术题的 Info_Density ≈ 0.05 bits/token (已知公式，只需计算)；在 HotpotQA 中，需检索未知实体，Info_Density ≈ 0.45 bits/token。
+
+## Corrected Claim
+
+Info_Density 定义为条件熵 H(X|Context) 除以 token 数 L_tokens。一般而言，需要外部知识检索的任务（如 HotpotQA）的信息密度显著高于仅依赖内部推理或简单计算的任务（如 GSM8K），但具体数值随数据集分布和上下文长度变化，不宜固定为 0.05 和 0.45 bits/token。
+
+## Evidence
+
+[质询]数值量级存疑：GSM8K 题目通常包含多步推理和复杂语境，其信息密度（不确定性）通常高于简单的单步算术题；0.05 bits/token 的数值极低，接近于确定性文本，可能低估了 GSM8K 的实际复杂度。此外，HotpotQA 作为开放域问答，其答案的不确定性（熵）通常远高于 0.45 bits/token（例如，从数万候选实体中选择，熵应在 log2(N) 量级，即 10+ bits，分摊到 token 后也可能更高，取决于 L_tokens 的定义）。这些具体数值缺乏标准基准支持，可能是特定实验下的估算值而非通用常数。 | source=knowledge，逻辑结构自洽（熵除以长度），但具体数值（0.05 和 0.45）属于经验性估算，缺乏广泛公认的基准数据支持，且与直觉上的任务复杂度差异（GSM8K vs HotpotQA）可能存在偏差，故降级为定性描述。

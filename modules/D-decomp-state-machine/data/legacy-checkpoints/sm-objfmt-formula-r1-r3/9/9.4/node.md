@@ -1,0 +1,20 @@
+# N115: 电源冗余计算：2x 4090 (900W) + CPU (100W) + RAM/Disk/Misc (50W) = 1050W 持续负载。根据 80 Plus
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+电源冗余计算：2x 4090 (900W) + CPU (100W) + RAM/Disk/Misc (50W) = 1050W 持续负载。根据 80 Plus Platinum 认证标准，在 50% 负载时效率最高，因此推荐选择 1200W-1600W 电源，使得 GPU 满载时电源工作在 60%-80% 负载区间，兼顾效率与瞬时峰值应对能力。
+
+## Corrected Claim
+
+电源冗余计算：2x 4090 (900W) + CPU (100W) + RAM/Disk/Misc (50W) = 1050W 持续负载。根据 80 Plus Platinum 认证标准，在 50% 负载时效率最高，因此推荐选择 1200W-1600W 电源，使得 GPU 满载时电源工作在 60%-80% 负载区间，兼顾效率与瞬时峰值应对能力。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：功率计算准确（900+100+50=1050W），符合80 Plus Platinum在50%负载效率最高的工程常识，推荐1200W-1600W电源以维持60%-80%负载区间及应对峰值，逻辑自洽且数值量级合理。

@@ -1,0 +1,25 @@
+# N33: 定义'性价比最高'的优化函数：Cost_Effectiveness = (Quality_Score / Total_Cost)。其中Total_Cost = 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+定义'性价比最高'的优化函数：Cost_Effectiveness = (Quality_Score / Total_Cost)。其中Total_Cost = Energy_Cost + API_Cost + Human_Review_Time_Cost。Quality_Score = w1*Accuracy + w2*Novelty + w3*Reproducibility。在本地硬件约束下，当API成本占比超过总成本的40%时，性价比开始显著下降，应优先优化本地推理吞吐量而非增加API调用。
+
+## Corrected Claim
+
+定义'性价比最高'的优化函数：Cost_Effectiveness = (Quality_Score / Total_Cost)。其中Total_Cost = Energy_Cost + API_Cost + Human_Review_Time_Cost。Quality_Score = w1*Accuracy + w2*Novelty + w3*Reproducibility。在本地硬件约束下，当API成本占比过高时，性价比可能下降，需根据具体边际成本收益比决定是否优化本地推理吞吐量或减少API调用。
+
+## Evidence
+
+[质询]陈述中关于“API成本占比超过总成本的40%”这一具体阈值以及“应优先优化本地推理吞吐量”的策略建议属于特定场景下的经验性工程决策，并非通用的成本效果分析定义或第一性原理可推导的数学事实，且参考来源未提供该具体数值阈值的依据。 | 来源[1]和[2]仅定义了成本效果分析（CEA）的一般概念（成本与效果的比值），支持了公式结构的合理性，但未涉及具体的AI系统成本构成、40%阈值或本地推理优化策略，属于间接支持且缺乏具体参数佐证。
+
+## Retrieval Sources
+
+- {'url': 'https://zh.wikipedia.org/wiki/%E6%88%90%E6%9C%AC%E6%95%88%E6%9E%9C%E5%88%86%E6%9E%90&rut=06d76206c1c5718b03d3fcf84d933942de38c0fa508084ec5c5b867433f2aa40', 'type': 'ddg', 'title': '成本效果分析 - 维基百科，自由的百科全书'}
+- {'url': 'https://zhuanlan.zhihu.com/p/1898797937590530893&rut=ae9b74346c75903cc15eb9f81aaef8500f3006e1eda8a62843d1c5103803dbf9', 'type': 'ddg', 'title': '实验经济学笔记-7. Cost Effectiveness Analysis（成本有效性分析）'}

@@ -1,0 +1,23 @@
+{
+  "id": "N248",
+  "claim": "Bytes_per_token_kv 公式中 num_kv_heads=8 假设 GQA (Grouped Query Attention) 已启用；若 Qwen3-27B 实际为 MHA (Multi-Head Attention, num_heads=32)，则 Bytes_per_token_kv 将变为 2 * 32 * 128 * 1 = 8192 Bytes = 8KB/token，导致显存需求增加 4 倍。",
+  "level": "L5",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]该陈述包含具体的模型架构参数（Qwen3-27B 的 num_kv_heads=8 和 num_heads=32），属于经验事实。虽然 KV Cache 计算公式本身逻辑正确，但关于 Qwen3-27B 具体采用 GQA 还是 MHA 以及头数的具体数值，参考来源 [1] 仅提供了通用原理，未提供该特定模型的架构细节，无法验证其准确性。 | 逻辑推导成立（KV Cache 大小与头数成正比），但参考来源 [1] 仅涵盖通用 KV Cache 原理，未涉及 Qwen3-27B 的具体架构参数，属于经验事实且缺乏直接来源支持。",
+  "corrected_claim": "Bytes_per_token_kv 的计算依赖于模型的注意力头配置。若 Qwen3-27B 采用 GQA (num_kv_heads=8)，则每 token KV 缓存为 2KB；若采用 MHA (num_heads=32)，则为 8KB。具体数值需依据 Qwen3-27B 官方发布的模型配置文件确认。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N97"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "Qwen3-27B architecture num_attention_heads num_key_value_heads config.json",
+  "retrieval_sources": [
+    {
+      "url": "https://zhuanlan.zhihu.com/p/2016843212178882587&rut=8e803a820f33848ed771468062d9d238107325445a03b2b31896193e1fb2b70f",
+      "type": "ddg",
+      "title": "KV Cache 深度解析：从原理到工程优化的完整指南 - 知乎"
+    }
+  ]
+}

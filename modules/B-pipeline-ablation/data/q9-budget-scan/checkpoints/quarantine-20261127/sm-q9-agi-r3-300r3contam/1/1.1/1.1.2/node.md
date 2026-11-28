@@ -1,0 +1,29 @@
+# N33: 262k上下文下首尾一致性偏差率定义为 |Answer(Head) - Answer(Tail)| / Answer(GroundTruth)，在混合注意力架构
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7
+
+## Claim
+
+262k上下文下首尾一致性偏差率定义为 |Answer(Head) - Answer(Tail)| / Answer(GroundTruth)，在混合注意力架构下预计偏差率为5%-15%，若超过10%则必须启用分块处理策略。
+
+## Corrected Claim
+
+在262k上下文下，首尾一致性偏差率通常随上下文长度增加而上升，具体数值取决于模型架构与任务类型，建议根据实际测试数据设定分块处理阈值。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性阈值（5%-15%偏差率、10%触发分块）和特定架构下的性能预测，属于经验事实而非第一性原理可推导内容，且参考来源中未提供相关数据支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1]仅讨论长上下文容量，未涉及首尾一致性偏差率及分块策略阈值；来源[2]无关）。
+
+## Search Query
+
+LLM long context head tail consistency deviation rate 262k tokens Qwen hybrid attention
+
+## Retrieval Sources
+
+- {'url': 'https://www.toutiao.com/article/7680609122198258210/&rut=e927b7d5dd85a8e6ee14865fe9b7cc52b08203c2f25d2dbc04c22d6692614550', 'type': 'ddg', 'title': '262K vs 1M：我把 LLM 压测了一遍，终于搞懂了长上下文的真实代价'}
+- {'url': 'https://github.com/Niko1221/Strata/releases&rut=983beec7aab357be72927dcf119e8c138cc505817d16dd81d7ba651d850ddeca', 'type': 'ddg', 'title': 'Releases · Niko1221/Strata · GitHub'}

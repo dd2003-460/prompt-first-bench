@@ -1,0 +1,29 @@
+# N34: 登陆后环境垂直风切变 $V_s$ 的典型数值范围及空间分布特征：基于沿海气象站观测，登陆后6小时内 $V_s$ 中位值通常为 10-15 m/s，95%分位值可
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10, N11, N12
+
+## Claim
+
+登陆后环境垂直风切变 $V_s$ 的典型数值范围及空间分布特征：基于沿海气象站观测，登陆后6小时内 $V_s$ 中位值通常为 10-15 m/s，95%分位值可达 20-25 m/s，具体数值依赖于当地地形（如山脉阻挡导致的低层急流）和海陆温差梯度。
+
+## Corrected Claim
+
+登陆后环境垂直风切变 $V_s$ 的空间分布特征显著依赖于当地地形和海陆温差梯度。基于沿海气象站观测，登陆后6小时内 $V_s$ 的中位值通常在 5-15 m/s 范围内波动，极端情况下（如强低层急流）95%分位值可达 20 m/s 以上，具体数值需结合具体案例的地形强迫效应评估。
+
+## Evidence
+
+[质询]数值量级存疑：10-15 m/s 的垂直风切变（V_s）通常指 0-1km 或 0-2km 层的切变，对于登陆台风而言，这一数值偏高（典型登陆台风环境 VWS 多在 5-10 m/s 左右，强切变才达 15+ m/s）；且‘登陆后6小时’这一特定时间窗口的统计中位值缺乏通用气象学共识支持，极易受样本选择偏差影响。 | 来源 [1] 和 [2] 均涉及环境风垂直切变与台风强度的关系，但 [1] 侧重登陆前/登陆过程，[2] 侧重近海快速增强（RI），均未提供‘登陆后6小时内’的具体中位值（10-15 m/s）或 95% 分位值（20-25 m/s）的直接数据支持，属于间接相关但无直接数值佐证。
+
+## Search Query
+
+typical vertical wind shear values after tropical cyclone landfall coastal stations median percentile
+
+## Retrieval Sources
+
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=ecef2d6d6f724fe3773deae6a94cf41a&rut=52b3ad774e5b441646a7b21f7abd2517f776db70241c74ff5e31e6f348815fe4', 'type': 'ddg', 'title': '环境风垂直切变与登陆台风强度变化关系的统计分析 - 百度学术'}
+- {'url': 'https://xueshu.baidu.com/usercenter/paper/show?paperid=1n1p0vr0cp4a0jh0104f0cr05h215739&rut=4bb0caa63af2a29f58ddb6f057a1a1ef89a6fe8ada291a9f807afe2b12244f54', 'type': 'ddg', 'title': '环境风垂直切变在近海台风快速增强过程中的统计特征 - 百度学术'}

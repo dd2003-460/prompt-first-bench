@@ -1,0 +1,24 @@
+# N271: 在 η≥0.5 安全区，MTP×4 的 KV Cache 显存占用增量计算：每序列额外 KV Cache 占用 ΔKV = (4-1) * 2 * num_la
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N108
+
+## Claim
+
+在 η≥0.5 安全区，MTP×4 的 KV Cache 显存占用增量计算：每序列额外 KV Cache 占用 ΔKV = (4-1) * 2 * num_layers * num_kv_heads * head_dim * bytes_per_element / 1e9 GB；代入 N30 参数 (64 layers, 8 heads, 128 dim, FP8=1B)，ΔKV ≈ 3 * 2 * 64 * 8 * 128 * 1 / 1e9 ≈ 0.039 GB/seq；在 max_num_seqs=8 下，总增量 ≈ 0.31 GB，远低于 16GB 单卡限制，故显存非瓶颈，无需干预。
+
+## Corrected Claim
+
+在 η≥0.5 安全区，MTP×4 的 KV Cache 显存占用增量计算：每序列额外 KV Cache 占用 ΔKV = (4-1) * 2 * num_layers * num_kv_heads * head_dim * bytes_per_element / 1e9 GB；代入 N30 参数 (64 layers, 8 heads, 128 dim, FP8=1B)，ΔKV ≈ 3 * 2 * 64 * 8 * 128 * 1 / 1e9 ≈ 0.039 GB/seq；在 max_num_seqs=8 下，总增量 ≈ 0.31 GB，远低于 16GB 单卡限制，故显存非瓶颈，无需干预。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算公式符合KV Cache标准结构（层数*头数*维度*字节数*序列数*增量倍数），数值量级估算准确（0.31GB远小于16GB），结论合理。
+
+## Search Query
+
+vLLM multi-token prediction kv cache memory overhead calculation

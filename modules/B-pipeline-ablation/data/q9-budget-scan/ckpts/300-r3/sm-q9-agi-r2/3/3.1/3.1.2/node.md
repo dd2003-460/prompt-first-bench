@@ -1,0 +1,28 @@
+# N69: Qwen3.8-27B 在 GPQA Diamond 上的错误类型分布：事实性错误占 45%，逻辑推理错误占 35%，知识缺失占 20%，其中逻辑推理错误在多步
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+Qwen3.8-27B 在 GPQA Diamond 上的错误类型分布：事实性错误占 45%，逻辑推理错误占 35%，知识缺失占 20%，其中逻辑推理错误在多步推导（>3 步）中占比升至 60%
+
+## Corrected Claim
+
+Qwen3.8-27B 在 GPQA Diamond 上的错误类型分布：有研究对其进行了独立评估并区分了不同错误类型，但具体比例（如事实性错误45%、逻辑推理错误35%、知识缺失20%及多步推导中逻辑错误占比60%）缺乏公开来源直接证实，需进一步核实原始数据。
+
+## Evidence
+
+[质询]参考来源仅提及对 Qwen3.8-27B 在 GPQA-Diamond 上进行独立本地评估并区分了四种准确性概念，但摘要中并未提供具体的错误类型分布数值（如事实性错误45%、逻辑推理错误35%等），也未提及多步推导中逻辑错误占比升至60%的具体数据。这些具体数值缺乏直接来源支持，可能存在数据虚构或过度推断的风险。 | 来源[1]确认了对Qwen3.8-27B在GPQA-Diamond上的评估工作，但未提供具体的错误类型分布数值，属于间接支持；具体百分比数据缺乏直接来源验证，符合经验事实排除条款中'逻辑自洽但缺来源支持'的情形。
+
+## Search Query
+
+Qwen3.8-27B GPQA Diamond error analysis logical reasoning factual
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/lunncing/qwen38-gsq-gpqa-benchmark&rut=d303fecb59d4cf67bd94ba4bac0983d634925f086636ad8aa77fb81b35b5e418', 'type': 'ddg', 'title': 'GitHub - lunncing/qwen38-gsq-gpqa-benchmark'}

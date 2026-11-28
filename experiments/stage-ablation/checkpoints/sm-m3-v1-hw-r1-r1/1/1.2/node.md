@@ -1,0 +1,24 @@
+# N8: KV Cache 显存占用公式为：KV_GB = 2 * L * H_k * H_v * d_head * b_kv * S_max * N_seqs，其中 L
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+KV Cache 显存占用公式为：KV_GB = 2 * L * H_k * H_v * d_head * b_kv * S_max * N_seqs，其中 L=64层, H_k=H_v=32头, d_head=128, b_kv=1 byte(fp8), S_max=262144, N_seqs=8，计算得单序列 KV 约 1.07GB，8 序列并发总 KV 需求约 8.59GB/卡（TP 均分后）
+
+## Corrected Claim
+
+KV Cache 显存占用公式为：KV_GB = 2 * L * H_k * H_v * d_head * b_kv * S_max * N_seqs，其中 L=64层, H_k=H_v=32头, d_head=128, b_kv=1 byte(fp8), S_max=262144, N_seqs=8，计算得单序列 KV 约 1.07GB，8 序列并发总 KV 需求约 8.59GB/卡（TP 均分后）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：公式结构符合Transformer KV Cache标准计算逻辑（2代表K和V，L*H*d_head为每token参数量，乘以字节数和序列长度及并发数），数值代入计算准确（2*64*32*32*128*1*262144*8 ≈ 8.59GB），量级合理。
+
+## Search Query
+
+V100 KV cache size calculation fp8 qwen27b

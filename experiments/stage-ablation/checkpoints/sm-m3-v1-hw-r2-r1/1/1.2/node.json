@@ -1,0 +1,33 @@
+{
+  "id": "N7",
+  "claim": "KV cache 单 token 占用量为 2 × n_layers × d_head × n_heads × kv_bytes_per_token，对于 Qwen3-27B (d_model=4096, n_heads=32, GQA), 单 token fp8 KV 约为 32KB，导致 max_model_len=262144 在单请求下理论需 8GB KV，实际受 max-num-seqs=8 限制总并发 KV 上限为 48.5GB / 32KB ≈ 1500 tokens per seq 或 187 seqs at 1 token",
+  "level": "L2",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值计算存在严重偏差：根据公式 2 * n_layers * d_head * n_heads * kv_bytes，若单token为32KB，则 n_layers * d_head * n_heads 需为 16384。对于27B模型，若 n_heads=32, d_head=128 (d_model=4096)，则 n_layers 需为 4，这远低于27B模型通常的层数（约40-60层）。实际上，Qwen3-27B的KV cache单token占用量通常在几百KB到MB级别（取决于GQA比例和层数），32KB的量级过小，导致后续推导的并发限制（1500 tokens/seq）与实际硬件瓶颈（通常受限于显存总量而非单序列长度）不符。 | 来源[3]指出262K context需要16GiB KV cache，这意味着单token KV大小约为 16GiB / 262144 ≈ 64KB (若按GiB算) 或更高，与claim中的32KB有数量级差异（取决于具体字节定义，但32KB * 262144 = 8GB，而来源说是16GiB，存在2倍差异，且来源[3]标题暗示16GiB是正确值，claim中8GB可能低估了KV开销或高估了效率）。更关键的是，claim中的32KB单token大小对于27B模型来说极小，不符合常规大模型KV cache规模（通常每层每token KV为 2 * d_kv * bytes，若d_kv=128, layers=48, fp8=1byte, 则 2*128*48*1 = 12KB? 不对，GQA会减少head数。若n_kv_heads=8, d_head=128, layers=48, 则 2 * 8 * 128 * 48 * 1 = 98KB。Claim的32KB依然偏低。来源[3]的16GiB/262k ≈ 64KB/token (16*1024^3 / 262144 = 65536 bytes = 64KB)。Claim说32KB，来源说64KB，存在2倍误差。",
+  "corrected_claim": "KV cache 单 token 占用量计算有误。对于 Qwen3-27B，根据来源[3]，262K context 的 KV cache 约为 16 GiB，推算单 token 占用约为 64 KB (fp8)。因此 max_model_len=262144 在单请求下理论需 16 GB KV。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N1"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "qwen3-27b kvcache size per token fp8 vllm",
+  "retrieval_sources": [
+    {
+      "url": "https://recipes.vllm.ai/Qwen/Qwen3.8-27B&rut=ccbafdbf740bd112833c6373824073811ffc67ced8d41ff268096a65df5ead21",
+      "type": "ddg",
+      "title": "Qwen/Qwen3.8-27B | vLLM Recipes"
+    },
+    {
+      "url": "https://recipes.vllm.ai/Qwen/Qwen3.6-27B&rut=b1772cd6afd00031233b92a740dc842fb0d35a723383fa1250e1ef07e5c893ae",
+      "type": "ddg",
+      "title": "Qwen/Qwen3.6-27B | vLLM Recipes"
+    },
+    {
+      "url": "https://umesh-malik.com/blog/qwen3-8-27b-vram-kv-cache-math&rut=7ee929f2eab2d8471d9e3d73346dceb31e2c149645fa4f945036d5d9e774f2e4",
+      "type": "ddg",
+      "title": "Qwen3.8 27B VRAM: how to fit 262K context in 16 GiB, not 64"
+    }
+  ]
+}

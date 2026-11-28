@@ -1,0 +1,24 @@
+# N204: 代码生成首次通过率（First Pass Yield, FPY）的基线数据：Qwen3-27B 在 HumanEval 基准上的 FPY 约为 85-90% [
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N79
+
+## Claim
+
+代码生成首次通过率（First Pass Yield, FPY）的基线数据：Qwen3-27B 在 HumanEval 基准上的 FPY 约为 85-90% [时效待核]；剩余 10-15% 的错误中，SyntaxError 占 ~5%，RuntimeError 占 ~40%，LogicError（输出不符）占 ~55%；沙箱策略主要针对后两类，需结合静态分析（AST 检查）预筛 SyntaxError 以降低沙箱负载
+
+## Corrected Claim
+
+Qwen3-27B 在 HumanEval 基准上的首次通过率（FPY）通常较高（约85%以上），剩余错误中逻辑错误（LogicError）占比最高，其次是运行时错误（RuntimeError），语法错误（SyntaxError）占比相对较低；沙箱策略主要应对逻辑和运行时错误，建议结合静态分析预筛语法错误以优化资源利用。
+
+## Evidence
+
+[质询]具体数值（85-90% FPY及错误分布比例）缺乏权威基准测试报告支持，不同评测环境（如是否包含单元测试、具体Python版本）下FPY波动较大，且Qwen3-27B的具体公开基准数据可能存在偏差或尚未广泛共识。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，无法验证具体数值）
+
+## Search Query
+
+Qwen3-27B HumanEval first pass yield error distribution syntax runtime logic

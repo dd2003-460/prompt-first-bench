@@ -1,0 +1,20 @@
+# N47: 检索文献阶段的 Token 消耗 N_retrieval 的典型值，RAG 系统中单次检索返回的 Top-K 文档片段（K=5-10）平均消耗 5000-150
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10
+
+## Claim
+
+检索文献阶段的 Token 消耗 N_retrieval 的典型值，RAG 系统中单次检索返回的 Top-K 文档片段（K=5-10）平均消耗 5000-15000 tokens，取决于文档切分粒度（chunk size）与去重策略。
+
+## Corrected Claim
+
+检索文献阶段的 Token 消耗 N_retrieval 的典型值，RAG 系统中单次检索返回的 Top-K 文档片段（K=5-10）平均消耗 5000-15000 tokens，取决于文档切分粒度（chunk size）与去重策略。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在概念混淆（将输入Token与上下文Token混同于总消耗）且严重缺乏完备性。父节点描述的是‘典型值范围’（5000-15000 tokens），而子节点仅给出了一个特定配置下的固定值（5120+250=5370 tokens），未涵盖父节点提到的‘取决于切分粒度’这一变量性，也未解释为何典型值上限可达15000（通常涉及更大的Chunk size或更多的K值）。此外，子节点1将N_ctx定义为固定值，忽略了父节点中K=5-10的范围变化，导致逻辑不闭合。）

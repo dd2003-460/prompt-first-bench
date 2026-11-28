@@ -1,0 +1,24 @@
+# N301: HumanEval任务的Token分布特征：生成长度服从指数分布，均值50 tokens，P(length>100)≈10%，长尾部分会导致MTP回滚率上升，需
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N107
+
+## Claim
+
+HumanEval任务的Token分布特征：生成长度服从指数分布，均值50 tokens，P(length>100)≈10%，长尾部分会导致MTP回滚率上升，需分段统计AR
+
+## Corrected Claim
+
+HumanEval任务的生成长度通常呈现右偏分布（近似指数或对数正态），存在长尾现象，可能导致多token预测（MTP）在长序列上的误差累积或回滚风险增加，建议进行分段统计分析。
+
+## Evidence
+
+[质询]具体数值（均值50 tokens, P>100≈10%）缺乏通用基准支持，不同数据集版本或采样策略下分布差异较大，且'MTP回滚率上升'与'长尾'的因果关系需特定上下文支撑，易被质疑为过度拟合特定实验数据。 | 先验知识/题面给定，逻辑校验通过；但作为knowledge节点，虽逻辑自洽，鉴于具体统计数值（均值、概率阈值）属于经验性描述且无外部来源佐证其普适性，保守降级以提示数值敏感性。
+
+## Search Query
+
+HumanEval code generation length distribution exponential tail

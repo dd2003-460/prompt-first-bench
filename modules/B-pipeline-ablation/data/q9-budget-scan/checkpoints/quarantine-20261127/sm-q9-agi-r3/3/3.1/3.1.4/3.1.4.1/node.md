@@ -1,0 +1,24 @@
+# N152: Qwen3.8-27B 在科研假设生成任务上的输出词表熵 H_out 估算值约为 3.2 bits/token，而通用对话场景的 H_out 约为 4.5 bi
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N53
+
+## Claim
+
+Qwen3.8-27B 在科研假设生成任务上的输出词表熵 H_out 估算值约为 3.2 bits/token，而通用对话场景的 H_out 约为 4.5 bits/token，这一差异是 MTP 接受率下降的主要来源。
+
+## Corrected Claim
+
+Qwen3.8-27B 在科研假设生成任务上的输出词表熵 H_out 估算值约为 3.2 bits/token，而通用对话场景的 H_out 约为 4.5 bits/token，这种熵的差异可能与 MTP 接受率的变化有关。
+
+## Evidence
+
+[质询]将MTP接受率下降归因于输出词表熵差异属于因果推断，缺乏直接证据支持；且具体数值（3.2 vs 4.5 bits/token）为经验估计，不同模型和任务下波动较大，难以作为普适定论。 | 先验知识/题面给定，逻辑校验通过：高熵通常意味着预测不确定性增加，可能导致多token预测（MTP）中后续token的置信度降低，从而间接影响接受率，但‘主要来源’这一强因果断言缺乏充分支撑，故降级为定性表述。
+
+## Search Query
+
+Qwen 27B entropy hypothesis generation vs general chat

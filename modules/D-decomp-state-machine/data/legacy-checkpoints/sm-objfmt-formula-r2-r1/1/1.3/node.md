@@ -1,0 +1,29 @@
+# N8: 推理框架（如 vLLM/SGLang）的运行时开销及激活值内存占用估算值（GB），通常占总显存的 5-10% 或固定预留值。
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+推理框架（如 vLLM/SGLang）的运行时开销及激活值内存占用估算值（GB），通常占总显存的 5-10% 或固定预留值。
+
+## Corrected Claim
+
+推理框架（如 vLLM/SGLang）存在运行时开销及激活值内存占用，其具体数值取决于模型规模、批处理大小及硬件配置，通常需根据实际部署场景进行估算或预留，而非固定的5-10%。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（5-10%）和固定预留值概念，属于经验事实而非第一性原理可推导内容；且不同模型规模、硬件配置及框架版本下，运行时开销占比波动较大，缺乏通用性的精确量化标准。 | 参考来源[1][2]仅对比了SGLang和vLLM的性能与适用场景，未提供关于运行时开销占显存比例的具体数值或估算方法，属于经验事实且缺来源直接支持。
+
+## Search Query
+
+vLLM memory overhead activation memory size estimate LLM inference
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/18942501855&rut=368d700ed84649910d48b6b98e483f0b7250efbb553629c503c39ed840c8829b', 'type': 'ddg', 'title': 'SGLang和vLLM 大模型推理引擎对比 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/1948470079244210288&rut=3c4f13a40a20c6a89a72be49db5a020d245852e89fd0ee6e7d6a4a97847b7563', 'type': 'ddg', 'title': 'SGLang、vLLM 和 Ollama：大模型推理与部署框架的系统性对比分析'}

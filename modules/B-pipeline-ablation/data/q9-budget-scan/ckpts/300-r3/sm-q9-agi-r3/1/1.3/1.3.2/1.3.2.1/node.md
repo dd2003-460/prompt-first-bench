@@ -1,0 +1,20 @@
+# N148: 工作点 A（高并发短上下文）：设置 max_model_len=4096, max_num_seqs=8。单序列 KV Cache 占用为 4096 * 128
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N42
+
+## Claim
+
+工作点 A（高并发短上下文）：设置 max_model_len=4096, max_num_seqs=8。单序列 KV Cache 占用为 4096 * 128KB = 512MB，总需求 4GB，远低于 48.5GB 可用内存，无抢占风险。此配置最大化吞吐量，适用于批量文献摘要提取等短任务，但无法处理长程科研推理链。
+
+## Corrected Claim
+
+工作点 A（高并发短上下文）：设置 max_model_len=4096, max_num_seqs=8。单序列 KV Cache 占用为 4096 * 128KB = 512MB，总需求 4GB，远低于 48.5GB 可用内存，无抢占风险。此配置最大化吞吐量，适用于批量文献摘要提取等短任务，但无法处理长程科研推理链。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：4096 * 128KB = 512MB，8 * 512MB = 4GB，4GB < 48.5GB，计算无误且符合KV Cache内存估算逻辑。

@@ -1,0 +1,28 @@
+# N8: 登陆后潜热输入通量 $F_L$ 在 1-3 小时内从典型值 $100-150 \text{W/m}^2$ 线性/指数衰减至接近 0，导致总能量输入 $E_{in
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+登陆后潜热输入通量 $F_L$ 在 1-3 小时内从典型值 $100-150 \text{W/m}^2$ 线性/指数衰减至接近 0，导致总能量输入 $E_{in}$ 下降速率 $dE_{in}/dt \approx -50 \text{W/m}^2/\text{hr}$。
+
+## Corrected Claim
+
+登陆后潜热输入通量 $F_L$ 通常从较高值（如 100-150 W/m² 量级）随时间衰减至接近 0，导致总能量输入 $E_{in}$ 下降，具体衰减速率和时间尺度取决于当地气象条件。
+
+## Evidence
+
+[质询]该陈述包含具体的经验参数（初始通量100-150 W/m²、衰减时间1-3小时、衰减速率-50 W/m²/hr），这些数值并非物理定律或第一性原理可直接推导出的恒定值，而是高度依赖于具体气象条件（如湿度、风速、云量）的经验观测数据。参考来源仅定义了潜热通量的概念，未提供具体的数值范围或衰减动力学模型，因此无法验证这些具体数值的准确性。 | 逻辑上，潜热通量随登陆后水汽供应减少而衰减符合物理直觉，且数值量级（100-150 W/m²）在台风/热带气旋登陆初期处于合理范围内；但参考来源[1]仅解释潜热通量定义，未涉及具体数值或衰减过程，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+tropical cyclone landfall latent heat flux decay rate W/m2
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E6%BD%9C%E7%83%AD%E9%80%9A%E9%87%8F/7214440&rut=4b7a62fd1dfe3ac1974e40dbbcf69ae8df8a553fa5b5fc5dfb58223ad5754e84', 'type': 'ddg', 'title': '潜热通量_百度百科'}

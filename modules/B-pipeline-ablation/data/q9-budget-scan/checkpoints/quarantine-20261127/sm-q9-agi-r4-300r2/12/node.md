@@ -1,0 +1,25 @@
+# N89: 实验设计自动化模块的约束求解开销：将实验设计建模为约束满足问题(CSP)，变量包括样本量、对照组设置等。在典型生物/物理实验场景中，使用 OR-Tools 求解
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+实验设计自动化模块的约束求解开销：将实验设计建模为约束满足问题(CSP)，变量包括样本量、对照组设置等。在典型生物/物理实验场景中，使用 OR-Tools 求解最小可行实验方案的时间复杂度为 O(V^E)，其中 V=变量数(~5), E=约束数(~10)，平均求解时间 < 50ms，远低于 LLM 推理时间。
+
+## Corrected Claim
+
+将实验设计建模为约束满足问题(CSP)，使用OR-Tools等求解器在典型小规模场景下（变量数~5，约束数~10）通常能在毫秒级内完成求解，远低于LLM推理时间。
+
+## Evidence
+
+[质询]时间复杂度表述不严谨且缺乏实证支持：CSP求解通常采用回溯搜索，其最坏情况复杂度往往与变量数V和值域大小D相关（如O(D^V)），而非简单的O(V^E)；此外，'<50ms'的具体性能指标属于经验事实，参考来源仅介绍CSP理论及通用求解器实现，未提供针对'生物/物理实验场景'及'OR-Tools'的具体基准测试数据。 | 来源[1][2]确认了CSP建模及求解器的存在，但未提供具体的复杂度公式O(V^E)或特定场景下的<50ms性能数据，属于经验事实缺来源直接支持。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29051811/article/details/168196284&rut=628e1e6607766019def48de76d4352e6b552de13ec359e2343ea7b339e9baf7f', 'type': 'ddg', 'title': '约束满足问题CSP：从建模到Python求解器落地实战-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_35755434/article/details/147238832&rut=7194165ad44c653ddbe0d3738ffc0c712765a5f8d769e907d3ef76f95502eab9', 'type': 'ddg', 'title': '约束满足问题(Csp)及其扩展技术深入分析 - Csdn博客'}

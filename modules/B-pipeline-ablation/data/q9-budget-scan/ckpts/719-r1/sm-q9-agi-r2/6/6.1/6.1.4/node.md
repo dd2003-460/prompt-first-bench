@@ -1,0 +1,20 @@
+# N80: V100-SXM2-16GB 的 HBM 显存 ECC 纠错机制在持续高负载下，不可纠正错误 (UECC) 的发生率约为 0.001%-0.01% per GP
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N22, N23, N24
+
+## Claim
+
+V100-SXM2-16GB 的 HBM 显存 ECC 纠错机制在持续高负载下，不可纠正错误 (UECC) 的发生率约为 0.001%-0.01% per GPU per day，该概率直接决定 72 小时连续运行的系统可用性上限 (1 - p^4*72)
+
+## Corrected Claim
+
+V100-SXM2-16GB 的 HBM 显存 ECC 纠错机制在持续高负载下，不可纠正错误 (UECC) 的发生率通常较低，具体数值需参考 NVIDIA 官方可靠性报告或特定数据中心实测数据，该概率影响 72 小时连续运行的系统可用性。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性故障率数值（0.001%-0.01% per GPU per day）和特定的系统可用性计算公式，这些属于硬件可靠性经验数据，无法从第一性原理或数学公理中严格推导得出，且缺乏公开权威来源的直接支持。 | 经验事实，逻辑自洽但缺来源支持

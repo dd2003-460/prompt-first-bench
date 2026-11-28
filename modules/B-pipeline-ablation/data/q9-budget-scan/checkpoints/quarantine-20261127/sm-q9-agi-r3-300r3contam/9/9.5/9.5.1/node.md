@@ -1,0 +1,24 @@
+# N250: 65k 上下文下的显存安全边际量化：可用显存 = 4 * 16GB - 权重显存(≈20GB) - KV Cache 65k 占用；其中 KV Cache 65
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N87
+
+## Claim
+
+65k 上下文下的显存安全边际量化：可用显存 = 4 * 16GB - 权重显存(≈20GB) - KV Cache 65k 占用；其中 KV Cache 65k 占用 = 65,536 * 2 * 28 layers * 2048 hidden_dim * 1 byte(FP8) ≈ 7.5GB，剩余显存余量需大于碎片化阈值（通常>10%）以保证无 OOM。
+
+## Corrected Claim
+
+65k 上下文下的显存安全边际量化：可用显存 = 4 * 16GB - 权重显存(≈20GB) - KV Cache 65k 占用；其中 KV Cache 65k 占用 = 65,536 * 2 * 28 layers * 2048 hidden_dim * 1 byte(FP8) ≈ 7.5GB，剩余显存余量需大于碎片化阈值（通常>10%）以保证无 OOM。
+
+## Evidence
+
+[质询]KV Cache 计算中假设每个 token 占用 1 byte (FP8) 且未包含注意力头数 (num_heads) 或 head_dim 的维度细节，若模型架构不同（如 GQA/MQA 或不同 head 配置），实际占用可能偏差较大；此外，'碎片化阈值 >10%' 为经验性工程 heuristic，非绝对物理定律。 | 先验知识/题面给定，逻辑校验通过：KV Cache 计算公式结构正确（seq_len * 2 * layers * dim * bytes），数值量级估算合理（65k tokens 下 ~7.5GB 符合 FP8 精度下的典型量级），总显存预算逻辑自洽。
+
+## Search Query
+
+qwen 27b hidden dim layers kv cache size calculation fp8

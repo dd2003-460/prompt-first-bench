@@ -1,0 +1,24 @@
+# N224: 大样本 (n>10^6) 分块计算策略：总耗时 T_total = n/chunk_size * T_chunk + O(n) 归并开销；当 chunk_siz
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N66
+
+## Claim
+
+大样本 (n>10^6) 分块计算策略：总耗时 T_total = n/chunk_size * T_chunk + O(n) 归并开销；当 chunk_size=10^5 且 n=10^6 时，理论耗时为 32ms，但受 CPU 缓存局部性影响，实测通常为理论值的 1.2-1.5 倍（约 38-48ms），仍满足 <100ms 约束
+
+## Corrected Claim
+
+大样本 (n>10^6) 分块计算策略：总耗时 T_total = n/chunk_size * T_chunk + O(n) 归并开销；当 chunk_size=10^5 且 n=10^6 时，理论耗时取决于单块处理时间 T_chunk，实测通常受 CPU 缓存局部性影响高于理论值，需根据具体硬件基准测试确定是否满足 <100ms 约束
+
+## Evidence
+
+[质询]具体数值（32ms理论耗时、1.2-1.5倍缓存惩罚系数）缺乏通用基准测试支持，高度依赖特定硬件架构、内存带宽及算法复杂度，属于经验事实而非普适物理/数学定律。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+large sample t-test chunked computation performance penalty cache locality numpy

@@ -1,0 +1,20 @@
+# N56: INT8 精度下 Qwen3-27B 的权重存储体积基础值为 26.98 GB，但需增加 Group-wise Quantization 所需的 Scale/Z
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N10, N11, N12
+
+## Claim
+
+INT8 精度下 Qwen3-27B 的权重存储体积基础值为 26.98 GB，但需增加 Group-wise Quantization 所需的 Scale/Zero-point 元数据开销（通常约为权重大小的 1%-3%，具体取决于 group size 如 128 或 512）
+
+## Corrected Claim
+
+INT8 精度下 Qwen3-27B 的权重存储体积基础值为 26.98 GB，但需增加 Group-wise Quantization 所需的 Scale/Zero-point 元数据开销（通常约为权重大小的 1%-3%，具体取决于 group size 如 128 或 512）
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Qwen3-27B参数量约27B，INT8下基础体积约27GB（26.98GB符合量级）；Group-wise量化元数据开销1%-3%符合工程常识（group size 128/512时scale/zero-point占比通常在1%-5%之间，1%-3%为合理保守估计）。

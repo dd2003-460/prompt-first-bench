@@ -1,0 +1,24 @@
+# N64: FP8 精度在 Qwen3-27B 上的质量损失量化基准：FP8 (E4M3/E5M2) 量化近乎无损，MMLU 准确率保持 ~71.5-72% (ΔAcc <
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N18
+
+## Claim
+
+FP8 精度在 Qwen3-27B 上的质量损失量化基准：FP8 (E4M3/E5M2) 量化近乎无损，MMLU 准确率保持 ~71.5-72% (ΔAcc < 0.5%)，Perplexity 从 ~5.2 上升至 ~5.22-5.25 (ΔPPL < 0.05)，质量损失可忽略不计，但需硬件支持 FP8 Tensor Cores (RTX 4090/Ada Lovelace 架构及以上) 以实现 2-3x 吞吐量提升，否则回退至 BF16 执行。
+
+## Corrected Claim
+
+FP8 精度在 Qwen3-27B 上通常表现为微小的质量损失（MMLU 准确率下降通常小于 0.5%，Perplexity 上升幅度极小），并可在支持 FP8 Tensor Cores 的硬件（如 RTX 4090）上实现约 2-3 倍吞吐量提升；若无硬件支持则回退至 BF16。具体基准数值需以实际评测为准。
+
+## Evidence
+
+[质询]具体数值（MMLU ~71.5-72%, PPL ~5.2->5.22）缺乏特定模型版本和评测集配置的上下文，不同数据集或微调版本可能导致基准值偏差；此外，'近乎无损'的定性结论虽符合一般规律，但具体阈值（ΔAcc < 0.5%）属于经验观测值，非绝对真理。 | 先验知识/题面给定，逻辑校验通过：FP8量化在大模型上通常表现为微小精度损失和显著吞吐提升，数值量级符合工程常识，但具体基准值属经验事实，无外部来源直接佐证特定数值。
+
+## Search Query
+
+Qwen3-27B FP8 quantization accuracy loss near lossless

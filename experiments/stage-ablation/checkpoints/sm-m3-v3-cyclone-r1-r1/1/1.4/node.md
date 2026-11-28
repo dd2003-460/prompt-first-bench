@@ -1,0 +1,24 @@
+# N9: 垂直风切变破坏：环境垂直风切变ΔU(0-6km) > 10 m/s时，气旋中心轴倾斜角θ ≈ arctan(ΔU / V_max)显著增大。对于ΔU=15m/s
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+垂直风切变破坏：环境垂直风切变ΔU(0-6km) > 10 m/s时，气旋中心轴倾斜角θ ≈ arctan(ΔU / V_max)显著增大。对于ΔU=15m/s, V_max=50m/s，θ≈17°，导致眼墙结构破碎，核心上升气流被切断，强度在6-12小时内衰减30-50%。
+
+## Corrected Claim
+
+垂直风切变破坏：环境垂直风切变ΔU(0-6km) > 10 m/s时，气旋中心轴倾斜角θ ≈ arctan(ΔU / V_max)显著增大。对于ΔU=15m/s, V_max=50m/s，θ≈17°，导致眼墙结构破碎，核心上升气流被切断，强度在6-12小时内衰减30-50%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：arctan(15/50)≈16.7°≈17°，数值计算准确；垂直风切变导致气旋倾斜及强度衰减符合气象动力学基本原理。
+
+## Search Query
+
+vertical wind shear effect tropical cyclone intensity decay tilt angle

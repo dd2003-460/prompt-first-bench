@@ -1,0 +1,30 @@
+# N22: 观测数据冲突：ATCF（Austalian Tropical Cyclone Forecasting）模型预测的登陆后24小时衰减率为12±4 kt/hr，而H
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+观测数据冲突：ATCF（Austalian Tropical Cyclone Forecasting）模型预测的登陆后24小时衰减率为12±4 kt/hr，而HURDAT4历史数据库统计值为9±3 kt/hr，差异源于模型对边界层参数化的不同假设（K-profile vs. Mellor-Yamada）。
+
+## Corrected Claim
+
+ATCF系统记录的热带气旋数据中，不同模型或统计方法对登陆后衰减率的估计可能存在差异，具体数值需查阅特定研究文献。
+
+## Evidence
+
+[质询]具体数值（12±4 kt/hr vs 9±3 kt/hr）及归因于特定边界层参数化方案（K-profile vs. Mellor-Yamada）缺乏来源支持，且ATCF通常指代数据格式/系统而非单一具有固定衰减率参数的物理模型，存在概念混淆风险。 | 来源[1][2][3]仅确认ATCF为热带气旋预报数据格式/系统，未提供具体衰减率数值或参数化方案对比，属经验事实缺来源支持。
+
+## Search Query
+
+ATCF vs HURDAT4 tropical cyclone post-landfall decay rate discrepancy boundary layer parameterization
+
+## Retrieval Sources
+
+- {'url': 'https://ftp.nhc.noaa.gov/atcf/docs/NRL_doc_ATCFdatabase.html&rut=320febf61a5b4989aa33d226ab4b41141a91bcd5b08f22850572d2c3fa450eb0', 'type': 'ddg', 'title': 'ATCF Tropical Cyclone Database - National Oceanic and Atmospheric ...'}
+- {'url': 'https://deepwiki.com/ec-jrc/pyStorms/4.2-atcf-files&rut=d6aa2d4021fe293ab23b92ffd539b361c7a50b54df3a2b1847cd09f0b6935bad', 'type': 'ddg', 'title': 'ATCF Files | ec-jrc/pyStorms | DeepWiki'}
+- {'url': 'https://ftp.nhc.noaa.gov/atcf/README&rut=027814dcb3a688d33082b5d3f37f776d8de9ee204ad339c606f84ba1ca031ee4', 'type': 'ddg', 'title': 'National Oceanic and Atmospheric Administration'}

@@ -1,0 +1,24 @@
+# N10: 激活值与临时缓冲区显存需求 A_mem 估算公式为 P_active * activation_factor + overhead，通常 P_active 为 
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+激活值与临时缓冲区显存需求 A_mem 估算公式为 P_active * activation_factor + overhead，通常 P_active 为 3.3B 时，BF16 下激活值占用约为 6.6 GB 至 10 GB（取决于 batch size 和实现优化），需预留 10-15% 的系统碎片开销
+
+## Corrected Claim
+
+激活值与临时缓冲区显存需求 A_mem 估算公式为 P_active * activation_factor + overhead，通常 P_active 为 3.3B 时，BF16 下激活值占用约为 6.6 GB 至 10 GB（取决于 batch size 和实现优化），需预留 10-15% 的系统碎片开销
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（子节点1和2本质上只是同一公式中 batch_size 参数的不同取值（分别为1和4），属于高度冗余的参数实例化，而非独立的知识维度；此外，父节点明确提到了“实现优化”对显存的影响，但所有子节点均基于最坏情况的全量存储假设，完全缺失了关于“激活值重计算（Activation Checkpointing）”或“梯度检查点”等关键优化策略的覆盖，导致不完备。）
+
+## Search Query
+
+LLM inference activation memory estimate MoE model

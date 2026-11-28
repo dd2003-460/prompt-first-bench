@@ -1,0 +1,24 @@
+# N21: vLLM的max-num-seqs=8配置下，批处理大小固定为8，当实际并发请求<8时，GPU利用率下降，建议动态调整batch size至实际活跃请求数，可减
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+vLLM的max-num-seqs=8配置下，批处理大小固定为8，当实际并发请求<8时，GPU利用率下降，建议动态调整batch size至实际活跃请求数，可减少20-30%的空闲等待时间。
+
+## Corrected Claim
+
+vLLM的max-num-seqs=8配置下，批处理大小上限为8，当实际并发请求<8时，GPU利用率可能下降，建议动态调整batch size至实际活跃请求数以优化资源利用。
+
+## Evidence
+
+[质询]「减少20-30%的空闲等待时间」是一个具体的经验性能指标，缺乏通用性，高度依赖于硬件型号、模型大小及负载特征，无法作为普适事实成立。 | 先验知识/题面给定，逻辑校验通过（动态调整batch size确实能减少空闲等待），但具体百分比数值缺乏来源支持且非恒定真理，故降级。
+
+## Search Query
+
+vLLM dynamic batch size optimization

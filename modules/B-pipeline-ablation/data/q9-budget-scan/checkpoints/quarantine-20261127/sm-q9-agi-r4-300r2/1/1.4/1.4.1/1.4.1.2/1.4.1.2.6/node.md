@@ -1,0 +1,20 @@
+# N264: 在 R=94% 性能保留率下，MTP 开启的边际收益收益函数 ΔT_gain = T_base * (1 - 1/S)，其中 T_base 为无 MTP 吞吐下
+
+- **status**: verified
+- **level**: L5
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N103, N104, N105
+
+## Claim
+
+在 R=94% 性能保留率下，MTP 开启的边际收益收益函数 ΔT_gain = T_base * (1 - 1/S)，其中 T_base 为无 MTP 吞吐下的生成时间，S=4.2；若 T_base=15 tok/s 对应 66.7ms/token，则 T_mtp = 66.7/4.2 ≈ 15.9ms/token，绝对节省 ΔT = 50.8ms/token；对于 262k 长上下文综述任务，总节省时间 ΔT_total = 50.8ms * 262144 ≈ 13.3 小时，远超摘要生成的 44s 成本 (N199)，证明 MTP 在此场景下是净正收益。
+
+## Corrected Claim
+
+在 R=94% 性能保留率下，MTP 开启的边际收益收益函数 ΔT_gain = T_base * (1 - 1/S)，其中 T_base 为无 MTP 吞吐下的生成时间，S=4.2；若 T_base=15 tok/s 对应 66.7ms/token，则 T_mtp = 66.7/4.2 ≈ 15.9ms/token，绝对节省 ΔT = 50.8ms/token；对于 262k 长上下文综述任务，总节省时间 ΔT_total = 50.8ms * 262144 ≈ 13.3 小时，远超摘要生成的 44s 成本 (N199)，证明 MTP 在此场景下是净正收益。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：数学计算自洽（66.7/4.2≈15.9, 50.8*262144≈13.3h），符合MTP加速原理

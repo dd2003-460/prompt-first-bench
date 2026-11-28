@@ -1,0 +1,102 @@
+{
+  "qid": "q9-agi",
+  "question": "目标：在我的硬件条件下，以性价比最高、速度最快且可靠的方式，达到 research-AGI。\n\n**research-AGI 的操作化定义**（待 D 确认，v0 用 D 的 autoresearch 系统作锚）：\n一个 AI 系统能在我指定的研究方向上，独立完成\"提出假设 → 设计实验 → 执行（含检索/计算）→ 分析 → 得出可验证结论 → 更新自身知识\"的完整科研循环，且产出的研究结论经人工抽查达到\"可发表级\"（对标顶刊同题材论文的标准），无需人类逐步指导。\n\n**我的硬件条件**（v0，2026-11-22 服务器实测，待 D 确认精确边界）：\n- 推理平台：一台固定服务器，4× Tesla V100-SXM2-16GB（compute cap 7.0），不可更换\n- 当前部署：vLLM 服务 qwen3.8-27b（NVFP4 量化，TP=4，MTP×4 投机解码，fp8 KV cache，max_model_len=262144，max-num-seqs=8，端口 8787 代理）\n- 开发机：MacBook Pro（Apple M1 Max），跑编排/检索/分析，不跑 27b 推理\n- 约束：不改模型权重（prompt + hook + 外部记忆/工具）\n- 预算约束：时间 + 电费 + （可选）云端 API 费用\n\n任务：给出达到上述目标的最优路径分解。要求：\n1. 自行识别并完整覆盖所有影响\"最快可靠达到\"的贡献因子，不遗漏（因子清单由模型识别，题面不预列——预列=泄露 gold 骨架）\n2. 每个因子给出量化依据（数值/公式/可检索事实），标 conf\n3. 指出当前硬件条件下的能力上限（27b 本地模型能到哪一层，瓶颈在哪）\n4. 给出预算-质量权衡：不同投入档位下能达到的能力边界\n5. 把\"不确定、需要进一步查证\"的点收进黑盒表",
+  "round": 1,
+  "state": "rework",
+  "dropped_redundant": 0,
+  "leak_hits_total": 0,
+  "network_degraded": false,
+  "objective": {
+    "factors": [
+      "C_feasibility (布尔值)：系统能否在给定硬件（4xV100, Qwen3.8-27b, No Weight Change）及预算约束下，完整执行‘假设->实验->结论’闭环且产出达到‘可发表级’标准。若为False，方案无效。",
+      "T_time (时间成本)：从零开始到首次产出可发表级独立研究结论所需的总时长（天/周）。数值越小越好。",
+      "Q_reliability (可靠性/成功率)：在无人工逐步指导的情况下，单次完整科研循环成功产出有效结论的概率，或连续N次循环中无致命幻觉/逻辑断裂的比例。数值越大越好。",
+      "C_cost (经济成本)：达成目标过程中的直接货币支出（电费+可选API费）。数值越小越好。"
+    ],
+    "composition": "Maximize [ Q_reliability * (1/T_time) ] subject to C_feasibility == True and C_cost <= Budget_Constraint. 解释：首先必须满足可行性硬约束（C_feasibility），在此前提下，追求单位时间内的可靠成功率最大化，并在同等效率下最小化经济成本。",
+    "rationale": "该目标函数将‘最快’（T_time）、‘可靠’（Q_reliability）作为核心优化项，将‘性价比’（C_cost）和‘硬件/规则限制’（C_feasibility）作为硬约束或次要优化项，准确对应了题干中‘性价比最高、速度最快且可靠’的多目标需求。"
+  },
+  "objective_mode": "formula",
+  "challenge_log": [],
+  "rework_events": [
+    {
+      "node_id": "N7",
+      "claim": "长上下文注意力衰减阈值：Qwen3.8-27b在262k上下文长度下，第10k-20k token位置的信息召回准确率（",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中提到的具体指标（第10k-20k token位置的Recall@K及首尾一致性偏差率）属于具体的经验性能数据，参考来源仅讨论了架构原理（混合注意力"
+    },
+    {
+      "node_id": "N8",
+      "claim": "多步推理逻辑断裂概率：在Chain-of-Thought长度超过15步后，27b模型出现逻辑矛盾或事实幻觉的累积错误率，",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中提到的“15步”阈值和“27b模型”的具体累积错误率缺乏通用共识或特定来源支持，属于未经证实的经验性具体参数，且不同模型架构和任务分布下该阈值差异"
+    },
+    {
+      "node_id": "N9",
+      "claim": "代码执行沙箱可靠性指标：本地Python/Jupyter环境执行由27b生成的科研代码时的语法错误率与运行时异常率，决定",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述声称存在具体的‘语法错误率’与‘运行时异常率’指标，但参考来源仅讨论了沙箱方案的兼容性限制（如禁用反射导致脚本无法运行），并未提供针对27b模型生"
+    },
+    {
+      "node_id": "N10",
+      "claim": "科研任务复杂度分级矩阵：将“文献综述”、“数据清洗”、“假设生成”、“实验设计”、“结果分析”映射到所需的最小模型能力等",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述声称存在一个具体的‘科研任务复杂度分级矩阵’并将特定任务映射到MMLU分数阈值，这属于高度主观且非标准化的经验性定义，缺乏公认的学术或工业标准支持"
+    },
+    {
+      "node_id": "N14",
+      "claim": "工具链API延迟基线：检索引擎（如arXiv API）与代码执行沙箱的平均响应时间P95，构成单次科研循环的非推理耗时下",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中提到的“平均响应时间P95”在统计学定义上存在概念混淆（P95是第95百分位数，非平均值），且参考来源仅涉及ArXiv API的速率限制策略（如3"
+    },
+    {
+      "node_id": "N19",
+      "claim": "Self-Critique 闭环中，针对幻觉/逻辑错误的拦截率（Interception Rate, IR）与增加批判轮",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式 IR(K) = 1 - (1-p_base)^K 隐含了各轮批判相互独立的假设，但在 Self-Critique 闭环中，后续轮次的批判往往依赖于"
+    },
+    {
+      "node_id": "N20",
+      "claim": "多智能体交叉验证（Multi-Agent Cross-Validation）中，采用 N 个独立智能体投票达成共识时，错",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]公式 E_consensus ≈ E_single^N * C(N, <N/2) 在数学上是不严谨的近似，且忽略了智能体间错误的相关性（correlat"
+    },
+    {
+      "node_id": "N24",
+      "claim": "工作点 B（混合云，性价比最优 Frontier）：本地处理 80% 常规推理，云 API（如 GPT-4o/Claud",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]该陈述包含大量具体的经验性参数（如阈值7.5/10、成本$0.05/query、成功率30-40%），这些数值并非从第一性原理或通用逻辑中必然推导出的唯"
+    },
+    {
+      "node_id": "N29",
+      "claim": "4x V100-SXM2-16GB (TP=4) 部署 27B NVFP4 模型的理论峰值吞吐量上限：受限于 V100 ",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]来源 [1] 仅确认了硬件配置（4x V100-SXM2 32GB, TP4）、软件环境（vLLM fork, FP16 compute, NVFP4 "
+    },
+    {
+      "node_id": "N30",
+      "claim": "V100 (Compute Cap 7.0) 缺乏原生 FP8 支持导致的性能惩罚因子：虽然配置了 fp8 KV cac",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]陈述中关于“内存带宽利用率下降约 30-40%”的具体数值缺乏直接来源支持，且将“缺乏原生 FP8 支持”直接量化为固定的带宽利用率损失比例属于过度推断"
+    },
+    {
+      "node_id": "N31",
+      "claim": "MTPx4 投机解码在 V100 集群上的接受率衰减曲线：在 262k 长上下文场景下，由于 V100 显存带宽瓶颈 (",
+      "attempt": 1,
+      "mode": "angle",
+      "reason": "[质询]参考来源与事实主题严重不匹配：来源讨论的是 Ascend NPU 上 Gemma4 模型的 Bug（接受率为0%），而事实陈述的是 V100 GPU 集"
+    }
+  ],
+  "contradiction_events": [],
+  "n_nodes": 25
+}

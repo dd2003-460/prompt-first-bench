@@ -1,0 +1,24 @@
+# N213: 工作点 A（高精度低成本）：使用 DeBERTa-v3-large 进行原子事实抽取，F1 分数为 0.92，单篇论文处理耗时 2s，GPU 显存占用 1.5G
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N75
+
+## Claim
+
+工作点 A（高精度低成本）：使用 DeBERTa-v3-large 进行原子事实抽取，F1 分数为 0.92，单篇论文处理耗时 2s，GPU 显存占用 1.5GB，无需 LLM 调用，成本接近 0。
+
+## Corrected Claim
+
+工作点 A（高精度低成本）：使用 DeBERTa-v3-large 进行原子事实抽取，F1 分数为 0.92，单篇论文处理耗时 2s，GPU 显存占用约 2-4GB（取决于序列长度与批大小），无需 LLM 调用，成本较低。
+
+## Evidence
+
+[质询]DeBERTa-v3-large 参数量约 400M+，FP16 下模型权重本身即需约 800MB-1GB 显存，加上推理时的激活值（Activations）和 KV Cache（若涉及长文本或 Batch），1.5GB 显存占用对于 'large' 级别模型处理论文全文（通常数千 token）而言过于乐观，极大概率发生 OOM 或需要极小的 Batch Size 才能勉强运行，该数值缺乏通用基准支持，疑似混淆了 'small/base' 模型或特定量化/蒸馏版本的性能。 | source=knowledge，逻辑上 F1 0.92 与 2s 耗时在合理范围内，但 1.5GB 显存对于 DeBERTa-v3-large 全精度或半精度推理处理长文档而言量级偏低，存在技术可行性疑点，故降级。
+
+## Search Query
+
+DeBERTa large atomic fact extraction F1 score latency

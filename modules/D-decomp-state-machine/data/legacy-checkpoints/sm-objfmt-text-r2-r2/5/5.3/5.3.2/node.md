@@ -1,0 +1,20 @@
+# N93: TP=2 的通信开销占比可通过 (每层通信数据量 * 层数) / (总计算时间) 估算，对于 64 层模型，若每层隐藏维度为 4096，BF16 下每次 All
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N29
+
+## Claim
+
+TP=2 的通信开销占比可通过 (每层通信数据量 * 层数) / (总计算时间) 估算，对于 64 层模型，若每层隐藏维度为 4096，BF16 下每次 AllReduce 数据量约为 32MB，高频小消息通信在 PCIe 上效率极低，导致加速比通常低于 1.5x。
+
+## Corrected Claim
+
+TP=2 的通信开销占比可通过 (每层通信数据量 * 层数) / (总计算时间) 估算，对于 64 层模型，若每层隐藏维度为 4096，BF16 下每次 AllReduce 数据量约为 32MB，高频小消息通信在 PCIe 上效率极低，导致加速比通常低于 1.5x。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：TP=2时AllReduce数据量约为2*hidden_dim*2bytes=32MB，符合量级；PCIe带宽瓶颈导致高频小消息通信效率低及加速比受限符合分布式训练常识。

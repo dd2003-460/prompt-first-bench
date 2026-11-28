@@ -1,0 +1,35 @@
+{
+  "id": "N62",
+  "claim": "2x RTX 4090 (PCIe 4.0 x16) 在 Qwen3-27B (FP8) 下的实际吞吐量约为 60-70 tokens/s，相比单卡 FP8 的 40 tokens/s 提升约 50-75%，而非理论倍增，主要瓶颈在于 AllReduce 操作在 PCIe 25 GB/s 带宽下的同步等待时间 [待核验: 实测吞吐]",
+  "level": "L3",
+  "source": "search",
+  "status": "degraded",
+  "evidence": "[质询]数值量级存疑：来源[2]显示单卡RTX 4090在特定配置下可达约100 tokens/s，远高于陈述中假设的单卡40 tokens/s基准；此外，来源[1]和[3]虽提及双卡部署及PCIe瓶颈，但未提供具体的60-70 tokens/s实测数据，且不同测试场景（如缓存命中、上下文长度）会导致吞吐量巨大差异，直接断言该具体区间缺乏充分实证支持。 | 逻辑上双卡受PCIe带宽限制导致非线性加速是合理的（来源[1]提及规避PCIe瓶颈），但具体数值（60-70 tokens/s及50-75%提升）缺乏来源直接支持，且与来源[2]的单卡高性能表现存在潜在冲突，故降级为定性描述。",
+  "corrected_claim": "2x RTX 4090 (PCIe 4.0 x16) 在 Qwen3-27B (FP8) 下的实际吞吐量受限于 PCIe 带宽导致的 AllReduce 同步开销，通常无法实现理论倍增，具体数值高度依赖上下文长度、批处理大小及是否启用 KV Cache 优化，实测范围可能在 50-100+ tokens/s 之间波动。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N14",
+    "N15",
+    "N16"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "Qwen3-27B 2x RTX 4090 tensor parallelism throughput tokens per second",
+  "retrieval_sources": [
+    {
+      "url": "https://blog.csdn.net/weixin_28221501/article/details/168671381&rut=4d79d76df76c14466c2acf02d3b084801c612c27d3b9a2e3b5e00234b90feede",
+      "type": "ddg",
+      "title": "双RTX 4090部署Qwen3.8-27B的vLLM实战指南 - CSDN博客"
+    },
+    {
+      "url": "https://pub.towardsai.net/running-qwen3-8-27b-on-an-rtx-4090-cde0cb4ba338&rut=248137949ee1ebb5f0d5d26b3aec0149cfdbef18adad443921b8288e4ea0d678",
+      "type": "ddg",
+      "title": "Running Qwen3.8-27B on an RTX 4090 - pub.towardsai.net"
+    },
+    {
+      "url": "https://www.besthub.dev/articles/testing-qwen3-8-27b-on-dual-4090-gpus-and-connecting-to-claude-code-for-unlimited-tokens-d0e683a0b376&rut=3e917b76a307df6a2e14eb7a9aadc69ccc8b7233ef94329d50c67e915d67f115",
+      "type": "ddg",
+      "title": "Testing Qwen3.8-27B on Dual 4090 GPUs and Connecting t… | BestHub"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+# N8: Qwen3-27B 在 FP8 精度下的静态权重显存占用为 27 GB，在 INT8 精度下为 27 GB，在 NVFP4/W4 精度下约为 13.5 GB -
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+Qwen3-27B 在 FP8 精度下的静态权重显存占用为 27 GB，在 INT8 精度下为 27 GB，在 NVFP4/W4 精度下约为 13.5 GB - 14 GB
+
+## Corrected Claim
+
+Qwen3-27B 在 FP8 精度下的静态权重显存占用为 27 GB，在 INT8 精度下为 27 GB，在 NVFP4/W4 精度下约为 13.5 GB - 14 GB
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B参数在FP8/INT8下每参数1字节，占用约27GB；在NVFP4/W4下每参数0.5字节，占用约13.5GB，数值量级与计算逻辑完全自洽。

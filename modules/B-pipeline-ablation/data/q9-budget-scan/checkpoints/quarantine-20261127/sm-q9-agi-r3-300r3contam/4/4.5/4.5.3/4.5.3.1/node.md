@@ -1,0 +1,29 @@
+# N192: 语法错误重写耗时 T_rewrite_gram：基于50个样本实测，平均每次修复语法错误的耗时，单位：分钟，预期范围2-5分钟
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N67
+
+## Claim
+
+语法错误重写耗时 T_rewrite_gram：基于50个样本实测，平均每次修复语法错误的耗时，单位：分钟，预期范围2-5分钟
+
+## Corrected Claim
+
+语法错误重写耗时 T_rewrite_gram：基于50个样本实测，平均每次修复语法错误的耗时，单位：分钟，预期范围2-5分钟（注：此数据缺乏公开来源直接佐证，建议标注为内部实测数据或待验证假设）
+
+## Evidence
+
+[质询]该陈述包含具体的经验性测量数据（50个样本、2-5分钟），属于经验事实，无法从第一性原理推导，且参考来源中未包含任何关于具体耗时或样本量的数据支持。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2]仅涉及重写工具介绍或流程定义，未提供具体耗时统计数据）
+
+## Search Query
+
+human editing time for llm grammar errors minutes
+
+## Retrieval Sources
+
+- {'url': 'https://www.grammar.com/paraphrasing-tool&rut=0c6e4f0741d15f070b471fed2d71ff9c20cb3313a458bf677753994f638f28de', 'type': 'ddg', 'title': 'Rewrite Text - Grammar.com'}
+- {'url': 'https://blog.csdn.net/gitblog_00259/article/details/167675478&rut=bb0d0c3d9d322650c9618cca973d103308c54c15f26c33fe4c257bc64ec196ca', 'type': 'ddg', 'title': 'PaperSpine 重写阶段（Rewrite Stage）深度实战指南：基于证据感知计划的论文实质改写全流程'}

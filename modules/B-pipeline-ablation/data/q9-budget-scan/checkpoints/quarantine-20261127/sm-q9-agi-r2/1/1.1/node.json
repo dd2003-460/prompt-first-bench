@@ -1,0 +1,17 @@
+{
+  "id": "N7",
+  "claim": "4xV100-SXM2-16GB 集群在 TP=4 模式下，qwen3.8-27b (NVFP4) 的理论显存占用下限为 13.5GB/卡（权重 27GB / 4卡），加上 FP8 KV Cache 开销后，剩余可用显存约为 2.5GB/卡，限制了 max_model_len 和 batch size 的上限。",
+  "level": "L2",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值计算存在严重逻辑矛盾：16GB总显存减去13.5GB权重占用，剩余仅为2.5GB，这与陈述中‘加上KV Cache开销后剩余约2.5GB’相悖（若加上KV Cache，剩余应远小于2.5GB，甚至为负数导致OOM）。此外，Qwen3-27B通常指270亿参数，NVFP4量化下权重约为13.5GB，但实际部署还需考虑激活值、CUDA上下文等开销，2.5GB的‘剩余可用’描述极易误导，实际上该配置下几乎无法运行任何有效长度的推理任务。 | 逻辑校验发现内部数值矛盾：16 - 13.5 = 2.5GB是扣除权重后的裸剩余，若再‘加上KV Cache开销’，剩余必然小于2.5GB，陈述将‘扣除权重后的剩余’误标为‘加上KV Cache后的剩余’，存在概念混淆和算术逻辑错误。",
+  "corrected_claim": "4xV100-SXM2-16GB 集群在 TP=4 模式下，qwen3.8-27b (NVFP4) 的理论权重显存占用约为 13.5GB/卡（27GB / 4卡）。扣除权重后，每卡仅剩约 2.5GB 显存用于 KV Cache 及运行时开销，这极大地限制了 max_model_len 和 batch size，实际可用推理长度极短。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N1"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

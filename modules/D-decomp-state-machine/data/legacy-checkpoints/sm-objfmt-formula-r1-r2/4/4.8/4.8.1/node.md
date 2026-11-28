@@ -1,0 +1,24 @@
+# N101: 2x RTX 4090 双卡并行推理 Qwen3-27B (FP8) 的实际吞吐量（Tokens/s）受限于 PCIe 带宽瓶颈和模型分片策略（Tensor P
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+2x RTX 4090 双卡并行推理 Qwen3-27B (FP8) 的实际吞吐量（Tokens/s）受限于 PCIe 带宽瓶颈和模型分片策略（Tensor Parallelism vs Pipeline Parallelism），实测峰值吞吐通常在 80-120 T/s 之间（取决于 batch size 和序列长度），而非简单的单卡带宽线性叠加
+
+## Corrected Claim
+
+2x RTX 4090 双卡并行推理 Qwen3-27B (FP8) 的实际吞吐量受限于 PCIe 带宽瓶颈和模型分片策略，具体数值取决于推理框架、batch size 和序列长度，通常显著高于单卡但非简单线性叠加。
+
+## Evidence
+
+[质询]具体数值区间（80-120 T/s）缺乏公开基准测试的直接支持，且实际吞吐量高度依赖具体的推理框架（如 vLLM, TensorRT-LLM）、Batch Size 配置及序列长度，不同配置下波动极大，固定区间可能误导。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+dual RTX 4090 LLM inference throughput tokens per second PCIe bottleneck tensor parallelism

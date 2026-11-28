@@ -1,0 +1,30 @@
+# N330: 数据清洗逻辑错误（Data Cleaning Logic Error）占 Qwen3.8-27B 代码失败原因的 25%-35%，典型表现为 Pandas 链式
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N104, N105, N106
+
+## Claim
+
+数据清洗逻辑错误（Data Cleaning Logic Error）占 Qwen3.8-27B 代码失败原因的 25%-35%，典型表现为 Pandas 链式操作（chaining）副作用或索引对齐失败，引入 Pandas Profiling 预检查可将此类错误降低 50%。
+
+## Corrected Claim
+
+数据清洗逻辑错误（如Pandas链式操作副作用）是代码生成任务中常见的失败原因之一，引入数据预检查工具有助于减少此类错误，但具体占比及降低幅度需依据特定模型和实验环境确定。
+
+## Evidence
+
+[质询]该陈述包含具体的模型名称（Qwen3.8-27B）、精确的错误占比区间（25%-35%）以及特定的工具效果量化（降低50%），这些均为高度具体的经验事实或特定实验结果，缺乏通用性，且参考来源完全未涉及大语言模型代码生成评估或Pandas Profiling的具体效能数据，存在来源不可靠或数据虚构的风险。 | 参考来源[1][2][3]仅讨论传统数据清洗中的逻辑错误检查方法（如Excel函数、缺失值处理），与Qwen3.8-27B模型性能及Pandas Profiling工具效能无关，无法提供外部支持；但该陈述在逻辑上自洽（数据清洗错误确实是代码生成常见问题，预检查理论上可减少此类错误），故依据经验事实排除条款降级。
+
+## Search Query
+
+pandas chaining side effects data cleaning logic errors LLM code generation
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/cmz1243018/article/details/80212530&rut=b0b1116d4a4f490efd1b34cf9be3c9694fa7bb22e8a02580b36f93d8ee97b3d8', 'type': 'ddg', 'title': '数据清洗（三）------检查数据逻辑错误_数据逻辑错误包括-csdn博客'}
+- {'url': 'https://blog.csdn.net/anfeixi7962/article/details/101492539&rut=7a756db680aaf653ca8296890a0888a68c66bbf3330289577a5592fec6493ce9', 'type': 'ddg', 'title': '《谁说菜鸟不会数据分析》数据处理 之 数据清洗--检验逻辑错误-csdn博客'}
+- {'url': 'https://cloud.tencent.com/developer/article/1955170&rut=54e57324341cd59c31a31a070e76dc36c605d974bd6f3c38f87af68c463530b6', 'type': 'ddg', 'title': '手把手教你搞定4类数据清洗操作-腾讯云开发者社区-腾讯云'}

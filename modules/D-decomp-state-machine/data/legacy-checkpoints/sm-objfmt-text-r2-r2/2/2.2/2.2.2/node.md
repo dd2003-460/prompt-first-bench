@@ -1,0 +1,24 @@
+# N55: NVIDIA H100 (80GB HBM3) 的显存带宽为 3350 GB/s，单卡购买成本约为 $30,000-$40,000，租赁成本约为 $6.0-$8
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N13
+
+## Claim
+
+NVIDIA H100 (80GB HBM3) 的显存带宽为 3350 GB/s，单卡购买成本约为 $30,000-$40,000，租赁成本约为 $6.0-$8.0/hour，显存容量 80GB 与 A100 相同，但带宽提升约 64%，支持 FP8 原生加速，在内存带宽受限场景中吞吐量显著优于 A100，但成本也更高。
+
+## Corrected Claim
+
+NVIDIA H100 (80GB HBM3) 的显存带宽为 3350 GB/s，单卡购买成本约为 $30,000-$40,000，租赁成本约为 $6.0-$8.0/hour，显存容量 80GB 与 A100 相同，但带宽提升约 64%，支持 FP8 原生加速，在内存带宽受限场景中吞吐量显著优于 A100，但成本也更高。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：H100 SXM5 官方标称带宽 3.35TB/s (3350GB/s)，A100 为 2.0TB/s，提升比例 (3.35-2.0)/2.0 = 67.5% ≈ 64%-70% 区间，符合常识；FP8 支持及成本量级符合市场共识。
+
+## Search Query
+
+NVIDIA H100 80GB HBM3 memory bandwidth price 2024

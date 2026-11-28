@@ -1,0 +1,26 @@
+# N30: 32K 上下文下的精确显存占用测算：以 Qwen3-27B (假设 32层, GQA 8 KV heads, head_dim 128) 为例，BF16 KV 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+32K 上下文下的精确显存占用测算：以 Qwen3-27B (假设 32层, GQA 8 KV heads, head_dim 128) 为例，BF16 KV Cache 占用约为 2 * 32 * 8 * 128 * 32768 * 2 / 1024^3 ≈ 32 GB；加上权重 54 GB，总需求 > 86 GB，因此单张 24GB/48GB 卡无法运行 BF16 32K 上下文，必须量化至 INT8 (权重~27GB, KV~16GB, 总~45GB) 或使用多卡/大显存卡。
+
+## Corrected Claim
+
+Qwen3-27B采用混合注意力架构，并非所有层均存储KV Cache。以实际需存储KV的层数计算，BF16下32K上下文的KV Cache占用远低于32GB（通常在几GB量级），加上权重后总显存需求可能在48GB-64GB区间，具体取决于量化方式和实际KV层比例，单张48GB卡配合适当量化或优化可能可行，而非绝对无法运行。
+
+## Evidence
+
+[质询]模型架构假设错误导致KV Cache量级严重高估：参考来源指出Qwen3系列（如Qwen3.8-27B）采用混合架构（Hybrid Attention），并非所有层都使用标准Transformer注意力机制存储KV Cache，因此实际KV占用远低于全注意力模型的线性估算值。 | 来源[2]明确指出Qwen3.8-27B是混合架构模型，64层中仅16层需要存KV Cache，其余使用线性注意力，这与claim中假设的'32层全注意力'前提矛盾，导致claim计算的32GB KV Cache严重偏离实际（来源[1]显示q8_0下KV仅约1GiB，即便BF16也远小于32GB）。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_01075/article/details/168111834&rut=e05c04026d7274da36294239937cfb7689063e37cf09e196ef351f16664ffa34', 'type': 'ddg', 'title': 'Qwen3.8-27B-AP-GGUF到底需要多少显存：VRAM估算与32k上下文配置完全指南-CSDN博客'}
+- {'url': 'https://blog.csdn.net/weixin_36238982/article/details/168111978&rut=c482e2465ef7d1798442da0ee0293e2dc3634a637f9706a46cd04762e49e248b', 'type': 'ddg', 'title': 'Qwen3.8-27B 上下文与显存配置对照表：16G-96G 分档计算 + 实测验证（附 KV 占用系数）-CSDN博客'}
+- {'url': 'https://blog.gitcode.com/4ca89dfc4f750cf7d388aed534084a24.html&rut=fc2130eaa875f9de7f6d8f8fb2416f9da2c24d617a998110c85918775bc29754', 'type': 'ddg', 'title': 'Qwen3.8-27B-AP-GGUF到底需要多少显存：VRAM估算与32k上下文配置完全指南'}

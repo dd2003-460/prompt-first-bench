@@ -1,0 +1,20 @@
+# N183: 交叉点校准-长文本区间：当 L > 66k tokens 且启用 MTP 加速（η=0.8）时，本地吞吐量提升至 45 tok/s，C_local_unit 降
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N70
+
+## Claim
+
+交叉点校准-长文本区间：当 L > 66k tokens 且启用 MTP 加速（η=0.8）时，本地吞吐量提升至 45 tok/s，C_local_unit 降至 $0.000005/token，L* 上移至 ~200k tokens，本地推理在超长上下文中全面优于云端。
+
+## Corrected Claim
+
+在特定优化配置下（如启用MTP且L>66k tokens），本地推理的单位成本显著降低，使得其经济性交叉点（L*）大幅上移，在超长上下文场景中相比云端更具成本优势。
+
+## Evidence
+
+[质询]数值量级与因果关系存疑：MTP（Multi-Token Prediction）主要优化解码延迟，对吞吐量（tok/s）的提升通常有限（取决于硬件瓶颈），且从常规云端成本（~$0.0001-0.001/token）降至 $0.000005/token 需要极高的硬件利用率或极低的边际成本假设，缺乏通用基准支持；此外，'全面优于'过于绝对，忽略了云端弹性扩展和峰值负载下的优势。 | source=knowledge，逻辑上自洽（高吞吐降低单位成本从而提升交叉点），但具体数值（45 tok/s, $0.000005）属于特定场景下的经验估算，缺乏通用第一性原理推导或标准基准支持，故降级为定性表述。

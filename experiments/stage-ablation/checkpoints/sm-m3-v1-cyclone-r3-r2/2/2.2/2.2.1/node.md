@@ -1,0 +1,30 @@
+# N48: 边界层厚度z_i对摩擦耗散的修正：实际摩擦耗散功率应与边界层厚度成正比，P_friction_corrected = P_friction * (z_i/100
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+边界层厚度z_i对摩擦耗散的修正：实际摩擦耗散功率应与边界层厚度成正比，P_friction_corrected = P_friction * (z_i/100m)，登陆后z_i从100m增至500m，使得摩擦耗散的有效体积增大5倍，但单位体积耗散率降低，净效果使总摩擦耗散增加约2-3倍，部分抵消了风速减弱的衰减效应。
+
+## Corrected Claim
+
+边界层厚度z_i对摩擦耗散有显著修正作用：登陆后z_i增大（如从100m增至数百米），使得摩擦耗散的有效体积显著增加。尽管单位体积耗散率可能降低，但总体积增大的效应通常导致总摩擦耗散功率增加，从而部分抵消风速减弱带来的动能衰减。具体倍数需依赖特定气象模型或观测数据确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值（z_i从100m增至500m，耗散增加2-3倍），这些并非第一性原理可直接推导的数学恒等式，而是依赖于特定气象模型或观测数据的经验事实。参考来源仅提供了边界层和能量厚度的通用定义，未提供台风登陆后边界层厚度变化及摩擦耗散修正的具体数值支持，存在来源缺失风险。 | 逻辑上，边界层厚度增加导致参与摩擦耗散的流体体积增大，虽然单位体积耗散率可能因风速梯度减小而降低，但总体积增大的效应通常占主导，因此总耗散增加符合流体力学直觉。然而，具体数值（5倍体积、2-3倍耗散）属于经验事实，参考来源[1][2][3]仅涉及边界层理论基础，未直接覆盖该具体气象场景下的定量关系，故降级。
+
+## Search Query
+
+boundary layer depth correction for frictional dissipation in hurricanes
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E8%83%BD%E9%87%8F%E5%8E%9A%E5%BA%A6/21507274&rut=11ff15a28dffebc0e26a4a71b0bd1b859c45d474aed839cdde8b06762aa41644', 'type': 'ddg', 'title': '能量厚度 - 百度百科'}
+- {'url': 'https://zhuanlan.zhihu.com/p/657541084&rut=6c2b14ee9a9b48e02c958dd1874fd7bd58b66e0c654da0d3ef8bfe199e50089b', 'type': 'ddg', 'title': '1. 边界层理论及y+的确定 - 知乎'}
+- {'url': 'https://baike.baidu.com/item/%E8%BE%B9%E7%95%8C%E5%B1%82%E7%90%86%E8%AE%BA/6494806&rut=36029072a1d20fb2492c7158b3052ad24956b1bb90473195958e64215f870ccd', 'type': 'ddg', 'title': '边界层理论_百度百科'}

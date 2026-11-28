@@ -1,0 +1,24 @@
+# N238: KV Cache 精确字节数计算：Qwen3.8-27B (假设 hidden_dim=4096, num_kv_heads=8, head_dim=128, 
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N82
+
+## Claim
+
+KV Cache 精确字节数计算：Qwen3.8-27B (假设 hidden_dim=4096, num_kv_heads=8, head_dim=128, num_layers=64), FP8 精度下，单 Token KV Cache 大小 = 2 (K/V) * num_layers * num_kv_heads * head_dim * 1 byte = 2 * 64 * 8 * 128 * 1 = 131,072 bytes ≈ 128 KB/token。262k 上下文总 KV 大小 = 262,144 * 128 KB = 32 GB。
+
+## Corrected Claim
+
+KV Cache 精确字节数计算：Qwen3.8-27B (假设 hidden_dim=4096, num_kv_heads=8, head_dim=128, num_layers=64), FP8 精度下，单 Token KV Cache 大小 = 2 (K/V) * num_layers * num_kv_heads * head_dim * 1 byte = 2 * 64 * 8 * 128 * 1 = 131,072 bytes ≈ 128 KB/token。262k 上下文总 KV 大小 = 262,144 * 128 KB = 32 GB。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 2*64*8*128=131,072 bytes (128KB) 正确，262,144 tokens * 128KB = 32GB 正确，符合 Transformer KV Cache 存储原理。
+
+## Search Query
+
+Qwen3 27B architecture hidden dim num layers kv heads config

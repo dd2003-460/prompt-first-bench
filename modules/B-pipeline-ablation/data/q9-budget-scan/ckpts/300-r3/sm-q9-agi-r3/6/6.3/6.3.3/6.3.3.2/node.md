@@ -1,0 +1,24 @@
+# N314: RAG Hook 关闭的验证机制：在 vLLM 服务端日志中监控 /retrieval 端点的请求计数，若在一次无检索推理循环中检测到该端点被调用次数 > 0，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N113
+
+## Claim
+
+RAG Hook 关闭的验证机制：在 vLLM 服务端日志中监控 /retrieval 端点的请求计数，若在一次无检索推理循环中检测到该端点被调用次数 > 0，则标记该次推理为'协议违规'并丢弃结果
+
+## Corrected Claim
+
+RAG Hook 关闭的验证机制：在 vLLM 服务端日志中监控 /retrieval 端点的请求计数，若在一次无检索推理循环中检测到该端点被调用次数 > 0，则标记该次推理为'协议违规'并丢弃结果
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
+
+## Search Query
+
+vLLM retrieval endpoint logging monitoring audit

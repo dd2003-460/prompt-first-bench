@@ -1,0 +1,28 @@
+# N58: PP=2 相比 TP=4 的单步推理延迟 (Latency) 变化量：Delta_Latency = Latency_PP - Latency_TP。在 V10
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N19
+
+## Claim
+
+PP=2 相比 TP=4 的单步推理延迟 (Latency) 变化量：Delta_Latency = Latency_PP - Latency_TP。在 V100 上，PP 引入的串行等待时间约为单卡计算时间的 2x (因无重叠)，而 TP 的 All-Reduce 通信时间在 300GB/s NVLink 下对于 27B 模型每层权重传输约 (13.5GB/4/2) / 300GB/s ≈ 5.6ms/step。需对比两者在 seq_len=32k 时的绝对延迟差异 (ms)。
+
+## Corrected Claim
+
+PP=2相比TP=4的单步推理延迟变化取决于具体硬件配置和序列长度。在V100上，PP引入的串行等待时间显著，而TP的All-Reduce通信开销随模型层数和序列长度增加。对于27B模型，需基于实际单层参数量（约几十MB）和NVLink有效带宽精确计算每层通信延迟，而非使用错误的总权重估算。
+
+## Evidence
+
+[质询]陈述中关于TP通信时间的计算存在严重的量纲和逻辑错误：1. 27B模型每层权重并非13.5GB（总权重才约54GB，单层仅约几十MB）；2. 即使假设传输的是整个模型权重，All-Reduce在TP=4下的通信量也不是简单的除以4再除以2，且NVLink带宽通常指双向聚合带宽，实际单向有效带宽更低；3. 5.6ms/step的估算对于27B模型在32k序列长度下极不合理，忽略了激活值传输和计算时间的主导地位。 | 来源[1]仅介绍TP基本原理，未提供具体延迟数值或通信量计算公式，无法支持该具体数值结论；且陈述内部的物理/数学推导存在明显错误（单层权重大小误判、通信量计算逻辑混乱）。
+
+## Search Query
+
+vLLM pipeline parallelism vs tensor parallelism latency overhead V100 long sequence
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2003423046342554380&rut=cb0e47348d04af6cb7e54d5d23f236fd4ec1a8fa7467345d1a074993bcbae21f', 'type': 'ddg', 'title': '大模型推理并行策略 (Dp/Tp/Pp/Sp/Ep)原理简介 - 知乎'}

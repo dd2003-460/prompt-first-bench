@@ -1,0 +1,20 @@
+# N92: N25子节点：最大实验速率 R_max 的求解约束条件：R_max = min(Capacity_limit, Budget_limit)。Capacity_l
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+N25子节点：最大实验速率 R_max 的求解约束条件：R_max = min(Capacity_limit, Budget_limit)。Capacity_limit 由硬件吞吐上限决定（参考 N7/N23），Budget_limit 由 C_eff ≤ $2.00/experiment 约束反推。需建立不等式组求解 R_max 的上界。
+
+## Corrected Claim
+
+N25子节点：最大实验速率 R_max 的求解约束条件：R_max = min(Capacity_limit, Budget_limit)。Capacity_limit 由硬件吞吐上限决定（参考 N7/N23），Budget_limit 由 C_eff ≤ $2.00/experiment 约束反推。需建立不等式组求解 R_max 的上界。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：最大速率受限于硬件容量和预算成本的最小值，符合资源约束优化的基本逻辑。

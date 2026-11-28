@@ -1,0 +1,20 @@
+# N6: 登陆前气旋维持的潜热通量典型值为 50–100 W/m²，其量级可由潜热释放公式 L_v·E 估算，其中 L_v ≈ 2.5×10^6 J/kg，E（蒸发速率）
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+登陆前气旋维持的潜热通量典型值为 50–100 W/m²，其量级可由潜热释放公式 L_v·E 估算，其中 L_v ≈ 2.5×10^6 J/kg，E（蒸发速率）≈ 0.2–0.4 mm/h（约 6×10^-5 kg/m²/s），该值是登陆后能量赤字的基准分子。
+
+## Corrected Claim
+
+登陆前气旋维持的潜热通量典型值为 50–100 W/m²，其量级可由潜热释放公式 L_v·E 估算，其中 L_v ≈ 2.5×10^6 J/kg，E（蒸发速率）≈ 0.2–0.4 mm/h（约 6×10^-5 kg/m²/s），该值是登陆后能量赤字的基准分子。
+
+## Evidence
+
+父节点级核验失败（LLM 错误）：Expecting ',' delimiter: line 10 column 4 (char 768)

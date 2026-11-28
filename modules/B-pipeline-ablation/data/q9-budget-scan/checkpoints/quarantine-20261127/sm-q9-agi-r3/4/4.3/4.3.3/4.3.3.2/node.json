@@ -1,0 +1,17 @@
+{
+  "id": "N202",
+  "claim": "本地 27B (TP=4, MTP) 在 50k context 下的生成速度 (Decoding Throughput) 受限于 HBM 带宽：V100 HBM2 带宽 900 GB/s，4 卡聚合理论峰值 3600 GB/s，扣除 TP All-Reduce 通信开销 (约 15%) 和 MTP 接受率不确定性，实际有效带宽约 2500 GB/s；加载 NVFP4 权重 (约 13.5 GB) 所需时间决定理论上限，实测 20-30 tokens/s 符合带宽瓶颈特征 (13.5 GB / 0.05s ≈ 270 GB/s per token batch? No, per token requires reading all weights once if batch=1. 13.5GB / 900GB/s = 15ms/token. Theoretical limit ~66 tok/s. Observed 20-30 implies low MFU or overhead.)",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级与逻辑推导存在严重矛盾：1. 单卡 V100 HBM2 带宽约为 900 GB/s，4 卡聚合应为 3600 GB/s，但文中称扣除 15% 后有效带宽约 2500 GB/s，计算错误（3600 * 0.85 = 3060 GB/s，而非 2500 GB/s）；2. 基于 13.5 GB 权重和 900 GB/s 单卡带宽（或 3600 GB/s 聚合带宽），理论解码速度远高于 20-30 tokens/s。若按单卡 900 GB/s 计算，13.5GB/900GB/s = 15ms/token，理论上限约 66 tok/s；若按聚合 3600 GB/s 计算，理论上限更高。实测 20-30 tok/s 虽低于理论上限，但文中声称的“有效带宽 2500 GB/s”与“20-30 tok/s”之间的推导关系混乱，且 2500 GB/s 的有效带宽本身计算有误。此外，MTP（Multi-Token Prediction）通常旨在提升吞吐，但其接受率不确定性不应导致如此大的带宽折损描述错误。 | 先验知识/题面给定，逻辑校验发现数值计算错误（3600*0.85≠2500）及理论上限推导与实测数据间的解释逻辑不自洽，故降级。",
+  "corrected_claim": "本地 27B (TP=4, MTP) 在 50k context 下的生成速度受限于 HBM 带宽：V100 HBM2 单卡带宽 900 GB/s，4 卡聚合理论峰值 3600 GB/s。扣除通信开销后，实际有效带宽需重新估算。加载 NVFP4 权重 (约 13.5 GB) 的理论解码上限约为 66 tokens/s (基于单卡带宽限制或更优的并行策略)。实测 20-30 tokens/s 表明存在显著的额外开销（如 KV Cache 读取、All-Reduce 延迟、MTP 验证开销等），而非单纯由文中错误计算的 2500 GB/s 有效带宽决定。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N71"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "",
+  "retrieval_sources": []
+}

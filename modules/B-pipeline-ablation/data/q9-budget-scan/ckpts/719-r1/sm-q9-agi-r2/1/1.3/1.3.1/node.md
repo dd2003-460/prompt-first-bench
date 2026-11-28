@@ -1,0 +1,24 @@
+# N37: Qwen3-27B 从 BF16 量化至 NVFP4 后，在 GSM8K 基准上的准确率绝对值下降点数（ΔAccuracy，单位：%），用于量化数学推理损失
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+Qwen3-27B 从 BF16 量化至 NVFP4 后，在 GSM8K 基准上的准确率绝对值下降点数（ΔAccuracy，单位：%），用于量化数学推理损失
+
+## Corrected Claim
+
+Qwen3-27B 从 BF16 量化至 NVFP4 后，在 GSM8K 基准上的准确率通常会有一定程度的下降，具体下降点数需查阅官方技术报告或基准测试数据。
+
+## Evidence
+
+[质询]具体数值缺失且缺乏来源支持：该陈述声称存在一个具体的“绝对值下降点数”，但未提供该数值，且参考来源为空。虽然BF16到NVFP4的量化通常会导致精度损失，但具体的ΔAccuracy取决于模型版本、量化算法及校准数据集，属于经验事实，无法仅凭逻辑推导得出确切数值。 | 经验事实，逻辑自洽（量化通常导致精度下降）但缺来源支持具体数值，故降级。
+
+## Search Query
+
+Qwen3-27B NVFP4 vs BF16 GSM8K accuracy drop

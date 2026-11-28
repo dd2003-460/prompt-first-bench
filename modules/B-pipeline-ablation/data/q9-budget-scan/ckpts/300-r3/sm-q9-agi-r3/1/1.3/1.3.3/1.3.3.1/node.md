@@ -1,0 +1,16 @@
+# N151: 方案 A（INT4 KV + 短上下文）：启用 INT4 KV Cache 量化（0.5 byte/element），设置 max_model_len=1638
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N43
+
+## Claim
+
+方案 A（INT4 KV + 短上下文）：启用 INT4 KV Cache 量化（0.5 byte/element），设置 max_model_len=16384, max_num_seqs=8。单序列 KV 占用 16384 * 64KB = 1GB，总需求 8GB，远低于 48.5GB。此方案以轻微精度损失换取高并发，适用于对精度要求不极致的初步筛选任务。
+
+## Corrected Claim
+
+方案 A（INT4 KV + 短上下文）：启用 INT4 KV Cache 量化（0.5 byte/element），设置 max_model_len=16384, max_num_seqs=8。单序列 KV 占用 16384 * 64KB = 1GB，总需求 8GB，远低于 48.5GB。此方案以轻微精度损失换取高并发，适用于对精度要求不极致的初步筛选任务。

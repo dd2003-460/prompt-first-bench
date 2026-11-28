@@ -1,0 +1,29 @@
+# N40: MTP×4 加速比的实际衰减系数 $\beta$ 定义为 $\alpha_{actual} = \alpha_{theory} \times \beta$，其中
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N10
+
+## Claim
+
+MTP×4 加速比的实际衰减系数 $\beta$ 定义为 $\alpha_{actual} = \alpha_{theory} \times \beta$，其中 $\beta$ 主要受 Batch Size ($N_{seqs}$) 和 Draft Token 长度 ($k$) 影响；在 $N_{seqs}=8$ 且 $k=4$ 时，由于 Batch 内 Draft 验证的计算冗余，预计 $\beta \in [0.7, 0.85]$，需通过 vLLM 日志中的 `spec_decode_accept_rate` 实测校准。
+
+## Corrected Claim
+
+MTP×4 加速比的实际衰减系数 β 定义为 α_actual = α_theory × β，其值受 Batch Size 和 Draft Token 长度影响；在 N_seqs=8 且 k=4 时，β 的具体数值需通过 vLLM 日志中的 spec_decode_accept_rate 实测校准，通常小于1。
+
+## Evidence
+
+[质询]该陈述包含具体的经验数值范围（β ∈ [0.7, 0.85]）和特定的系统行为归因（Batch内Draft验证的计算冗余导致特定衰减），这属于依赖具体硬件、模型架构及vLLM实现细节的经验事实，无法从第一性原理严格推导，且参考来源中缺乏对该特定数值区间的直接支持或量化数据。 | 来源[2]确认了MTP技术的存在及其加速原理，间接支持了加速比可能受实际接受率影响的逻辑框架，但未提供N_seqs=8, k=4时的具体β数值范围；来源[1]完全无关。根据经验事实排除条款，缺乏直接来源支持的定量经验参数应降级。
+
+## Search Query
+
+vLLM speculative decoding acceptance rate batch size impact performance
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Mitochondrial_trifunctional_protein&rut=8bfc356de5372b04e57544553376f073f0b885d13c79b455df17304562a8b54a', 'type': 'ddg', 'title': 'Mitochondrial trifunctional protein - Wikipedia'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2040189630574761764&rut=d0a2bde47eabbba36e79a1050358e9de6a636274ccfc6fb2e8d5ec72382d7753', 'type': 'ddg', 'title': '多词元预测（Mtp）技术详解：原理、推理加速 - 知乎'}

@@ -1,0 +1,20 @@
+# N10: Qwen3-27B模型在不同精度（BF16/FP8/INT8/NVFP4/W4）下的权重存储字节数计算公式：Weights_GB = 27e9 * bytes_
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N2
+
+## Claim
+
+Qwen3-27B模型在不同精度（BF16/FP8/INT8/NVFP4/W4）下的权重存储字节数计算公式：Weights_GB = 27e9 * bytes_per_param / 1e9，其中bytes_per_param分别为2/1/1/0.5/0.5
+
+## Corrected Claim
+
+Qwen3-27B模型在不同精度（BF16/FP8/INT8/NVFP4/W4）下的权重存储字节数计算公式：Weights_GB = 27e9 * bytes_per_param / 1e9，其中bytes_per_param分别为2/1/1/0.5/0.5
+
+## Evidence
+
+[质询]NVFP4和W4的bytes_per_param均为0.5，需确认是否准确反映各自量化方案的位宽（NVFP4通常为4-bit，W4也为4-bit，故0.5字节/参数合理） | 先验知识/题面给定，逻辑校验通过：27e9参数×各精度字节数/1e9=GB，计算正确；BF16=2B, FP8=1B, INT8=1B, NVFP4=0.5B(4bit), W4=0.5B(4bit)，量纲与数值均合理

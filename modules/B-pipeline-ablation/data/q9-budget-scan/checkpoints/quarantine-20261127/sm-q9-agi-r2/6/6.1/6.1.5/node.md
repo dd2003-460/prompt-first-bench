@@ -1,0 +1,24 @@
+# N92: 工作点 B 的云端 API 延迟 T_cloud_latency 分解为 T_network + T_queue + T_infer；T_network ≈ 5
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+工作点 B 的云端 API 延迟 T_cloud_latency 分解为 T_network + T_queue + T_infer；T_network ≈ 50-100ms (RTT)，T_queue 在高峰时段可达 2-5s，T_infer 取决于输入输出长度；若采用异步并行评估，单篇论文的墙钟时间 T_wall = max(T_local_gen, T_cloud_eval) 而非简单相加，这使得单篇总耗时从 120s 降至约 80-90s（取决于本地生成是否为瓶颈），而非 claim 中简单计算的 100s，且需考虑 API 限流（Rate Limit）导致的潜在等待时间 T_wait，平均增加 5-10s。
+
+## Corrected Claim
+
+工作点 B 的云端 API 延迟 T_cloud_latency 分解为 T_network + T_queue + T_infer；T_network ≈ 50-100ms (RTT)，T_queue 在高峰时段可达 2-5s，T_infer 取决于输入输出长度；若采用异步并行评估，单篇论文的墙钟时间 T_wall = max(T_local_gen, T_cloud_eval) 而非简单相加，这使得单篇总耗时从 120s 降至约 80-90s（取决于本地生成是否为瓶颈），而非 claim 中简单计算的 100s，且需考虑 API 限流（Rate Limit）导致的潜在等待时间 T_wait，平均增加 5-10s。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：异步并行取最大值符合并发计算原理，延迟分量量级（网络50-100ms，排队2-5s）及总耗时估算（120s降至80-90s）在工程直觉上合理且自洽。
+
+## Search Query
+
+OpenAI GPT-4o API latency breakdown queueing time rate limit impact async parallel inference

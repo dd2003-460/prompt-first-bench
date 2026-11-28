@@ -1,0 +1,30 @@
+# N9: 非典型/边缘方案（如Mac Studio M2/M3 Ultra统一内存、Threadripper PRO高带宽内存、专用AI ASIC如Groq/Reconf
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+非典型/边缘方案（如Mac Studio M2/M3 Ultra统一内存、Threadripper PRO高带宽内存、专用AI ASIC如Groq/Reconfigurable Fabric）的大容量内存/显存配置及单价，用于突破单卡显存瓶颈的替代路径
+
+## Corrected Claim
+
+Mac Studio M3 Ultra支持最高512GB统一内存，可用于本地大模型推理以突破单卡显存瓶颈；关于Threadripper PRO及专用AI ASIC的具体大容量内存配置及单价需另行查证。
+
+## Evidence
+
+[质询]该陈述涵盖了多种非典型方案（Mac Studio, Threadripper, Groq等），但提供的参考来源仅覆盖了Mac Studio M3 Ultra这一种情况，完全缺失关于Threadripper PRO高带宽内存及专用AI ASIC（如Groq）的具体配置和单价数据，导致陈述中关于后两者的部分缺乏证据支持。 | 来源[1][2][3]直接支持了Mac Studio M3 Ultra拥有最高512GB统一内存的事实，但所有来源均未提及Threadripper PRO或Groq等ASIC的相关内存配置及单价，属于部分覆盖，故降级。
+
+## Search Query
+
+Mac Studio M3 Ultra unified memory LLM inference Threadripper PRO high bandwidth memory AI ASIC inference cost
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2025875529602020659&rut=2bd6e886abfac2e531da05074e455259db096759bfc17ab15959f2c88f7f41e9', 'type': 'ddg', 'title': 'Mac Studio 跑本地大模型：苹果的统一内存，可能是你最容易上手的方案'}
+- {'url': 'https://baike.baidu.com/item/M3%20Ultra%E7%89%88%20Mac%20Studio/67745730&rut=bdf028f1d7a01673a90fb59a6b46632b9323d42c9b060f0e9eed5a27d8a3b800', 'type': 'ddg', 'title': 'M3 Ultra版 Mac Studio - 百度百科'}
+- {'url': 'https://zhuanlan.zhihu.com/p/1928856739001927267&rut=2d141ae0a02bb09271fba85164b01ddcc928b15dd445cba7d16fa473ae1bd0e3', 'type': 'ddg', 'title': 'Apple M3 Ultra（512GB统一内存）本地LLM推理全面分析'}

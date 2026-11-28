@@ -1,0 +1,24 @@
+# N103: 2x RTX 4090 系统的稳态功耗（Watts）与瞬时峰值功耗（Watts）的实测数据，需包含 CPU 满载功耗，以验证 '总功耗 ~650W' 的说法是否
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N35
+
+## Claim
+
+2x RTX 4090 系统的稳态功耗（Watts）与瞬时峰值功耗（Watts）的实测数据，需包含 CPU 满载功耗，以验证 '总功耗 ~650W' 的说法是否准确（通常双 4090 + 高端 CPU 峰值可达 1000W+，稳态可能在 600-800W 波动）
+
+## Corrected Claim
+
+2x RTX 4090 系统搭配高端 CPU 的稳态功耗通常在 600-800W 之间波动，瞬时峰值功耗可能超过 1000W，具体数值取决于 CPU 型号、负载特性及系统配置，'总功耗 ~650W' 仅为特定低负载或特定 CPU 组合下的近似值，不具备普适性。
+
+## Evidence
+
+[质询]缺乏具体实测数据支撑，'~650W' 的稳态功耗说法过于绝对，实际取决于CPU型号、负载类型及电源效率，且峰值功耗受瞬态响应影响极大，不同测试场景下差异显著。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源）
+
+## Search Query
+
+dual RTX 4090 system power consumption watts steady state peak load test

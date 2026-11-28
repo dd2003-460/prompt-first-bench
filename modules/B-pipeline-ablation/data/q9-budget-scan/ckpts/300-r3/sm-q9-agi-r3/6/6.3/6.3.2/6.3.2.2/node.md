@@ -1,0 +1,24 @@
+# N311: Wikipedia 主条目匹配算法采用 TF-IDF 余弦相似度，阈值设为 0.85：若问题答案的核心实体短语与 Wikipedia 主条目正文的余弦相似度 >
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N112
+
+## Claim
+
+Wikipedia 主条目匹配算法采用 TF-IDF 余弦相似度，阈值设为 0.85：若问题答案的核心实体短语与 Wikipedia 主条目正文的余弦相似度 > 0.85，则判定为'高频覆盖区'并剔除该问题
+
+## Corrected Claim
+
+某些基于Wikipedia数据的问答过滤或评估研究中，可能采用TF-IDF余弦相似度作为实体匹配指标，并设定特定阈值（如0.85）来识别高覆盖度问题，但这并非Wikipedia官方的统一标准算法。
+
+## Evidence
+
+[质询]该陈述包含具体的工程实现细节（TF-IDF算法、0.85阈值、特定术语'高频覆盖区'），这属于特定系统或论文的经验性设计参数，并非Wikipedia官方公开的标准算法或通用常识，极可能是对某篇特定研究论文中实验设置的误读或过度泛化。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且该具体阈值和算法组合非通用标准知识，无法从第一性原理推出）
+
+## Search Query
+
+TF-IDF cosine similarity threshold entity matching wikipedia

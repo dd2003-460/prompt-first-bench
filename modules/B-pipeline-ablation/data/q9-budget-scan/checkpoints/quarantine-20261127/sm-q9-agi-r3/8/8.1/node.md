@@ -1,0 +1,29 @@
+# N94: 'Lost in the Middle' 效应在 Qwen3.8-27B 上表现为：当关键信息位于上下文 40%-60% 区间时，召回准确率较位于首尾 10% 
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+'Lost in the Middle' 效应在 Qwen3.8-27B 上表现为：当关键信息位于上下文 40%-60% 区间时，召回准确率较位于首尾 10% 区间下降约 25-35%；在 262k 超长上下文中，由于注意力稀释，中部信息忽略率可能进一步上升至 40-50%，需通过滑动窗口或分段摘要缓解。
+
+## Corrected Claim
+
+'Lost in the Middle'效应在大语言模型中普遍存在，表现为关键信息位于上下文中间时召回准确率低于首尾。在Qwen3.8-27B等长上下文模型中，随着上下文长度增加（如262k），中部信息的注意力稀释可能导致性能显著下降，通常建议通过滑动窗口或分段摘要缓解。
+
+## Evidence
+
+[质询]该陈述包含针对特定模型（Qwen3.8-27B）的具体量化指标（25-35%下降、40-50%忽略率）及特定上下文长度（262k），这些属于经验事实。参考来源仅提供了'Lost in the Middle'现象的通用定性描述（U型曲线、中间信息易被忽略），并未提供针对Qwen3.8-27B的具体实验数据或数值支持，存在将通用现象具体化为特定模型参数的风险。 | 来源[1][2]定性支持了'Lost in the Middle'现象的存在（中间位置性能低于首尾），但未提供Qwen3.8-27B的具体数值证据；作为经验事实，缺乏直接来源支持，故降级。
+
+## Search Query
+
+lost in the middle effect LLM long context recall accuracy degradation position bias 262k tokens
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1976405104887361805&rut=96406b3240e6d90f522fb15499a5df1fc7e07404b0462d825a889c09706f6572', 'type': 'ddg', 'title': 'LLM中Lost in the Middle核心原因&解决方案 - 知乎'}
+- {'url': 'https://zhuanlan.zhihu.com/p/678614880&rut=def62e16a20a2dc3501dcd2f8136d511df4fc7651a7c0524d99e7faeef5307c2', 'type': 'ddg', 'title': '大模型的"Lost in the middle"现象探究 - 知乎'}

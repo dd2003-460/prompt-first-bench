@@ -1,0 +1,30 @@
+# N91: NVFP4 反量化到 FP16 的算子开销主要源于非对齐内存访问和查找表（LUT）操作，实测显示在 V100 上每 1k token 的反量化额外耗时约为 2-
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+NVFP4 反量化到 FP16 的算子开销主要源于非对齐内存访问和查找表（LUT）操作，实测显示在 V100 上每 1k token 的反量化额外耗时约为 2-5 ms，占整体推理时间的 8-15%；该开销随 batch size 增大而摊薄，但在小 batch（<4）场景下占比更高。
+
+## Corrected Claim
+
+NVFP4 反量化到 FP16 的算子开销主要源于非对齐内存访问和查找表（LUT）操作；在 V100 等不支持原生 FP4 的硬件上，该开销显著，且在小 batch 场景下占比更高，具体耗时取决于模型规模与实现优化程度。
+
+## Evidence
+
+[质询]具体数值（2-5ms, 8-15%）缺乏直接来源支持，且不同模型规模、序列长度及硬件配置下该开销波动极大，单一数值区间可能以偏概全。 | 来源[1]证实了V100上NVFP4需反量化至FP16的技术路径，来源[2]解释了反量化开销源于非对齐访问和LUT操作，但均未提供具体的毫秒级耗时或百分比数据，属于经验事实缺直接来源支持。
+
+## Search Query
+
+NVFP4 dequantization overhead V100 compute capability 7.0 latency breakdown ms per token
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29098391/article/details/165643831&rut=975226833f5d9f2a6dfe89971d9b656620883a06889c6cecaf3eb230dc8336d9', 'type': 'ddg', 'title': '四张老v100盘活nvfp4量化模型：反量化fp16+Tp4部署实战-csdn博客'}
+- {'url': 'https://laojiahuo2003.github.io/blog/2026-09-27-quantization-compute-cost-notes/&rut=bf95a24de874937e29962aa37c8edb62bf48cdbf4b23c7ba23a948a595e46997', 'type': 'ddg', 'title': '量化开销对比：各家方案的矩阵乘账本与省账手段 — Jiahuo Lao 的手记'}
+- {'url': 'https://blog.csdn.net/m0_73800387/article/details/168125198&rut=c6f3978b8920c65c2bbd033b31bba398791b1eb5807c990d1083ed2bcd6b7743', 'type': 'ddg', 'title': '【模型量化基础】从 Fp16 到 Nvfp4：你需要知道的量化知识-csdn博客'}

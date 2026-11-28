@@ -1,0 +1,29 @@
+# N34: 6061 铝合金 T4 与 T6 热处理状态对导热系数的影响差值：T6 态比 T4 态低约 2-5 W/(m·K)（因析出相增加声子散射）
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+6061 铝合金 T4 与 T6 热处理状态对导热系数的影响差值：T6 态比 T4 态低约 2-5 W/(m·K)（因析出相增加声子散射）
+
+## Corrected Claim
+
+6061 铝合金 T6 态的导热系数通常低于 T4 态，主要因 T6 态人工时效后析出相增多导致声子散射增强，具体差值随材料批次和测试条件而异。
+
+## Evidence
+
+[质询]具体数值差值（2-5 W/(m·K)）缺乏直接来源支持，且不同文献中6061-T4与T6的导热系数差异可能在1-10 W/(m·K)范围内波动，取决于具体合金批次和测试标准，该精确区间可能过于狭窄或特定于某些数据集。 | 逻辑自洽：T6态经过人工时效处理，析出相（Mg2Si）数量多于T4态（自然时效），析出相确实会增加声子散射从而降低导热系数，物理机制合理。但参考来源[1][2]仅确认了6061-T6的存在及热处理定义，未提供具体的导热系数数值对比，属于经验事实且缺直接来源支持。
+
+## Search Query
+
+effect of heat treatment T4 T6 on thermal conductivity 6061 aluminum alloy
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/6061_aluminium_alloy', 'type': 'wikipedia', 'title': '6061 aluminium alloy'}
+- {'url': 'https://en.wikipedia.org/wiki/Aluminium_alloy', 'type': 'wikipedia', 'title': 'Aluminium alloy'}

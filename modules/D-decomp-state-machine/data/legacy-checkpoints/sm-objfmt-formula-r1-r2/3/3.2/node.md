@@ -1,0 +1,24 @@
+# N14: 电力消耗与散热成本(TCO_Energy)量化：Power_Drag_Watts = Base_Load + Inference_Spike，年电费 = (Po
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+电力消耗与散热成本(TCO_Energy)量化：Power_Drag_Watts = Base_Load + Inference_Spike，年电费 = (Power_Drag_Watts / 1000) * 8760h * Electricity_Rate($/kWh)，需区分消费卡(300-450W)与数据卡(700-1000W)的功耗差异
+
+## Corrected Claim
+
+电力消耗与散热成本(TCO_Energy)量化：Power_Drag_Watts = Base_Load + Inference_Spike，年电费 = (Power_Drag_Watts / 1000) * 8760h * Electricity_Rate($/kWh)，需区分消费卡(300-450W)与数据卡(700-1000W)的功耗差异
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：功耗公式量纲正确（W/1000 * h * $/kWh = $），消费级显卡（如RTX 4090约450W）与数据中心GPU（如H100约700W）的功耗区间符合行业常识。
+
+## Search Query
+
+RTX 4090 vs H100 power consumption watts idle load annual electricity cost calculation

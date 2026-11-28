@@ -1,0 +1,24 @@
+# N148: Memory-Bound 特性修正：LLM Decode 阶段主要是 Weight 加载 (Memory Read)。27B 模型 FP16 权重 = 54GB
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N45
+
+## Claim
+
+Memory-Bound 特性修正：LLM Decode 阶段主要是 Weight 加载 (Memory Read)。27B 模型 FP16 权重 = 54GB。4 GPU 每卡 13.5GB。每步需读取所有权重。V100 HBM2 带宽 900GB/s，4 GPU 聚合 3.6TB/s。T_memory = 54GB / 3.6TB/s ≈ 15 ms。加上 KV Cache 读取 (假设 10GB 活跃 KV)，T_memory ≈ 17.8 ms。T_compute (0.3ms) 远小于 T_memory。因此 T_step 主要由 Memory Bandwidth 决定，约为 15-20 ms (理想情况)，实际因 Kernel Launch Overhead 和 Non-contiguous access 可能达到 30-50 ms。
+
+## Corrected Claim
+
+Memory-Bound 特性修正：LLM Decode 阶段主要是 Weight 加载 (Memory Read)。27B 模型 FP16 权重 = 54GB。4 GPU 每卡 13.5GB。每步需读取所有权重。V100 HBM2 带宽 900GB/s，4 GPU 聚合 3.6TB/s。T_memory = 54GB / 3.6TB/s ≈ 15 ms。加上 KV Cache 读取 (假设 10GB 活跃 KV)，T_memory ≈ 17.8 ms。T_compute (0.3ms) 远小于 T_memory。因此 T_step 主要由 Memory Bandwidth 决定，约为 15-20 ms (理想情况)，实际因 Kernel Launch Overhead 和 Non-contiguous access 可能达到 30-50 ms。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：27B FP16权重54GB计算正确，V100带宽900GB/s符合规格，4卡聚合3.6TB/s及延迟估算15ms量级合理，符合Memory-Bound特性。
+
+## Search Query
+
+LLM inference memory bandwidth bound weight loading time V100

@@ -1,0 +1,24 @@
+# N7: 4×V100-16GB (TP=4) 运行 Qwen3.8-27B (NVFP4) 的单 token 解码延迟基准值：在 max_model_len=26214
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1, N2, N3
+
+## Claim
+
+4×V100-16GB (TP=4) 运行 Qwen3.8-27B (NVFP4) 的单 token 解码延迟基准值：在 max_model_len=262144 满载及典型 8k/32k/128k 上下文长度下，P50/P99 延迟分别为 [待核验] ms/token，受限于 NVLink 带宽与 HBM2 访存瓶颈。
+
+## Corrected Claim
+
+4×V100-16GB (TP=4) 运行 Qwen3.8-27B (NVFP4) 的单 token 解码延迟受限于 NVLink 带宽与 HBM2 访存瓶颈，具体 P50/P99 延迟数值需实测获取。
+
+## Evidence
+
+[质询]该陈述包含具体的性能基准数值（P50/P99延迟），属于经验事实，且当前无任何参考来源支持这些具体数值，无法验证其准确性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen3 27B vLLM V100 inference latency benchmark TP4 NVFP4

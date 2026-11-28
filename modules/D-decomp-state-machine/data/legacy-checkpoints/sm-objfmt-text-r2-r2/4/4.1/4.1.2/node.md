@@ -1,0 +1,30 @@
+# N75: NVIDIA A100 80GB SXM 当前单卡市场采购价格区间（USD），作为 H100 的次级对标基准，用于验证数据中心卡价格梯度的合理性。
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N23
+
+## Claim
+
+NVIDIA A100 80GB SXM 当前单卡市场采购价格区间（USD），作为 H100 的次级对标基准，用于验证数据中心卡价格梯度的合理性。
+
+## Corrected Claim
+
+NVIDIA A100 80GB SXM 当前单卡市场采购价格区间（USD）缺乏直接来源支持，但已知其作为H100的次级对标基准，市场定位稳固，具体采购价格需进一步核实。
+
+## Evidence
+
+[质询]参考来源主要提供的是GPU租用价格（$/hour）而非单卡市场采购价格（$/unit），且未提供具体的采购价格区间数值，导致无法直接验证“采购价格区间”这一核心事实。 | 来源[1][3]提供了A100 80GB SXM的租用价格数据（$0.601-$1.65/hr），来源[2]确认其市场地位，但均未提供单卡采购的具体美元价格区间，属于间接支持且缺乏关键数值证据。
+
+## Search Query
+
+NVIDIA A100 80GB SXM current market price 2024 USD
+
+## Retrieval Sources
+
+- {'url': 'https://www.suanli.ai/gpus/A100-SXM-80GB&rut=0a3386b1720ebe70ae10cbb0aa4f91f09e51cd882af35a21d5c25af942a687c7', 'type': 'ddg', 'title': 'NVIDIA A100 80GB SXM4 租用价格:最低 $0.601/卡·时,74 家服务商实时比价 | 算力.ai'}
+- {'url': 'https://electronics.alibaba.com/product/a100-80gb-sxm&rut=36af0b34eb80691f61cd94f2a9a399e6056160794c632fc978e653da72fa9a80', 'type': 'ddg', 'title': 'A100 80GB SXM Buying Guide 2026 - electronics.alibaba.com'}
+- {'url': 'https://computeprices.com/gpus/a100sxm&rut=8f4e96358267c7fe01e015c020ac53431e5e08501c3b8d0890c1950131186ec9', 'type': 'ddg', 'title': 'A100 SXM 80GB GPU Price: $0.87/hr | Compare 46+ Providers'}

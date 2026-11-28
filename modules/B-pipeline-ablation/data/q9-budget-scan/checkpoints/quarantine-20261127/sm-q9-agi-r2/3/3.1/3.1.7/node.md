@@ -1,0 +1,24 @@
+# N56: 当实际并发序列数超过 N_max 时，vLLM 的自动降载机制将 batch size 降至 N_max，导致吞吐量下降比例为 (1 - N_max / req
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N16, N17, N18
+
+## Claim
+
+当实际并发序列数超过 N_max 时，vLLM 的自动降载机制将 batch size 降至 N_max，导致吞吐量下降比例为 (1 - N_max / requested_seqs)；例如请求 8 条 32k 序列时，N_max=9，无降载；请求 8 条 64k 序列时，N_max=4，吞吐量下降 50%。
+
+## Corrected Claim
+
+当实际并发序列数超过 N_max 时，vLLM 会限制 batch size 至 N_max，导致吞吐量下降。具体下降比例取决于硬件负载和序列长度，并非简单的线性公式 (1 - N_max / requested_seqs)。例如在特定硬件配置下，请求 8 条 64k 序列时若 N_max 限制为 4，吞吐量可能显著下降，但具体数值需实测确定。
+
+## Evidence
+
+[质询]吞吐量下降比例公式 (1 - N_max / requested_seqs) 假设了线性关系且忽略了计算密集度变化，这在长序列场景下通常不准确；此外，具体的 N_max 数值（如 9 和 4）是高度依赖硬件配置和经验参数的，缺乏通用性。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+vLLM automatic batch size reduction throughput impact

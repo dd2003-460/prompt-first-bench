@@ -1,0 +1,20 @@
+# N8: 稳态热流量 Q 的数值计算：代入 Q = 450 × 0.01 × 80 / 0.01，得出 Q = 36,000 W (即 36 kW)
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+稳态热流量 Q 的数值计算：代入 Q = 450 × 0.01 × 80 / 0.01，得出 Q = 36,000 W (即 36 kW)
+
+## Corrected Claim
+
+稳态热流量 Q 的数值计算：代入 Q = 450 × 0.01 × 80 / 0.01，得出 Q = 36,000 W (即 36 kW)
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术运算 450 * 0.01 * 80 / 0.01 等于 36000，单位换算正确。

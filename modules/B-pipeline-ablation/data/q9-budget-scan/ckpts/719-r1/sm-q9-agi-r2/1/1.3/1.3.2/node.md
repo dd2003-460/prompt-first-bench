@@ -1,0 +1,24 @@
+# N38: Qwen3-27B 从 BF16 量化至 NVFP4 后，在 TruthfulQA 基准上的幻觉率（Hallucination Rate）变化幅度（ΔHallu
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+Qwen3-27B 从 BF16 量化至 NVFP4 后，在 TruthfulQA 基准上的幻觉率（Hallucination Rate）变化幅度（ΔHallucination，单位：%），用于量化逻辑一致性与事实准确性损失
+
+## Corrected Claim
+
+Qwen3-27B 从 BF16 量化至 NVFP4 后，在 TruthfulQA 基准上的幻觉率（Hallucination Rate）预计会有所上升或保持相对稳定，具体变化幅度取决于量化算法的实现细节，通常表现为轻微的性能退化。
+
+## Evidence
+
+[质询]该陈述声称存在一个具体的量化指标（ΔHallucination %），但Qwen3-27B官方技术报告及主流公开评测中通常未提供BF16到NVFP4量化在TruthfulQA基准上的精确幻觉率差值数据，且不同量化实现（如GPTQ, AWQ, FP4特定内核）可能导致结果差异，缺乏唯一确定的数值支撑。 | 先验知识/题面给定，逻辑校验通过：量化通常会导致精度损失从而可能增加幻觉率，逻辑方向自洽；但作为knowledge节点，虽逻辑自洽，由于缺乏具体数值的确定性来源支持（检索失败），且该具体数值属于经验测量结果而非纯理论推导，根据保守原则降级为定性描述以反映不确定性。
+
+## Search Query
+
+Qwen3-27B NVFP4 quantization hallucination rate increase TruthfulQA

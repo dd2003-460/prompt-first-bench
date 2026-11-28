@@ -1,0 +1,24 @@
+# N49: 二手 V100 32GB HBM2 的显存带宽为 900 GB/s，TDP 250W，二手市场价格约 $800-$1,200 (2024 Q4 均价)，驱动支持
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+二手 V100 32GB HBM2 的显存带宽为 900 GB/s，TDP 250W，二手市场价格约 $800-$1,200 (2024 Q4 均价)，驱动支持上限为 CUDA 12.x，不支持 FP8 指令集，仅支持 FP16/INT8 Tensor Cores。
+
+## Corrected Claim
+
+二手 V100 32GB HBM2 的显存带宽为 900 GB/s，TDP 250W，基于 Volta 架构不支持 FP8 指令集，仅支持 FP16/INT8 Tensor Cores；其二手市场价格随市场波动，2024 年大致处于数百至一千美元区间，具体需参考实时行情。
+
+## Evidence
+
+[质询]该陈述包含具体的市场价格区间（$800-$1,200）和特定时间点的驱动支持状态，属于经验事实。由于缺乏实时市场数据源，价格波动可能导致该区间不准确；此外，'驱动支持上限为 CUDA 12.x' 的表述较为模糊，V100 实际上在更新的 CUDA 版本中仍受支持，只是不再获得新特性优化，且 FP8 不支持是架构限制而非驱动限制。 | 经验事实，逻辑自洽但缺来源支持。V100 32GB 的硬件规格（900 GB/s 带宽、250W TDP、无 FP8 支持）符合 NVIDIA 官方技术文档及第一性原理（Volta 架构特性），但市场价格和具体驱动版本上限属于动态经验数据，在无外部来源佐证的情况下，依据经验事实排除条款降级处理。
+
+## Search Query
+
+Tesla V100 32GB used price CUDA support FP8 limitations 2024

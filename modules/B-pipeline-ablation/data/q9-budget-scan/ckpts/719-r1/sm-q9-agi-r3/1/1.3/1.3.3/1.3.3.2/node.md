@@ -1,0 +1,28 @@
+# N139: vLLM 在检测到 V100 不支持 NVFP4 Tensor Core 时的回退逻辑：检查 CUDA kernel 兼容性 -> 若失败则触发 'Dequan
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+vLLM 在检测到 V100 不支持 NVFP4 Tensor Core 时的回退逻辑：检查 CUDA kernel 兼容性 -> 若失败则触发 'Dequantize to FP16 on-the-fly' 机制，即在每次 GEMM 前执行 FP4->FP16 转换 kernel
+
+## Corrected Claim
+
+vLLM 在检测到 V100 不支持 NVFP4 Tensor Core 时，可能会触发某种回退机制以支持该模型运行，具体是否为 'Dequantize to FP16 on-the-fly' 需查阅 vLLM 源码或官方文档确认。
+
+## Evidence
+
+[质询]该陈述描述了具体的代码实现细节（'Dequantize to FP16 on-the-fly' 机制及特定 kernel 调用顺序），属于经验事实/工程实现细节，无法从第一性原理推导。参考来源仅涉及 A100 上 FP8 模型的启动失败问题，未提及 V100、NVFP4 或具体的回退逻辑实现，因此缺乏直接证据支持该特定机制的存在和命名。 | 逻辑上自洽（低精度格式在不支持的硬件上回退到更高精度是常见做法），但参考来源 [1] 与 V100/NVFP4 主题无关，且无其他来源支持该具体实现细节，符合经验事实缺来源支持的降级条件。
+
+## Search Query
+
+vLLM NVFP4 fallback mechanism V100 unsupported compute capability dequantization
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/vllm-project/vllm/issues/54318&rut=48ea73f2ac65be582b800f350be9239b2660452c8b916fc1c9199c28cb2e10ea', 'type': 'ddg', 'title': '[Bug]: Qwen3.8-Flash-Next-FP8 fails to start on 4x NVIDIA A100 ... - GitHub'}

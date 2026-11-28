@@ -1,0 +1,20 @@
+# N159: 检索查询的 Input Tokens 构成包括用户查询 Query (50 tokens) 和重排序提示 Rerank_Prompt (200 tokens)，
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N47
+
+## Claim
+
+检索查询的 Input Tokens 构成包括用户查询 Query (50 tokens) 和重排序提示 Rerank_Prompt (200 tokens)，合计 N_query_in = 250 tokens；此部分与检索结果长度无关。
+
+## Corrected Claim
+
+检索查询的 Input Tokens 构成包括用户查询 Query (50 tokens) 和重排序提示 Rerank_Prompt (200 tokens)，合计 N_query_in = 250 tokens；此部分与检索结果长度无关。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：50+200=250，且输入Token数通常由固定模板和查询决定，与动态生成的检索结果长度无关，符合LLM推理成本计算的基本逻辑。

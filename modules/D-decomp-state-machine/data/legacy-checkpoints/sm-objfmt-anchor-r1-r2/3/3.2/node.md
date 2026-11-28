@@ -1,0 +1,30 @@
+# N19: 工作点 3 (极致低成本/低质): W4A16 或更激进量化 (如 3-bit)。质量损失预估：Perplexity 上升 >5%，复杂推理任务准确率下降显著 
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+工作点 3 (极致低成本/低质): W4A16 或更激进量化 (如 3-bit)。质量损失预估：Perplexity 上升 >5%，复杂推理任务准确率下降显著 [待核验]。硬件要求：最少 ~20GB 显存。代表配置：1x RTX 3060 12GB (需 CPU offload，速度极慢) 或 1x Mac Mini M4 (16-32GB Unified Memory)。特点：硬件门槛最低，但生成速度慢 (受限于内存带宽或 CPU 交换)，仅适用于非关键任务。
+
+## Corrected Claim
+
+工作点 3 (极致低成本/低质): W4A16 或更激进量化 (如 3-bit)。质量损失预估：Perplexity 上升及复杂推理任务准确率下降（具体幅度依模型而定，通常显著）。硬件要求：显存需求大幅降低（视模型大小而定，小模型可低至几GB，大模型仍需较大显存或依赖CPU offload）。代表配置：消费级显卡（如 RTX 3060 12GB）或统一内存设备（如 Mac Mini M4）。特点：硬件门槛最低，但生成速度受限于内存带宽或 CPU 交换，仅适用于非关键任务。
+
+## Evidence
+
+[质询]具体数值指标（Perplexity上升>5%、显存~20GB）缺乏来源直接支持，且不同模型规模下量化损失差异巨大，通用阈值可能不准确；硬件配置建议（RTX 3060 12GB跑27B模型需大量CPU offload导致速度极慢）虽符合常识但属于经验性推断，来源未提供具体基准测试数据佐证。 | 来源[1][2][3]确认了W4A16是一种低比特量化格式，能显著降低显存占用并平衡精度，但未提供具体的Perplexity损失百分比或特定硬件下的性能基准，属于间接支持。
+
+## Search Query
+
+LLM 3-bit 4-bit quantization quality loss threshold acceptable range
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00446/article/details/170456653&rut=ad8d7e3ee708afde2424c7b9ae54279554c8f415fd8d866711482cf310a28d51', 'type': 'ddg', 'title': 'W4A16 还是 NVFP4？Qwen3.8-27B-W4A16-AutoRound 双版本怎么选（附1GB体积差的真相）'}
+- {'url': 'https://blog.csdn.net/gitblog_00064/article/details/170452711&rut=1712d5dfbc280e749e01486a1098e7b99e852dd9226227546f2d09671476eacb', 'type': 'ddg', 'title': '为什么选 W4A16？Swift-1.5-Qwen3.8-27b 量化格式终极选型：AWQ、GGUF、MLX、NVFP4'}
+- {'url': 'https://devpress.csdn.net/avi/6a30435f10ee7a33f27d99f1.html&rut=34a10e0822321e977d9e24efb828f6159d58f5617c2c45abe347d30820504733', 'type': 'ddg', 'title': 'LLM模型W4A16量化技术解析：原理、实现与性能优化指南'}

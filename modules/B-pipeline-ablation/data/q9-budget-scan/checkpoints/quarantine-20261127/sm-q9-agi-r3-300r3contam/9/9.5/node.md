@@ -1,0 +1,29 @@
+# N87: 推荐工作点的吞吐量拐点：实测数据显示，在 4xV100 集群上，将 max_model_len 设置为 65k 时，MTP 加速比稳定在 1.8x，系统吞吐量为
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N31
+
+## Claim
+
+推荐工作点的吞吐量拐点：实测数据显示，在 4xV100 集群上，将 max_model_len 设置为 65k 时，MTP 加速比稳定在 1.8x，系统吞吐量为 12 tokens/s/user；当设置为 131k 时，虽然支持更长上下文，但因频繁的重试和 OOM 恢复，平均吞吐量降至 8 tokens/s/user，性价比显著下降。
+
+## Corrected Claim
+
+在 4xV100 集群部署 Qwen3.8-27B 时，max_model_len 的设置对性能有显著影响：较短上下文（如 65k）通常能保持较高的 MTP 加速比和吞吐量，而较长上下文（如 131k）可能因显存压力导致重试增加和吞吐量下降，具体数值需以实际压测为准。
+
+## Evidence
+
+[质询]具体数值（1.8x加速比、12 vs 8 tokens/s/user）及特定配置下的性能拐点属于高度依赖具体软件版本、量化方式和负载情况的经验数据，参考来源虽涉及相同硬件和模型系列，但未提供该特定实验的精确数值支持，存在数据捏造或张冠李戴的风险。 | 来源[1]提及了4xV100、Qwen3.8-27B及MTP测试背景，具有主题相关性，但摘要中未包含具体的吞吐量数值和加速比数据，属于间接支持；该陈述为经验事实，逻辑自洽但缺乏直接来源佐证，故降级。
+
+## Search Query
+
+vllm throughput benchmark v100 mtp speculative decoding max_model_len 65k vs 131k
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2072074634476909289&rut=e14e1b01b639a378ae8d7ef986fe88097d0f64a2bbbf119b0cbfae0037f1bd29', 'type': 'ddg', 'title': 'Qwen3.8-27B 实测：V100 上的部署要点与 Q4/Q8 全量基准'}
+- {'url': 'https://zhuanlan.zhihu.com/p/27691562129&rut=7b1a5c8b6ac7ad5846e69ea1edd2624b5478bd16496af280b5a8a629c9ac9e8c', 'type': 'ddg', 'title': 'V100加速优化全攻略 - 知乎 - 知乎专栏'}

@@ -1,0 +1,30 @@
+# N239: 在文件数 > 5 的代码重构任务中，若每文件平均 token 数低于 500，函数调用图构建错误率将从单文件任务的 5% 线性上升至 35%，斜率为 (35%-
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N71
+
+## Claim
+
+在文件数 > 5 的代码重构任务中，若每文件平均 token 数低于 500，函数调用图构建错误率将从单文件任务的 5% 线性上升至 35%，斜率为 (35%-5%)/(5-1) = 7.5%/file
+
+## Corrected Claim
+
+在文件数较多且单文件Token数较低的大规模代码重构任务中，由于上下文碎片化或跨文件依赖解析难度增加，函数调用图构建的错误率可能会上升，但具体数值及线性关系需依据特定实验数据确定，现有来源未提供确切统计值。
+
+## Evidence
+
+[质询]该陈述包含极其具体的经验数据（5%基础错误率、35%峰值错误率、线性斜率7.5%/file），这属于典型的经验事实，无法从第一性原理或数学公理推导得出。参考来源均未提及任何关于“函数调用图构建错误率”的具体数值或线性增长模型，且来源[3]虽涉及代码图谱但仅讨论Token优化，未提供错误率统计数据。缺乏任何来源支持且数据过于精确，极大概率为幻觉或捏造。 | 参考来源[1][2][3]均聚焦于Token消耗优化策略，未包含任何关于代码重构任务中函数调用图构建错误率的实证数据或线性关系描述，无法支持该具体数值结论。
+
+## Search Query
+
+LLM code dependency tracking error rate linear increase with file count token constraint
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/aidoudoulong/article/details/163477520&rut=a1a16d2584fe8a5d017db3be9d4ee174135040d837d709012a940e1f3f86b466', 'type': 'ddg', 'title': 'Codex 省 Token Skills 精选：5 个高星开源方案，最高减少 94% 消耗'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/157687867&rut=b3b211203e38024c4a050c3a4fa167a33e5ca624b69d9c9ecfed7050d078db18', 'type': 'ddg', 'title': '突破Token限制!LangChain三大文档处理策略实战指南_人工智能_瓦罗兰特顶级C位-CSDN-OPC开发者社区'}
+- {'url': 'https://cloud.tencent.com/developer/article/2712152&rut=29f14316f72ecb06ab69625e286eca3f6f74985f595d74c1ec414695fbc77355', 'type': 'ddg', 'title': '爆省 90%，拒绝胡乱输出!AI IDE 四层 Token 极致优化全方案'}

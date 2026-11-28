@@ -1,0 +1,28 @@
+# N34: 登陆后陆面蒸发潜热通量 Q_evap_land 的典型量级（0-5 W/m²）及其与海洋 Q_in 的差值，用于精确计算净亏损率
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N7, N8, N9
+
+## Claim
+
+登陆后陆面蒸发潜热通量 Q_evap_land 的典型量级（0-5 W/m²）及其与海洋 Q_in 的差值，用于精确计算净亏损率
+
+## Corrected Claim
+
+登陆后陆面蒸发潜热通量 Q_evap_land 的具体量级需视气象条件而定，通常低于海洋潜热通量，但0-5 W/m²仅为特定低湿条件下的可能值，非普遍典型量级。
+
+## Evidence
+
+[质询]数值量级存疑：登陆后陆面蒸发潜热通量通常显著高于0-5 W/m²（典型值可达几十至上百W/m²，取决于湿度和风速），0-5 W/m²更接近于极度干燥或夜间辐射冷却下的极低值，作为“典型量级”描述不准确；且参考来源未提供该具体数值范围。 | 经验事实，逻辑自洽但缺来源支持；参考来源[1]仅提及潜热通量的一般概念及高值阈值（135-220 W/m²），未覆盖登陆后陆面低值区间的典型量级，无法直接支持0-5 W/m²这一具体数值断言。
+
+## Search Query
+
+evaporation latent heat flux over land after tropical cyclone landfall typical magnitude
+
+## Retrieval Sources
+
+- {'url': 'https://baike.baidu.com/item/%E6%BD%9C%E7%83%AD%E9%80%9A%E9%87%8F/7214440&rut=4b7a62fd1dfe3ac1974e40dbbcf69ae8df8a553fa5b5fc5dfb58223ad5754e84', 'type': 'ddg', 'title': '潜热通量_百度百科'}

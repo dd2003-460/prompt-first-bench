@@ -1,0 +1,30 @@
+# N39: MTP (Multi-Token Prediction) 架构确认：Qwen3.8-27B 是否原生支持 MTP 训练？若否，则 MTP×4 投机解码需使用独立
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+MTP (Multi-Token Prediction) 架构确认：Qwen3.8-27B 是否原生支持 MTP 训练？若否，则 MTP×4 投机解码需使用独立的 draft model（如 Qwen3.8-0.5B 或 1.5B）。'MTP×4' 指一次生成 4 个 token 的草稿。需确认 draft model 的参数量及其在 V100 上的推理延迟。若 draft model 为 0.5B，其前向传播延迟约 1-2 ms/token，占主模型 27B 延迟 (50-100 ms/token) 的 2-4%，而非 N9 声称的 5-8%。
+
+## Corrected Claim
+
+Qwen系列模型（如Qwen3.5）已证实采用MTP技术并结合投机解码加速生成。关于Qwen3.8-27B是否原生支持MTP及V100上具体延迟数值（0.5B约1-2ms，27B约50-100ms），现有来源未直接覆盖，需进一步核实具体版本架构与硬件实测数据。
+
+## Evidence
+
+[质询]陈述中关于V100上0.5B模型延迟(1-2ms)及27B模型延迟(50-100ms)的具体数值属于经验事实，缺乏来源直接支持；且来源主要讨论Qwen3.5，未明确证实Qwen3.8-27B是否原生支持MTP或必须使用独立draft model。 | 来源[1][2][3]证实Qwen系列（以3.5为例）采用MTP技术并结合投机解码，支持MTP概念及加速原理，但未提供Qwen3.8具体架构细节及V100上的具体延迟数据，故经验参数部分降级。
+
+## Search Query
+
+Qwen3.8-27B multi-token prediction architecture draft model parameter count speculative decoding overhead
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/WANGJUNAIJIAO/article/details/159695819&rut=dbb57f8e4eaedbc38d565c402211b89f96d0a97d714bde0092bd0e4f7d4de3b5', 'type': 'ddg', 'title': 'Qwen3.5揭秘：MTP多Token预测技术，让大模型生成速度翻倍!'}
+- {'url': 'https://blog.csdn.net/weixin_29032337/article/details/165583945&rut=ae2c4c355bfed4534a73a11d493b41f00376ae8f02d4d4459ecfd77243d9ef3f', 'type': 'ddg', 'title': 'Qwen3.5的MTP技术解析：大语言模型并行预测原理与实践-CSDN博客'}
+- {'url': 'https://devpress.csdn.net/v1/article/detail/159695819&rut=bb5636ef5071ba222f9f6150f0134dc79053031fa86e8e299f20d83ee35c1b4c', 'type': 'ddg', 'title': 'Qwen3.5揭秘：MTP多Token预测技术，让大模型生成速度翻倍!'}

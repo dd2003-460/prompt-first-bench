@@ -1,0 +1,29 @@
+# N178: FN(τ) 经验曲线拟合参数：采用互补 Logistic 函数 FN(τ) = 1 - 1 / (1 + exp(k_fn(τ - τ_fn0))) 拟合，其中
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N61
+
+## Claim
+
+FN(τ) 经验曲线拟合参数：采用互补 Logistic 函数 FN(τ) = 1 - 1 / (1 + exp(k_fn(τ - τ_fn0))) 拟合，其中 k_fn 和 τ_fn0 需基于同一数据集回归，用于计算 dFN/dτ，反映高置信度错误分布的陡峭程度。
+
+## Corrected Claim
+
+FN(τ) 可采用互补 Logistic 函数形式进行拟合，其参数需基于数据回归确定，以反映错误分布特征。
+
+## Evidence
+
+[质询]该陈述包含具体的经验拟合参数定义（k_fn, τ_fn0）及特定应用场景（高置信度错误分布），属于经验事实。参考来源仅提供了通用 Logistic 函数的数学定义，未涉及该特定领域的拟合实践或参数命名规范，无法证实该特定经验曲线的存在性或标准性。 | 经验事实，逻辑自洽但缺来源支持（来源[1][2]仅涵盖通用 Logistic 函数定义，未覆盖特定领域拟合参数）
+
+## Search Query
+
+false negative rate threshold calibration curve logistic fit confidence interval
+
+## Retrieval Sources
+
+- {'url': 'https://en.wikipedia.org/wiki/Logistic_function&rut=532d49e2fa20eefe3840aa488b2752c0aa60963ac0b3c262b2e1a677e805c550', 'type': 'ddg', 'title': 'Logistic function - Wikipedia'}
+- {'url': 'https://zhuanlan.zhihu.com/p/630739668&rut=dec569022af4da49607c28abe1bb3682a4150f08c712373c9f5af3a5f1962d28', 'type': 'ddg', 'title': 'Logistic（逻辑斯蒂）函数浅谈 - 知乎'}

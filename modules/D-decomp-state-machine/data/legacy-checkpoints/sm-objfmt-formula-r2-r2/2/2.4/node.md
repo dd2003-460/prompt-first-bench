@@ -1,0 +1,29 @@
+# N16: 硬件支持矩阵：各候选显卡（4090/A100/H100/Mac）对目标精度（BF16/INT8/W4）的原生计算单元支持情况及加速比（TFLOPS 对比）。
+
+- **status**: pending
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+硬件支持矩阵：各候选显卡（4090/A100/H100/Mac）对目标精度（BF16/INT8/W4）的原生计算单元支持情况及加速比（TFLOPS 对比）。
+
+## Corrected Claim
+
+各候选显卡（4090/A100/H100）在推理任务中存在显著的性能差异，其中H100性能优于A100，4090因性价比高成为常见选择，但具体各精度下的TFLOPS加速比需查阅官方规格表。
+
+## Evidence
+
+父节点级核验未通过：不完备, 有冗余（1. 不完备：父节点明确包含 'Mac' 作为候选显卡，且要求覆盖 'W4' 精度，但子节点完全缺失 Mac 的所有数据以及 H100 的 W4 数据。2. 冗余：8个子节点高度结构化，均为 '硬件 x 精度' 的组合，其内容（SM架构、TFLOPS数值、软件支持）是同一类数据的不同实例。在学术分解中，这种网格状数据通常应合并为一个对比表格节点或一个包含多参数的综合节点，而非拆分为8个独立文本节点，否则会导致信息碎片化且难以横向对比。）
+
+## Search Query
+
+RTX 4090 INT8 tensor core performance A100 INT8 performance H100 FP8 performance
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2092982765583184739&rut=b56fa34379436317140afcb8a2f86de43067aab066fafcfeb9cc50776fa5eb28', 'type': 'ddg', 'title': '2026年大模型推理GPU怎么选？A100、H800、H20、4090四张卡的真实取舍'}
+- {'url': 'https://zhuanlan.zhihu.com/p/15975988730&rut=d923e91103367e2ae83be13851e5ff0ecb42b99837a1b6511e648eeb42c8e338', 'type': 'ddg', 'title': '深度学习"神卡"大揭秘：4090、V100、L40、A100、H100 横评'}

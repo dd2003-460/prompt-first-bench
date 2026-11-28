@@ -1,0 +1,30 @@
+# N30: Qwen3.8-27B 的精确架构参数为 num_layers=64, num_kv_heads=8, head_dim=128, hidden_dim=409
+
+- **status**: pending
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6, N7, N8
+
+## Claim
+
+Qwen3.8-27B 的精确架构参数为 num_layers=64, num_kv_heads=8, head_dim=128, hidden_dim=4096（非推测值），据此修正 KV Cache 计算基底参数。
+
+## Corrected Claim
+
+Qwen3.8-27B 的 num_layers=64，采用混合注意力机制（48层线性+16层全注意力）；num_kv_heads, head_dim, hidden_dim 的具体数值需进一步核实。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点之间存在逻辑依赖但无内容重复或矛盾，正交性成立；然而父节点明确包含'num_layers=64'和'hidden_dim=4096'两个关键架构参数，而子节点仅使用了'num_kv_heads'和'head_dim'进行KV Cache计算，完全忽略了层数和隐藏维度对模型整体内存占用（如权重、激活值）的影响，导致对'修正KV Cache计算基底参数'这一目标的覆盖不完整。）
+
+## Search Query
+
+Qwen3.8-27B model config json num_layers num_kv_heads hidden_dim
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_42610010/article/details/171350762&rut=3201ebfd1825eb739b68477b7e2f77adf10cf92429d82335279ce04966d55ce1', 'type': 'ddg', 'title': 'Qwen3.8-27B 混合注意力拆解：48 层线性 + 16 层全注意力，75 万 token KV 显存打到 1/4'}
+- {'url': 'https://blog.csdn.net/gitblog_00936/article/details/168246892&rut=91408eaceebccb406ae3eb6734a6ba550a757b27b5aa04c2d7820cd18fa3bf2f', 'type': 'ddg', 'title': '如何读懂Qwen3.8-27B ONNX模型：64层混合注意力与256K长上下文架构完整指南-CSDN博客'}
+- {'url': 'https://www.cnblogs.com/sing1ee/p/22498000&rut=5f69e53cf37790b6e21cecf0865561f9a7b73267f9067ba9d47d24b7bad8b5fa', 'type': 'ddg', 'title': 'Qwen3.8-27B（2026）：Qwen 新 27B 视觉语言模型完整指南 - 见路非道 - 博客园'}

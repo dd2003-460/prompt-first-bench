@@ -1,0 +1,20 @@
+# N31: 摩擦耗散功率 P_friction 的精确表达式为 P_friction = C_d * ρ * v^3 * A_effective，其中 A_effectiv
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N8
+
+## Claim
+
+摩擦耗散功率 P_friction 的精确表达式为 P_friction = C_d * ρ * v^3 * A_effective，其中 A_effective 是受摩擦影响的边界层面积，对于登陆后的气旋，A_effective 随时间扩大，因为低层风场逐渐卷入更多陆地区域，导致 P_friction 随时间呈指数增长趋势。
+
+## Corrected Claim
+
+摩擦耗散功率 $P_{friction}$ 的表达式为 $P_{friction} = C_d \cdot \rho \cdot v^3 \cdot A_{effective}$。对于登陆后的气旋，随着低层风场卷入更多陆地区域，$A_{effective}$ 随时间扩大；但由于气旋强度减弱导致 $v$ 显著下降，$P_{friction}$ 通常在登陆初期达到峰值后随时间迅速衰减，而非呈指数增长。
+
+## Evidence
+
+[质询]将摩擦耗散功率随时间的变化趋势断言为“指数增长”缺乏严格的物理推导支持。虽然登陆后有效摩擦面积 $A_{effective}$ 会随时间增加，但气旋强度（风速 $v$）通常因摩擦和能量切断而迅速衰减（往往呈指数衰减或快速线性衰减）。由于 $P \propto v^3$，风速的立方衰减效应极大概率会抵消甚至主导面积增加带来的功率增长，导致总耗散功率在登陆初期达到峰值后迅速下降，而非持续呈指数增长。此外，“指数增长”这一特定函数形式需要特定的微分方程解支持，仅凭“面积扩大”无法直接推出该结论。 | 先验知识/题面给定，逻辑校验发现内部矛盾：忽略风速衰减对 $v^3$ 项的主导影响，导致“指数增长”结论与气旋登陆后快速减弱的物理事实相悖。

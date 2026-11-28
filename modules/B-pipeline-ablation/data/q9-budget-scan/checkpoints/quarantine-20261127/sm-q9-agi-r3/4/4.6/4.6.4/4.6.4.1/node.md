@@ -1,0 +1,24 @@
+# N232: Self-Consistency 采样 k=5 的并行化策略：在 4x V100 (TP=4) 上，由于 TP 通信开销，无法完全并行 5 个采样；建议采用 B
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N82
+
+## Claim
+
+Self-Consistency 采样 k=5 的并行化策略：在 4x V100 (TP=4) 上，由于 TP 通信开销，无法完全并行 5 个采样；建议采用 Batch Inference 模式，将 5 个采样打包为 batch_size=5，总耗时约为单次推理的 3-4 倍（而非 5 倍），即 15-20 秒（假设单次 5s）。
+
+## Corrected Claim
+
+Self-Consistency 采样 k=5 的并行化策略：在 4x V100 (TP=4) 上，由于 TP 通信开销，无法完全并行 5 个采样；建议采用 Batch Inference 模式，将 5 个采样打包为 batch_size=5，总耗时约为单次推理的 3-4 倍（而非 5 倍），即 15-20 秒（假设单次 5s）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Batch Inference 利用 GPU 并行计算能力，5 个样本打包后总耗时通常低于 5 倍单次耗时（3-4 倍符合常见工程经验），且 15-20 秒与 5s 基线的数量级关系自洽。
+
+## Search Query
+
+vLLM batch inference self-consistency sampling parallelism TP4 latency overhead

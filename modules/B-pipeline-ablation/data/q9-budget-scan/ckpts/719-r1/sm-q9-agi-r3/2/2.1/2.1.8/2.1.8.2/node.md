@@ -1,0 +1,24 @@
+# N170: 基线 Token 消耗：单智能体模式下，单次完整科研循环（假设->实验->结论）的平均 Token 消耗约为 5000-8000 tokens（基于 Qwen3
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N47
+
+## Claim
+
+基线 Token 消耗：单智能体模式下，单次完整科研循环（假设->实验->结论）的平均 Token 消耗约为 5000-8000 tokens（基于 Qwen3.8-27B 在类似任务上的历史日志统计）[待核验]
+
+## Corrected Claim
+
+基线 Token 消耗：单智能体模式下，单次完整科研循环（假设->实验->结论）的平均 Token 消耗约为 5000-8000 tokens（基于 Qwen3.8-27B 在类似任务上的历史日志统计，具体数值需结合实际运行环境验证）
+
+## Evidence
+
+[质询]该数值为特定模型（Qwen3.8-27B）在特定任务（完整科研循环）下的经验统计数据，属于经验事实，无法从第一性原理推导，且缺乏外部来源验证其具体量级和统计口径。 | 经验事实，逻辑自洽但缺来源支持
+
+## Search Query
+
+Qwen 27B average token consumption per reasoning step

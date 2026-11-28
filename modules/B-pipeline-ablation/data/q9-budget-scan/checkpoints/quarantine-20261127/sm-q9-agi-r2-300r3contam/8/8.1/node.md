@@ -1,0 +1,24 @@
+# N80: V100 内存带宽基准：单卡 V100-SXM2 的 HBM2 内存带宽为 900 GB/s，4 卡聚合带宽为 3600 GB/s，这是长上下文推理中 KV C
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N30
+
+## Claim
+
+V100 内存带宽基准：单卡 V100-SXM2 的 HBM2 内存带宽为 900 GB/s，4 卡聚合带宽为 3600 GB/s，这是长上下文推理中 KV Cache 读取速度的硬上限。
+
+## Corrected Claim
+
+V100 内存带宽基准：单卡 V100-SXM2 的 HBM2 内存带宽为 900 GB/s，4 卡聚合带宽为 3600 GB/s，这是长上下文推理中 KV Cache 读取速度的硬上限。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100-SXM2 官方规格 HBM2 带宽确为 900 GB/s，4 卡线性叠加为 3600 GB/s，符合硬件架构常识。
+
+## Search Query
+
+Tesla V100 SXM2 HBM2 memory bandwidth specifications

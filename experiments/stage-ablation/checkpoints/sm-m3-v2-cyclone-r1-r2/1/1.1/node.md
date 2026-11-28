@@ -1,0 +1,24 @@
+# N7: 潜热通量公式 Q_sensible_latent = ρ * L_v * q_s * C_e，其中 C_e 为交换系数（通常取 0.002-0.004），q_s
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N1
+
+## Claim
+
+潜热通量公式 Q_sensible_latent = ρ * L_v * q_s * C_e，其中 C_e 为交换系数（通常取 0.002-0.004），q_s 为饱和比湿，ρ 为空气密度；在典型登陆初期，海洋上的净潜热输入约为 50-100 W/m²，而登陆后该值骤降至 <10 W/m²（主要受限于陆面蒸发极弱）。
+
+## Corrected Claim
+
+潜热通量公式 Q_sensible_latent = ρ * L_v * q_s * C_e，其中 C_e 为交换系数（通常取 0.002-0.004），q_s 为饱和比湿，ρ 为空气密度；在典型登陆初期，海洋上的净潜热输入约为 50-100 W/m²，而登陆后该值骤降至 <10 W/m²（主要受限于陆面蒸发极弱）。
+
+## Evidence
+
+父节点级核验未通过：非正交, 有冗余（子节点存在严重的概念混淆和逻辑矛盾。首先，父节点描述的是潜热通量（Latent Heat Flux），但公式中使用的符号 Q_sensible_latent 暗示感热或混合，且通常潜热通量公式不包含交换系数 Ce（Ce 用于计算湍流通量，但潜热通量本身是 Lv*E，E 才是蒸发率）。更严重的是，子节点1和3都在讨论交换系数 Ce，但子节点3声称陆地 Ce 比海洋低，这与大气边界层理论相悖（陆地因粗糙度更高，动量/热量交换系数通常不低于甚至高于海洋，或者差异极小，而非主要受水分供应影响，水分供应影响的是源项 E 而非传输系数 Ce）。此外，子节点1讨论风速对 Ce 的影响，子节点3讨论海陆 Ce 差异，两者有重叠且侧重点模糊。最关键的是，子节点2引入了 Penman-Monteith 方程，这是计算 E 的方法，属于微观/生物物理机制，而父节点关注的是宏观通量及其在海陆间的变化，层级不一致。）
+
+## Search Query
+
+typhoon latent heat flux ocean vs land exchange coefficient

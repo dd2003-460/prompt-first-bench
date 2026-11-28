@@ -1,0 +1,24 @@
+# N169: PP=2 相比 TP=4 的主要性能退化源于 Stage 间的数据传输延迟（Latency Bound），而非显存瓶颈；在短序列高并发场景下，PP 的 All-
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N59
+
+## Claim
+
+PP=2 相比 TP=4 的主要性能退化源于 Stage 间的数据传输延迟（Latency Bound），而非显存瓶颈；在短序列高并发场景下，PP 的 All-to-All 通信开销占比通常低于 TP 的 All-Reduce，但在长序列低并发场景下，Stage 2 的尾部延迟（Tail Latency）会显著增加端到端响应时间，预计增加 15-30%。
+
+## Corrected Claim
+
+PP=2 相比 TP=4 的主要性能退化源于 Stage 间的数据传输延迟（Latency Bound）及流水线气泡，而非显存瓶颈；在短序列高并发场景下，PP 的通信开销占比通常低于 TP 的 All-Reduce，但在长序列低并发场景下，Stage 间的同步等待（Tail Latency）会增加端到端响应时间，具体增幅取决于网络带宽与计算比，通常在百分之几到几十之间波动。
+
+## Evidence
+
+[质询]数值量级缺乏依据：'15-30%'的尾部延迟增加是一个具体的经验预测值，不同硬件拓扑、网络带宽及具体模型架构下波动极大，无法从第一性原理严格推导得出固定区间；此外，PP通常使用P2P点对点通信而非All-to-All（除非特定并行策略如Sequence Parallelism混合），术语使用可能存在混淆。 | 先验知识/题面给定，逻辑校验通过：PP确实受限于流水线气泡和阶段间同步延迟，TP受限于All-Reduce通信量，定性逻辑自洽；但具体百分比数值属于经验事实，无来源支持且无法从公理推出，故降级。
+
+## Search Query
+
+pipeline parallelism vs tensor parallelism latency long sequence inference

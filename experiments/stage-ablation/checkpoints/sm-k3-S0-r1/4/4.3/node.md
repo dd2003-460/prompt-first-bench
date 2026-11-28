@@ -1,0 +1,20 @@
+# N23: 定义结论一致性检查函数 Consistency(S) = 1 - Var(Outputs)/Mean(Outputs)^2，其中 Outputs 为同一问题在温
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+定义结论一致性检查函数 Consistency(S) = 1 - Var(Outputs)/Mean(Outputs)^2，其中 Outputs 为同一问题在温度 T=0.7 下生成的 5 次独立回答；设定触发阈值 θ_consist=0.9，当 Consistency < θ_consist 时强制进入人工审核队列；量化误报率（False Positive Rate）控制在 <5%，漏报率（False Negative Rate）控制在 <2%。
+
+## Corrected Claim
+
+定义结论一致性检查函数 Consistency(S) = 1 - Var(Outputs)/Mean(Outputs)^2，其中 Outputs 为同一问题在温度 T=0.7 下生成的 5 次独立回答；设定触发阈值 θ_consist=0.9，当 Consistency < θ_consist 时强制进入人工审核队列；量化误报率（False Positive Rate）控制在 <5%，漏报率（False Negative Rate）控制在 <2%。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：Consistency 公式基于变异系数平方定义，量纲无量纲，取值范围 [0,1]，阈值 0.9 及误报/漏报率控制目标在逻辑上自洽且符合常规质量控制设定。

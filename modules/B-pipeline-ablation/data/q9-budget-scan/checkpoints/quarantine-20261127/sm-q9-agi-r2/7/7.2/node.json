@@ -1,0 +1,17 @@
+{
+  "id": "N97",
+  "claim": "在 TP=4 配置下，Decode 阶段每次迭代需执行 Ring AllReduce 同步，传输数据量为 2 * d_model * batch_size * seq_len_per_token (FP16/FP8)，对于 27B 模型 d_model=4096，batch=1，单步通信数据量约为 16 KB (忽略 KV 缓存同步)，通信延迟 T_comm ≈ Data_Size / Effective_Bandwidth + Latency_Overhead。",
+  "level": "L3",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值量级严重错误：对于 d_model=4096 的模型，单次 Ring AllReduce 传输的数据量远大于 16KB。即使仅考虑激活值（2 * 4096 * 1 * 1 * 2 bytes = 16KB），实际 Decode 阶段的 AllReduce 通常涉及隐藏层状态或梯度，且 27B 模型的中间层维度或参数量级远超此估算；更关键的是，16KB 数据在现代 GPU 集群上的通信延迟极低（微秒级），这与大模型推理中通信成为瓶颈的常识不符，暗示该数值可能遗漏了层数累积或误用了极小的局部张量大小。 | 逻辑校验发现数值量级不合理：27B 模型 d_model=4096，若 batch=1, seq_len=1，单层激活通信量确为 16KB，但 Decode 阶段通常指整个 Transformer 层的处理，若指单层则表述不清，若指整体则数值过小；且 source=knowledge 节点虽不需外部来源，但存在明显的内部逻辑/量级疑点（16KB 对于 27B 模型通信而言过小，易误导），故降级。",
+  "corrected_claim": "在 TP=4 配置下，Decode 阶段每次迭代需执行 Ring AllReduce 同步。对于 27B 模型（d_model=4096），若仅计算单层激活值的通信量，batch=1 时约为 16 KB；但实际通信开销需考虑所有层及 KV 缓存同步，总通信量显著更高。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N28"
+  ],
+  "objective": null,
+  "edge_type": "quotient",
+  "search_query": "",
+  "retrieval_sources": []
+}

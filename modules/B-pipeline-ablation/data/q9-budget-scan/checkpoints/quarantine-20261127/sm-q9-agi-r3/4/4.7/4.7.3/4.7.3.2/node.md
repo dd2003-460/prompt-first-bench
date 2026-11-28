@@ -1,0 +1,20 @@
+# N244: 微分项 de/dt 的离散化计算为 de/dt ≈ (e_t - e_{t-1}) / Δt，其中 Δt=1 周；为防止噪声放大，对 e_t 应用一阶低通滤波：
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N85
+
+## Claim
+
+微分项 de/dt 的离散化计算为 de/dt ≈ (e_t - e_{t-1}) / Δt，其中 Δt=1 周；为防止噪声放大，对 e_t 应用一阶低通滤波：e_smoothed_t = β * e_t + (1-β) * e_smoothed_{t-1}，平滑系数 β=0.5，滤除周间随机波动后再计算微分，确保 Kd 项反映真实趋势变化。
+
+## Corrected Claim
+
+微分项 de/dt 的离散化计算为 de/dt ≈ (e_t - e_{t-1}) / Δt，其中 Δt=1 周；为防止噪声放大，对 e_t 应用一阶低通滤波：e_smoothed_t = β * e_t + (1-β) * e_smoothed_{t-1}，平滑系数 β=0.5，滤除周间随机波动后再计算微分，确保 Kd 项反映真实趋势变化。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：离散微分公式正确，一阶低通滤波公式及参数设置符合控制理论常规做法，用于抑制噪声以提取趋势在逻辑上自洽。

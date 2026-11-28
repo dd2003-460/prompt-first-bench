@@ -1,0 +1,20 @@
+# N47: M1 Max 的统一内存架构（64GB 共享池）允许在 CPU+GPU 间零拷贝访问数据，其 400GB/s 内存带宽是 V100 集群 PCIe 互联带宽（每
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N11
+
+## Claim
+
+M1 Max 的统一内存架构（64GB 共享池）允许在 CPU+GPU 间零拷贝访问数据，其 400GB/s 内存带宽是 V100 集群 PCIe 互联带宽（每卡 64GB/s x4 = 256GB/s）的 1.56 倍；但在 Python 编排任务中，M1 Max 的 CPU 单核性能（~3.2GHz ARM 架构）与 Intel Xeon 相当，JSON 解析和 API 调用延迟主要受网络 RTT 限制，本地计算耗时 <5ms，不构成科研循环瓶颈 [待核验]
+
+## Corrected Claim
+
+M1 Max 的统一内存架构（64GB 共享池）允许在 CPU+GPU 间零拷贝访问数据，其 400GB/s 内存带宽显著高于传统 GPU 集群中单卡 PCIe 4.0 x16 互联带宽（约 64GB/s）；在 Python 编排任务中，M1 Max 的 CPU 单核性能足以应对轻量级计算，JSON 解析和 API 调用延迟主要受网络 RTT 限制，本地计算耗时通常 <5ms，不构成科研循环瓶颈。
+
+## Evidence
+
+[质询]将M1 Max的内存带宽（400GB/s）与V100集群的PCIe互联带宽（256GB/s）进行直接倍数比较存在口径混淆，前者是片上/统一内存带宽，后者是卡间/主机间互联带宽，二者架构层级不同，直接对比缺乏严谨性；此外，'CPU单核性能与Intel Xeon相当'过于笼统，未指定Xeon具体型号及负载类型，且ARM与x86在不同指令集下性能表现差异显著，该定性描述缺乏精确基准支撑。 | 先验知识/题面给定，逻辑校验通过：M1 Max 400GB/s带宽及64GB统一内存架构符合苹果官方规格，零拷贝特性成立；但跨架构带宽对比及CPU性能定性描述存在口径模糊，属经验事实且缺乏精确基准，故降级。

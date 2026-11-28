@@ -1,0 +1,24 @@
+# N52: 确定[Existing Literature Gap]检索的Top-K最优值：基于Qwen3.8-27B的上下文窗口限制(262144)及注意力稀释效应，实验测
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+确定[Existing Literature Gap]检索的Top-K最优值：基于Qwen3.8-27B的上下文窗口限制(262144)及注意力稀释效应，实验测定K∈{3,5,10}时对最终假设新颖性的贡献率，预期K=5时边际收益最大且Token开销<2k
+
+## Corrected Claim
+
+基于Qwen3.8-27B的上下文窗口限制(262144)及注意力稀释效应，建议实验测定K∈{3,5,10}时对最终假设新颖性的贡献率，以寻找边际收益与Token开销的最佳平衡点（预期K=5可能具有较好的性价比，但需实证确认）。
+
+## Evidence
+
+[质询]该陈述包含具体的实验预期结果（K=5时边际收益最大）和量化指标（Token开销<2k），属于经验事实。虽然逻辑上K=5作为中间值在权衡精度与成本时是合理的猜测，但缺乏实际实验数据支持，且‘边际收益最大’的具体断言无法仅凭逻辑推导得出，可能存在过拟合于特定数据集的风险。 | 经验事实，逻辑自洽但缺来源支持。K=5在Top-K检索中是常见的平衡点，Token开销估算符合常规量级，但具体最优值需实验验证。
+
+## Search Query
+
+LLM retrieval augmented generation optimal top-k context length trade-off

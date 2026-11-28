@@ -1,0 +1,28 @@
+# N57: V100 TP=4架构下，N个智能体并发推理的有效吞吐量损失因子L_eff并非简单的N*0.8，而是由GPU显存带宽竞争和KV Cache分页碎片化导致的非线性
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N20
+
+## Claim
+
+V100 TP=4架构下，N个智能体并发推理的有效吞吐量损失因子L_eff并非简单的N*0.8，而是由GPU显存带宽竞争和KV Cache分页碎片化导致的非线性衰减：L_eff = N * (1 + α*(N-1))，其中α为并行干扰系数，在N=3时实测约为1.15-1.25（而非2.4），需通过监控GPU utilization和memory bandwidth占用率确定。
+
+## Corrected Claim
+
+V100 TP=4架构下，N个智能体并发推理的有效吞吐量会因GPU显存带宽竞争和KV Cache分页碎片化出现非线性衰减，具体衰减系数需通过监控GPU utilization和memory bandwidth占用率实测确定，而非简单线性叠加。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性数值（α在N=3时为1.15-1.25）和特定的非线性公式，这属于特定硬件和负载下的实测数据，无法从第一性原理推导，且参考来源仅为通用性能优化文章，未提供该具体公式或数值的支持。 | 逻辑上，多智能体并发确实会导致显存带宽竞争和KV Cache碎片化，导致非线性吞吐损失，定性描述合理；但具体公式和α值缺乏来源直接支持，且来源[1]仅涉及V100通用优化，未覆盖此特定并发干扰系数细节。
+
+## Search Query
+
+vllm multi-agent concurrent inference throughput degradation v100 tp4 kv cache memory bandwidth contention
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1889370246831396349&rut=682d5f2f1377ef105cc0f2dd49b9c6e72b643e711064711049325deed16e2e12', 'type': 'ddg', 'title': 'Nvidia V100实战性能优化全解析 - 知乎'}

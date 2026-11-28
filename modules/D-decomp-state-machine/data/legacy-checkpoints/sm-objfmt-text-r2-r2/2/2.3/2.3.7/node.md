@@ -1,0 +1,29 @@
+# N64: Qwen3-27B 在 MMLU 基准测试上的 BF16 基线分数约为 72-75% [待核验: 官方技术报告具体数值]，该数值作为计算 ΔScore 的分母基
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N14, N15, N16
+
+## Claim
+
+Qwen3-27B 在 MMLU 基准测试上的 BF16 基线分数约为 72-75% [待核验: 官方技术报告具体数值]，该数值作为计算 ΔScore 的分母基准
+
+## Corrected Claim
+
+Qwen3-27B 在 MMLU 基准测试上的 BF16 基线分数预计处于 70-75% 区间（具体数值需查阅官方技术报告确认），该数值作为计算 ΔScore 的分母基准。
+
+## Evidence
+
+[质询]参考来源主要讨论 Qwen3.8-27B 的部署性能（BF16 vs FP8 速度/显存），并未提供 MMLU 基准测试的具体分数数值，且模型版本（Qwen3.8 vs Qwen3）可能存在混淆，缺乏直接数据支持。 | 来源 [1] 和 [2] 涉及 Qwen3.8-27B 模型及其量化格式，但未包含 MMLU 具体分数，属于间接相关但无直接数值支持；逻辑上 72-75% 对于 27B 级别模型在 MMLU 上的表现是合理的量级，但作为经验事实需来源直接确认。
+
+## Search Query
+
+Qwen3-27B MMLU benchmark score baseline
+
+## Retrieval Sources
+
+- {'url': 'https://github.com/AlibabaCloud-Official/Qwen3.8-27B&rut=a332b0ce380d5c34328ba249051c409a073159eaa8056b4b8ce330676a0a4380', 'type': 'ddg', 'title': 'GitHub - AlibabaCloud-Official/Qwen3.8-27B: Native multimodal dense LLM ...'}
+- {'url': 'https://zhuanlan.zhihu.com/p/2072597504793880030&rut=304ab9b1949db5d068e5f24670c8b7c3dcf1028c44ee8d381a92e4513f6bc363', 'type': 'ddg', 'title': 'Qwen3.8-27B 的 BF16、FP8、MTP、单卡表现，以及与 Qwen3.6 MoE 的差距'}

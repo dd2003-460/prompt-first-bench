@@ -1,0 +1,20 @@
+# N19: 衰减率 dV/dt 随初始 Vmax 呈非线性：Vmax<33m/s 时 dV/dt ≈ -8~-12 kt/h（摩擦主导，线性衰减）；Vmax>50m/s 时
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+衰减率 dV/dt 随初始 Vmax 呈非线性：Vmax<33m/s 时 dV/dt ≈ -8~-12 kt/h（摩擦主导，线性衰减）；Vmax>50m/s 时初期 dV/dt ≈ -5~-8 kt/h（惯性缓冲），但 12h 后因 ERC+核心冷却叠加，后期 dV/dt 可达 -15~-20 kt/h；转折点出现在 Vmax 降至 ~40m/s（Cat 1 阈值附近），此时摩擦耗散占比超过 70%
+
+## Corrected Claim
+
+衰减率 dV/dt 随初始 Vmax 呈非线性：Vmax<33m/s 时 dV/dt ≈ -8~-12 kt/h（摩擦主导，线性衰减）；Vmax>50m/s 时初期 dV/dt ≈ -5~-8 kt/h（惯性缓冲），但 12h 后因 ERC+核心冷却叠加，后期 dV/dt 可达 -15~-20 kt/h；转折点出现在 Vmax 降至 ~40m/s（Cat 1 阈值附近），此时摩擦耗散占比超过 70%
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

@@ -1,0 +1,20 @@
+# N215: 时间戳存储与计算开销：每条知识库元数据增加 8-byte Unix Timestamp 字段，100k 文档集增加 800KB 存储；检索时计算 exp(-ln
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N62
+
+## Claim
+
+时间戳存储与计算开销：每条知识库元数据增加 8-byte Unix Timestamp 字段，100k 文档集增加 800KB 存储；检索时计算 exp(-ln2 * (Current_Time - Doc_Time) / T_half) 的 CPU 耗时 < 0.1ms/doc，对 N120 中 P99 检索延迟 (<80ms) 无显著影响
+
+## Corrected Claim
+
+时间戳存储与计算开销：每条知识库元数据增加 8-byte Unix Timestamp 字段，100k 文档集增加 800KB 存储；检索时计算 exp(-ln2 * (Current_Time - Doc_Time) / T_half) 的 CPU 耗时 < 0.1ms/doc，对 N120 中 P99 检索延迟 (<80ms) 无显著影响
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：8字节*10万=800KB存储计算正确；指数衰减运算为单周期浮点操作，<0.1ms/doc符合CPU性能常识，对80ms P99延迟影响微乎其微。

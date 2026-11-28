@@ -1,0 +1,28 @@
+# N70: Qwen3-27B 在 W8A16 量化下，MMLU 基准测试得分相对 BF16 下降幅度通常 < 1%，HumanEval 下降幅度通常 < 2% [待核验：
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N13
+
+## Claim
+
+Qwen3-27B 在 W8A16 量化下，MMLU 基准测试得分相对 BF16 下降幅度通常 < 1%，HumanEval 下降幅度通常 < 2% [待核验：需引用具体量化库如 GPTQ/AWQ 在 Qwen3 上的实测报告]。
+
+## Corrected Claim
+
+Qwen3-27B 在 W8A16 量化下，MMLU 和 HumanEval 基准测试得分相对 BF16 的下降幅度预计较小（通常 < 1-2%），但缺乏针对该特定模型和量化配置的公开实测报告直接证实。
+
+## Evidence
+
+[质询]来源仅提供了 Qwen3-14B 在 4-bit GPTQ 下的数据，未提供 Qwen3-27B 在 W8A16 量化下的具体实测数据，且 4-bit 与 W8A16 的精度损失机制不同，无法直接外推。 | 来源 [1] 显示大模型（14B）在 4-bit 量化下 MMLU 下降仅 1%，间接支持大模型量化稳定性高的趋势，但未直接覆盖 Qwen3-27B 及 W8A16 配置，属间接支持。
+
+## Search Query
+
+Qwen3-27B INT8 quantization MMLU HumanEval benchmark drop percentage
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/1904196249697101553&rut=f47183fe56cacd9e82154b96d2006a33013af10463184825fef07518d61c5f15', 'type': 'ddg', 'title': 'Qwen3量化技术深度解析：性能极限与挑战 - 知乎'}

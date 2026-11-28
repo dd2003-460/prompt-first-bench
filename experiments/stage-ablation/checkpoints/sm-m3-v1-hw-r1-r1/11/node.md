@@ -1,0 +1,25 @@
+# N30: 阶段二（Week 3-4）聚焦‘速度优化与成本控制’：在可靠性达标后，引入 MTP×4 投机解码（N10）并调整 max-num-seqs 至 16（若显存允许
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+阶段二（Week 3-4）聚焦‘速度优化与成本控制’：在可靠性达标后，引入 MTP×4 投机解码（N10）并调整 max-num-seqs 至 16（若显存允许）以测试吞吐上限。同时启用 N22 中的混合云策略，仅将长文本（>32k）检索分析任务卸载至云端 API，预计可降低总任务完成时间 40%，但 API 成本增加约 $50-100/周。
+
+## Corrected Claim
+
+阶段二（Week 3-4）聚焦‘速度优化与成本控制’：在可靠性达标后，计划引入 MTP×4 投机解码并调整 max-num-seqs 以测试吞吐上限。同时启用混合云策略，将长文本检索分析任务卸载至云端 API，旨在降低总任务完成时间并评估相应的 API 成本增加。
+
+## Evidence
+
+[质询]该陈述包含具体的工程实施细节（MTP×4、max-num-seqs=16、>32k阈值、40%时间降低、$50-100/周成本），这些均为经验性参数和预测值，无法从第一性原理推导，且参考来源完全无关，缺乏直接证据支持其具体数值的准确性。 | 参考来源[1][2]涉及工程管理通用理论，与LLM推理优化及具体API成本无关，属「无可用外部证据」；该陈述为经验事实，逻辑自洽但缺来源支持，故降级。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29611239/article/details/164392318&rut=8117e504880f76a8b7ff3b188d3f6b79d01c17e66dd0e8cd284ed371d65a2001', 'type': 'ddg', 'title': 'Rams与lcc控制程序：可靠性与全寿命周期成本的平衡之道-csdn博客'}
+- {'url': 'https://www.researchgate.net/publication/391224366_gongchengguanlizhongdexiangmujindukongzhiyuyouhuaceeyanjiu&rut=c50cba40f8a2e35f6e4e820124fbdfa6e64c911c3fda041162b6704f7dff75d3', 'type': 'ddg', 'title': '工程管理中的项目进度控制与优化策略研究 - ResearchGate'}

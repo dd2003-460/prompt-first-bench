@@ -1,0 +1,20 @@
+# N235: Research-AGI能力的‘可发表级’替代指标：由于完整发表流程耗时过长，采用‘预印本接收率’作为代理指标。在arXiv上，CS.AI类别的投稿接收率接近1
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+Research-AGI能力的‘可发表级’替代指标：由于完整发表流程耗时过长，采用‘预印本接收率’作为代理指标。在arXiv上，CS.AI类别的投稿接收率接近100%，但经过PeerJ或BioRxiv等开放评审平台的初审，AI生成论文的‘无重大逻辑漏洞’通过率需>90%；具体定义为：由3名领域专家进行的盲评中，评分不低于3/5分（Good/Excellent）的比例需>80%。
+
+## Corrected Claim
+
+Research-AGI能力的‘可发表级’替代指标：由于完整发表流程耗时过长，采用‘预印本接收率’作为代理指标。在arXiv上，CS.AI类别的投稿接收率接近100%，但经过PeerJ或BioRxiv等开放评审平台的初审，AI生成论文的‘无重大逻辑漏洞’通过率需>90%；具体定义为：由3名领域专家进行的盲评中，评分不低于3/5分（Good/Excellent）的比例需>80%。
+
+## Evidence
+
+检索失败: no sources from any channel (all 5 failed)

@@ -1,0 +1,28 @@
+# N246: CUDA Context 显存开销并非恒定 1.75GB，而是随 TP rank 初始化顺序及 cuBLAS workspace 分配动态变化，实测波动范围为 
+
+- **status**: degraded
+- **level**: L5
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N95
+
+## Claim
+
+CUDA Context 显存开销并非恒定 1.75GB，而是随 TP rank 初始化顺序及 cuBLAS workspace 分配动态变化，实测波动范围为 1.5-2.2GB，需取 P95 值 2.0GB 作为保守预算以确保证据稳健性。
+
+## Corrected Claim
+
+CUDA Context 及相关运行时组件（如 cuBLAS workspace）的显存开销并非恒定，受驱动版本、GPU 架构、框架实现及 TP 初始化顺序影响，典型基础开销在几百 MB 至 1GB 左右，但在特定大模型推理场景下可能更高，建议根据实际部署环境进行 Profiling 以确定具体预算。
+
+## Evidence
+
+[质询]来源[1]明确指出CUDA Context典型量级为'几百MB'，而陈述中声称的'1.5-2.2GB'及'P95 2.0GB'远超该量级，存在数量级上的显著差异；此外，将cuBLAS workspace（通常由框架或算子动态管理，非Context固有属性）强行归入Context开销并给出精确的P95预算值，缺乏通用性，属于特定场景下的经验数据而非普遍事实。 | 来源[1]指出典型量级为几百MB，与陈述中的1.5-2.2GB存在量级冲突，但考虑到不同驱动/框架/TP配置可能导致差异，且陈述强调'实测'与'动态变化'，逻辑上自洽但缺乏直接支持其具体数值的证据，故降级。
+
+## Search Query
+
+vLLM TP4 V100 CUDA context memory overhead average GB benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://www.zmj.net/articles/2882&rut=99f0f56dabfa7cc7c226021216d2eb7b0e1d000030b464cce99a0b372f78f4b4', 'type': 'ddg', 'title': 'CUDA Context 的显存开销：那几百 MB 花在哪 - zmj.net'}

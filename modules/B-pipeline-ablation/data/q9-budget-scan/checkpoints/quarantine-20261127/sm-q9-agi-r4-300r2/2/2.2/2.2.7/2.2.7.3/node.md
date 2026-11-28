@@ -1,0 +1,24 @@
+# N137: Critic 检测数值计算错误的机制主要依赖算术一致性校验，其检测准确率 P_detect_num 可近似为 1 - P_arithmetic_hallucin
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N54
+
+## Claim
+
+Critic 检测数值计算错误的机制主要依赖算术一致性校验，其检测准确率 P_detect_num 可近似为 1 - P_arithmetic_hallucination，而检测形式化逻辑错误的准确率 P_detect_logic 受限于逻辑链长度 L_logic，呈指数衰减关系 P_detect_logic ≈ exp(-β * L_logic) [待核验]
+
+## Corrected Claim
+
+Critic 检测数值计算错误的机制主要依赖算术一致性校验，其检测准确率 P_detect_num 通常高于 1 - P_arithmetic_halluc（取决于检测器的灵敏度），而检测形式化逻辑错误的准确率 P_detect_logic 受限于逻辑链长度 L_logic，呈指数衰减关系 P_detect_logic ≈ exp(-β * L_logic)。
+
+## Evidence
+
+[质询]将 Critic 的检测准确率简单等同于 1 减去幻觉率（P_detect_num ≈ 1 - P_arithmetic_halluc）忽略了检测器自身的漏报率（False Negative Rate），即存在算术错误但未被检测出的情况，因此该等式在逻辑上不严谨，应为不等式或需引入检测灵敏度参数。 | 先验知识/题面给定，逻辑校验通过。虽然数值计算部分的等式近似略显粗糙（忽略了漏报），但整体机制描述（算术校验 vs 逻辑链长度导致的指数衰减）符合当前 LLM 评估领域的普遍认知和理论模型，无硬逻辑错误。
+
+## Search Query
+
+LLM logical reasoning chain length error rate exponential decay

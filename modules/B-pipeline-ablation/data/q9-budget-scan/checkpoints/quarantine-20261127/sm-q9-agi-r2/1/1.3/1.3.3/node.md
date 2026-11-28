@@ -1,0 +1,24 @@
+# N39: 在 V100 4卡 TP 环境下，MTP 的 Draft 模型（通常为主模型的一部分或小型化版本）也需参与 AllReduce 通信；若 Draft 阶段也走 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N9
+
+## Claim
+
+在 V100 4卡 TP 环境下，MTP 的 Draft 模型（通常为主模型的一部分或小型化版本）也需参与 AllReduce 通信；若 Draft 阶段也走 TP=4 通信链路，则通信延迟占总延迟的比例从 FP16 单步的 ~15% 上升至 ~25-30%（因为多了 4 次 Draft 通信）；这会抵消部分计算加速，导致实际端到端加速比比理论值低 10-15%。
+
+## Corrected Claim
+
+在 V100 4卡 TP 环境下，MTP 的 Draft 模型需参与 AllReduce 通信；若 Draft 阶段也走 TP=4 通信链路，额外的通信开销会抵消部分计算加速，导致实际端到端加速比低于理论值。
+
+## Evidence
+
+[质询]数值量级缺乏实证支撑：'通信延迟占比从15%升至25-30%'及'端到端加速比降低10-15%'的具体百分比属于高度依赖具体模型架构、序列长度和硬件拓扑的经验数据，不同场景下波动极大，无法作为通用事实断言。 | 先验知识/题面给定，逻辑校验通过（MTP增加Draft步骤必然增加AllReduce次数，从而增加通信开销并降低净加速比，定性逻辑自洽），但具体数值缺乏来源支持且易受变量影响，故降级。
+
+## Search Query
+
+tensor parallelism communication overhead speculative decoding draft model

@@ -1,0 +1,30 @@
+# N15: 强度依赖性-热带风暴/弱气旋：低强度气旋结构松散，中心气压梯度小，更容易被环境气流打散。其衰减速率相对较慢（~10-15 kt/hr），但极易在登陆后数小时内消
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+强度依赖性-热带风暴/弱气旋：低强度气旋结构松散，中心气压梯度小，更容易被环境气流打散。其衰减速率相对较慢（~10-15 kt/hr），但极易在登陆后数小时内消散为低压区，难以维持气旋特征。
+
+## Corrected Claim
+
+强度依赖性-热带风暴/弱气旋：低强度气旋结构松散，中心气压梯度小，更容易被环境气流打散。其衰减速率具有特定的强度依赖性特征（通常表现为相对较慢或易消散），极易在登陆后数小时内消散为低压区，难以维持气旋特征。
+
+## Evidence
+
+[质询]具体数值量级（~10-15 kt/hr）缺乏来源直接支持，且不同研究对弱气旋衰减率的估算可能存在差异，属于经验事实而非第一性原理可推导内容。 | 来源[2]直接支持了‘强度依赖性’这一核心定性结论（强弱风暴衰减趋势存在差异），但未提供具体的衰减速率数值；来源[1]和[3]与具体衰减速率无关。根据经验事实排除条款，逻辑自洽但缺具体数值来源支持，故降级。
+
+## Search Query
+
+tropical storm landfall dissipation rate slow decay structural coherence
+
+## Retrieval Sources
+
+- {'url': 'https://iap.cas.cn/gb/xwdt/kyjz/202304/t20230428_6747399.html&rut=b38d8b50b825797901d608a7114a58bf4f7ec409ce6d911e2d5bc7888ad5ce8c', 'type': 'ddg', 'title': 'Aas: 初始风场结构对热带气旋尺度-强度关系的影响'}
+- {'url': 'https://news.qq.com/rain/a/20261010A0071500&rut=df0c9db2b077d68d9992c0375448a2f177f102f0f14b30f0886ef2ff9d0f487c', 'type': 'ddg', 'title': 'Nature Communications | 全球热带气旋登陆后，强弱风暴的衰减趋势存在强度依赖性差异!'}
+- {'url': 'http://qxqk.nmc.cn/html/2023/5/20230502.html&rut=1797fb55ac49fbd9241655fcef52fee090bfd6959c122a76d7fab638a8ba95b7', 'type': 'ddg', 'title': '热带气旋近海加强机制的研究进展 - qxqk.nmc.cn'}

@@ -1,0 +1,28 @@
+# N121: 27b模型生成完整实验方案（含对照组、变量、统计方法）的平均Token消耗量 T_exp_design 估算：基于Qwen3.8-27B在学术写作任务上的平均输
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N41
+
+## Claim
+
+27b模型生成完整实验方案（含对照组、变量、统计方法）的平均Token消耗量 T_exp_design 估算：基于Qwen3.8-27B在学术写作任务上的平均输出长度，预估 T_exp_design ∈ [800, 1500] tokens，直接影响单次设计的推理延迟与成本 [时效待核]
+
+## Corrected Claim
+
+27b模型生成完整实验方案的平均Token消耗量 T_exp_design 预估在 [800, 1500] tokens 范围内（基于通用大模型在结构化学术任务中的典型输出长度推断，具体数值需结合特定模型基准测试验证）。
+
+## Evidence
+
+[质询]该陈述声称基于“Qwen3.8-27B在学术写作任务上的平均输出长度”进行估算，但提供的参考来源[1]仅涉及该模型在Mac Studio M5 Max上的推理速度（tok/s）和长上下文性能测试，并未包含任何关于“学术写作任务”或“实验方案设计”的具体输出长度统计数据。此外，“Qwen3.8-27B”这一具体版本号及对应的特定任务Token消耗区间属于经验事实，无法从第一性原理推导，且缺乏直接的数据支持。 | 逻辑上，生成包含对照组、变量和统计方法的完整实验方案通常需要数百至一千多Token，量级合理；但参考来源[1]与“学术写作输出长度”这一核心估算依据无关，无法提供直接支持，故降级为定性表述。
+
+## Search Query
+
+Qwen 27B average output length scientific experiment design task
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2090392063619642271&rut=7156cc3b87defb6337fb070145e45b977ca5b6b13cf71db3b4bcc556132be203', 'type': 'ddg', 'title': 'Qwen3.8-27B 在 M5 Max 上的推理实测:TensorFold、OMLX 与长上下文'}

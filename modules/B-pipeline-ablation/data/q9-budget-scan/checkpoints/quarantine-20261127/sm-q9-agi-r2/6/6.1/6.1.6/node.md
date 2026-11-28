@@ -1,0 +1,24 @@
+# N93: 工作点 B 的质量稳定性提升 15% (Kappa κ 0.75->0.90) 的量化依据缺失，需建立映射关系：Δκ = f(ΔError_Rate)；假设本地
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+工作点 B 的质量稳定性提升 15% (Kappa κ 0.75->0.90) 的量化依据缺失，需建立映射关系：Δκ = f(ΔError_Rate)；假设本地模型逻辑错误率 E_local = 15%，云端复核将错误率降至 E_cloud = 5%，综合错误率 E_mix = 0.7*15% + 0.3*5% = 12%；Kappa 系数与错误率的近似线性关系为 κ ≈ 1 - 2*E_mix（简化模型），则 κ_mix ≈ 1 - 0.24 = 0.76，仅微幅提升，若要达到 κ=0.90 需错误率降至 5% 以下，这意味着需要 100% 云端复核或更高精度的本地微调，30% 卸载无法支撑 15% 的 Kappa 提升，claim 存在高估风险。
+
+## Corrected Claim
+
+工作点 B 的质量稳定性提升 15% (Kappa κ 0.75->0.90) 的量化依据缺失，需建立映射关系：Δκ = f(ΔError_Rate)；假设本地模型逻辑错误率 E_local = 15%，云端复核将错误率降至 E_cloud = 5%，综合错误率 E_mix = 0.7*15% + 0.3*5% = 12%；Kappa 系数与错误率的近似线性关系为 κ ≈ 1 - 2*E_mix（简化模型），则 κ_mix ≈ 1 - 0.24 = 0.76，仅微幅提升，若要达到 κ=0.90 需错误率降至 5% 以下，这意味着需要 100% 云端复核或更高精度的本地微调，30% 卸载无法支撑 15% 的 Kappa 提升，claim 存在高估风险。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：基于给定的错误率参数（15%, 5%）和混合权重（0.7, 0.3），计算出的综合错误率12%及对应的Kappa值0.76在数学上自洽，且正确指出了30%卸载比例下无法达到0.90 Kappa目标的逻辑矛盾。
+
+## Search Query
+
+LLM judge inter-rater reliability kappa coefficient error rate relationship calibration

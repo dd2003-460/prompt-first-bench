@@ -1,0 +1,20 @@
+# N114: 长序列低并发工作点（Batch Size=1, Seq Len=262k）：此时 KV Cache 读取量极大（约 262k * 2 * hidden_dim 
+
+- **status**: pending
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N43
+
+## Claim
+
+长序列低并发工作点（Batch Size=1, Seq Len=262k）：此时 KV Cache 读取量极大（约 262k * 2 * hidden_dim * bytes），算术强度 AI ≈ 2*262144 / (262144 + Huge_KV_Read) ≈ 0.8 FLOP/Byte，极度 Memory-Bound，吞吐量完全由 HBM2 带宽决定，计算单元大量闲置，优化重点应转向减少 KV 读取次数（如 PagedAttention 或稀疏注意力）。
+
+## Corrected Claim
+
+长序列低并发工作点（Batch Size=1, Seq Len=262k）：此时 KV Cache 读取量极大（约 262k * 2 * hidden_dim * bytes），算术强度 AI ≈ 2*262144 / (262144 + Huge_KV_Read) ≈ 0.8 FLOP/Byte，极度 Memory-Bound，吞吐量完全由 HBM2 带宽决定，计算单元大量闲置，优化重点应转向减少 KV 读取次数（如 PagedAttention 或稀疏注意力）。
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点1聚焦于微观性能指标（算术强度AI）及相应的算法级优化策略，子节点2聚焦于宏观系统指标（端到端延迟T_e2e）及应用场景评估，两者在维度上正交且无冗余。但是，父节点明确将“减少KV读取次数（如PagedAttention或稀疏注意力）”列为核心优化重点，而子节点1仅讨论了StreamingLLM，子节点2仅讨论了延迟后果，均未覆盖父节点中提到的PagedAttention/稀疏注意力这一关键优化方向，导致覆盖不全。）

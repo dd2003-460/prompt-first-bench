@@ -1,0 +1,20 @@
+# N275: 当单步生成 Token 数 > 1024 时，KV Cache 内存占用线性增长至 ~1.2GB/seq，在 max-num-seqs=8 的配置下，第 9 个
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N96
+
+## Claim
+
+当单步生成 Token 数 > 1024 时，KV Cache 内存占用线性增长至 ~1.2GB/seq，在 max-num-seqs=8 的配置下，第 9 个并发请求将触发 OOM 风险，需动态调整 batch size 或启用 PagedAttention 优化
+
+## Corrected Claim
+
+当单步生成 Token 数增加时，KV Cache 内存占用随序列长度线性增长。在高并发场景下（如 max-num-seqs=8），若显存余量不足，新增请求可能触发 OOM 风险，建议通过动态调整 batch size 或启用 PagedAttention 等机制优化显存管理。
+
+## Evidence
+
+[质询]数值量级与具体配置强耦合，缺乏通用性：1.2GB/seq 的 KV Cache 占用高度依赖于模型架构（如层数、隐藏维度、头数）及精度（FP16/BF16/INT8），并非所有模型在 >1024 tokens 时都恰好达到此数值；此外，'第9个请求触发OOM' 取决于总显存大小，若显存充足则不会触发，该陈述隐含了特定的显存限制前提而未明示。 | 先验知识/题面给定，逻辑校验通过：KV Cache 随序列长度线性增长符合 Transformer 机制，PagedAttention 和动态 Batch Size 是标准的显存优化手段，但具体数值 1.2GB 为经验估算值，非绝对真理，故降级为定性描述。

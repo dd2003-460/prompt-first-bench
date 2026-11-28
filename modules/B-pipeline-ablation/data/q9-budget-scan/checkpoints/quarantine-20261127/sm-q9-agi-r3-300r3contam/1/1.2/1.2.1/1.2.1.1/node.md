@@ -1,0 +1,20 @@
+# N95: 工作点A（保守迭代）：N=5步，p_step=0.95，E_cumulative=1-0.95^5≈22.6%，适用场景为简单事实核查，单循环延迟T_cycle
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N34
+
+## Claim
+
+工作点A（保守迭代）：N=5步，p_step=0.95，E_cumulative=1-0.95^5≈22.6%，适用场景为简单事实核查，单循环延迟T_cycle_A≈5*T_step≈15s，成本最低。
+
+## Corrected Claim
+
+工作点A（保守迭代）：N=5步，p_step=0.95，E_cumulative=1-0.95^5≈22.6%，适用场景为简单事实核查，单循环延迟T_cycle_A≈5*T_step≈15s，成本最低。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：计算 1-0.95^5 ≈ 0.2262 正确，5*3s=15s 符合常规单步延迟假设，逻辑自洽。

@@ -1,0 +1,24 @@
+# N9: MTP×4 投机解码在 Qwen3.8-27B 上的平均接受率 (Acceptance Rate) 预估为 0.85-0.92（基于 Qwen 系列在代码/数学
+
+- **status**: degraded
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+MTP×4 投机解码在 Qwen3.8-27B 上的平均接受率 (Acceptance Rate) 预估为 0.85-0.92（基于 Qwen 系列在代码/数学任务上的分布特性），这意味着每生成 1 token 的实际前向传播次数降低至 1/(1+3*0.85) ≈ 0.31 次，从而将有效推理吞吐量提升至传统自回归生成的 3.2 倍左右，但需扣除 draft model 计算的额外开销 (约 5-8%)。
+
+## Corrected Claim
+
+MTP×4 投机解码在 Qwen 系列大模型（如 32B 或 72B）上的平均接受率预估通常在 0.7-0.85 之间（视任务而定），这意味着每生成 1 token 的实际前向传播次数降低至约 0.35-0.4 次，从而将有效推理吞吐量提升至传统自回归生成的 2.5-3 倍左右，但需扣除 draft model 计算的额外开销及批处理效率损失。
+
+## Evidence
+
+[质询]数值量级与模型规模不匹配：Qwen3.8-27B 并非标准公开型号（通常 Qwen 系列有 7B/14B/32B/72B 等，27B 可能是笔误或特定微调版），且对于 27B 级别的模型，MTP×4 的接受率 0.85-0.92 偏高，通常大模型在通用任务上 MTP 接受率随 K 增加而递减，K=4 时平均接受率往往低于 0.8，除非是极窄域（如纯代码补全）；此外，吞吐量提升 3.2 倍是基于理想接受率的线性估算，未充分考虑 batch size 增大带来的显存带宽瓶颈及 draft model 开销的非线性影响。 | 先验知识/题面给定，逻辑校验通过：计算公式 1/(1+3*0.85)≈0.31 正确，3.2 倍吞吐量提升与 0.31 次前向传播对应关系在理想情况下成立，但具体接受率数值缺乏外部来源支持且模型型号存疑，故降级。
+
+## Search Query
+
+Multi-token prediction speculative decoding acceptance rate Qwen2.5 performance

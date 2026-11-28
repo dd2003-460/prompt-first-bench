@@ -1,0 +1,24 @@
+# N15: 长期知识库的检索精度与召回率指标：使用向量数据库（如Chroma/FAISS）存储历史实验结论，检索质量由Cosine Similarity阈值τ决定；需测量在
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N3
+
+## Claim
+
+长期知识库的检索精度与召回率指标：使用向量数据库（如Chroma/FAISS）存储历史实验结论，检索质量由Cosine Similarity阈值τ决定；需测量在科研文献场景中，Top-K（K=5）检索的Precision@K和Recall@K，以及因检索噪声导致的模型幻觉增量ΔHallucination（通常每增加1个不相关文档，幻觉率上升0.5-1%）。
+
+## Corrected Claim
+
+长期知识库的检索精度与召回率指标：使用向量数据库（如Chroma/FAISS）存储历史实验结论，检索质量由Cosine Similarity阈值τ决定；需测量在科研文献场景中，Top-K（K=5）检索的Precision@K和Recall@K，以及因检索噪声导致的模型幻觉增量ΔHallucination（研究表明不相关文档通常会增加幻觉风险，具体增幅视模型和数据而定）。
+
+## Evidence
+
+[质询]陈述中关于“每增加1个不相关文档，幻觉率上升0.5-1%”的具体数值缺乏普适性，属于高度依赖特定模型、数据集和评估方法的经验性观察，并非固定常数或第一性原理可推导的必然结果。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体数值非通用真理）
+
+## Search Query
+
+RAG retrieval precision recall impact on LLM hallucination rate scientific literature

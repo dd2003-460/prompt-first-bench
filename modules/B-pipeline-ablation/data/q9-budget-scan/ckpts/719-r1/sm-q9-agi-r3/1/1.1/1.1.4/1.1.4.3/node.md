@@ -1,0 +1,20 @@
+# N120: 阈值校准公式：及格线 Threshold_pass = Baseline_PassRate × (1 - Safety_Margin)，其中 Safety_Ma
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+阈值校准公式：及格线 Threshold_pass = Baseline_PassRate × (1 - Safety_Margin)，其中 Safety_Margin 取 10% 以覆盖模型版本波动；若 Baseline_PassRate 为 65%，则及格线为 58.5%，向上取整为 60% 符合题面建议
+
+## Corrected Claim
+
+阈值校准公式：及格线 Threshold_pass = Baseline_PassRate × (1 - Safety_Margin)，其中 Safety_Margin 取 10% 以覆盖模型版本波动；若 Baseline_PassRate 为 65%，则及格线为 58.5%，向上取整为 60% 符合题面建议
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：65% * (1 - 10%) = 58.5%，向上取整为60%符合常规工程实践及题面描述。

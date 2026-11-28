@@ -1,0 +1,20 @@
+# N124: Human_Review_Time_Cost 的量化：Human_Review_Time_Cost = Review_Minutes * Hourly_Wage
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 0
+- **parent_ids**: N33
+
+## Claim
+
+Human_Review_Time_Cost 的量化：Human_Review_Time_Cost = Review_Minutes * Hourly_Wage_Rate，其中 Review_Minutes 与 LCS/FER 负相关；假设 LCS=0.9, FER=1% 时，平均每篇结论需 10min 人工复核，按 $50/hour 计算，单次成本约为 $8.33，远高于计算成本，成为性价比的主要制约因素。
+
+## Corrected Claim
+
+Human_Review_Time_Cost 的量化：Human_Review_Time_Cost = Review_Minutes * Hourly_Wage_Rate，其中 Review_Minutes 与 LCS/FER 负相关；假设 LCS=0.9, FER=1% 时，平均每篇结论需 10min 人工复核，按 $50/hour 计算，单次成本约为 $8.33，远高于计算成本，成为性价比的主要制约因素。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：算术计算正确（10/60 * 50 = 8.33），且符合人工审核成本通常高于计算成本的常识逻辑。

@@ -1,0 +1,24 @@
+# N29: 高算力云端模式 (Tier 3) 使用大模型集群 (如 A100/H100 集群) 时，单次循环成本 K_cloud > $10，时间 T_cloud < 30
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N5
+
+## Claim
+
+高算力云端模式 (Tier 3) 使用大模型集群 (如 A100/H100 集群) 时，单次循环成本 K_cloud > $10，时间 T_cloud < 30 分钟，可靠性 R 最高，但存在数据隐私风险及冷启动延迟，适合高风险高价值假设验证
+
+## Corrected Claim
+
+高算力云端模式 (Tier 3) 通常使用大模型集群 (如 A100/H100)，其单次循环成本显著高于本地或轻量级模式，处理时间通常在分钟级以内，可靠性最高，但存在数据隐私风险及冷启动延迟，适合高风险高价值假设验证。
+
+## Evidence
+
+[质询]具体数值阈值（K_cloud > $10, T_cloud < 30分钟）缺乏统一标准，受模型规模、Token数量及云服务商定价波动影响极大，属于高度依赖具体场景的经验参数，而非固定物理/经济常数。 | 经验事实，逻辑自洽但缺来源支持（检索无可用来源，且具体成本/时间阈值无法从第一性原理严格推导，符合经验事实排除条款）
+
+## Search Query
+
+cloud GPU cluster rental cost per hour A100 H100 inference benchmark

@@ -1,0 +1,20 @@
+# N99: V100-SXM2-16GB 在满负载推理时的功耗通常为 250W/GPU，4 卡集群峰值 P_compute = 4 * 250W = 1000W，加上主机基
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N24, N25, N26
+
+## Claim
+
+V100-SXM2-16GB 在满负载推理时的功耗通常为 250W/GPU，4 卡集群峰值 P_compute = 4 * 250W = 1000W，加上主机基础功耗 ~100W，总峰值 P_peak_total ≈ 1100W；空闲功耗 P_idle_total ≈ 4 * 30W + 50W = 170W（修正原 120W 估计偏低问题）。
+
+## Corrected Claim
+
+V100-SXM2-16GB 在满负载推理时的功耗通常为 250W/GPU，4 卡集群峰值 P_compute = 4 * 250W = 1000W，加上主机基础功耗 ~100W，总峰值 P_peak_total ≈ 1100W；空闲功耗 P_idle_total ≈ 4 * 30W + 50W = 170W（修正原 120W 估计偏低问题）。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：V100-SXM2 TDP为250W，4卡满载1000W符合规格；空闲功耗估算合理，总功耗计算逻辑自洽。

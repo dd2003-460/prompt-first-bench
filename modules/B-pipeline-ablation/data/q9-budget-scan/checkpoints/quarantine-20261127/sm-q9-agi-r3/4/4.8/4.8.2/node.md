@@ -1,0 +1,30 @@
+# N87: 基于 100 个已知事实错误的合成基准测试集，HR > 0.15 触发强制检索验证的灵敏度（Sensitivity）约为 75-85%，特异性（Specific
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+基于 100 个已知事实错误的合成基准测试集，HR > 0.15 触发强制检索验证的灵敏度（Sensitivity）约为 75-85%，特异性（Specificity）约为 90%；漏检的幻觉主要集中于数字细微偏差（如年份、系数错误），此类错误需结合数值一致性校验补充监测。
+
+## Corrected Claim
+
+基于合成基准测试集，利用HR指标触发强制检索验证可有效识别部分幻觉，但具体灵敏度与特异性数值需依据实际实验数据确定；漏检的幻觉常集中于数字细微偏差，建议结合数值一致性校验进行补充监测。
+
+## Evidence
+
+[质询]该陈述包含非常具体的经验性统计数据（灵敏度75-85%，特异性90%）和特定的阈值（HR>0.15），这些数值无法从第一性原理推导，且参考来源均未提供此类具体的性能指标数据，存在‘幻觉’或‘过度具体化’的风险。 | 逻辑上自洽（HR作为检测指标，灵敏度/特异性描述其性能符合统计学常识），但参考来源[1][2][3]仅涉及合成数据的一般性介绍或特定基准测试（Arc），均未提及‘HR>0.15’这一具体阈值及其对应的灵敏度/特异性数值，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+hallucination risk index sensitivity specificity benchmark LLM numerical fact checking
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29967003/article/details/161268642&rut=e2868865d2b916bbea36e6b577c157e6fa3a49dc82d786909d6eb7497a0f1805', 'type': 'ddg', 'title': '合成数据工程实践：合规、可控、可验证的ai训练数据生成方法-csdn博客'}
+- {'url': 'https://www.csdn.net/detail/webblog_15084327/178610&rut=ca9f93016f573e6c8db673742a66e55d03b7f1ace728751a178a90ad97a9740e', 'type': 'ddg', 'title': '用生成式新题重新评测ai推理：Arc基准失效后的破局方案 - Csdn'}
+- {'url': 'https://blog.csdn.net/qq_45334136/article/details/161544884&rut=e3f95145bd8d8cb175697bc0b76abe15915baf4872c96c29e0b2b12d0b7b3236', 'type': 'ddg', 'title': '测试数据合成与用例自动生成 - Csdn博客'}

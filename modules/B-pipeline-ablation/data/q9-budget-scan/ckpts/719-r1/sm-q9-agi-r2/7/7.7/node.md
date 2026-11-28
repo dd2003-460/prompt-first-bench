@@ -1,0 +1,24 @@
+# N92: Code Interpreter 首次修正成功率 >80% 的实现依赖于错误反馈机制的完整性：若仅返回标准 stderr 输出，首次修正成功率通常为 60%-7
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N25, N26, N27
+
+## Claim
+
+Code Interpreter 首次修正成功率 >80% 的实现依赖于错误反馈机制的完整性：若仅返回标准 stderr 输出，首次修正成功率通常为 60%-70%；若加入 AST 解析错误定位、类型推断提示及上下文变量快照，成功率可提升至 85%-90%；对于 Logic Error，需引入单元测试生成模块，使首次修正成功率从 50% 提升至 75%-80%
+
+## Corrected Claim
+
+Code Interpreter 首次修正成功率受错误反馈机制完整性影响：仅返回 stderr 时成功率较低（通常低于 70%）；加入 AST 定位、类型提示及上下文快照后成功率显著提升（可达 85% 以上）；针对 Logic Error 引入单元测试生成模块可进一步将成功率从约 50% 提升至 75%-80% 区间。
+
+## Evidence
+
+[质询]具体的数值区间（60%-70%, 85%-90%, 50%->75%-80%）缺乏公开权威基准测试的直接支持，属于特定实验条件下的经验数据，不同数据集和模型下波动较大，难以作为通用定论。 | 经验事实，逻辑自洽（增加信息量通常提升修复率）但缺来源支持，且检索无可用来源。
+
+## Search Query
+
+code interpreter first-time success rate error feedback mechanism AST parsing unit test generation

@@ -1,0 +1,20 @@
+# N90: 位置编码外推误差量化：RoPE在训练长度外的位置编码旋转角度θ = base^(-2i/d)，当position_id > 32k时，cos/sin值域溢出导致
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N32
+
+## Claim
+
+位置编码外推误差量化：RoPE在训练长度外的位置编码旋转角度θ = base^(-2i/d)，当position_id > 32k时，cos/sin值域溢出导致嵌入向量范数漂移，具体漂移量ΔNorm = ||E_pos - E_train_max||需通过嵌入空间距离计算，预计>0.15时Recall@1下降显著。
+
+## Corrected Claim
+
+RoPE在训练长度外（position_id > 32k）时，由于旋转角度θ随位置线性增长，高频分量的相位变化超出训练分布范围，导致嵌入向量在语义空间中发生显著漂移（Out-of-Distribution shift）。这种漂移量（可通过嵌入空间距离量化）超过一定阈值时，会导致Recall@1等检索指标显著下降。
+
+## Evidence
+
+[质询]陈述中关于“cos/sin值域溢出”的描述存在技术概念混淆。RoPE中的cos/sin函数值域始终在[-1, 1]之间，不会发生数值溢出（Overflow）；实际问题是随着位置ID增加，旋转角度增大，导致高维频率分量相位变化剧烈，使得训练分布外的位置嵌入与训练集分布偏离（Out-of-Distribution），而非简单的数值溢出。此外，“ΔNorm > 0.15”这一具体阈值缺乏通用标准，属于特定实验下的经验观察，并非普适的物理或数学常数。 | 先验知识/题面给定，逻辑校验通过。虽然RoPE外推失效的机制描述（值域溢出）不够严谨（应为分布偏移/相位失配），但核心结论（长序列下嵌入漂移导致性能下降）符合逻辑直觉。由于source为knowledge，且无外部来源矛盾，但存在概念表述瑕疵，故降级为degraded以修正术语。

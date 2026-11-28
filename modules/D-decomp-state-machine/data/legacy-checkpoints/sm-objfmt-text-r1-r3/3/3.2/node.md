@@ -1,0 +1,20 @@
+# N17: 数据中心级 GPU 当前值得考虑的完整候选集：A100 40/80GB, H100 PCIe/SXM 80GB, L40S 48GB, A6000 Ada 48
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N3
+
+## Claim
+
+数据中心级 GPU 当前值得考虑的完整候选集：A100 40/80GB, H100 PCIe/SXM 80GB, L40S 48GB, A6000 Ada 48GB，需对比其二手市场流通性与价格
+
+## Corrected Claim
+
+数据中心级 GPU 当前值得考虑的完整候选集：A100 40/80GB, H100 PCIe/SXM 80GB, L40S 48GB, A6000 Ada 48GB，需对比其二手市场流通性与价格
+
+## Evidence
+
+父节点级核验未通过：不完备（子节点在技术规格和适用场景上保持了良好的正交性，没有重复或矛盾。然而，父节点明确要求对比“二手市场流通性与价格”，而所有子节点仅关注了硬件技术参数（算力、带宽、显存容量及精度支持），完全缺失了关于二手市场价格区间、市场稀缺度、供应渠道等关键信息的描述，因此不完备。）

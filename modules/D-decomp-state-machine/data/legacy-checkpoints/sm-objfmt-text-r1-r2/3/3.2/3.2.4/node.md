@@ -1,0 +1,20 @@
+# N58: NVIDIA A6000 Ada 的 BF16 理论峰值算力为 91.6 TFLOPS，GDDR6 带宽 960 GB/s，显存 48GB，同样因容量不足无法运
+
+- **status**: verified
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N17
+
+## Claim
+
+NVIDIA A6000 Ada 的 BF16 理论峰值算力为 91.6 TFLOPS，GDDR6 带宽 960 GB/s，显存 48GB，同样因容量不足无法运行 BF16 27B 模型，且算力远低于 A100/H100，仅在极端预算受限且接受低精度低吞吐时作为备选。
+
+## Corrected Claim
+
+NVIDIA A6000 Ada 的 BF16 理论峰值算力为 91.6 TFLOPS，GDDR6 带宽 960 GB/s，显存 48GB，同样因容量不足无法运行 BF16 27B 模型，且算力远低于 A100/H100，仅在极端预算受限且接受低精度低吞吐时作为备选。
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：A6000 Ada 规格（91.6 TFLOPS BF16, 960 GB/s, 48GB GDDR6）符合公开技术文档，48GB 显存确实不足以容纳 BF16 27B 模型（需约 54GB+），且性能定位低于 A100/H100 符合事实。

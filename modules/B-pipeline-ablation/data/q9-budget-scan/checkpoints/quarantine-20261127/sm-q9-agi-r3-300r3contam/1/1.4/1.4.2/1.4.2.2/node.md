@@ -1,0 +1,20 @@
+# N112: 数据完整性校验的量化定义：Completeness Check = (N_expected_fields_present / N_total_expected_
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N39
+
+## Claim
+
+数据完整性校验的量化定义：Completeness Check = (N_expected_fields_present / N_total_expected_fields) * 100%，要求 = 100% 意味着零缺失；在 27B 模型生成的清洗代码中，若未显式添加 dropna() 或 fillna() 逻辑，缺失值处理成功率仅为 60%-70%，因此需引入静态代码分析 Hook 检测是否存在缺失值处理语句，缺失率 >5% 时强制触发人工规则引擎兜底。
+
+## Corrected Claim
+
+数据完整性校验的量化定义：Completeness Check = (N_expected_fields_present / N_total_expected_fields) * 100%，要求 = 100% 意味着零缺失；鉴于大语言模型生成的清洗代码在缺失值处理上可能存在遗漏风险，建议引入静态代码分析 Hook 检测是否存在缺失值处理语句（如 dropna/fillna），并在检测到高风险或缺失率超过设定阈值（如 5%）时触发人工规则引擎兜底。
+
+## Evidence
+
+[质询]陈述中关于“27B 模型生成的清洗代码缺失值处理成功率仅为 60%-70%”的具体数值缺乏普遍适用的实证支持，属于特定实验条件下的经验数据，不同模型版本、提示词策略及任务复杂度下该比例波动极大，将其作为通用量化阈值依据存在以偏概全的风险。 | 先验知识/题面给定，逻辑校验通过；但其中包含具体的经验性能指标（60%-70%），在无外部来源直接支持且非第一性原理可推导的情况下，依据经验事实排除条款降级。

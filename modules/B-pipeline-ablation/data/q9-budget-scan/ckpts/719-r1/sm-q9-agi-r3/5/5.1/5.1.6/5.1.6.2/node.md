@@ -1,0 +1,20 @@
+# N244: 边际收益（Marginal Benefit）的量化公式为 MB = (ΔReliability × Value_of_Publication) - (Cloud
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N72
+
+## Claim
+
+边际收益（Marginal Benefit）的量化公式为 MB = (ΔReliability × Value_of_Publication) - (Cloud_Cost - Local_Cost)，其中 ΔReliability 为云端比本地低出的幻觉率百分点，Value_of_Publication 为单次可发表级结论的经济价值（需赋值，如 $1000），Cloud_Cost 和 Local_Cost 分别为处理该任务的云端和本地边际成本
+
+## Corrected Claim
+
+边际收益（Marginal Benefit）的量化公式为 MB = (ΔReliability × Value_of_Publication) - (Cloud_Cost - Local_Cost)，其中 ΔReliability 为云端比本地低出的幻觉率百分点，Value_of_Publication 为单次可发表级结论的经济价值（需赋值，如 $1000），Cloud_Cost 和 Local_Cost 分别为处理该任务的云端和本地边际成本
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过

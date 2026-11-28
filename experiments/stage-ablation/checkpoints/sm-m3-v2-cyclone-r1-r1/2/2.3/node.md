@@ -1,0 +1,28 @@
+# N13: 摩擦耗散对风速衰减的直接贡献：在登陆后 24 小时内，摩擦耗散导致的最大风速衰减占总衰减的 40-60%；对于初始 vmax=120 kt 的强台风，摩擦项单独
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N2
+
+## Claim
+
+摩擦耗散对风速衰减的直接贡献：在登陆后 24 小时内，摩擦耗散导致的最大风速衰减占总衰减的 40-60%；对于初始 vmax=120 kt 的强台风，摩擦项单独贡献约 5-8 kt/h 的衰减速率，而能量源丧失贡献约 3-5 kt/h。
+
+## Corrected Claim
+
+摩擦耗散是台风登陆后风速衰减的主要机制之一，通常认为在初期阶段贡献显著，但具体占比和衰减速率随台风强度、地形及环境条件变化，一般量级在数kt/h级别。
+
+## Evidence
+
+[质询]具体数值（40-60%占比、5-8 kt/h vs 3-5 kt/h速率）缺乏通用性，高度依赖特定台风案例和模型参数，作为普遍规律陈述过于绝对；且参考来源仅定性描述摩擦是主要机制之一，未提供具体量化数据支持。 | 来源[1]定性支持摩擦是重要衰减机制，但未提供具体数值；该事实包含具体经验参数，逻辑自洽但缺直接来源支持，符合degraded判定标准。
+
+## Search Query
+
+friction contribution to tropical cyclone weakening rate landfall
+
+## Retrieval Sources
+
+- {'url': 'https://k.sina.cn/article_7879923136_1d5ae15c006802p6b2.html&rut=cbf6899acaaf359e4d62682427a9e037a8ebb079bd00d01ea45991ab1703b8ef', 'type': 'ddg', 'title': '台风登陆后大风减弱为什么需要4到12小时？|环流|能量|衰减|北上|变性_新浪新闻'}

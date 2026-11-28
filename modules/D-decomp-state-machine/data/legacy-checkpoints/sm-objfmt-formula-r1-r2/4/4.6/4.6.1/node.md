@@ -1,0 +1,24 @@
+# N95: INT8 对称量化 vs 非对称量化对 Qwen3-27B 的质量差异：非对称量化（带零点对齐）在 MMLU 上比对称量化高 0.5-1.0 个百分点，但增加 
+
+- **status**: degraded
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N21
+
+## Claim
+
+INT8 对称量化 vs 非对称量化对 Qwen3-27B 的质量差异：非对称量化（带零点对齐）在 MMLU 上比对称量化高 0.5-1.0 个百分点，但增加 0.1-0.2GB 显存开销用于存储零点参数
+
+## Corrected Claim
+
+非对称量化（带零点对齐）在MMLU上通常比对称量化有轻微性能优势（具体幅度视模型和量化方法而定），但零点参数的额外显存开销通常较小（取决于量化粒度，通常为KB至MB级别，而非固定的0.1-0.2GB）。
+
+## Evidence
+
+[质询]具体数值（MMLU提升0.5-1.0分，显存增加0.1-0.2GB）缺乏通用性，高度依赖具体量化实现（如GPTQ/AWQ）及校准数据集，且对于27B模型，零点参数存储开销通常极小（KB-MB级），0.1-0.2GB的显存开销描述可能存在量级夸大或混淆了其他开销（如KV Cache或权重对齐填充）。 | 经验事实，逻辑自洽但缺来源支持；非对称量化通常略优于对称量化，但具体增益和显存开销因实现而异，且零点参数本身占用空间远小于0.1GB，该具体数值无法从第一性原理严格推出，需特定实验数据支持。
+
+## Search Query
+
+INT8 symmetric vs asymmetric quantization impact on LLM accuracy zero point overhead

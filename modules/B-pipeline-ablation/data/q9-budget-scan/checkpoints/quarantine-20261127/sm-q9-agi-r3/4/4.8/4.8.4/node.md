@@ -1,0 +1,29 @@
+# N89: 事实漂移率（Fact Drift Rate）的计算需定义‘逻辑矛盾’的可计算代理指标：采用 NLI（Natural Language Inference）模型（
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N28
+
+## Claim
+
+事实漂移率（Fact Drift Rate）的计算需定义‘逻辑矛盾’的可计算代理指标：采用 NLI（Natural Language Inference）模型（如 DeBERTa-v3-large）对第 N 步结论与第 1 步前提进行蕴含关系分类，当 Contradiction 概率 > 0.6 时计为一次漂移事件；单步推理的 NLI 推理耗时约为 50-100 ms。
+
+## Corrected Claim
+
+事实漂移率的计算可采用NLI模型（如DeBERTa-v3-large）对结论与前提进行蕴含关系分类以识别逻辑矛盾，具体阈值（如Contradiction概率>0.6）及单步推理耗时（约50-100ms）需根据实际部署环境校准，当前参考来源未提供确切数值支持。
+
+## Evidence
+
+[质询]参考来源（DRIFT论文）主要讨论双模型架构解耦知识提取与推理，并未涉及使用NLI模型（如DeBERTa-v3-large）检测事实漂移的具体方法论、阈值设定（0.6）或具体的推理耗时数据（50-100ms）。这些具体参数属于经验事实，缺乏来源直接支持。 | 逻辑自洽（NLI用于矛盾检测及耗时量级合理），但参考来源[1][2]仅介绍DRIFT架构，未提供NLI检测事实漂移的具体实现细节、阈值或性能数据，属于经验事实缺来源支持。
+
+## Search Query
+
+natural language inference contradiction detection latency DeBERTa large model inference time
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/html/2602.10021v1&rut=33809d4b993807938ecfba3c3de5200c6219860ffbc78e09bc542bfda0b2df75', 'type': 'ddg', 'title': 'Decoupled Reasoning with Implicit Fact Tokens (DRIFT): A Dual-Model ...'}
+- {'url': 'https://arxiv.org/pdf/2602.10021v1&rut=46e743ee277e640d409d79e50d3e315342ea634a2eda537829133819d0da551f', 'type': 'ddg', 'title': 'Decoupled Reasoning with Implicit Fact Tokens (DRIFT): A Dual-Model ...'}

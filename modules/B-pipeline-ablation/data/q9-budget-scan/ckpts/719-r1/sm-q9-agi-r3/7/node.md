@@ -1,0 +1,26 @@
+# N25: 在 vLLM 中启用 PagedAttention 后，针对 Qwen3.8-27B (NVFP4) 在 4x V100 上的 KV Cache 碎片率（Fra
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: (root)
+
+## Claim
+
+在 vLLM 中启用 PagedAttention 后，针对 Qwen3.8-27B (NVFP4) 在 4x V100 上的 KV Cache 碎片率（Fragmentation Rate）应低于 5%，且 AllReduce 通信开销占单步推理时间的比例需控制在 15% 以内，以确保 TP=4 的线性扩展效率。
+
+## Corrected Claim
+
+在 vLLM 中启用 PagedAttention 后，针对 Qwen3-27B (FP16/BF16) 在 4x A100/H100 上的 KV Cache 碎片率通常较低，AllReduce 开销取决于网络带宽，需具体测量以评估 TP=4 的效率。
+
+## Evidence
+
+[质询]硬件兼容性错误：V100 GPU 不支持 NVFP4 (4-bit floating point) 精度计算，该格式通常依赖更新的硬件架构（如 Hopper/Blackwell）或特定的软件模拟，且在 vLLM 中 NVFP4 并非 V100 的标准或推荐配置，导致前提条件在物理/工程层面不成立。 | 来源 [1][2][3] 均未提及 V100 支持 NVFP4 或具体的碎片率/通信开销阈值；根据硬件常识，V100 (Volta架构) 原生支持 FP16/BF16/INT8，不支持 NVFP4，且 27B 模型在 4x V100 (共 32GB 显存) 上运行 NVFP4 虽显存可能勉强够用，但该组合非标准且缺乏来源支持，属于无效的技术配置假设。
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/weixin_29063979/article/details/159143398&rut=8f14c4baea86617aaea3a7af84c33f6ba4cbc029079da0163039de6806095ed6', 'type': 'ddg', 'title': 'vLLM 实战指南：从PagedAttention到Continuous Batching的Qwen模型优化'}
+- {'url': 'https://blog.csdn.net/weixin_34520664/article/details/157288927&rut=422864e8cd541c42c30013c81edbf4905f2a687dce6ad2ababab104a354d7696', 'type': 'ddg', 'title': 'vLLM为何能提升Qwen3-0.6B性能？PagedAttention解析 - CSDN博客'}
+- {'url': 'https://docs.vllm.ai/en/latest/design/paged_attention/&rut=3446d11167a75b4ec74528c80bf9159f7bb4cbd0a89d381d2c0a36d74a5638ab', 'type': 'ddg', 'title': 'Paged Attention - vLLM'}

@@ -1,0 +1,30 @@
+# N28: 黑盒节点 B1：Qwen3.8-27B 在 NVFP4 量化下的长上下文（>32k tokens）注意力衰减系数 α，直接影响科研文献综述的准确性，需通过基准测
+
+- **status**: degraded
+- **level**: L2
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N6
+
+## Claim
+
+黑盒节点 B1：Qwen3.8-27B 在 NVFP4 量化下的长上下文（>32k tokens）注意力衰减系数 α，直接影响科研文献综述的准确性，需通过基准测试（如 LongBench）获取具体衰减曲线，当前假设为线性衰减，置信度 Low
+
+## Corrected Claim
+
+Qwen3.8-27B 在 NVFP4 量化下的长上下文（>32k tokens）注意力衰减特性尚不明确，需通过 LongBench 等基准测试获取具体衰减曲线以评估其对科研文献综述准确性的影响；当前暂假设线性衰减，置信度 Low。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性假设（线性衰减）和特定模型/量化组合的性能指标，属于经验事实，无法从第一性原理推导，且参考来源均未提供关于长上下文注意力衰减系数的具体数据或曲线，缺乏直接证据支持。 | 参考来源 [1][2][3] 主要关注 Qwen3.8-27B-NVFP4 的部署、硬件配置及量化原理，未涉及长上下文（>32k）下的注意力衰减系数或 LongBench 基准测试结果，属于经验事实且缺来源支持。
+
+## Search Query
+
+Qwen 27B NVFP4 quantization long context attention decay benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://blog.csdn.net/gitblog_00542/article/details/170607430&rut=2165cf1940d0a840615a431cb6a698fffaa81978df8972d79e69b143663efb86', 'type': 'ddg', 'title': 'Qwen3.8-27B-nvfp4-NInfer 避坑清单：硬件限制、显存配置与 9 个常见故障排除完整指南-CSDN博客'}
+- {'url': 'https://blog.csdn.net/gitblog_01106/article/details/168111467&rut=b59a6fc3154100e5465dc9638503f47c1c7e8874065d30b2cecfe349b8a461e0', 'type': 'ddg', 'title': 'Qwen3.8-27B-NVFP4完整指南：4位NVFP4量化如何玩转27B多模态大模型-CSDN博客'}
+- {'url': 'https://blog.gitcode.com/5387cc4ddf5c16957195327d6fb15a19.html&rut=b3cc73a4875fbbc7781febf3721a5436d24a8697580586d8f126b53bce9abb1c', 'type': 'ddg', 'title': 'Qwen3.8-27B-NVFP4 部署常见问题全解：显存不足、精度取舍与关键参数调优 - AtomGit | GitCode博客'}

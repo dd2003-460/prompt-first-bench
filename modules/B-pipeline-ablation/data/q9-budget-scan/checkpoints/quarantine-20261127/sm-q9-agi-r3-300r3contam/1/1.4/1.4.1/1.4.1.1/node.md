@@ -1,0 +1,28 @@
+# N107: 摘要生成任务的 Precision 计算公式：P_summary = (N_correct_facts / N_generated_facts) * 100%，
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N38
+
+## Claim
+
+摘要生成任务的 Precision 计算公式：P_summary = (N_correct_facts / N_generated_facts) * 100%，其中 N_correct_facts 为与 Gold Standard 匹配的原子事实数，N_generated_facts 为模型生成的原子事实总数；在 27B 模型无 RAG 辅助下，预期 P_summary ∈ [70%, 85%]，需通过 50 篇顶刊论文摘要盲测获得实证分布。
+
+## Corrected Claim
+
+摘要生成任务的 Precision 计算公式：P_summary = (N_correct_facts / N_generated_facts) * 100%，其中 N_correct_facts 为与 Gold Standard 匹配的原子事实数，N_generated_facts 为模型生成的原子事实总数；具体模型的预期性能需通过实证测试确定。
+
+## Evidence
+
+[质询]该陈述包含具体的经验性能指标（27B模型无RAG辅助下的Precision预期范围[70%, 85%]），这属于特定模型在特定任务上的经验事实，无法从第一性原理或数学公理中严格推导出来，且参考来源未提供此具体数值支持。 | Precision的定义（正确事实数/生成事实总数）符合信息检索和自然语言处理中精确率的标准定义，逻辑自洽；但关于27B模型的具体性能区间属于经验事实，参考来源[1]仅介绍摘要任务通用概念，未提供具体模型的性能数据，故依据经验事实排除条款降级。
+
+## Search Query
+
+LLM summary generation precision atomic fact evaluation benchmark
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/449530883&rut=b141bf99ddc06096f92572da79bde6534db2956cdd13331bf5d9bd97181b8b55', 'type': 'ddg', 'title': '深度学习nlp文本摘要的完整介绍（含代码示例） - 知乎'}

@@ -1,0 +1,28 @@
+# N180: N51的NVFP4量化对T_memory的影响系数：KV Cache从FP16(2 bytes/token/head)降至FP8/INT8(1 byte/tok
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N51
+
+## Claim
+
+N51的NVFP4量化对T_memory的影响系数：KV Cache从FP16(2 bytes/token/head)降至FP8/INT8(1 byte/token/head)使访存量减半，但V100不支持原生FP4推理，实际部署若回退至FP8，T_memory减半的前提是否成立需验证vLLM在V100上的量化内核支持情况
+
+## Corrected Claim
+
+KV Cache从FP16降至FP8/INT8理论上可使访存量减半，但实际部署中T_memory减半的效果取决于硬件（如V100）对低精度格式的原生支持情况及推理框架（如vLLM）的具体内核实现，需进一步验证。
+
+## Evidence
+
+[质询]该陈述包含具体的硬件兼容性断言（V100不支持原生FP4推理）和软件实现细节（vLLM在V100上的量化内核支持情况），这些属于经验事实，无法仅凭逻辑推导得出，且参考来源未提供关于V100硬件限制或vLLM具体实现的支持证据。 | 逻辑上，数据位宽减半确实导致访存量减半，但V100不支持FP4及vLLM的具体支持情况属于经验事实，参考来源[1]仅讨论NVFP4-MLA的设计，未涉及V100硬件限制或vLLM实现细节，故缺乏直接来源支持。
+
+## Search Query
+
+vLLM NVFP4 quantization support V100 tensor core compatibility
+
+## Retrieval Sources
+
+- {'url': 'https://arxiv.org/pdf/2611.18972&rut=5c6051ea072e98a5c7bcccefc57ee06da7b72b406b9a953ad0c8fdaeed6c89d6', 'type': 'ddg', 'title': 'NVFP4-MLA: Unified FP4 KV-Cache Storage and Attention Computation for ...'}

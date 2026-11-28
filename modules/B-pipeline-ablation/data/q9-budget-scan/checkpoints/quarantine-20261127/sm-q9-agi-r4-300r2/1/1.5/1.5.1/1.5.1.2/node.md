@@ -1,0 +1,16 @@
+# N112: INT8 整数工作点：V100 支持 INT8 Tensor Core 指令，峰值算力约为 FP16 的 2 倍（约 31.4 TOPS），但精度损失在科学推理
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N42
+
+## Claim
+
+INT8 整数工作点：V100 支持 INT8 Tensor Core 指令，峰值算力约为 FP16 的 2 倍（约 31.4 TOPS），但精度损失在科学推理任务中通常大于 FP16（尤其在长链逻辑中），适用于对精度不敏感的预处理或嵌入计算，不适用于核心推理链。
+
+## Corrected Claim
+
+INT8 整数工作点：V100 支持 INT8 Tensor Core 指令，峰值算力约为 FP16 的 2 倍（约 31.4 TOPS），但精度损失在科学推理任务中通常大于 FP16（尤其在长链逻辑中），适用于对精度不敏感的预处理或嵌入计算，不适用于核心推理链。

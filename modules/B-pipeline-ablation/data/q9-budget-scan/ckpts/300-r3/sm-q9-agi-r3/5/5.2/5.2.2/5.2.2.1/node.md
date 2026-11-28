@@ -1,0 +1,20 @@
+# N269: Levenshtein 距离算法在 N=50 字段时的理论操作次数 Ops = N^2 * Avg_Edit_Dist，假设平均编辑距离为 2，则 Ops=50
+
+- **status**: degraded
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N94
+
+## Claim
+
+Levenshtein 距离算法在 N=50 字段时的理论操作次数 Ops = N^2 * Avg_Edit_Dist，假设平均编辑距离为 2，则 Ops=5000，在 M1 Max CPU (单核 ~3GHz) 上对应耗时 T_lev = Ops / CPU_Throughput ≈ 5000 / 1e6 ≈ 5ms，与实测一致
+
+## Corrected Claim
+
+Levenshtein 距离算法在 N=50 字段时的理论操作次数 Ops = N^2 * Avg_Edit_Dist，假设平均编辑距离为 2，则 Ops=5000。在 M1 Max CPU (单核 ~3GHz) 上，根据典型字符串处理吞吐量估算，耗时 T_lev 约为毫秒级，与实测量级一致。
+
+## Evidence
+
+[质询]CPU吞吐量（1e6 ops/s）和平均编辑距离（2）均为经验估算值，缺乏具体硬件基准测试数据支持，且Levenshtein距离的实际计算复杂度受实现优化影响较大，简单线性外推可能不准确。 | 经验事实，逻辑自洽但缺来源支持

@@ -1,0 +1,20 @@
+# N9: 在max_model_len=262144且max-num-seqs=8的设定下，理论最大KV Cache需求为8 * 262144 * 4KB ≈ 8.0GB
+
+- **status**: pending
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: quotient
+- **rework_count**: 1
+- **parent_ids**: N1
+
+## Claim
+
+在max_model_len=262144且max-num-seqs=8的设定下，理论最大KV Cache需求为8 * 262144 * 4KB ≈ 8.0GB，远低于48.5GB可用内存，因此长上下文长度并非内存瓶颈，而是受限于attention计算复杂度
+
+## Corrected Claim
+
+在 max_model_len=262144 且 max-num-seqs=8 的设定下，理论最大 KV Cache 需求取决于模型架构（层数 L、头数 H、隐藏维度 D）。若以典型 LLM 为例（假设 L=32, H=32, D=128, FP32），单 token KV 大小约为 1MB，总需求约为 8 * 262144 * 1MB ≈ 2TB，远超 48.5GB 可用内存。因此，长上下文长度极可能是内存瓶颈，除非使用量化或 PagedAttention 等优化技术。
+
+## Evidence
+
+父节点级核验未通过：非正交, 不完备（子节点与父节点存在严重的事实矛盾（核心结论相反）。父节点基于错误的KV Cache单位（4KB/token）得出'内存充足'的结论；而子节点使用了更合理的估算（128KB/token），得出'内存不足'的结论。这种根本性的逻辑冲突导致分解无效。此外，子节点引入了父节点未提及的'量化'和'具体并发限制计算'，虽然丰富了细节，但前提是推翻了父节点的基准假设。）

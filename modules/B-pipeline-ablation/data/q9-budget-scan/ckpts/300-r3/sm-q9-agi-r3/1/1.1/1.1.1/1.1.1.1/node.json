@@ -1,0 +1,19 @@
+{
+  "id": "N131",
+  "claim": "工作点A（高并发/低单序列上下文）：设置 gpu_memory_utilization=0.90，KV Cache 池容量为 48.0GB，支持 8 个并发序列（max_num_seqs=8），单序列最大上下文长度限制为 26,214 tokens（48.0e9 / (8 * 4e3)），此时单 token 生成延迟增加约 10-15%（因 KV 查找缓存命中率下降），但总吞吐量提升 25%。",
+  "level": "L4",
+  "source": "knowledge",
+  "status": "degraded",
+  "evidence": "[质询]数值计算存在严重量纲错误：48.0GB 显存除以 (8 * 4000) 得到的结果约为 1.5MB，而非 26,214 tokens；且 26,214 tokens 的上下文长度对于 48GB KV Cache 池来说过小，通常该容量可支持数万至数十万 tokens 的总上下文，此处数值逻辑不自洽。 | 先验知识/题面给定，但逻辑校验发现数值推导错误（48GB / 32k ≈ 1.5MB，非 26k tokens），且缺乏外部来源支持具体性能提升比例（10-15% 延迟增加，25% 吞吐提升）的经验数据。",
+  "corrected_claim": "工作点A（高并发/低单序列上下文）：设置 gpu_memory_utilization=0.90，KV Cache 池容量为 48.0GB，支持 8 个并发序列（max_num_seqs=8）。根据具体模型架构和精度，单序列最大上下文长度需重新计算（原计算 48.0e9 / (8 * 4e3) 量纲有误）。在此配置下，由于 KV 缓存压力增大，单 token 生成延迟可能增加，总吞吐量可能提升，但具体百分比（10-15% 延迟增加，25% 吞吐提升）需实测验证，不能直接断言。",
+  "rework_count": 1,
+  "parent_ids": [
+    "N36",
+    "N37",
+    "N38"
+  ],
+  "objective": null,
+  "edge_type": "cartesian",
+  "search_query": "vLLM gpu_memory_utilization tradeoff throughput latency",
+  "retrieval_sources": []
+}

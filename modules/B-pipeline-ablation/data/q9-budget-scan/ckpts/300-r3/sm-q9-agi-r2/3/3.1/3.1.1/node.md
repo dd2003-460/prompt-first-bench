@@ -1,0 +1,28 @@
+# N68: Qwen3.8-27B 在 GPQA Diamond 子集（物理/化学/生物）的分项得分：物理 62.1%，化学 55.4%，生物 56.8%，加权平均分 58
+
+- **status**: degraded
+- **level**: L3
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N17
+
+## Claim
+
+Qwen3.8-27B 在 GPQA Diamond 子集（物理/化学/生物）的分项得分：物理 62.1%，化学 55.4%，生物 56.8%，加权平均分 58.3%，低于 75% 阈值 16.7 个百分点，表明跨学科综合推理能力不足
+
+## Corrected Claim
+
+Qwen3.8-27B 在 GPQA Diamond 子集的表现数据需进一步核实，现有来源仅确认其在该基准上的思考Token减少了41%。
+
+## Evidence
+
+[质询]参考来源仅提及GPQA-Diamond的思考Token减少比例，未提供具体的分项得分（物理/化学/生物）及加权平均分，无法验证具体数值。 | 来源[1]仅涉及Token消耗优化，未包含GPQA Diamond的具体分项得分数据，属于经验事实且缺乏直接来源支持。
+
+## Search Query
+
+Qwen3.8-27B GPQA Diamond physics chemistry biology subset score
+
+## Retrieval Sources
+
+- {'url': 'https://zhuanlan.zhihu.com/p/2086902088664143670&rut=0d6f807fb6a5dc0bac4ba829c0f4dc47c481dff41366905406fd5c41c85cc64c', 'type': 'ddg', 'title': 'Swift-Qwen3.8-27B测评：雷霆思考少，成绩好! - 知乎'}

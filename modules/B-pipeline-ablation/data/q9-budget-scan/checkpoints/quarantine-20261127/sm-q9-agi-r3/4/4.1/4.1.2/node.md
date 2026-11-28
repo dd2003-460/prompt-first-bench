@@ -1,0 +1,20 @@
+# N63: 单 Token KV Cache 内存增量计算：基于 N39 的参数 (假设 n_layers=32, n_kv_heads=8, head_dim=128, 
+
+- **status**: pending
+- **level**: L3
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N21
+
+## Claim
+
+单 Token KV Cache 内存增量计算：基于 N39 的参数 (假设 n_layers=32, n_kv_heads=8, head_dim=128, bytes_per_token=1 for FP8/INT8 或 2 for FP16)，单 token KV 占用 = 2 (K+V) * 32 * 8 * 128 * bytes。若 bytes=1 (FP8)，则单 token ≈ 65,536 Bytes = 64 KB。若 bytes=2 (FP16)，则单 token ≈ 128 KB。
+
+## Corrected Claim
+
+单 Token KV Cache 内存增量计算：基于 N39 的参数 (假设 n_layers=32, n_kv_heads=8, head_dim=128, bytes_per_token=1 for FP8/INT8 或 2 for FP16)，单 token KV 占用 = 2 (K+V) * 32 * 8 * 128 * bytes。若 bytes=1 (FP8)，则单 token ≈ 65,536 Bytes = 64 KB。若 bytes=2 (FP16)，则单 token ≈ 128 KB。
+
+## Evidence
+
+父节点级核验未通过：有冗余（子节点分别对应 FP8 和 FP16 两种精度下的具体数值，逻辑上互斥且无矛盾（正交），且完整覆盖了父节点提到的两种情况（完备）。然而，这两个子节点本质上是同一个计算公式在不同参数（bytes_per_token）下的特例，存在结构性冗余。）

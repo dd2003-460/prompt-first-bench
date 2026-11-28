@@ -1,0 +1,20 @@
+# N15: 摩擦耗散功率 P_fric 近似正比于 ρ * Vmax^3 * A_land，其中 ρ≈1.2 kg/m³，A_land 为登陆区有效摩擦面积；Vmax=70
+
+- **status**: verified
+- **level**: L2
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N4
+
+## Claim
+
+摩擦耗散功率 P_fric 近似正比于 ρ * Vmax^3 * A_land，其中 ρ≈1.2 kg/m³，A_land 为登陆区有效摩擦面积；Vmax=70m/s 时 P_fric ≈ 1.5×10^10 W，Vmax=25m/s 时 P_fric ≈ 0.2×10^10 W，强台风摩擦耗散率约为热带风暴的 7 倍
+
+## Corrected Claim
+
+摩擦耗散功率 P_fric 近似正比于 ρ * Vmax^3 * A_land，其中 ρ≈1.2 kg/m³，A_land 为登陆区有效摩擦面积；Vmax=70m/s 时 P_fric ≈ 1.5×10^10 W，Vmax=25m/s 时 P_fric ≈ 0.2×10^10 W，强台风摩擦耗散率约为热带风暴的 7 倍
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过：摩擦功率量级符合流体力学基本估算（P ~ 0.5 * Cd * rho * A * V^3），数值比例关系（70/25)^3 ≈ 8.5 与文中“约7倍”在工程近似误差范围内一致，且量级（10^10 W）符合台风能量耗散的物理常识。

@@ -1,0 +1,30 @@
+# N230: 多步推导（>3 步）中逻辑推理错误率升至 60% 的归因分解：其中 70% 源于上下文窗口内早期步骤信息的遗忘或混淆（Attention Dilution），3
+
+- **status**: degraded
+- **level**: L4
+- **source**: search
+- **edge_type**: cartesian
+- **rework_count**: 1
+- **parent_ids**: N69
+
+## Claim
+
+多步推导（>3 步）中逻辑推理错误率升至 60% 的归因分解：其中 70% 源于上下文窗口内早期步骤信息的遗忘或混淆（Attention Dilution），30% 源于单步推理复杂度超出模型能力边界（Complexity Overflow）
+
+## Corrected Claim
+
+多步推导中逻辑推理错误主要源于上下文窗口内早期步骤信息的遗忘或混淆（Attention Dilution）以及单步推理复杂度超出模型能力边界（Complexity Overflow），具体比例需依据特定实验数据确定。
+
+## Evidence
+
+[质询]该陈述提供了非常具体的归因比例（70% vs 30%）和特定术语（Attention Dilution, Complexity Overflow），这属于经验性统计数据。参考来源中并未包含这些具体的数值分解，且来源[1]提到的“准确度飙升60%”是指改进后的提升幅度，而非错误率归因，存在概念混淆风险。 | 逻辑上自洽（多步推理错误确实常源于长程依赖丢失和单步难度），但参考来源[1][2][3]均未提供“70%/30%”这一具体归因数据，来源[1]的60%指准确率提升而非错误率构成，故缺乏直接来源支持，判定为degraded。
+
+## Search Query
+
+LLM multi-step reasoning error accumulation attention dilution vs complexity limit
+
+## Retrieval Sources
+
+- {'url': 'https://news.qq.com/rain/a/20250903A072BG00&rut=3612b3eceefc264297f928a53c94874b72afdfdd979dd520e59ceba96357c357', 'type': 'ddg', 'title': '顶级学府Meta AI团队重磅发布：让AI模型学会"反省"自己的推理过程，准确度飙升60%_腾讯新闻'}
+- {'url': 'https://blog.csdn.net/qq_27590277/article/details/151101663&rut=7a922d10a1258109f144a1eaf9384396737e0a19d6a4df1c33e4b84539629f8e', 'type': 'ddg', 'title': 'Meta提出StepWiser，让模型学会"反思"自己的推理过程-CSDN博客'}
+- {'url': 'https://www.51cto.com/article/825246.html&rut=c732c6a9257915b537bd6780f2a12a2542d71dacc6888136b2ec05efa2e95f57', 'type': 'ddg', 'title': '推理的深度边界：神经网络如何在有限参数下实现多步推理？-51cto.com'}

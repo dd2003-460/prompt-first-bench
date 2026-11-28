@@ -1,0 +1,20 @@
+# N201: FLOPs 估算误差边界：实验方案中的 FLOPs 估算值 Est_FLOPs 与实际执行 FLOPs_Actual 的偏差需满足 |Est_FLOPs - F
+
+- **status**: verified
+- **level**: L4
+- **source**: knowledge
+- **edge_type**: cartesian
+- **rework_count**: 0
+- **parent_ids**: N58
+
+## Claim
+
+FLOPs 估算误差边界：实验方案中的 FLOPs 估算值 Est_FLOPs 与实际执行 FLOPs_Actual 的偏差需满足 |Est_FLOPs - FLOPs_Actual| / FLOPs_Actual < 10%，否则视为估算不准，需在 Hook 中加入 FLOPs 模拟器校准模块
+
+## Corrected Claim
+
+FLOPs 估算误差边界：实验方案中的 FLOPs 估算值 Est_FLOPs 与实际执行 FLOPs_Actual 的偏差需满足 |Est_FLOPs - FLOPs_Actual| / FLOPs_Actual < 10%，否则视为估算不准，需在 Hook 中加入 FLOPs 模拟器校准模块
+
+## Evidence
+
+先验知识/题面给定，逻辑校验通过
