@@ -42,5 +42,5 @@
 - [待核验] Agent Teams AI 应用：能否启动？开机自启？（本轮实测 localhost:3456 无响应）
 - [待核验] arena 可达性（ego-browser 会话状态）
 - [待核验] 持久执行者实现形态（常驻进程 / cron / app / 云端 arena）
-- [待核验] 思考机制注入点（执行者 prompt？hook？stage-gate 门禁？）
+- [已收敛 2026-11-28] 思考机制注入点：M 线实验（think-trigger M4 判决 e6049ec0a + 红队三探针）给出独立实证——prompt 注入只能买到"习惯/层次敏感度"，买不到触发（tooltest: 给检索通道仍零自发查询）。思考机制落地 = 习惯(prompt) × 信息(记忆) × 触发(agent 循环事件)。S2 架构"触发器=矛盾驱动非软提醒"的设计判断获第二条独立证据链支持（第一条=S3 试点软提醒无效实证）。交叉验证落盘: modules/G-think-mechanism/think-trigger/trigger-layer-bottleneck-20261128.md
 - [待核验] S2 关键架构判断需 ≥2 独立来源交叉（ego-browser 网页 LLM）
