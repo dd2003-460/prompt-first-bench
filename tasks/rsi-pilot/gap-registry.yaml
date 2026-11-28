@@ -37,12 +37,14 @@ gaps:
     resolution: "端到端链跑通: 缺口→实验→判决→系统行为改变 (b8d6d17); 单链验证, 多轮循环效力未测"
     confidence_ceiling: null
   - id: G5
-    node: "q9-budget-scan/queue-v2"
-    statement: "q9 v2 幂等检查存在假阳性 (300-r3 json 缺失但队列日志标 SKIP)"
-    why_unrefutable: "未读 already_done 全逻辑+文件系统时序, 无法排除"
-    settles_with: "读 already_done 源码 + 复现 (缺失文件时是否仍 SKIP)"
-    status: open
-    retrieval_attempts: []
+    node: q9-v2-queue-idempotency
+    statement: "q9 v2 队列对缺失 json 标 SKIP（幂等假阳性）"
+    why_unrefutable: "300-r3 曾缺 json 但队列日志标 SKIP；无出处校验的 glob 判定在何种条件下误判未核"
+    settles_with: "读 already_done 判定源码 + 隔离复现"
+    status: resolved
+    resolution: "2026-11-28 sm-run3 (sub sa-0-5c54cfaf, 任务卡 sm-run3-g5-taskcard.md, verdict sm-run3-g5-verdict.md, 29行): 判决=是。根因两层: v2 already_done 本身对真缺失无误判 (queue_v2.sh:23-28); 假阳性来自上游 v1 q9_budget_scan_resume.sh:28-29 fail-open cp — 00:33 SIGKILL 后把 SM 固定输出文件(仍存 r2 内容) cp 成 r3 假文件, v2 无出处/mtime 校验直接采信。铁证: r2 与假文件 sha256 前缀 f3ab7c6db3c142bc 字节级相同 (Lead 已独立复算)。假文件已隔离, 13:50 补跑成功 (q9-300-r3-20261128-135044.json), 自愈。修复建议(未实施): already_done 加出处校验(同名 stdout 含 rc=0)。"
+    retrieval_attempts:
+      - "2026-11-28 sm-run3 sub 静态分析+隔离复现 (scratch/g5-repro.py, 未跑队列)"
     confidence_ceiling: null
   - id: G6
     node: "q9-budget-scan/watcher"
